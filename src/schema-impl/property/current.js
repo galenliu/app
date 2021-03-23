@@ -10,36 +10,29 @@
 
 'use strict';
 
-const NumericLabelDetail = require('./numeric-label');
-const Utils = require('../../utils');
-const fluent = require('../../fluent');
 
-class CurrentDetail extends NumericLabelDetail {
-  constructor(thing, name, property) {
-    super(thing,
-          name,
-          !!property.readOnly,
-          property.title || fluent.getMessage('current'),
-          'A',
-          1);
-    this.id = `current-${Utils.escapeHtmlForIdClass(this.name)}`;
+import NumericLabelDetail from './numeric-label'
 
-    if (property.hasOwnProperty('multipleOf') &&
-        `${property.multipleOf}`.includes('.')) {
-      this.precision = `${property.multipleOf}`.split('.')[1].length;
-    } else {
-      this.precision = 1;
+
+export default class CurrentDetail extends NumericLabelDetail {
+    constructor(thing, name, property) {
+        super(thing,
+            name,
+            !!property.readOnly,
+            property.title,
+            'A',
+            1);
+
+
+        if (property.hasOwnProperty('multipleOf') &&
+            `${property.multipleOf}`.includes('.')) {
+            this.precision = `${property.multipleOf}`.split('.')[1].length;
+        } else {
+            this.precision = 1;
+        }
     }
-  }
 
-  view() {
-    const readOnly = this.readOnly ? 'data-read-only="true"' : '';
-    return `
-      <webthing-current-property data-value="0" ${readOnly}
-        data-name="${Utils.escapeHtml(this.label)}" data-unit="${this.unit}"
-        data-precision="${this.precision}" id="${this.id}">
-      </webthing-current-property>`;
-  }
+    view() {
+    }
 }
 
-module.exports = CurrentDetail;

@@ -10,40 +10,30 @@
 
 'use strict';
 
-const Utils = require('../../utils');
-const fluent = require('../../fluent');
 
-class OnOffDetail {
-  constructor(thing, name, property) {
-    this.thing = thing;
-    this.name = name;
-    this.readOnly = !!property.readOnly;
-    this.label = property.title || fluent.getMessage('on-off');
-    this.id = `on-off-${Utils.escapeHtmlForIdClass(this.name)}`;
-  }
+export default class OnOffDetail {
+    constructor(thing, name, property) {
+        this.thing = thing;
+        this.name = name;
+        this.readOnly = !!property.readOnly;
+        this.label = property.title
+        this.listViewData = {
+            label: name,
+          disabled: this.readOnly,
+        }
+    }
 
-  attach() {
-    this.input = this.thing.element.querySelector(`#${this.id}`);
-    const setOnOff = Utils.debounce(500, this.set.bind(this));
-    this.input.addEventListener('change', setOnOff);
-  }
+    attach() {
+    }
 
-  view() {
-    const readOnly = this.readOnly ? 'data-read-only="true"' : '';
 
-    return `
-      <webthing-on-off-property data-name="${Utils.escapeHtml(this.label)}"
-        id="${this.id}" ${readOnly}>
-      </webthing-on-off-property>`;
-  }
+    update(on) {
+        this.listViewData.state = !!on;
+    }
 
-  update(on) {
-    this.input.checked = on;
-  }
-
-  set() {
-    this.thing.setProperty(this.name, this.input.checked);
-  }
+    set() {
+        this.thing.setProperty(this.name, this.input.checked);
+    }
 }
 
-module.exports = OnOffDetail;
+

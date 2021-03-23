@@ -10,24 +10,17 @@
 
 'use strict';
 
-const EnumDetail = require('./enum');
-const Utils = require('../../utils');
+import EnumDetail from "./enum"
 
-class ThermostatModeDetail extends EnumDetail {
-  constructor(thing, name, property) {
-    super(thing, name, property);
-    this.id = `thermostat-mode-${Utils.escapeHtmlForIdClass(this.name)}`;
-  }
 
-  view() {
-    const unit = this.unit || '';
+export default class ThermostatModeDetail extends EnumDetail {
+    constructor(thing, name, property) {
+        super(thing, name, property);
 
-    return `
-      <webthing-thermostat-mode-property data-name="${Utils.escapeHtml(this.label)}"
-        data-unit="${unit}" data-type="${this.type}" id="${this.id}"
-        data-choices="${btoa(JSON.stringify(this.choices))}">
-      </webthing-thermostat-mode-property>`;
-  }
+    }
+
+    view() {
+    }
 }
 
-module.exports = ThermostatModeDetail;
+

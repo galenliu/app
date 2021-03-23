@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import Card from "@material-ui/core/Card";
 import {makeStyles} from "@material-ui/core/styles";
-import ThingIcons from "./thingIcons";
+import ThingIcons from "./icons";
 import {Button, CircularProgress, MenuItem, Select} from "@material-ui/core";
 import FormControl from "@material-ui/core/FormControl"
 import TextField from "@material-ui/core/TextField"

@@ -10,37 +10,21 @@
 
 'use strict';
 
-const StringLabelDetail = require('./string-label');
-const Utils = require('../../utils');
-const fluent = require('../../fluent');
+import StringLabelDetail from './string-label';
 
-class PushedDetail extends StringLabelDetail {
-  constructor(thing, name, property) {
-    super(thing, name, !!property.readOnly,
-          property.title || fluent.getMessage('pushed'));
-    this.id = `pushed-${Utils.escapeHtmlForIdClass(this.name)}`;
-  }
 
-  view() {
-    const readOnly = this.readOnly ? 'data-read-only="true"' : '';
+export default class PushedDetail extends StringLabelDetail {
+    constructor(thing, name, property) {
+        super(thing, name, !!property.readOnly,
+            property.title);
 
-    return `
-      <webthing-pushed-property
-        data-value="${fluent.getMessage('not-pushed')}" ${readOnly}
-        data-name="${Utils.escapeHtml(this.label)}" id="${this.id}">
-      </webthing-pushed-property>`;
-  }
-
-  update(value) {
-    if (!this.label) {
-      return;
     }
 
-    this.labelElement.value = value ?
-      fluent.getMessage('pushed') :
-      fluent.getMessage('not-pushed');
-    this.labelElement.inverted = value;
-  }
+    view() {
+    }
+
+    update(value) {
+    }
 }
 
-module.exports = PushedDetail;
+

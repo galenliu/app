@@ -10,25 +10,18 @@
 
 'use strict';
 
-const NumberDetail = require('./number');
-const Utils = require('../../utils');
 
-class TargetTemperatureDetail extends NumberDetail {
-  constructor(thing, name, property) {
-    super(thing, name, property);
-    this.id = `target-temperature-${Utils.escapeHtmlForIdClass(this.name)}`;
-  }
+import NumberDetail from "./number"
 
-  view() {
-    const min = this.min === null ? '' : `min="${this.min}"`;
-    const max = this.max === null ? '' : `max="${this.max}"`;
 
-    return `
-      <webthing-target-temperature-property data-value="0"
-        data-name="${Utils.escapeHtml(this.label)}" data-unit="${this.unit}"
-        ${min} ${max} value="0" step="${this.step}" id="${this.id}">
-      </webthing-target-temperature-property>`;
-  }
+export default class TargetTemperatureDetail extends NumberDetail {
+    constructor(thing, name, property) {
+        super(thing, name, property);
+
+    }
+
+    view() {
+    }
 }
 
-module.exports = TargetTemperatureDetail;
+

@@ -9,9 +9,9 @@ import Constants, {drawerWidth} from "../js/constant";
 import clsx from "clsx";
 import {CircularProgress} from "@material-ui/core";
 import NewThingsDialog from "./AddThing";
-import Thing from "../component/thing";
 import {ThingPanel} from "../component/thing-panel";
 import {createThingFromCapability} from "../schema-impl/capability/capabilities";
+import IconView from "../component/icon-view";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -59,28 +59,27 @@ export default function Things(props) {
     const [things, setThings] = useState([])
     const [addThingShow, setAddThingShow] = useState(false)
     const [thingPanelShow, setThingPanelShow] = useState(false)
-    const [currentThingId, setCurrentThingId] = useState(null)
+    const [currentThing, setCurrentThing] = useState(null)
     const [state, setState] = useState(states.pending)
     const {t} = useTranslation();
 
 
     useEffect(() => {
-        const refreshThings = (things) => {
-            let t;
-            while (typeof (t = things.pop()) !== 'undefined') {
-                t.cleanup();
-            }
-            if (things.size === 0) {
+        const refreshThings = (ts) => {
+            setState(states.connected)
+            if (ts.size === 0) {
                 setThings([])
             } else {
                 const copyThings = things
-                things.forEach((description, thingId) => {
+                ts.forEach((description, thingId) => {
                         App.gatewayModel.getThingModel(thingId).then((thingModel) => {
                             const thing = createThingFromCapability(
                                 description.selectedCapability, thingModel, description);
+
                             copyThings.push(thing)
                         });
-                        setThings(copyThings)
+                        console.log("refreshThings-------------------------things::", copyThings)
+                        setThings([...copyThings])
                     }
                 );
             }
@@ -94,24 +93,32 @@ export default function Things(props) {
     }, [props])
 
     function renderThings() {
-        const thingsScreen =[]
-        for(const thing of things){
-            thingsScreen.push(thing)
-        }
+        let thingsScreen = []
+
+        things.forEach(thing => {
+            const t = <IconView key={thing.iconViewData.id} {...thing.iconViewData} click={handleOpen}/>
+            thingsScreen.push(t)
+        })
         return thingsScreen
     }
 
-    function openPanel(thingId) {
-        setCurrentThingId(thingId)
+    function handleOpen(thingId) {
+
+        things.forEach(thing => {
+            if (thingId === thing.iconViewData.id) {
+                setCurrentThing(thing)
+                setThingPanelShow(true)
+            }
+        })
     }
 
-    function renderThingPanel() {
-        return <ThingPanel open={thingPanelShow} show={setThingPanelShow} thingId={currentThingId}/>
+    function renderThingPanel(thing) {
+        return <ThingPanel open={thingPanelShow} show={setThingPanelShow} {...currentThing}/>
     }
 
     useEffect(() => {
         setThingPanelShow(true)
-    }, [currentThingId])
+    }, [currentThing])
 
     return (
         <>
@@ -130,7 +137,7 @@ export default function Things(props) {
                     <h4>{t("disconnect")}</h4></div>}
             </Grid>
             <NewThingsDialog open={addThingShow} show={setAddThingShow}/>
-            {currentThingId !== null && thingPanelShow && renderThingPanel()}
+            {thingPanelShow && renderThingPanel()}
         </>
     )
 }

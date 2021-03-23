@@ -10,32 +10,21 @@
 
 'use strict';
 
-const StringLabelDetail = require('./string-label');
-const Utils = require('../../utils');
-const fluent = require('../../fluent');
+import StringLabelDetail from './string-label';
 
-class HeatingCoolingDetail extends StringLabelDetail {
-  constructor(thing, name, property) {
-    super(thing, name, !!property.readOnly,
-          property.title || fluent.getMessage('off'));
-    this.id = `heating-cooling-${Utils.escapeHtmlForIdClass(this.name)}`;
-  }
 
-  view() {
-    return `
-      <webthing-heating-cooling-property
-        data-read-only="true" data-value="${fluent.getMessage('off')}"
-        data-name="${Utils.escapeHtml(this.label)}" id="${this.id}">
-      </webthing-heating-cooling-property>`;
-  }
+export default class HeatingCoolingDetail extends StringLabelDetail {
+    constructor(thing, name, property) {
+        super(thing, name, !!property.readOnly,
+            property.title);
 
-  update(value) {
-    if (!this.label) {
-      return;
     }
 
-    this.labelElement.value = `${value}`.toUpperCase();
-  }
+    view() {
+    }
+
+    update(value) {
+    }
 }
 
-module.exports = HeatingCoolingDetail;
+

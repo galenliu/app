@@ -12,40 +12,27 @@
 
 const Utils = require('../../utils');
 
-class StringDetail {
+export default class StringDetail {
   constructor(thing, name, property) {
     this.thing = thing;
     this.name = name;
     this.readOnly = !!property.readOnly;
     this.label = property.title || name;
-    this.id = `string-${Utils.escapeHtmlForIdClass(this.name)}`;
+
   }
 
   /**
    * Attach to the view.
    */
   attach() {
-    this.input = this.thing.element.querySelector(`#${this.id}`);
-    this.input.addEventListener('change', () => {
-      this.thing.setProperty(this.name, this.input.value);
-    });
+
   }
 
   /**
    * Build the detail view.
    */
   view() {
-    if (this.readOnly) {
-      return `
-        <webthing-string-label-property
-          data-name="${Utils.escapeHtml(this.label)}" id="${this.id}">
-        </webthing-string-label-property>`;
-    } else {
-      return `
-        <webthing-string-property data-name="${Utils.escapeHtml(this.label)}"
-          id="${this.id}">
-        </webthing-string-property>`;
-    }
+
   }
 
   /**
@@ -60,4 +47,4 @@ class StringDetail {
   }
 }
 
-module.exports = StringDetail;
+

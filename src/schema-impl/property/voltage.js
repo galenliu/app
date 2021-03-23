@@ -10,37 +10,29 @@
 
 'use strict';
 
-const NumericLabelDetail = require('./numeric-label');
-const Utils = require('../../utils');
-const fluent = require('../../fluent');
+import NumericLabelDetail from './numeric-label';
 
-class VoltageDetail extends NumericLabelDetail {
-  constructor(thing, name, property) {
-    super(thing,
-          name,
-          !!property.readOnly,
-          property.title || fluent.getMessage('voltage'),
-          'V',
-          0);
-    this.id = `voltage-${Utils.escapeHtmlForIdClass(this.name)}`;
 
-    if (property.hasOwnProperty('multipleOf') &&
-        `${property.multipleOf}`.includes('.')) {
-      this.precision = `${property.multipleOf}`.split('.')[1].length;
-    } else {
-      this.precision = 0;
+export default class VoltageDetail extends NumericLabelDetail {
+    constructor(thing, name, property) {
+        super(thing,
+            name,
+            !!property.readOnly,
+            property.title,
+            'V',
+            0);
+
+
+        if (property.hasOwnProperty('multipleOf') &&
+            `${property.multipleOf}`.includes('.')) {
+            this.precision = `${property.multipleOf}`.split('.')[1].length;
+        } else {
+            this.precision = 0;
+        }
     }
-  }
 
-  view() {
-    const readOnly = this.readOnly ? 'data-read-only="true"' : '';
-
-    return `
-      <webthing-voltage-property data-value="0" ${readOnly}
-        data-name="${Utils.escapeHtml(this.label)}" data-unit="${this.unit}"
-        data-precision=${this.precision}" id="${this.id}">
-      </webthing-voltage-property>`;
-  }
+    view() {
+    }
 }
 
-module.exports = VoltageDetail;
+

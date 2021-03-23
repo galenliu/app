@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -22,7 +22,7 @@ import TextField from "@material-ui/core/TextField";
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import DialogContent from '@material-ui/core/DialogContent';
-import ThingIcons from "./thingIcons";
+import ThingIcons from "./icons";
 import Grid from "@material-ui/core/Grid";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -31,9 +31,10 @@ import Divider from "@material-ui/core/Divider";
 // import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 // import ExtensionIcon from "@material-ui/icons/Extension";
 import Slide from '@material-ui/core/Slide';
+import {App} from "../App";
+import {BooleanPropertyListItem, NumberPropertyListItem, StringPropertyItem} from "./property";
+import CloseIcon from "@material-ui/icons/Close";
 // import CheckCircleIcon from '@material-ui/icons/CheckCircle';
-import Router from "../App";
-import Constants from "../js/constant";
 
 const useStyles = makeStyles((theme) => ({
     margin: {
@@ -91,46 +92,29 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 export function ThingPanel(props) {
-    const {t, i18n} = useTranslation();
-    const [thing, setThing] = useState(Router.gatewayModel.things.get(props.thingId))
-    const [properties, setProperties] = useState(thing.properties)
+    const {t} = useTranslation();
+    const [thing, setThing] = useState(App.gatewayModel.things.get(props.thingId))
+    const [properties, setProperties] = useState()
     const [removeDialogOpen, setRemoveDialog] = useState(false)
     const classes = useStyles();
 
-    const removeThing = useCallback(() => {
-
-            props.show(false)
-        }
-    )
-
 
     useEffect(() => {
-        console.log("properties:", properties)
-        const onRemoved = (things) => {
-            if (!things.get(props.thingId))
-                setRemoveDialog(true)
-        }
-        const refreshThing = () => {
-            setThing(Router.gatewayModel.things.get(props.thingId))
-        }
-        Router.gatewayModel.thingModels.get(props.thingId).subscribe(Constants.DELETE_THING, onRemoved)
-        Router.gatewayModel.thingModels.get(props.thingId).subscribe(Constants.REFRESH_THINGS, refreshThing)
+        if (props.open) {
 
-        return () => {
-            Router.gatewayModel.thingModels.get(props.thingId).unsubscribe(Constants.DELETE_THING, onRemoved)
-            Router.gatewayModel.thingModels.get(props.thingId).unsubscribe(Constants.REFRESH_THINGS, refreshThing)
         }
-    })
+
+    }, [props.open])
 
     useEffect(() => {
-        setProperties(thing.properties)
+
     }, [thing])
 
     return (
         <>
             <Dialog
                 open={removeDialogOpen}
-                onClose={() => setRemoveDialog(false)}
+                onClose={() => props.show(false)}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description">
                 <DialogTitle id="alert-dialog-title">{t("accessories removed")}</DialogTitle>
@@ -141,7 +125,7 @@ export function ThingPanel(props) {
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={() => {
-                        setRemoveDialog(false)
+                        props.show(false)
                     }} color="primary" autoFocus>
                         {t("Ok")}
                     </Button>
@@ -153,21 +137,20 @@ export function ThingPanel(props) {
 
                 <AppBar className={classes.appBar}>
                     <Toolbar>
-                        <ThingIcons prop color={"#fb8c00"} type={thing.selectedCapability}
-                                    size={2}/>
+                        <ThingIcons type={props.selectedCapability}/>
                         <Typography variant="h6" className={classes.title}>
-                            {thing.title}
+                            {props.title}
                         </Typography>
                         <IconButton autoFocus color="inherit" onClick={() => props.show(false)} aria-label="close">
-                            {/*<CloseIcon/>*/}
+                            <CloseIcon/>
                         </IconButton>
                     </Toolbar>
                 </AppBar>
                 <DialogContent>
                     <div className={classes.drawerHeader}/>
                     <Grid className={classes.content} container>
-                        <ControlPanel thing={thing}/>
-                        <DetailsPanel thing={thing} remove={removeThing}/>
+                        {/*<ControlPanel thing={thing}/>*/}
+                        <DetailsPanel displayedProperties={props.displayedProperties}/>
                     </Grid>
                 </DialogContent>
             </Dialog>}
@@ -180,34 +163,53 @@ export function DetailsPanel(props) {
 
     const classes = useStyles();
     const {t, i18n} = useTranslation();
-    const [title, setTitle] = useState(props.thing.title)
+    const [title, setTitle] = useState("121312")
 
     function update() {
 
     }
 
-    function renderProperty() {
 
+    function renderPropertyListItem() {
+
+        const listItem = []
+        for (const name in props.displayedProperties) {
+            let prop = props.displayedProperties[name]
+            console.log("props.displayedProperties[name]", props.displayedProperties[name])
+            if (prop.property.type === "integer") {
+                let item = <NumberPropertyListItem {...prop.detail.listViewData}/>
+                listItem.push(item)
+            }
+            if (prop.property.type === "OnOffProperty") {
+                let item = <BooleanPropertyListItem  {...prop.detail.listViewData}/>
+                listItem.push(item)
+            }
+            if (prop.property.type === "string") {
+                let item = <StringPropertyItem  {...prop.detail.listViewData}/>
+                listItem.push(item)
+            }
+
+        }
+        return listItem
     }
+
 
     return (
         <>
             <List subheader={<ListSubheader>Settings</ListSubheader>} className={classes.list}>
                 <Divider/>
-                <ListItem
-                    className={classes.listItem} variant="contained" elevation={90}>
-                    {renderProperty()}
-                </ListItem>
+
+                {renderPropertyListItem()}
+
                 <ListItem
                     className={classes.listItem} variant="contained" elevation={90}>
                     <ListItemIcon>
-                        <ThingIcons prop color={"#fb8c00"} type={props.thing.selectedCapability}
-                                    size={1}/>
+                        <ThingIcons type={"Light"}
+                        />
                     </ListItemIcon>
-                    <TextField defaultValue={props.thing.title}
+                    <TextField d
                                onChange={(e) => setTitle(e.target.value)}/>
-                    {title !== props.thing.title && <h1/>
-                        // <CheckCircleIcon cursor={"pointer"}/>
+
                     }
                 </ListItem>
 

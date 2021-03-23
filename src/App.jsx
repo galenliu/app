@@ -8,6 +8,8 @@ import GatewayModel from "./models/gateway-model";
 import Things from "./views/Things";
 import Settings from "./views/Settings";
 
+
+
 export const AppContext = React.createContext({})
 export const theme = createMuiTheme({
     status: {direction: 'ltr'},
@@ -48,6 +50,10 @@ export const App = {
     showThings: function () {
         this.gatewayModel.refreshThings()
     },
+
+    showMessage() {
+
+    }
 }
 
 App.init()

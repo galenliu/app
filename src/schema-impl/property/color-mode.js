@@ -10,50 +10,29 @@
 
 'use strict';
 
-const EnumDetail = require('./enum');
-const Utils = require('../../utils');
+import EnumDetail from './enum'
 
-class ColorModeDetail extends EnumDetail {
-  constructor(thing, name, property) {
-    super(thing, name, property);
-    this.id = `color-mode-${Utils.escapeHtmlForIdClass(this.name)}`;
-  }
 
-  attach() {
-    if (this.readOnly) {
-      this.labelElement = this.thing.element.querySelector(`#${this.id}`);
-    } else {
-      super.attach();
+export default class ColorModeDetail extends EnumDetail {
+    constructor(thing, name, property) {
+        super(thing, name, property);
+
     }
-  }
 
-  view() {
-    if (this.readOnly) {
-      return `
-        <webthing-string-label-property
-          data-read-only="true" data-name="${Utils.escapeHtml(this.label)}"
-          id="${this.id}">
-        </webthing-string-label-property>`;
-    } else {
-      return `
-        <webthing-color-mode-property
-          data-choices="${btoa(JSON.stringify(this.choices))}"
-          data-name="${Utils.escapeHtml(this.label)}" id="${this.id}">
-        </webthing-color-mode-property>`;
+    attach() {
+        if (this.readOnly) {
+            this.labelElement = this.thing.element.querySelector(`#${this.id}`);
+        } else {
+            super.attach();
+        }
     }
-  }
 
-  update(value) {
-    if (this.readOnly) {
-      if (!this.labelElement) {
-        return;
-      }
+    view() {
 
-      this.labelElement.value = `${value}`.toUpperCase();
-    } else {
-      super.update(value);
     }
-  }
+
+    update(value) {
+
+    }
 }
 
-module.exports = ColorModeDetail;

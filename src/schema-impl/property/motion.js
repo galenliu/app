@@ -10,37 +10,24 @@
 
 'use strict';
 
-const StringLabelDetail = require('./string-label');
-const Utils = require('../../utils');
-const fluent = require('../../fluent');
 
-class MotionDetail extends StringLabelDetail {
+import StringLabelDetail from  './string-label'
+
+
+export default class MotionDetail extends StringLabelDetail {
   constructor(thing, name, property) {
     super(thing, name, !!property.readOnly,
-          property.title || fluent.getMessage('motion'));
-    this.id = `motion-${Utils.escapeHtmlForIdClass(this.name)}`;
+          property.title  );
+
   }
 
   view() {
-    const readOnly = this.readOnly ? 'data-read-only="true"' : '';
 
-    return `
-      <webthing-motion-property
-        data-value="${fluent.getMessage('no-motion')}" ${readOnly}
-        data-name="${Utils.escapeHtml(this.label)}" id="${this.id}">
-      </webthing-motion-property>`;
   }
 
   update(value) {
-    if (!this.label) {
-      return;
-    }
 
-    this.labelElement.value = value ?
-      fluent.getMessage('motion') :
-      fluent.getMessage('no-motion');
-    this.labelElement.inverted = value;
   }
 }
 
-module.exports = MotionDetail;
+

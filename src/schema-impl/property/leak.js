@@ -10,37 +10,23 @@
 
 'use strict';
 
-const StringLabelDetail = require('./string-label');
-const Utils = require('../../utils');
-const fluent = require('../../fluent');
 
-class LeakDetail extends StringLabelDetail {
-  constructor(thing, name, property) {
-    super(thing, name, !!property.readOnly,
-          property.title || fluent.getMessage('leak'));
-    this.id = `leak-${Utils.escapeHtmlForIdClass(this.name)}`;
-  }
+import StringLabelDetail from "./string-label"
 
-  view() {
-    const readOnly = this.readOnly ? 'data-read-only="true"' : '';
 
-    return `
-      <webthing-leak-property
-        data-value="${fluent.getMessage('dry')}" ${readOnly}
-        data-name="${Utils.escapeHtml(this.label)}" id="${this.id}">
-      </webthing-leak-property>`;
-  }
+export default class LeakDetail extends StringLabelDetail {
+    constructor(thing, name, property) {
+        super(thing, name, !!property.readOnly,
+            property.title);
 
-  update(value) {
-    if (!this.label) {
-      return;
     }
 
-    this.labelElement.value = value ?
-      fluent.getMessage('leak') :
-      fluent.getMessage('dry');
-    this.labelElement.inverted = value;
-  }
+    view() {
+
+    }
+
+    update(value) {
+    }
 }
 
-module.exports = LeakDetail;
+

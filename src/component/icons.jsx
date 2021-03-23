@@ -6,8 +6,7 @@ import HourglassEmptyIcon from '@material-ui/icons/HourglassEmpty';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import "../js/constant"
 import {Information, Lightbulb, LightbulbOff, LightbulbOn, Power} from 'mdi-material-ui'
-
-import {AddonType, SettingsType, ThingProperties, ThingType} from "../js/constant";
+import {AddonType, SettingsType, ThingType} from "../js/constant";
 import {theme} from "../App";
 
 
@@ -109,10 +108,10 @@ export default function ThingIcons(props) {
             </SvgIcon>
         }
         case ThingType.Light: {
-            switch (props.value) {
-                case true:
-                    return <LightbulbOn {...props}/>
-                case false:
+            switch (props.state) {
+                case "on":
+                    return <LightbulbOn  {...props}/>
+                case "off":
                     return <LightbulbOff {...props}/>
                 default:
                     return <Lightbulb {...props}/>
@@ -237,11 +236,8 @@ export const actionsType = {
 
 export function ActionsIcon(props) {
     props = {...props, style: {fontSize: theme.iconSize.m, color: theme.palette.secondary.light}}
-    if (!props || !props["@type"]) {
-        return <h1>Error</h1>
-    }
-    switch (props["@type"]) {
-        case ThingProperties.OnOffProperty: {
+    switch (props.type) {
+        case ThingType.Light: {
             props = {...props, style: {fontSize: theme.iconSize.m, color: theme.palette.secondary.light}}
             switch (props.value) {
                 case true:
@@ -255,8 +251,12 @@ export function ActionsIcon(props) {
             }
             return <Power {...props}/>
         }
-        default:
+        case "Information": {
             return <Information {...props}/>
+        }
+        default: {
+            return <h1>Error</h1>
+        }
     }
 }
 

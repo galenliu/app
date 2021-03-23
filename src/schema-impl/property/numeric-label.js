@@ -10,10 +10,11 @@
 
 'use strict';
 
-const Units = require('../../units');
-const Utils = require('../../utils');
 
-class NumericLabelDetail {
+import Units from "../../js/units";
+
+
+export default class NumericLabelDetail {
   constructor(thing, name, readOnly, label, unit, precision) {
     this.thing = thing;
     this.name = name;
@@ -21,23 +22,14 @@ class NumericLabelDetail {
     this.label = label;
     this.unit = Units.nameToAbbreviation(unit);
     this.precision = precision;
-    this.id = `label-${Utils.escapeHtmlForIdClass(this.name)}`;
+
   }
 
   attach() {
-    this.labelElement = this.thing.element.querySelector(`#${this.id}`);
+
   }
 
   view() {
-    const name = Utils.escapeHtml(this.label);
-    const unit = Utils.escapeHtml(this.unit);
-    const readOnly = this.readOnly ? 'data-read-only="true"' : '';
-
-    return `
-      <webthing-numeric-label-property data-value="0" data-name="${name}"
-        data-unit="${unit}" data-precision="${this.precision}" id="${this.id}"
-        ${readOnly}>
-      </webthing-numeric-label-property>`;
   }
 
   update(value) {
@@ -49,4 +41,4 @@ class NumericLabelDetail {
   }
 }
 
-module.exports = NumericLabelDetail;
+

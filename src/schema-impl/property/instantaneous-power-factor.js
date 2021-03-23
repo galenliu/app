@@ -10,16 +10,16 @@
 
 'use strict';
 
-const NumericLabelDetail = require('./numeric-label');
-const Utils = require('../../utils');
-const fluent = require('../../fluent');
 
-class InstantaneousPowerFactorDetail extends NumericLabelDetail {
+import NumericLabelDetail from "./numeric-label"
+const Utils = require('../../utils');
+
+
+export default class InstantaneousPowerFactorDetail extends NumericLabelDetail {
   constructor(thing, name, property) {
     super(thing, name, !!property.readOnly,
-          property.title || fluent.getMessage('power'), '', 0);
-    this.id =
-      `instantaneous-power-factor-${Utils.escapeHtmlForIdClass(this.name)}`;
+          property.title  , '', 0);
+
 
     if (property.hasOwnProperty('multipleOf') &&
         `${property.multipleOf}`.includes('.')) {
@@ -30,13 +30,8 @@ class InstantaneousPowerFactorDetail extends NumericLabelDetail {
   }
 
   view() {
-    const readOnly = this.readOnly ? 'data-read-only="true"' : '';
-    return `
-      <webthing-instantaneous-power-factor-property data-value="0" ${readOnly}
-        data-name="${Utils.escapeHtml(this.label)}" data-unit="${this.unit}"
-        data-precision="${this.precision}" id="${this.id}">
-      </webthing-instantaneous-power-factor-property>`;
+
   }
 }
 
-module.exports = InstantaneousPowerFactorDetail;
+

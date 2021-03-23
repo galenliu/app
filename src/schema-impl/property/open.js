@@ -10,37 +10,22 @@
 
 'use strict';
 
-const StringLabelDetail = require('./string-label');
-const Utils = require('../../utils');
-const fluent = require('../../fluent');
+import StringLabelDetail from './string-label'
 
-class OpenDetail extends StringLabelDetail {
-  constructor(thing, name, property) {
-    super(thing, name, !!property.readOnly,
-          property.title || fluent.getMessage('open'));
-    this.id = `open-${Utils.escapeHtmlForIdClass(this.name)}`;
-  }
 
-  view() {
-    const readOnly = this.readOnly ? 'data-read-only="true"' : '';
+export default class OpenDetail extends StringLabelDetail {
+    constructor(thing, name, property) {
+        super(thing, name, !!property.readOnly,
+            property.title);
 
-    return `
-      <webthing-open-property
-        data-value="${fluent.getMessage('closed')}" ${readOnly}
-        data-name="${Utils.escapeHtml(this.label)}" id="${this.id}">
-      </webthing-open-property>`;
-  }
-
-  update(value) {
-    if (!this.label) {
-      return;
     }
 
-    this.labelElement.value = value ?
-      fluent.getMessage('open') :
-      fluent.getMessage('closed');
-    this.labelElement.inverted = value;
-  }
+    view() {
+    }
+
+    update(value) {
+
+    }
 }
 
-module.exports = OpenDetail;
+

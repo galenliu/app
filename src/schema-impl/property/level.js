@@ -10,76 +10,61 @@
 
 'use strict';
 
-const Units = require('../../units');
-const Utils = require('../../utils');
-const fluent = require('../../fluent');
 
-class LevelDetail {
-  constructor(thing, name, property) {
-    this.thing = thing;
-    this.name = name;
-    this.readOnly = !!property.readOnly;
-    this.label = property.title || fluent.getMessage('level');
-    this.unit =
-      property.unit ? Units.nameToAbbreviation(property.unit) : null;
+import Units from "../../js/units";
+import {escapeHtmlForIdClass} from "../../utils"
 
-    if (property.hasOwnProperty('minimum')) {
-      this.min = property.minimum;
-    } else {
-      this.min = 0;
+
+export default class LevelDetail {
+    constructor(thing, name, property) {
+        this.thing = thing;
+        this.name = name;
+        this.readOnly = !!property.readOnly;
+        this.label = property.title;
+        this.unit =
+            property.unit ? Units.nameToAbbreviation(property.unit) : null;
+
+        if (property.hasOwnProperty('minimum')) {
+            this.min = property.minimum;
+        } else {
+            this.min = 0;
+        }
+
+        if (property.hasOwnProperty('maximum')) {
+            this.max = property.maximum;
+        } else {
+            this.max = 100;
+        }
+
+        this.precision = 0;
+        if (property.hasOwnProperty('multipleOf')) {
+            this.step = property.multipleOf;
+
+            if (`${property.multipleOf}`.includes('.')) {
+                this.precision = `${property.multipleOf}`.split('.')[1].length;
+            }
+        } else if (property.type === 'number') {
+            this.step = 'any';
+        } else {
+            this.step = 1;
+        }
+
+        this.id = `level-${escapeHtmlForIdClass(this.name)}`;
     }
 
-    if (property.hasOwnProperty('maximum')) {
-      this.max = property.maximum;
-    } else {
-      this.max = 100;
+    attach() {
+
     }
 
-    this.precision = 0;
-    if (property.hasOwnProperty('multipleOf')) {
-      this.step = property.multipleOf;
-
-      if (`${property.multipleOf}`.includes('.')) {
-        this.precision = `${property.multipleOf}`.split('.')[1].length;
-      }
-    } else if (property.type === 'number') {
-      this.step = 'any';
-    } else {
-      this.step = 1;
+    view() {
     }
 
-    this.id = `level-${Utils.escapeHtmlForIdClass(this.name)}`;
-  }
-
-  attach() {
-    this.level = this.thing.element.querySelector(`#${this.id}`);
-    const setLevel = Utils.debounce(500, this.set.bind(this));
-    this.level.addEventListener('change', setLevel);
-  }
-
-  view() {
-    const unit = this.unit || '';
-    const readOnly = this.readOnly ? 'data-read-only="true"' : '';
-
-    return `
-      <webthing-level-property data-name="${Utils.escapeHtml(this.label)}"
-        data-unit="${unit}" min="${this.min}" max="${this.max}"
-        step="${this.step}" id="${this.id}" ${readOnly}
-        data-precision="${this.precision}">
-      </webthing-level-property>`;
-  }
-
-  update(level) {
-    if (!this.level) {
-      return;
+    update(level) {
     }
 
-    this.level.value = level;
-  }
-
-  set() {
-    this.thing.setProperty(this.name, this.level.value);
-  }
+    set() {
+        this.thing.setProperty(this.name, this.level.value);
+    }
 }
 
-module.exports = LevelDetail;
+

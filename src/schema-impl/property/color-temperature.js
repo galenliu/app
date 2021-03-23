@@ -10,15 +10,15 @@
 
 'use strict';
 
-const Utils = require('../../utils');
-const fluent = require('../../fluent');
 
-class ColorTemperatureDetail {
+
+
+export default class ColorTemperatureDetail {
   constructor(thing, name, property) {
     this.thing = thing;
     this.name = name;
     this.readOnly = !!property.readOnly;
-    this.label = property.title || fluent.getMessage('color-temperature');
+    this.label = property.title  ;
     this.min = property.minimum;
     this.max = property.maximum;
 
@@ -30,35 +30,23 @@ class ColorTemperatureDetail {
       this.step = 1;
     }
 
-    this.id = `color-temperature-${Utils.escapeHtmlForIdClass(this.name)}`;
+
   }
 
   attach() {
-    this.temperature = this.thing.element.querySelector(`#${this.id}`);
-    this.temperature.addEventListener('change', this.set.bind(this));
+
   }
 
   view() {
-    const readOnly = this.readOnly ? 'data-read-only="true"' : '';
 
-    return `
-      <webthing-color-temperature-property min="${this.min}" max="${this.max}"
-        data-name="${Utils.escapeHtml(this.label)}" step="${this.step}"
-        id="${this.id}" ${readOnly}>
-      </webthing-color-temperature-property>`;
   }
 
   update(temperature) {
-    if (!this.temperature) {
-      return;
-    }
 
-    this.temperature.value = temperature;
   }
 
   set() {
-    this.thing.setProperty(this.name, this.temperature.value);
+
   }
 }
 
-module.exports = ColorTemperatureDetail;
