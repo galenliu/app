@@ -4,7 +4,6 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import IconButton from '@material-ui/core/IconButton';
 import DialogTitle from '@material-ui/core/DialogTitle';
-// import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
 import {useTranslation} from "react-i18next";
 import ListItem from '@material-ui/core/ListItem';
@@ -32,7 +31,7 @@ import Divider from "@material-ui/core/Divider";
 // import ExtensionIcon from "@material-ui/icons/Extension";
 import Slide from '@material-ui/core/Slide';
 import {App} from "../App";
-import {BooleanPropertyListItem, NumberPropertyListItem, StringPropertyItem} from "./property";
+import {BooleanPropertyListItem, NumberPropertyListItem, StringPropertyItem} from "./thing-property";
 import CloseIcon from "@material-ui/icons/Close";
 // import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 

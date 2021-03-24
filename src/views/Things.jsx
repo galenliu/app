@@ -94,7 +94,6 @@ export default function Things(props) {
 
     function renderThings() {
         let thingsScreen = []
-
         things.forEach(thing => {
             const t = <IconView key={thing.iconViewData.id} {...thing.iconViewData} click={handleOpen}/>
             thingsScreen.push(t)

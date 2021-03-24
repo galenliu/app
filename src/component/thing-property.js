@@ -2,6 +2,13 @@ import React from "react";
 import {ListItem, ListItemIcon, ListItemText, Slider} from "@material-ui/core";
 import Switch from '@material-ui/core/Switch';
 import {useTranslation} from "react-i18next";
+import {makeStyles} from "@material-ui/core/styles";
+import Slide from "@material-ui/core/Slide";
+
+
+export const useStyles = makeStyles((theme) => ({
+
+}));
 
 
 export function BooleanPropertyListItem(props) {
