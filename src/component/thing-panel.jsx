@@ -12,13 +12,10 @@ import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import Button from "@material-ui/core/Button";
 import DialogContentText from "@material-ui/core/DialogContentText";
-import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import ListSubheader from "@material-ui/core/ListSubheader";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
-import Switch from "@material-ui/core/Switch";
 import TextField from "@material-ui/core/TextField";
-import ListItemText from '@material-ui/core/ListItemText';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import DialogContent from '@material-ui/core/DialogContent';
 import ThingIcons from "./icons";
@@ -74,6 +71,7 @@ const useStyles = makeStyles((theme) => ({
     },
 
     listItem: {
+        flexGrow: 1,
         marginTop: 5,
         marginBottom: 5,
         maxWidth: 400,
@@ -100,6 +98,7 @@ export function ThingPanel(props) {
 
     useEffect(() => {
         if (props.open) {
+            console.log("++++++++++++++++++++++++", props)
 
         }
 
@@ -112,7 +111,7 @@ export function ThingPanel(props) {
     return (
         <>
             <Dialog
-                open={removeDialogOpen}
+                open={props.open}
                 onClose={() => props.show(false)}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description">
@@ -136,7 +135,7 @@ export function ThingPanel(props) {
 
                 <AppBar className={classes.appBar}>
                     <Toolbar>
-                        <ThingIcons type={props.selectedCapability}/>
+                        <ThingIcons style={{fontSize: 30}} type={props.selectedCapability}/>
                         <Typography variant="h6" className={classes.title}>
                             {props.title}
                         </Typography>
@@ -147,9 +146,37 @@ export function ThingPanel(props) {
                 </AppBar>
                 <DialogContent>
                     <div className={classes.drawerHeader}/>
-                    <Grid className={classes.content} container>
-                        {/*<ControlPanel thing={thing}/>*/}
+                    <Grid className={classes.content} container flow={1}>
                         <DetailsPanel displayedProperties={props.displayedProperties}/>
+                        <List subheader={<ListSubheader>Settings</ListSubheader>} className={classes.list}>
+                            <Divider/>
+                            <ListItem className={classes.listItem} button onClick={() => props.remove()}>
+                                <ListItemIcon>
+                                    <ThingIcons edg="start" style={{fontSize: 30}} type={props.selectedCapability}/>
+                                </ListItemIcon>
+                                <TextField edg="end" defaultValue={props.title}/>
+                            </ListItem>
+                            <Divider/>
+                            <ListItem button className={classes.listItem} variant="contained" elevation={111}>
+                                <FormControl className={classes.formControl} style={{width: "100%"}}>
+                                    <InputLabel id="demo-simple-select-label">{t("Room")}</InputLabel>
+                                    <Select
+                                        labelId="demo-simple-select-label"
+                                        id="demo-simple-select">
+                                        <MenuItem value={10}>客厅</MenuItem>
+                                        <MenuItem value={20}>卧室</MenuItem>
+                                        <MenuItem value={30}>厨房</MenuItem>
+                                    </Select>
+                                </FormControl>
+
+                            </ListItem>
+
+                            <ListItem className={classes.listItem} color={"red"} button onClick={() => props.remove()}>
+                                <Button variant="contained" color="secondary" style={{width: "100%"}}>
+                                    {t("remove the accessories")}
+                                </Button>
+                            </ListItem>
+                        </List>
                     </Grid>
                 </DialogContent>
             </Dialog>}
@@ -157,6 +184,7 @@ export function ThingPanel(props) {
 
     );
 }
+
 
 export function DetailsPanel(props) {
 
@@ -168,104 +196,39 @@ export function DetailsPanel(props) {
 
     }
 
-
     function renderPropertyListItem() {
 
         const listItem = []
         for (const name in props.displayedProperties) {
             let prop = props.displayedProperties[name]
-            console.log("props.displayedProperties[name]", props.displayedProperties[name])
             if (prop.property.type === "integer") {
-                let item = <NumberPropertyListItem {...prop.detail.listViewData}/>
+                let item = <NumberPropertyListItem key={name} {...prop.detail.listViewData}/>
                 listItem.push(item)
             }
             if (prop.property.type === "OnOffProperty") {
-                let item = <BooleanPropertyListItem  {...prop.detail.listViewData}/>
+                let item = <BooleanPropertyListItem key={name}  {...prop.detail.listViewData}/>
                 listItem.push(item)
             }
             if (prop.property.type === "string") {
-                let item = <StringPropertyItem  {...prop.detail.listViewData}/>
+                let item = <StringPropertyItem key={name}  {...prop.detail.listViewData}/>
                 listItem.push(item)
             }
-
         }
         return listItem
     }
 
-
     return (
         <>
-            <List subheader={<ListSubheader>Settings</ListSubheader>} className={classes.list}>
+            <List subheader={<ListSubheader>Control</ListSubheader>} className={classes.list}>
                 <Divider/>
 
                 {renderPropertyListItem()}
 
-                <ListItem
-                    className={classes.listItem} variant="contained" elevation={90}>
-                    <ListItemIcon>
-                        <ThingIcons type={"Light"}
-                        />
-                    </ListItemIcon>
-                    <TextField d
-                               onChange={(e) => setTitle(e.target.value)}/>
+                <Divider/>
 
-                    }
-                </ListItem>
-
-                <Divider/>
-                <ListItem button className={classes.listItem} variant="contained">
-                    <ListItemIcon>
-                        {/*<ExtensionIcon/>*/}
-                    </ListItemIcon>
-                    <ListItemText primary={t("Addons")}/>
-                    {/*<NavigateNextIcon/>*/}
-                </ListItem>
-                <Divider/>
-                <ListItem button
-                          className={classes.listItem} variant="contained" elevation={111}>
-                    <ListItemIcon>
-                        {/*<DomainIcon/>*/}
-                    </ListItemIcon>
-                    <FormControl className={classes.formControl} style={{width: "100%"}}>
-                        <InputLabel id="demo-simple-select-label">{t("Room")}</InputLabel>
-                        <Select
-                            labelId="demo-simple-select-label"
-                            id="demo-simple-select">
-                            <MenuItem value={10}>客厅</MenuItem>
-                            <MenuItem value={20}>卧室</MenuItem>
-                            <MenuItem value={30}>厨房</MenuItem>
-                        </Select>
-                    </FormControl>
-
-                </ListItem>
-                <Divider/>
-                <ListItem>
-                    <ListItemText id="switch-list-label-wifi" primary={t("On")}/>
-                    <ListItemSecondaryAction>
-                        <Switch
-                            edge="end"
-                            inputProps={{'aria-labelledby': 'switch-list-label-wifi'}}
-                        />
-                    </ListItemSecondaryAction>
-                </ListItem>
-                <Divider/>
-                <ListItem color={"red"} button onClick={() => props.remove()}>
-                    <Button variant="contained" color="secondary" style={{width: "100%"}}>
-                        {t("remove the accessories")}
-                    </Button>
-                </ListItem>
-                <Divider/>
             </List>
 
         </>
-    )
-}
-
-export function ControlPanel(props) {
-    const {t, i18n} = useTranslation();
-
-    return (
-        <></>
     )
 }
 

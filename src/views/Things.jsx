@@ -63,7 +63,7 @@ export default function Things(props) {
     const [state, setState] = useState(states.pending)
     const {t} = useTranslation();
 
-
+    //页面加载时，向model定阅更新things
     useEffect(() => {
         const refreshThings = (ts) => {
             setState(states.connected)
@@ -92,6 +92,7 @@ export default function Things(props) {
 
     }, [props])
 
+    //把things渲染至页面
     function renderThings() {
         let thingsScreen = []
         things.forEach(thing => {
@@ -101,8 +102,10 @@ export default function Things(props) {
         return thingsScreen
     }
 
-    function handleOpen(thingId) {
 
+    //打开thing面板
+    function handleOpen(thingId) {
+        console.log("handle open_________")
         things.forEach(thing => {
             if (thingId === thing.iconViewData.id) {
                 setCurrentThing(thing)
@@ -111,13 +114,11 @@ export default function Things(props) {
         })
     }
 
+    //setCurrentThing时，打开thing panel
     function renderThingPanel(thing) {
         return <ThingPanel open={thingPanelShow} show={setThingPanelShow} {...currentThing}/>
     }
 
-    useEffect(() => {
-        setThingPanelShow(true)
-    }, [currentThing])
 
     return (
         <>
@@ -136,7 +137,7 @@ export default function Things(props) {
                     <h4>{t("disconnect")}</h4></div>}
             </Grid>
             <NewThingsDialog open={addThingShow} show={setAddThingShow}/>
-            {thingPanelShow && renderThingPanel()}
+            {renderThingPanel()}
         </>
     )
 }

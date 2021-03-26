@@ -8,11 +8,25 @@ import "../js/constant"
 import {Information, Lightbulb, LightbulbOff, LightbulbOn, Power} from 'mdi-material-ui'
 import {AddonType, SettingsType, ThingType} from "../js/constant";
 import {theme} from "../App";
+import {makeStyles} from "@material-ui/core/styles";
+
+
+const useStyles = makeStyles((theme) => ({
+    iconView: {
+        fontSize: theme.iconSize.l,
+        // color: theme.palette.info.light
+    },
+    actionIcon: {
+        fontSize: theme.iconSize.m,
+        // color: theme.palette.secondary.light,
+    }
+
+}))
 
 
 export default function ThingIcons(props) {
-    console.log("icon props", props)
-    props = {...props, style: {fontSize: theme.iconSize.l, color: theme.palette.primary.main}}
+    const classes = useStyles();
+
     switch (props.type) {
         case ThingType.Alarm: {
             return <SvgIcon>
@@ -110,11 +124,11 @@ export default function ThingIcons(props) {
         case ThingType.Light: {
             switch (props.state) {
                 case "on":
-                    return <LightbulbOn  {...props}/>
+                    return <LightbulbOn className={classes.iconView} {...props}/>
                 case "off":
-                    return <LightbulbOff {...props}/>
+                    return <LightbulbOff className={classes.iconView} {...props}/>
                 default:
-                    return <Lightbulb {...props}/>
+                    return <Lightbulb className={classes.iconView}  {...props}/>
             }
 
         }
@@ -235,10 +249,11 @@ export const actionsType = {
 }
 
 export function ActionsIcon(props) {
-    props = {...props, style: {fontSize: theme.iconSize.m, color: theme.palette.secondary.light}}
+    const classes = useStyles();
+
     switch (props.type) {
         case ThingType.Light: {
-            props = {...props, style: {fontSize: theme.iconSize.m, color: theme.palette.secondary.light}}
+
             switch (props.value) {
                 case true:
                     props = {...props, style: {fontSize: theme.iconSize.m, color: theme.palette.secondary.light}}
@@ -249,7 +264,7 @@ export function ActionsIcon(props) {
                 default:
                     break
             }
-            return <Power {...props}/>
+            return <Power className={classes.actionIcon} {...props}/>
         }
         case "Information": {
             return <Information {...props}/>

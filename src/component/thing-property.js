@@ -1,46 +1,79 @@
-import React from "react";
-import {ListItem, ListItemIcon, ListItemText, Slider} from "@material-ui/core";
+import React, {useState} from "react";
+import {ListItem, ListItemIcon, ListItemText, Slider, withStyles} from "@material-ui/core";
 import Switch from '@material-ui/core/Switch';
 import {useTranslation} from "react-i18next";
 import {makeStyles} from "@material-ui/core/styles";
-import Slide from "@material-ui/core/Slide";
 
 
 export const useStyles = makeStyles((theme) => ({
-
+    listItem: {
+        width: " 100%",
+    }
 }));
+
+const PrettoSlider = withStyles({
+    root: {
+        color: '#52af77',
+        height: 8,
+    },
+    thumb: {
+        height: 24,
+        width: 24,
+        backgroundColor: '#fff',
+        border: '2px solid currentColor',
+        marginTop: -8,
+        marginLeft: -12,
+        '&:focus, &:hover, &$active': {
+            boxShadow: 'inherit',
+        },
+    },
+    active: {},
+    valueLabel: {
+        left: 'calc(-50% + 4px)',
+    },
+    track: {
+        height: 8,
+        borderRadius: 4,
+    },
+    rail: {
+        height: 8,
+        borderRadius: 4,
+    },
+})(Slider);
 
 
 export function BooleanPropertyListItem(props) {
 
     const {t} = useTranslation();
+    const classes = useStyles();
 
     return (
-        <ListItem style={{width: "100%"}}>
+        <ListItem className={classes.listItem}>
             <ListItemText primary={t(props.label)}/>
             <ListItemIcon edg="end">
-                <Switch  disabled={props.disabled} checked={props.state} onClick={props.action}/>
+                <Switch disabled={props.disabled} checked={props.state} onClick={props.action}/>
             </ListItemIcon>
         </ListItem>
     )
 }
 
+
 export function NumberPropertyListItem(props) {
-
+    const classes = useStyles();
     const {t} = useTranslation();
-
+    const [value, setValue] = useState(0)
     return (
-        <>
-            <ListItem style={{width: "100%"}}>
-                <ListItemText primary={t(props.label)}/>
-            </ListItem>
-            <ListItem button>
-                <ListItemIcon edg="end">
-                    <Slider disabled={props.disabled} value={props.state} onChange={props.action}
-                            aria-labelledby="continuous-slider"/>
-                </ListItemIcon>
-            </ListItem>
-        </>
+        <ListItem className={classes.listItem}>
+            <PrettoSlider disabled={props.disabled} defaultValue={value}
+                          valueLabelDisplay="auto"
+                          onChange={(e) => {
+                              setValue(Number(e.target.value))
+                          }}
+                          step={1}
+                          aria-labelledby="continuous-slider"/>
+
+        </ListItem>
+
     )
 }
 
@@ -52,11 +85,11 @@ export function StringPropertyItem(props) {
         <>
             <ListItem style={{width: "100%"}}>
                 <ListItemText primary={t(props.label)}/>
-            </ListItem>
-            <ListItem button>
+
                 <ListItemIcon edg="end">
-                    <Slider disabled={props.disable} value={props.state} onChange={props.action}
-                            aria-labelledby="continuous-slider"/>
+
+                    <ListItemText primary={t(props.state)}/>
+
                 </ListItemIcon>
             </ListItem>
         </>
