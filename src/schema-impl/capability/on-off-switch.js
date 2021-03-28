@@ -32,25 +32,18 @@ export default class OnOffSwitch extends Thing {
      */
     findProperties() {
         this.onProperty = null;
-
         // Look for properties by type first.
         for (const name in this.displayedProperties) {
             const type = this.displayedProperties[name].property['@type'];
-
             if (type === 'OnOffProperty') {
                 this.onProperty = name;
                 break;
             }
         }
-
         // If necessary, match on name.
         if (this.onProperty === null && this.displayedProperties.hasOwnProperty('on')) {
             this.onProperty = 'on';
         }
-    }
-
-    get icon() {
-
     }
 
     /**
@@ -59,6 +52,7 @@ export default class OnOffSwitch extends Thing {
      * @param {*} value - value of the property
      */
     updateProperty(name, value) {
+
         value = super.updateProperty(name, value);
 
         if (!this.displayedProperties.hasOwnProperty(name)) {
@@ -67,7 +61,6 @@ export default class OnOffSwitch extends Thing {
 
         if (name === this.onProperty) {
             this.icon.on = !!value;
-            this.iconViewData.iconViewLabel = value
         }
         return value;
     }
@@ -76,9 +69,11 @@ export default class OnOffSwitch extends Thing {
      * Handle a click on the on/off switch.
      */
     handleClick() {
-    }
-
-    iconView() {
+        const newValue = !this.icon.on;
+        this.icon.on = null
+        this.model.setProperty(this.onProperty, newValue).catch((error) => {
+            console.error(`Error trying to toggle switch: ${error}`);
+        });
     }
 }
 

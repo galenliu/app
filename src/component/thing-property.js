@@ -62,16 +62,24 @@ export function NumberPropertyListItem(props) {
     const classes = useStyles();
     const {t} = useTranslation();
     const [value, setValue] = useState(0)
+
+    function handleChanged(event, newValue) {
+        if (newValue === undefined && newValue === null) {
+            console.log("value err:", newValue)
+            return
+        }
+        if (props.doChange !== null) {
+            props.doChange({name: props.property.name, value: newValue})
+        }
+    }
+
     return (
         <ListItem className={classes.listItem}>
-            <PrettoSlider disabled={props.disabled} defaultValue={value}
+            <PrettoSlider disabled={props.convertedProperty.readOnly} defaultValue={value}
                           valueLabelDisplay="auto"
-                          onChange={(e) => {
-                              setValue(Number(e.target.value))
-                          }}
+                          onChange={handleChanged}
                           step={1}
                           aria-labelledby="continuous-slider"/>
-
         </ListItem>
 
     )

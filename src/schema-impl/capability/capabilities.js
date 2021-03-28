@@ -16,7 +16,6 @@ import OnOffSwitch from "./on-off-switch";
 export function createThingFromCapability(capability, thingModel, description, format) {
     if (capability) {
         switch (capability) {
-
             case ThingType.Light:
                 return new Light(thingModel, description, format);
             case ThingType.OnOffSwitch:

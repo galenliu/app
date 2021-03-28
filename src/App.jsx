@@ -42,7 +42,9 @@ export const App = {
     HOST: window.location.host,
     LANGUAGE: 'en-US',
     TIMEZONE: 'UTC',
-    UNITS: {},
+    UNITS: {
+
+    },
     init: function () {
 
         this.gatewayModel = new GatewayModel()

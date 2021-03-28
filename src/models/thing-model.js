@@ -33,7 +33,7 @@ class ThingModel extends Model {
         this.id = decodeURIComponent(description.id.split('/').pop());
 
         this.href = new URL(description.id, App.ORIGIN);
-        console.log(" this.href==============", this.href)
+
         // Parse events URL
         for (const form of description.forms) {
             switch (form.rel) {
@@ -111,12 +111,16 @@ class ThingModel extends Model {
         });
 
         const onEvent = (event) => {
+
             const message = JSON.parse(event.data);
+            console.log("onEvent", message)
+
             if (message.hasOwnProperty('id') && message.id !== this.id) {
                 return;
             }
             switch (message.messageType) {
                 case 'propertyStatus':
+
                     this.onPropertyStatus(message.data).then(r => {
                     });
                     break;
@@ -197,7 +201,6 @@ class ThingModel extends Model {
             }
         }
         return API.putJson(href, value).then((json) => {
-            console.log("json", json)
             this.onPropertyStatus(json)
         }).catch((error) => {
             console.error(error);
@@ -242,14 +245,11 @@ class ThingModel extends Model {
      * @param {Object} data Property data
      */
     onPropertyStatus(data) {
-
-
         const updatedProperties = {};
         for (const prop in data) {
             if (!this.propertyDescriptions.hasOwnProperty(prop)) {
                 continue;
             }
-
             const value = data[prop];
             if (typeof value === 'undefined' || value === null) {
                 continue;
@@ -258,7 +258,6 @@ class ThingModel extends Model {
             this.properties[prop] = value;
             updatedProperties[prop] = value;
         }
-        console.log("updatedProperties:", updatedProperties)
         return this.handleEvent(Constants.PROPERTY_STATUS, updatedProperties);
     }
 

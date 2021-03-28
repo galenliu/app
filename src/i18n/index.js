@@ -2,6 +2,7 @@ import i18n from "i18next";
 import {initReactI18next} from "react-i18next";
 import enTrans from "./en-us.json"
 import zhTrans from "./zh-cn.json"
+import LanguageDetector from 'i18next-browser-languagedetector';
 
 
 // the translations
@@ -15,7 +16,7 @@ const resources = {
     }
 };
 
-// i18n.use(LanguageDetector) //嗅探当前浏览器语言
+i18n.use(LanguageDetector) //嗅探当前浏览器语言
 i18n.use(initReactI18next) // passes i18n down to react-i18next
     .init({
             resources: {

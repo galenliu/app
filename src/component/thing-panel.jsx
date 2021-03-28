@@ -30,6 +30,8 @@ import Slide from '@material-ui/core/Slide';
 import {App} from "../App";
 import {BooleanPropertyListItem, NumberPropertyListItem, StringPropertyItem} from "./thing-property";
 import CloseIcon from "@material-ui/icons/Close";
+import {ThingType} from "../js/constant";
+import {LightControlPanel} from "./control-panel/light-control-panel";
 // import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 
 const useStyles = makeStyles((theme) => ({
@@ -147,7 +149,8 @@ export function ThingPanel(props) {
                 <DialogContent>
                     <div className={classes.drawerHeader}/>
                     <Grid className={classes.content} container flow={1}>
-                        <DetailsPanel displayedProperties={props.displayedProperties}/>
+                        <ControlPanel {...props}/>
+                        {/*<DetailsPanel displayedProperties={props.displayedProperties}/>*/}
                         <List subheader={<ListSubheader>Settings</ListSubheader>} className={classes.list}>
                             <Divider/>
                             <ListItem className={classes.listItem} button onClick={() => props.remove()}>
@@ -230,5 +233,32 @@ export function DetailsPanel(props) {
 
         </>
     )
+}
+
+export function ControlPanel(props) {
+
+    useEffect(
+        () => {
+
+        }
+    )
+
+    function render() {
+
+        switch (props.selectedCapability) {
+            case ThingType.Light:
+
+                return LightControlPanel(props)
+        }
+
+    }
+
+
+    return (<>
+            {render()}
+        </>
+
+    )
+
 }
 

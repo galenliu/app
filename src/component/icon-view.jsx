@@ -1,10 +1,11 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
 import {makeStyles} from "@material-ui/core/styles";
 import ThingIcons, {ActionsIcon} from "./icons";
 import Typography from "@material-ui/core/Typography";
 import {useTranslation} from "react-i18next";
+import {ThingStates} from "../schema-impl/capability/thing";
 
 const useStyles = makeStyles((theme) => ({
     thingCard: {
@@ -42,25 +43,40 @@ const useStyles = makeStyles((theme) => ({
     },
 }))
 
+
 export default function IconView(props) {
 
     const {t} = useTranslation();
-
     const classes = useStyles()
-    console.log("props.selectedCapability_____", props.selectedCapability)
+    const [on, setOn] = useState(false)
+
+    function handleClick(e) {
+        e.stopPropagation()
+        props.handleClick()
+        setOn(!on)
+    }
+
+    useEffect(() => {
+        const update = function () {
+
+        }
+        console.log("props update")
+        setOn(props.icon.on)
+    }, [props])
+
     return (
         <Grid item className={classes.root}>
-            <Card elevation={10} className={classes.thingCard} onClick={()=>props.click(props.id)}>
+            <Card elevation={10} className={classes.thingCard} onClick={() => props.click(props.id)}>
                 <div className={classes.cardTop}>
-                    <ThingIcons type={props.iconType}/>
-                    <ActionsIcon type={props.selectedCapability}/>
+                    <ThingIcons type={props.selectedCapability} state={on ? "on" : "off"}/>
+                    <ActionsIcon type={props.selectedCapability} onClick={handleClick}/>
                 </div>
                 <div className={classes.cardBot}>
                     <Typography variant={"body1"}>
                         {props.title}
                     </Typography>
-                    <Typography t={2}>
-                        {t(props.iconViewLabel)}
+                    <Typography t={2} style={{color: props.state === ThingStates.NoResponse ? "red" : ""}}>
+                        {t(props.state)}
                     </Typography>
                 </div>
             </Card>

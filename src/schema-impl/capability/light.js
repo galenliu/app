@@ -82,7 +82,7 @@ export default class Light extends OnOffSwitch {
      * @param {string} name - name of the property
      * @param {*} value - value of the property
      */
-    updateProperty(name, value) {
+    updatePorperty(name, value) {
         value = super.updateProperty(name, value);
 
         if (!this.displayedProperties.hasOwnProperty(name)) {
@@ -92,7 +92,6 @@ export default class Light extends OnOffSwitch {
         if (name === this.brightnessProperty) {
             value = parseInt(value, 10);
             this.icon.brightness = value;
-            this.iconViewData.iconViewLabel = value
         } else if (name === this.colorProperty) {
             this.icon.color = value;
         } else if (name === this.colorTemperatureProperty) {
@@ -103,29 +102,10 @@ export default class Light extends OnOffSwitch {
         }
     }
 
-
-    iconView() {
-
-        const iconViewData = {}
-        iconViewData.state = this.state
-        let color = '';
-        if (this.colorProperty !== null) {
-            iconViewData.color = this.colorProperty.value
-        }
-        if (this.colorTemperatureProperty !== null) {
-            iconViewData.colorTemperature = this.colorTemperatureProperty.value
-        }
-
-        if (this.colorModeProperty !== null) {
-            iconViewData.colorModeProperty = this.colorModeProperty
-        }
-        let brightness = '';
-        if (this.brightnessProperty !== null) {
-            iconViewData.brightnessProperty = this.brightnessProperty
-        }
-        return iconViewData
-
+    handleClick() {
+        super.handleClick()
     }
+
 }
 
 

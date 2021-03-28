@@ -43,11 +43,11 @@ import AlarmDetail from '../property/alarm'
 import BooleanDetail from '../property/boolean'
 import InstantaneousPowerFactorDetail from "../property/instantaneous-power-factor"
 
-const ThingStates = {
+export const ThingStates = {
     NoResponse: "No response"
 }
 
-export default class Thing {
+export default class Thing{
     /**
      * Thing constructor.
      *
@@ -56,7 +56,6 @@ export default class Thing {
      * @param {Object} options Options for building the view.
      */
     constructor(model, description, format, options) {
-        const opts = options || {};
         const defaults = {
             on: OnOffDetail,
             level: LevelDetail,
@@ -68,15 +67,12 @@ export default class Thing {
             color: ColorDetail,
             colorTemperature: ColorTemperatureDetail,
         };
-
+        this.id = description.id
         this.title = description.title;
         this.model = model;
         this.listeners = [];
         this.connected = this.model.connected;
-        if (!this.connected) {
-            this.state = ThingStates.NoResponse
-        }
-
+        this.state = ThingStates.NoResponse
 
         if (Array.isArray(description['@type']) &&
             description['@type'].length > 0) {
@@ -87,11 +83,8 @@ export default class Thing {
 
         this.selectedCapability = description.selectedCapability;
         this.layoutIndex = description.layoutIndex;
+        this.icon = {}
 
-        this.iconType = this.selectedCapability;
-
-
-        this.baseIcon = opts.baseIcon;
         this.format = format;
         this.displayedProperties = this.displayedProperties || {};
         this.displayedActions = this.displayedActions || {};
@@ -279,35 +272,21 @@ export default class Thing {
 
         this.findProperties();
 
-
         this.onPropertyStatus = this.onPropertyStatus.bind(this);
         this.onEvent = this.onEvent.bind(this);
         this.onConnected = this.onConnected.bind(this);
         this.updateStatus();
 
-        this.iconViewData = {
-            iconType: description.iconType || this.selectedCapability,
-            connected: this.connected,
-            title: this.title,
-            id: description.id,
-            selectedCapability: this.selectedCapability,
-            toggle: this.iconViewToggle,
-            iconViewLabel: "No Response"
-        }
     }
 
-    iconViewUpdate() {
-
-    }
-
-    iconViewToggle() {
-
-    }
 
     findProperties() {
         this.iconLable = "";
     }
 
+    toggle() {
+
+    }
 
     /**
      * Update the display for the provided property.
@@ -378,7 +357,6 @@ export default class Thing {
         while (typeof (listener = this.listeners.pop()) !== 'undefined') {
             listener.element.removeEventListener(listener.event, listener.handler);
         }
-
         this.model.unsubscribe(Constants.PROPERTY_STATUS, this.onPropertyStatus);
         this.model.unsubscribe(Constants.EVENT_OCCURRED, this.onEvent);
         this.model.unsubscribe(Constants.CONNECTED, this.onConnected);
@@ -390,6 +368,7 @@ export default class Thing {
      * @param {Object} data Property data
      */
     onPropertyStatus(data) {
+
         for (const prop in data) {
             if (!this.displayedProperties.hasOwnProperty(prop)) {
                 continue;

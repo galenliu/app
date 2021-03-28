@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import Dialog from '@material-ui/core/Dialog';
 import AppBar from '@material-ui/core/AppBar';
@@ -11,7 +11,6 @@ import API from "../js/api";
 import {useTranslation} from "react-i18next";
 import NewThing from "../component/new-thing";
 import Grid from "@material-ui/core/Grid";
-import useWebSocket, {ReadyState} from 'react-use-websocket';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -39,43 +38,33 @@ export default function NewThingsDialog(props) {
     const classes = useStyles();
     const {t} = useTranslation();
 
-    const [socketUrl, setSocketUrl] = useState(null);
-    const {
-        lastMessage,
-        readyState,
-    } = useWebSocket(socketUrl);
+    const ws = useRef()
 
-    const connectionStatus = {
-        [ReadyState.CONNECTING]: 'Connecting',
-        [ReadyState.OPEN]: 'Open',
-        [ReadyState.CLOSING]: 'Closing',
-        [ReadyState.CLOSED]: 'Closed',
-        [ReadyState.UNINSTANTIATED]: 'Uninstantiated',
-    }[readyState];
-
+    const [message, setMessage] = useState()
+    const [readyState, setReadyState] = useState('正在链接中');
     const [availableThings, setAvailableThings] = useState(new Map())
     const [actionUrl, setActionUrl] = useState()
 
-    useEffect(
-        () => {
-            try {
-                if (lastMessage) {
-                    console.log("message update :", lastMessage)
-                    let newThing = JSON.parse(lastMessage.data)
-                    const things = availableThings
-                    if (availableThings.isEmpty() || availableThings.has(newThing.id) === null) {
-                        things[newThing.id] = newThing
-                        setAvailableThings(things)
-                        console.log("AvailableThings update :", availableThings)
-                    }
-                }
-            } catch (e) {
-                cancelPairing()
-                console.log("message err:", e)
-            }
-
-        }, [lastMessage]
-    )
+    const webSocketInit = useCallback((path) => {
+        const stateArr = [
+            '正在链接中',
+            '已经链接并且可以通讯',
+            '连接正在关闭',
+            '连接已关闭或者没有链接成功',
+        ];
+        if (!ws.current || ws.current.readyState === 3) {
+            ws.current = new WebSocket(path);
+            ws.current.onopen = _e =>
+                setReadyState(stateArr[ws.current?.readyState ?? 0]);
+            ws.current.onclose = _e =>
+                setReadyState(stateArr[ws.current?.readyState ?? 0]);
+            ws.current.onerror = e =>
+                setReadyState(stateArr[ws.current?.readyState ?? 0]);
+            ws.current.onmessage = e => {
+                setMessage(JSON.parse(e.data));
+            };
+        }
+    }, [ws]);
 
 
     function cancelPairing() {
@@ -88,16 +77,30 @@ export default function NewThingsDialog(props) {
         }
     }
 
+    useEffect(() => {
+        const addAvailableThings = (id, message) => {
+            let copy = availableThings
+            if (availableThings === null) {
+                copy = new Map()
+            }
+            if (copy.has(id)) {
+                return
+            }
+            copy.set(id, message)
+            setAvailableThings(copy)
+        }
+        if (message) {
+            addAvailableThings(message.id, message)
+
+        }
+    }, [message])
+
 
     useEffect(
         () => {
             if (props.open) {
                 API.startPairing(5000).then((action) => {
                     setActionUrl(action.href)
-                    setTimeout(() => {
-                        cancelPairing()
-                    }, 5000)
-
                     let proto = 'ws://';
                     if (window.location.protocol === 'https:') {
                         proto = 'wss://';
@@ -105,7 +108,7 @@ export default function NewThingsDialog(props) {
                     let host = window.location.host
                     const path = proto + "localhost:9090" + "/new_things"
                     console.log("start websocket request Pairing websocket:", path)
-                    setSocketUrl(path)
+                    webSocketInit(path)
                 }).catch((err) => {
                     console.log("startPairing err:", err)
                 })
@@ -113,23 +116,29 @@ export default function NewThingsDialog(props) {
             if (!props.open) {
                 {
                     cancelPairing()
+                    ws.current?.close();
                 }
             }
-
         }, [props.open]
     )
 
 
-    function RenderAvailableThings() {
+    function renderAvailableThings() {
         let list = []
-        for (let thingId in availableThings) {
-            let thing = availableThings[thingId]
-            console.log("render thing :", thing)
-            const newThing = <NewThing key={thing.id} {...thing}
-
-            />
-            list.push(newThing)
+        if (availableThings === null || availableThings.size === 0) {
+            return
         }
+        console.log("availableThings:", availableThings)
+        availableThings.forEach((thing, key) => {
+            console.log("render thing :", thing)
+            if (thing["@type"]) {
+                const newThing = <NewThing key={key} newThing={thing}
+                />
+                list.push(newThing)
+            }
+
+        })
+        console.log("list:", list)
         return list
     }
 
@@ -141,7 +150,7 @@ export default function NewThingsDialog(props) {
                 <AppBar className={classes.appBar}>
                     <Toolbar>
                         <Typography variant="h6" className={classes.title}>
-                            {t(connectionStatus)}......
+
                         </Typography>
                         <IconButton autoFocus color="inherit" onClick={() => {
                             {
@@ -155,7 +164,7 @@ export default function NewThingsDialog(props) {
                 </AppBar>
                 <div className={classes.drawerHeader}/>
                 <Grid container justify="flex-start" alignItems="center" direction="column">
-                    {RenderAvailableThings()}
+                    {renderAvailableThings()}
                 </Grid>
             </Dialog>
         </div>

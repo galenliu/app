@@ -52,29 +52,22 @@ export default function NewThing(props) {
     const {t} = useTranslation();
 
     const classes = useStyles();
-    const [thing, setThing] = useState({...props, selectedCapability: props["@type"][0]})
-
-
+    const [thing, setThing] = useState({...props.newThing, selectedCapability: props.newThing["@type"][0]})
     const [state, setState] = useState(states.Save)
 
 
-    // function setTitle(title) {
-    //     setThings({...thing, title: title})
-    // }
-
-    // const [selectedCapability,setSelectedCapability] = useState(thing.selectedCapability)
     function capabilityItem() {
         let list = []
-        for (const item of props["@type"]) {
+        for (const item of thing["@type"]) {
             list.push(<MenuItem value={item} key={item}>{t(item)}</MenuItem>)
         }
         return list
     }
 
     const handleChange = (event) => {
-        let t = thing
-        t.selectedCapability = event.target.value
-        setThing({...t});
+        let copy = thing
+        copy.selectedCapability = event.target.value
+        setThing({...copy});
     };
 
     const handleTitleChange = (event) => {
@@ -87,24 +80,23 @@ export default function NewThing(props) {
     const handleSave = () => {
         setState(states.Processing)
         API.addThing(thing).then((data) => {
+            console.log("add thing request:", data)
             if (data.id === thing.id) {
-                if (data.connected) {
-                    setThing({...thing})
-                    setState(states.Saved)
-                }
+                setThing({...thing})
+                setState(states.Saved)
             } else {
+                setState(states.Fail)
                 throw new Error("fail");
             }
         }).catch((e) => {
             setState(states.Fail)
-                console.error(e)
+            console.error(e)
         })
-
     }
 
     return <>
         <Card className={classes.newThingCard} elevation={5}>
-            <ThingIcons className={classes.icon}
+            <ThingIcons className={classes.icon} style={{fontSize: 60}}
                         type={thing.selectedCapability}/>
             <div className={classes.content}>
                 <TextField disabled={state === states.Saved || state === states.Fail} id="standard-basic"

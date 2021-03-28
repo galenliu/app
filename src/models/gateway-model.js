@@ -69,7 +69,6 @@ class GatewayModel extends Model {
                 this.thingModels.set(thingId, thingModel);
             }
             this.things.set(thingId, description);
-            console.log(" gateway things:\t\n", this.things, "\t\nmodels:\t\n", this.thingModels)
 
         } catch (e) {
             console.log(e)
@@ -177,7 +176,6 @@ class GatewayModel extends Model {
                 if (things == null) {
                     throw new Error("things null")
                 }
-                console.log("fetch things:", things)
                 things.forEach((description) => {
                     const thingId = decodeURIComponent(description.id.split('/').pop());
                     fetchedIds.add(thingId);

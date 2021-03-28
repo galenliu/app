@@ -75,10 +75,10 @@ export default function Things(props) {
                         App.gatewayModel.getThingModel(thingId).then((thingModel) => {
                             const thing = createThingFromCapability(
                                 description.selectedCapability, thingModel, description);
-
+                            console.log("createThingFromCapability:", thing)
                             copyThings.push(thing)
                         });
-                        console.log("refreshThings-------------------------things::", copyThings)
+
                         setThings([...copyThings])
                     }
                 );
@@ -96,7 +96,7 @@ export default function Things(props) {
     function renderThings() {
         let thingsScreen = []
         things.forEach(thing => {
-            const t = <IconView key={thing.iconViewData.id} {...thing.iconViewData} click={handleOpen}/>
+            const t = <IconView key={thing.id} {...thing} handleClick={thing.handleClick}/>
             thingsScreen.push(t)
         })
         return thingsScreen
