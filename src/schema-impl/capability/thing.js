@@ -47,7 +47,7 @@ export const ThingStates = {
     NoResponse: "No response"
 }
 
-export default class Thing{
+export default class Thing {
     /**
      * Thing constructor.
      *
@@ -326,7 +326,11 @@ export default class Thing{
         const property = this.displayedProperties[name].property;
         value = adjustInputValue(value, property);
 
-        this.model.setProperty(name, value);
+        try {
+            this.model.setProperty(name, value);
+        } catch (e) {
+            console.log(e)
+        }
     }
 
     /**

@@ -5,7 +5,7 @@ import PowerIcon from '@material-ui/icons/Power';
 import HourglassEmptyIcon from '@material-ui/icons/HourglassEmpty';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import "../js/constant"
-import {Information, Lightbulb, LightbulbOff, LightbulbOn, Power} from 'mdi-material-ui'
+import {Information, Lightbulb, LightbulbOn, Power} from 'mdi-material-ui'
 import {AddonType, SettingsType, ThingType} from "../js/constant";
 import {theme} from "../App";
 import {makeStyles} from "@material-ui/core/styles";
@@ -124,9 +124,9 @@ export default function ThingIcons(props) {
         case ThingType.Light: {
             switch (props.state) {
                 case "on":
-                    return <LightbulbOn className={classes.iconView} {...props}/>
+                    return <LightbulbOn style={{color: "red"}} className={classes.iconView} {...props}/>
                 case "off":
-                    return <LightbulbOff className={classes.iconView} {...props}/>
+                    return <Lightbulb style={{color: "darkgray"}}  className={classes.iconView} {...props}/>
                 default:
                     return <Lightbulb className={classes.iconView}  {...props}/>
             }

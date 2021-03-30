@@ -11,6 +11,7 @@ import API from "../js/api";
 import {useTranslation} from "react-i18next";
 import NewThing from "../component/new-thing";
 import Grid from "@material-ui/core/Grid";
+import {App} from "../App";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -115,6 +116,7 @@ export default function NewThingsDialog(props) {
             }
             if (!props.open) {
                 {
+                    App.showThings()
                     cancelPairing()
                     ws.current?.close();
                 }

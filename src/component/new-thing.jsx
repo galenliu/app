@@ -9,7 +9,6 @@ import FormHelperText from "@material-ui/core/FormHelperText"
 import {useTranslation} from "react-i18next";
 import Divider from "@material-ui/core/Divider";
 import API from "../js/api";
-import Typography from "@material-ui/core/Typography";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -80,10 +79,9 @@ export default function NewThing(props) {
     const handleSave = () => {
         setState(states.Processing)
         API.addThing(thing).then((data) => {
-            console.log("add thing request:", data)
+            setState(states.Saved)
             if (data.id === thing.id) {
                 setThing({...thing})
-                setState(states.Saved)
             } else {
                 setState(states.Fail)
                 throw new Error("fail");
@@ -127,9 +125,8 @@ export default function NewThing(props) {
             {state === states.Processing && <CircularProgress/>
 
             }
-            {thing.connected && <Button
-
-                color="primary"
+            {state === states.Saved && <Button
+                color="success"
                 disabled={true}
                 className={classes.button} onClick={handleSave}
             >
@@ -137,13 +134,11 @@ export default function NewThing(props) {
             </Button>
             }
             {state === states.Fail && <Button
-                color="secondary"
+                color="error"
                 disabled={true}
                 className={classes.button} onClick={handleSave}
             >
-                <Typography gutterBottom color="secondary">
-                    {t(states.Fail)}
-                </Typography>
+                {t(states.Fail)}
             </Button>
             }
         </Card>

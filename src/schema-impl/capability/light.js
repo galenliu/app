@@ -82,18 +82,22 @@ export default class Light extends OnOffSwitch {
      * @param {string} name - name of the property
      * @param {*} value - value of the property
      */
-    updatePorperty(name, value) {
+    updateProperty(name, value) {
         value = super.updateProperty(name, value);
 
         if (!this.displayedProperties.hasOwnProperty(name)) {
             return;
         }
 
+        console.log("value:", value)
+        console.log("name:", name)
+
         if (name === this.brightnessProperty) {
             value = parseInt(value, 10);
             this.icon.brightness = value;
         } else if (name === this.colorProperty) {
-            this.icon.color = value;
+            this.icon.color = value
+
         } else if (name === this.colorTemperatureProperty) {
             value = parseInt(value, 10);
             this.icon.colorTemperature = value;

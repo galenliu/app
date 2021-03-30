@@ -7,7 +7,7 @@ import SideBar from "./component/sideBar";
 import GatewayModel from "./models/gateway-model";
 import Things from "./views/Things";
 import Settings from "./views/Settings";
-
+import ThingsScreen from "./js/things-screen";
 
 
 export const AppContext = React.createContext({})
@@ -20,20 +20,25 @@ export const theme = createMuiTheme({
         l: 60,
         xl: 80,
     },
-    palette: {
-        primary: {
-            light: '#ff6090',
-            main: '#e91e63',
-            dark: '#b0003a',
-            contrastText: '#fff',
-        },
-        secondary: {
-            light: '#ff7961',
-            main: '#f44336',
-            dark: '#ba000d',
-            contrastText: '#000',
-        },
-    },
+    // palette: {
+    //     primary: {
+    //         light: '#ff6090',
+    //         main: '#e91e63',
+    //         dark: '#b0003a',
+    //         contrastText: '#fff',
+    //     },
+    //     secondary: {
+    //         light: '#ff7961',
+    //         main: '#f44336',
+    //         dark: '#ba000d',
+    //         contrastText: '#000',
+    //     },
+    //     icon: {
+    //         on: '#e91e63',
+    //         off: "darkgray",
+    //     }
+    //
+    // },
 });
 
 
@@ -42,15 +47,14 @@ export const App = {
     HOST: window.location.host,
     LANGUAGE: 'en-US',
     TIMEZONE: 'UTC',
-    UNITS: {
-
-    },
+    UNITS: {},
     init: function () {
-
         this.gatewayModel = new GatewayModel()
+
     },
     showThings: function () {
         this.gatewayModel.refreshThings()
+
     },
 
     showMessage() {
@@ -59,8 +63,16 @@ export const App = {
 }
 
 App.init()
+ThingsScreen.init()
+ThingsScreen.showThings()
+
 
 function Router() {
+
+    function renderThings() {
+        let thingsScreen = []
+
+    }
 
     const [drawerOpen, setDrawerOpen] = useState(false)
     const [newThingsOpen, setNewThingsOpen] = useState(false)
@@ -83,7 +95,7 @@ function Router() {
                             <Settings/>
                         </Route>
                         <Route path="/">
-                            <Things/>
+                            <Things things={ThingsScreen.things}/>
                             <SideBar/>
                         </Route>
                     </Switch>

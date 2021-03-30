@@ -6,6 +6,7 @@ import ThingIcons, {ActionsIcon} from "./icons";
 import Typography from "@material-ui/core/Typography";
 import {useTranslation} from "react-i18next";
 import {ThingStates} from "../schema-impl/capability/thing";
+import Constants from "../js/constant";
 
 const useStyles = makeStyles((theme) => ({
     thingCard: {
@@ -48,27 +49,33 @@ export default function IconView(props) {
 
     const {t} = useTranslation();
     const classes = useStyles()
-    const [on, setOn] = useState(false)
+
+    const [icon, setIcon] = useState(props.icon)
 
     function handleClick(e) {
         e.stopPropagation()
         props.handleClick()
-        setOn(!on)
+
     }
 
     useEffect(() => {
-        const update = function () {
-
+        const update = function (data) {
+            setIcon({...props.icon})
+            console.log(icon)
         }
-        console.log("props update")
-        setOn(props.icon.on)
+        props.model.subscribe(Constants.PROPERTY_STATUS, update)
+        return () => {
+            props.model.unsubscribe(Constants.PROPERTY_STATUS, update)
+        }
+
     }, [props])
 
     return (
         <Grid item className={classes.root}>
             <Card elevation={10} className={classes.thingCard} onClick={() => props.click(props.id)}>
                 <div className={classes.cardTop}>
-                    <ThingIcons type={props.selectedCapability} state={on ? "on" : "off"}/>
+                    <ThingIcons type={props.selectedCapability} style={{color: icon.color}}
+                                state={icon.on ? "on" : "off"}/>
                     <ActionsIcon type={props.selectedCapability} onClick={handleClick}/>
                 </div>
                 <div className={classes.cardBot}>

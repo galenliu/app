@@ -648,6 +648,5 @@ const API = {
 };
 
 // Elevate this to the window level.
-window.API = API;
 
 export default API;

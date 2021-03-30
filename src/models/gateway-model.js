@@ -190,6 +190,10 @@ class GatewayModel extends Model {
                 return this.handleEvent(Constants.REFRESH_THINGS, this.things);
             }).catch((e) => {
                 console.error(`Get things failed ${e}`);
+                this.thingModels = new Map()
+                this.things = new Map()
+                return this.handleEvent(Constants.REFRESH_THINGS, new Map());
+
             });
         });
     }

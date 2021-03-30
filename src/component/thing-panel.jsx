@@ -1,22 +1,14 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import IconButton from '@material-ui/core/IconButton';
-import DialogTitle from '@material-ui/core/DialogTitle';
 import Typography from '@material-ui/core/Typography';
 import {useTranslation} from "react-i18next";
-import ListItem from '@material-ui/core/ListItem';
 import List from "@material-ui/core/List";
-import FormControl from "@material-ui/core/FormControl";
-import InputLabel from "@material-ui/core/InputLabel";
 import Button from "@material-ui/core/Button";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import ListSubheader from "@material-ui/core/ListSubheader";
-import MenuItem from "@material-ui/core/MenuItem";
-import Select from "@material-ui/core/Select";
-import TextField from "@material-ui/core/TextField";
-import ListItemIcon from '@material-ui/core/ListItemIcon';
 import DialogContent from '@material-ui/core/DialogContent';
 import ThingIcons from "./icons";
 import Grid from "@material-ui/core/Grid";
@@ -27,11 +19,15 @@ import Divider from "@material-ui/core/Divider";
 // import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 // import ExtensionIcon from "@material-ui/icons/Extension";
 import Slide from '@material-ui/core/Slide';
-import {App} from "../App";
 import {BooleanPropertyListItem, NumberPropertyListItem, StringPropertyItem} from "./thing-property";
 import CloseIcon from "@material-ui/icons/Close";
-import {ThingType} from "../js/constant";
+import ThingsScreen from "../js/things-screen";
 import {LightControlPanel} from "./control-panel/light-control-panel";
+import {ThingType} from "../js/constant";
+import {InputLabel, ListItem, ListItemIcon, MenuItem, Select, TextField} from "@material-ui/core";
+import FormControl from "@material-ui/core/FormControl";
+import {App} from "../App";
+import API from "../js/api";
 // import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 
 const useStyles = makeStyles((theme) => ({
@@ -92,23 +88,47 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 export function ThingPanel(props) {
     const {t} = useTranslation();
-    const [thing, setThing] = useState(App.gatewayModel.things.get(props.thingId))
-    const [properties, setProperties] = useState()
+    const [thing, setThing] = useState()
     const [removeDialogOpen, setRemoveDialog] = useState(false)
+    const [title, setTitle] = useState()
     const classes = useStyles();
 
 
     useEffect(() => {
         if (props.open) {
-            console.log("++++++++++++++++++++++++", props)
+            let th = ThingsScreen.getThing(props.thingID)
+            if (th) {
+                setThing(th)
+                setTitle(th.title)
+            }
+        } else {
+            setThing({})
 
         }
-
     }, [props.open])
 
     useEffect(() => {
 
     }, [thing])
+
+
+    const renderControlPanel = useCallback(() => {
+        switch (thing.selectedCapability) {
+            case ThingType.Light:
+                return <LightControlPanel open={props.open} {...thing} setProperty={thing.setProperty}/>
+        }
+    }, [thing])
+
+    const remove = () => {
+        thing.model.removeThing()
+        App.showThings()
+    }
+
+
+    const save = () => {
+        API.updateThing({title: title})
+        App.showThings()
+    }
 
     return (
         <>
@@ -117,29 +137,37 @@ export function ThingPanel(props) {
                 onClose={() => props.show(false)}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description">
-                <DialogTitle id="alert-dialog-title">{t("accessories removed")}</DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
-                        {t("accessories removed")}
+                        {t("Confirm to remove this accessory")}
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={() => {
+                        setRemoveDialog(false)
+                        props.show(true)
+                    }} color="primary">
+                        {t("Cancel")}
+                    </Button>
+
+                    <Button autoFocus onClick={() => {
+                        remove()
+                        setRemoveDialog(false)
                         props.show(false)
-                    }} color="primary" autoFocus>
+                    }} color="primary">
                         {t("Ok")}
                     </Button>
                 </DialogActions>
             </Dialog>
-            {!removeDialogOpen &&
+            {!removeDialogOpen && thing !== undefined &&
             <Dialog fullScreen className={classes.root} open={props.open} onClose={() => props.show(false)}
                     TransitionComponent={Transition}>
 
                 <AppBar className={classes.appBar}>
                     <Toolbar>
-                        <ThingIcons style={{fontSize: 30}} type={props.selectedCapability}/>
+                        <ThingIcons style={{fontSize: 30}} type={thing.selectedCapability}/>
                         <Typography variant="h6" className={classes.title}>
-                            {props.title}
+                            {thing.title}
                         </Typography>
                         <IconButton autoFocus color="inherit" onClick={() => props.show(false)} aria-label="close">
                             <CloseIcon/>
@@ -149,15 +177,18 @@ export function ThingPanel(props) {
                 <DialogContent>
                     <div className={classes.drawerHeader}/>
                     <Grid className={classes.content} container flow={1}>
-                        <ControlPanel {...props}/>
-                        {/*<DetailsPanel displayedProperties={props.displayedProperties}/>*/}
-                        <List subheader={<ListSubheader>Settings</ListSubheader>} className={classes.list}>
+                        {renderControlPanel()}
+                        < List subheader={<ListSubheader>Settings</ListSubheader>} className={classes.list}>
                             <Divider/>
-                            <ListItem className={classes.listItem} button onClick={() => props.remove()}>
+                            <ListItem className={classes.listItem} button>
                                 <ListItemIcon>
-                                    <ThingIcons edg="start" style={{fontSize: 30}} type={props.selectedCapability}/>
+                                    <ThingIcons edg="start" style={{fontSize: 30}} type={thing.selectedCapability}/>
                                 </ListItemIcon>
-                                <TextField edg="end" defaultValue={props.title}/>
+                                <TextField edg="end" defaultValue={thing.title} onChange={(e) => {
+                                    setTitle(e.target.value)
+                                }}/>
+                                {title !== thing.title &&
+                                <button onClick={save}>{t("save")}</button>}
                             </ListItem>
                             <Divider/>
                             <ListItem button className={classes.listItem} variant="contained" elevation={111}>
@@ -174,8 +205,9 @@ export function ThingPanel(props) {
 
                             </ListItem>
 
-                            <ListItem className={classes.listItem} color={"red"} button onClick={() => props.remove()}>
-                                <Button variant="contained" color="secondary" style={{width: "100%"}}>
+                            <ListItem className={classes.listItem} color={"red"} button
+                                      onClick={() => setRemoveDialog(true)}>
+                                <Button variant="contained" color="warning" style={{width: "100%"}}>
                                     {t("remove the accessories")}
                                 </Button>
                             </ListItem>
@@ -233,32 +265,5 @@ export function DetailsPanel(props) {
 
         </>
     )
-}
-
-export function ControlPanel(props) {
-
-    useEffect(
-        () => {
-
-        }
-    )
-
-    function render() {
-
-        switch (props.selectedCapability) {
-            case ThingType.Light:
-
-                return LightControlPanel(props)
-        }
-
-    }
-
-
-    return (<>
-            {render()}
-        </>
-
-    )
-
 }
 

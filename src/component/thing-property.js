@@ -1,19 +1,26 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {ListItem, ListItemIcon, ListItemText, Slider, withStyles} from "@material-ui/core";
 import Switch from '@material-ui/core/Switch';
 import {useTranslation} from "react-i18next";
 import {makeStyles} from "@material-ui/core/styles";
+import {useDebounce} from 'use-debounce';
+import {CirclePicker} from 'react-color';
 
 
 export const useStyles = makeStyles((theme) => ({
     listItem: {
         width: " 100%",
+    },
+    colorButton: {
+        borderRadius: 24,
+        width: 48,
+        height: 48,
     }
 }));
 
 const PrettoSlider = withStyles({
     root: {
-        color: '#52af77',
+        color: 'primary',
         height: 8,
     },
     thumb: {
@@ -21,7 +28,7 @@ const PrettoSlider = withStyles({
         width: 24,
         backgroundColor: '#fff',
         border: '2px solid currentColor',
-        marginTop: -8,
+        marginTop: -2,
         marginLeft: -12,
         '&:focus, &:hover, &$active': {
             boxShadow: 'inherit',
@@ -32,11 +39,11 @@ const PrettoSlider = withStyles({
         left: 'calc(-50% + 4px)',
     },
     track: {
-        height: 8,
+        height: 20,
         borderRadius: 4,
     },
     rail: {
-        height: 8,
+        height: 20,
         borderRadius: 4,
     },
 })(Slider);
@@ -61,27 +68,33 @@ export function BooleanPropertyListItem(props) {
 export function NumberPropertyListItem(props) {
     const classes = useStyles();
     const {t} = useTranslation();
-    const [value, setValue] = useState(0)
+    const [value, setValue] = useState()
+    const [v] = useDebounce(value, 1000);
 
-    function handleChanged(event, newValue) {
-        if (newValue === undefined && newValue === null) {
-            console.log("value err:", newValue)
-            return
-        }
-        if (props.doChange !== null) {
-            props.doChange({name: props.property.name, value: newValue})
-        }
+    const style = {
+        min: typeof props.detail.min === 'number' ? props.detail.min : 0,
+        max: typeof props.detail.max === 'number' ? props.detail.max : 100,
+        label: typeof props.detail.label === 'number' ? props.detail.label : "Property-default",
+        step: typeof props.detail.step === 'number' ? props.detail.step : 1,
+        disabled: typeof props.detail.readOnly === 'boolean' ? props.detail.readOnly : false,
+        defaultValue: typeof props.defaultValue === 'number' ? value : 0,
     }
+
+    useEffect(() => {
+        if (props.doChange !== null && v !== undefined) {
+            props.doChange({name: props.detail.name, value: v})
+        }
+    }, [v])
 
     return (
         <ListItem className={classes.listItem}>
-            <PrettoSlider disabled={props.convertedProperty.readOnly} defaultValue={value}
-                          valueLabelDisplay="auto"
-                          onChange={handleChanged}
-                          step={1}
-                          aria-labelledby="continuous-slider"/>
+            <PrettoSlider  {...style}
+                           valueLabelDisplay="auto"
+                           onChange={(e, value) => {
+                               setValue(value)
+                           }}
+            />
         </ListItem>
-
     )
 }
 
@@ -99,6 +112,29 @@ export function StringPropertyItem(props) {
                     <ListItemText primary={t(props.state)}/>
 
                 </ListItemIcon>
+            </ListItem>
+        </>
+    )
+}
+
+export function ColorPropertyItem(props) {
+    const classes = useStyles();
+    const [color1, setColor1] = useState("#d9e3f0")
+    const [color2, setColor2] = useState("#f47373")
+    const [color3, setColor3] = useState("#697689")
+    const [color4, setColor4] = useState("#37D67A")
+    const [color5, setColor5] = useState("#2CCCE4")
+    const [color6, setColor6] = useState("#555555")
+
+    function handleChange(color) {
+        props.doChange({name: props.detail.name, value: color.hex})
+    }
+
+    return (
+        <>
+            <ListItem>
+                <CirclePicker onChange={handleChange} style={{justify: "center", alignItems: "center"}} circleSize={48}
+                              colors={[color1, color2, color3, color4, color5, color6]}/>
             </ListItem>
         </>
     )

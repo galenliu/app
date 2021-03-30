@@ -31,7 +31,6 @@ class ThingModel extends Model {
     updateFromDescription(description) {
         this.title = description.title;
         this.id = decodeURIComponent(description.id.split('/').pop());
-
         this.href = new URL(description.id, App.ORIGIN);
 
         // Parse events URL
@@ -113,7 +112,6 @@ class ThingModel extends Model {
         const onEvent = (event) => {
 
             const message = JSON.parse(event.data);
-            console.log("onEvent", message)
 
             if (message.hasOwnProperty('id') && message.id !== this.id) {
                 return;
@@ -204,7 +202,7 @@ class ThingModel extends Model {
             this.onPropertyStatus(json)
         }).catch((error) => {
             console.error(error);
-            throw new Error(`Error trying to set ${name}`);
+            //throw new Error(`Error trying to set ${name}`);
         });
     }
 

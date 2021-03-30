@@ -31,6 +31,7 @@ export const Constants = {
     DELETE_THINGS: 'deleteThings',
     EVENT_OCCURRED: 'eventOccurred',
     PROPERTY_STATUS: 'propertyStatus',
+    ICON_STATUS: 'iconStatus',
     REFRESH_THINGS: 'refreshThings',
 
 }

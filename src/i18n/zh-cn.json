@@ -73,5 +73,7 @@
   "accessories removed": "配件已移除",
   "Room": "房间",
   "Ok": "好的",
-  "No Response": "未响应"
+  "Cancel": "取消",
+  "No Response": "未响应",
+  "Confirm to remove this accessory": "确认移除此配件"
 }

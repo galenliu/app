@@ -1,8 +1,7 @@
-import React from "react";
-import {Slider, withStyles} from "@material-ui/core";
+import React, {useEffect, useState} from "react";
 import {makeStyles} from "@material-ui/core/styles";
-import {NumberPropertyListItem} from "../thing-property";
-import {App} from "../../App";
+import {ColorPropertyItem, NumberPropertyListItem} from "../thing-property";
+import Constants from "../../js/constant";
 
 export const useStyles = makeStyles((theme) => ({
     listItem: {
@@ -10,57 +9,48 @@ export const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const PrettoSlider = withStyles({
-    root: {
-        color: '#52af77',
-        height: 8,
-    },
-    thumb: {
-        height: 24,
-        width: 24,
-        backgroundColor: '#fff',
-        border: '2px solid currentColor',
-        marginTop: -8,
-        marginLeft: -12,
-        '&:focus, &:hover, &$active': {
-            boxShadow: 'inherit',
-        },
-    },
-    active: {},
-    valueLabel: {
-        left: 'calc(-50% + 4px)',
-    },
-    track: {
-        height: 8,
-        borderRadius: 4,
-    },
-    rail: {
-        height: 8,
-        borderRadius: 4,
-    },
-})(Slider);
-
 
 export function LightControlPanel(props) {
     const classes = useStyles();
-    console.log("props id", props)
+    const [properties, setProperties] = useState(props.model.properties)
 
-    const thingModel = App.gatewayModel.thingModels
-    const bright = props.displayedProperties[props.brightnessProperty]
+
+    useEffect(() => {
+        const update = (prop) => {
+            setProperties({...prop})
+
+        }
+
+        props.model.subscribe(Constants.PROPERTY_STATUS, update)
+
+        return () => {
+            props.model.unsubscribe(Constants.PROPERTY_STATUS, update)
+        }
+
+    }, [])
 
     function handleChange(prop) {
-        console.log("thing.setProperty(prop.name,prop.value)", prop)
-        props.model.setProperty(prop.name, prop.value).then().catch((e) => {
-            console.log(e)
-        })
+        console.log("thing.setProperty(prop.name,prop.value)", prop, props)
+        if (prop.name === props.brightnessProperty) {
+            if (prop.value === 0) {
+                props.setProperty(props.onProperty, false)
+                return
+            }
+            if (prop.value !== 0 && !properties[props.onProperty]) {
+                props.setProperty(props.onProperty, true)
+            }
+        }
+        props.setProperty(prop.name, prop.value)
     }
 
     return (
         <>
-            {bright !== null &&
-            <NumberPropertyListItem min={bright.convertedProperty.minimum}
-                                    man={bright.convertedProperty.maximum} {...bright}
+            {props.brightnessProperty !== null &&
+            <NumberPropertyListItem {...props.displayedProperties[props.brightnessProperty]}
+                                    defaultValue={properties[props.brightnessProperty] ? properties[props.brightnessProperty] : 0}
                                     doChange={handleChange}/>}
+            {props.colorProperty !== null &&
+            <ColorPropertyItem doChange={handleChange} {...props.displayedProperties[props.colorProperty]}/>}
         </>
     )
 }
