@@ -119,16 +119,13 @@ class ThingModel extends Model {
             switch (message.messageType) {
                 case 'propertyStatus':
 
-                    this.onPropertyStatus(message.data).then(r => {
-                    });
+                    this.onPropertyStatus(message.data)
                     break;
                 case 'event':
-                    this.onEvent(message.data).then(r => {
-                    });
+                    this.onEvent(message.data)
                     break;
                 case 'connected':
-                    this.onConnected(message.data).then(r => {
-                    });
+                    this.onConnected(message.data)
                     break;
                 case 'error':
                     // status 404 means that the Thing already removed.
@@ -243,6 +240,7 @@ class ThingModel extends Model {
      * @param {Object} data Property data
      */
     onPropertyStatus(data) {
+        console.log("on property status update:", data)
         const updatedProperties = {};
         for (const prop in data) {
             if (!this.propertyDescriptions.hasOwnProperty(prop)) {

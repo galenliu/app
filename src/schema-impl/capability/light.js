@@ -88,10 +88,6 @@ export default class Light extends OnOffSwitch {
         if (!this.displayedProperties.hasOwnProperty(name)) {
             return;
         }
-
-        console.log("value:", value)
-        console.log("name:", name)
-
         if (name === this.brightnessProperty) {
             value = parseInt(value, 10);
             this.icon.brightness = value;

@@ -43,7 +43,7 @@ export default function NewThingsDialog(props) {
 
     const [message, setMessage] = useState()
     const [readyState, setReadyState] = useState('正在链接中');
-    const [availableThings, setAvailableThings] = useState(new Map())
+    const [availableThings, setAvailableThings] = useState([])
     const [actionUrl, setActionUrl] = useState()
 
     const webSocketInit = useCallback((path) => {
@@ -79,19 +79,23 @@ export default function NewThingsDialog(props) {
     }
 
     useEffect(() => {
-        const addAvailableThings = (id, message) => {
+        const addAvailableThings = (message) => {
             let copy = availableThings
-            if (availableThings === null) {
-                copy = new Map()
+            if (availableThings === [] || availableThings === undefined || availableThings === null) {
+                copy = []
             }
-            if (copy.has(id)) {
-                return
-            }
-            copy.set(id, message)
-            setAvailableThings(copy)
+            availableThings.forEach((th) => {
+                if (th.id === message.id) {
+                    return
+                }
+            })
+
+
+            copy.push(message)
+            setAvailableThings([...copy])
         }
         if (message) {
-            addAvailableThings(message.id, message)
+            addAvailableThings(message)
 
         }
     }, [message])
@@ -127,18 +131,16 @@ export default function NewThingsDialog(props) {
 
     function renderAvailableThings() {
         let list = []
-        if (availableThings === null || availableThings.size === 0) {
+        if (availableThings === [] || availableThings === undefined || availableThings === null) {
             return
         }
         console.log("availableThings:", availableThings)
         availableThings.forEach((thing, key) => {
             console.log("render thing :", thing)
             if (thing["@type"]) {
-                const newThing = <NewThing key={key} newThing={thing}
-                />
+                const newThing = <NewThing key={key} newThing={thing}/>
                 list.push(newThing)
             }
-
         })
         console.log("list:", list)
         return list

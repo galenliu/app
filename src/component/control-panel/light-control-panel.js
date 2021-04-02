@@ -47,7 +47,7 @@ export function LightControlPanel(props) {
         <>
             {props.brightnessProperty !== null &&
             <NumberPropertyListItem {...props.displayedProperties[props.brightnessProperty]}
-                                    defaultValue={properties[props.brightnessProperty] ? properties[props.brightnessProperty] : 0}
+                                    value={props.model.properties[props.brightnessProperty]}
                                     doChange={handleChange}/>}
             {props.colorProperty !== null &&
             <ColorPropertyItem doChange={handleChange} {...props.displayedProperties[props.colorProperty]}/>}

@@ -61,7 +61,6 @@ export default function IconView(props) {
     useEffect(() => {
         const update = function (data) {
             setIcon({...props.icon})
-            console.log(icon)
         }
         props.model.subscribe(Constants.PROPERTY_STATUS, update)
         return () => {
