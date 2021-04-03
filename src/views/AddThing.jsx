@@ -84,13 +84,12 @@ export default function NewThingsDialog(props) {
             if (availableThings === [] || availableThings === undefined || availableThings === null) {
                 copy = []
             }
-            availableThings.forEach((th) => {
+            for (const th in availableThings) {
+                console.log(th)
                 if (th.id === message.id) {
-                    return
+                    continue
                 }
-            })
-
-
+            }
             copy.push(message)
             setAvailableThings([...copy])
         }

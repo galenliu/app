@@ -85,6 +85,8 @@ export default class Light extends OnOffSwitch {
     updateProperty(name, value) {
         value = super.updateProperty(name, value);
 
+
+        console.log("Light Model Update name:", name, "value:", value)
         if (!this.displayedProperties.hasOwnProperty(name)) {
             return;
         }
@@ -93,7 +95,6 @@ export default class Light extends OnOffSwitch {
             this.icon.brightness = value;
         } else if (name === this.colorProperty) {
             this.icon.color = value
-
         } else if (name === this.colorTemperatureProperty) {
             value = parseInt(value, 10);
             this.icon.colorTemperature = value;

@@ -13,8 +13,6 @@
 import StringLabelDetail from './string-label'
 
 
-
-
 export default class LockedDetail extends StringLabelDetail {
   constructor(thing, name, property) {
     super(thing, name, !!property.readOnly,

@@ -35,6 +35,7 @@ const API = {
     },
 
     getJson(url) {
+
         const opts = {
             method: 'GET',
             headers: this.headers(),

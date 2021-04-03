@@ -12,6 +12,7 @@
 
 
 import NumericLabelDetail from "./numeric-label"
+
 const Utils = require('../../utils');
 
 

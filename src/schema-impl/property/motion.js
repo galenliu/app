@@ -11,7 +11,7 @@
 'use strict';
 
 
-import StringLabelDetail from  './string-label'
+import StringLabelDetail from './string-label'
 
 
 export default class MotionDetail extends StringLabelDetail {

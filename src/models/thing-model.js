@@ -240,7 +240,6 @@ class ThingModel extends Model {
      * @param {Object} data Property data
      */
     onPropertyStatus(data) {
-        console.log("on property status update:", data)
         const updatedProperties = {};
         for (const prop in data) {
             if (!this.propertyDescriptions.hasOwnProperty(prop)) {
@@ -295,7 +294,7 @@ class ThingModel extends Model {
      */
     onConnected(connected) {
         this.connected = connected;
-
+        console.log("thing on connected:", this.id, ":", connected)
         if (connected) {
             this.updateProperties();
         }

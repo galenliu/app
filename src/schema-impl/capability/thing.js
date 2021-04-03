@@ -44,7 +44,7 @@ import BooleanDetail from '../property/boolean'
 import InstantaneousPowerFactorDetail from "../property/instantaneous-power-factor"
 
 export const ThingStates = {
-    NoResponse: "No response"
+    NoResponse: "No Response"
 }
 
 export default class Thing {

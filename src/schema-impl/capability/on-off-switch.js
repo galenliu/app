@@ -60,7 +60,9 @@ export default class OnOffSwitch extends Thing {
         }
 
         if (name === this.onProperty) {
-            this.icon.on = !!value;
+            this.icon.on = value;
+            console.log(value)
+            console.log(this.icon)
         }
         return value;
     }
