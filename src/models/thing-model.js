@@ -35,6 +35,9 @@ class ThingModel extends Model {
 
         // Parse events URL
         for (const form of description.forms) {
+            if(form.rel === null){
+                continue
+            }
             switch (form.rel) {
                 case 'events':
                     this.eventsHref = new URL(form.href, App.ORIGIN);
