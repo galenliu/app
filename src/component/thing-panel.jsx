@@ -103,7 +103,6 @@ export function ThingPanel(props) {
             }
         } else {
             setThing({})
-
         }
     }, [props.open])
 
@@ -115,7 +114,7 @@ export function ThingPanel(props) {
     const renderControlPanel = useCallback(() => {
         switch (thing.selectedCapability) {
             case ThingType.Light:
-                return <LightControlPanel open={props.open} {...thing} setProperty={thing.setProperty}/>
+                return <ThingPanel open={props.open} {...thing} setProperty={thing.setProperty}/>
         }
     }, [thing])
 
