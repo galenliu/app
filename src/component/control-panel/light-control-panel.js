@@ -12,22 +12,7 @@ export const useStyles = makeStyles((theme) => ({
 
 export function LightControlPanel(props) {
     const classes = useStyles();
-    const [properties, setProperties] = useState(props.model.properties)
 
-
-    useEffect(() => {
-        const update = (prop) => {
-            setProperties({...prop})
-
-        }
-
-        props.model.subscribe(Constants.PROPERTY_STATUS, update)
-
-        return () => {
-            props.model.unsubscribe(Constants.PROPERTY_STATUS, update)
-        }
-
-    }, [])
 
     function handleChange(prop) {
         console.log("thing.setProperty(prop.name,prop.value)", prop, props)
@@ -36,7 +21,7 @@ export function LightControlPanel(props) {
                 props.setProperty(props.onProperty, false)
                 return
             }
-            if (prop.value !== 0 && !properties[props.onProperty]) {
+            if (prop.value !== 0 && props.displayedProperties[props.onProperty] === false) {
                 props.setProperty(props.onProperty, true)
             }
         }

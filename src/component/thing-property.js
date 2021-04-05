@@ -87,6 +87,7 @@ export function NumberPropertyListItem(props) {
 
     useEffect(() => {
         setValue(props.value)
+        console.log("set vlue Ok")
     }, [props.value])
 
     return (
@@ -136,14 +137,15 @@ export function ColorPropertyItem(props) {
         props.doChange({name: props.detail.name, value: color.hex})
     }
 
-    function onSwatchHover(color,event){
-        console.log("color:",color,"event:",event)
+    function onSwatchHover(color, event) {
+
     }
 
     return (
         <>
             <ListItem>
-                <CirclePicker onChange={handleChange} style={{justify: "center", alignItems: "center"}} circleSize={48} onSwatchHover={onSwatchHover}
+                <CirclePicker onChange={handleChange} style={{justify: "center", alignItems: "center"}} circleSize={48}
+                              onSwatchHover={onSwatchHover}
                               colors={[color1, color2, color3, color4, color5, color6, color7, color8]}/>
             </ListItem>
         </>
