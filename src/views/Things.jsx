@@ -9,9 +9,9 @@ import Constants, {drawerWidth} from "../js/constant";
 import clsx from "clsx";
 import {CircularProgress} from "@material-ui/core";
 import NewThingsDialog from "./AddThing";
-import IconView from "../component/icon-view";
-import ThingsScreen from "../js/things-screen";
 import {ThingPanel} from "../component/thing-panel";
+import IconView from "../component/icon-view";
+import {createThingFromCapability} from "../schema-impl/capability/capabilities";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -56,39 +56,31 @@ const states = {
 export default function Things(props) {
     const classes = useStyles()
     const {drawerOpen} = useContext(AppContext)
-    const [things, setThings] = useState(ThingsScreen.things)
+
+
     const [addThingShow, setAddThingShow] = useState(false)
     const [thingPanelShow, setThingPanelShow] = useState(false)
     const [showId, setShowId] = useState()
     const [state, setState] = useState(states.pending)
     const {t} = useTranslation();
 
-    //页面加载时，向model定阅更新things
-    useEffect(() => {
-        const refreshThings = (ts) => {
-            setState(states.connected)
-            setThings([...ThingsScreen.things])
-        }
-        App.gatewayModel.subscribe(Constants.REFRESH_THINGS, refreshThings)
-        App.showThings()
-        return () => {
-            App.gatewayModel.unsubscribe(Constants.REFRESH_THINGS, refreshThings)
-        }
 
-    }, [])
 
-    //把things渲染至页面
-    function renderThings() {
-        let thingsScreen = []
-        things.forEach((thing, id) => {
-            const t = <IconView key={id} {...thing} click={(id) => {
-                setShowId(id)
-                setThingPanelShow(true)
-            }} handleClick={thing.handleClick}/>
-            thingsScreen.push(t)
-        })
-        return thingsScreen
-    }
+        //把things渲染至页面
+    // const renderThings =
+    //     () => {
+    //         console.log("888888888", props.ts)
+    //         for (const thing in props.ts) {
+    //             console.log("888888888", thing)
+    //             const t = <IconView key={thing.id} {...thing} click={(id) => {
+    //                 setShowId(id)
+    //                 setThingPanelShow(true)
+    //             }} handleClick={thing.handleClick}/>
+    //             // thingsScreen.push(t)
+    //         }
+    //     }
+
+
 
 
     return (
@@ -101,14 +93,15 @@ export default function Things(props) {
                   })}
                   container spacing={2}>
                 {state === states.pending && <CircularProgress disableShrink/>}
-                {things.size !== 0 && renderThings()}
+                {renderThings()}
                 {state === states.disconnected &&
                 <div style={{display: "flex", flexDirection: "column", alignItems: "center"}}>
                     <ErrorOutlined/>
                     <h4>{t("disconnect")}</h4></div>}
             </Grid>
             <NewThingsDialog open={addThingShow} show={setAddThingShow}/>
-            {showId !== undefined && <ThingPanel open={thingPanelShow} show={setThingPanelShow} thingID={showId}/>}
+            {showId !== undefined &&
+            <ThingPanel open={thingPanelShow} show={setThingPanelShow} thingID={showId}/>}
         </>
     )
 }

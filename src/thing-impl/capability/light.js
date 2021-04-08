@@ -1,5 +1,9 @@
+/**
+ * Light
+ *
+ */
 
-
+'use strict';
 
 import OnOffSwitch from './on-off-switch';
 

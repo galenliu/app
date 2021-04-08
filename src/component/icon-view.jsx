@@ -7,6 +7,7 @@ import Typography from "@material-ui/core/Typography";
 import {useTranslation} from "react-i18next";
 import {ThingStates} from "../schema-impl/capability/thing";
 import Constants from "../js/constant";
+import ThingsScreen from "../js/things-screen";
 
 const useStyles = makeStyles((theme) => ({
     thingCard: {
@@ -50,6 +51,8 @@ export default function IconView(props) {
     const {t} = useTranslation();
     const classes = useStyles()
 
+    const [thing,setThing] = useState()
+
     const [icon, setIcon] = useState(props.icon)
 
     function handleClick(e) {
@@ -59,6 +62,7 @@ export default function IconView(props) {
     }
 
     useEffect(() => {
+
         const update = function (data) {
             setIcon({...props.icon})
         }
@@ -66,6 +70,8 @@ export default function IconView(props) {
         return () => {
             props.model.unsubscribe(Constants.PROPERTY_STATUS, update)
         }
+
+        ThingsScreen.getThing(props.id)
 
     }, [props])
 
