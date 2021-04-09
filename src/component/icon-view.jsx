@@ -75,24 +75,24 @@ export default function IconView(props) {
 
     }, [props])
 
-    return (
-        <Grid item className={classes.root}>
-            <Card elevation={10} className={classes.thingCard} onClick={() => props.click(props.id)}>
-                <div className={classes.cardTop}>
-                    <ThingIcons type={props.selectedCapability} style={{color: icon.color}}
-                                state={icon.on ? "on" : "off"}/>
-                    <ActionsIcon type={props.selectedCapability} onClick={handleClick}/>
-                </div>
-                <div className={classes.cardBot}>
-                    <Typography variant={"body1"}>
-                        {props.title}
-                    </Typography>
-                    <Typography t={2} style={{color: props.state === ThingStates.NoResponse ? "red" : ""}}>
-                        {t(props.state)}
-                    </Typography>
-                </div>
-            </Card>
-        </Grid>
-    )
+    // return (
+    //     <Grid item className={classes.root}>
+    //         <Card elevation={10} className={classes.thingCard} onClick={() => props.click(props.id)}>
+    //             <div className={classes.cardTop}>
+    //                 <ThingIcons type={props.selectedCapability} style={{color: icon.color}}
+    //                             state={icon.on ? "on" : "off"}/>
+    //                 <ActionsIcon type={props.selectedCapability} onClick={handleClick}/>
+    //             </div>
+    //             <div className={classes.cardBot}>
+    //                 <Typography variant={"body1"}>
+    //                     {props.title}
+    //                 </Typography>
+    //                 <Typography t={2} style={{color: props.state === ThingStates.NoResponse ? "red" : ""}}>
+    //                     {t(props.state)}
+    //                 </Typography>
+    //             </div>
+    //         </Card>
+    //     </Grid>
+    // )
 
 }

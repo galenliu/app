@@ -9,7 +9,7 @@ import Things from "./views/Things";
 import Settings from "./views/Settings";
 import ThingsScreen from "./js/things-screen";
 import Constants from "./js/constant";
-import {createThingFromCapability} from "./schema-impl/capability/capabilities";
+import {createThingFromCapability} from "./thing-impl/capability/capabilities";
 
 
 export const AppContext = React.createContext({})
@@ -57,78 +57,58 @@ export const App = {
     showThings: function () {
         this.gatewayModel.refreshThings()
     },
-
-    showMessage() {
-
-    }
 }
 
 
 ThingsScreen.init()
 ThingsScreen.showThings()
 
-function useIconView(){
 
-    return {}
+function useThingsList(params) {
 
-}
+    const [things, setThings] = useState([])
 
-
-function useThings(params) {
-    const [things, set] = useState()
-
-    function setThings() {
-
-
+    const renderThing = (thingModel, description, format) => {
+        const thing = createThingFromCapability(
+            description.selectedCapability,
+            thingModel,
+            description,
+        );
+        setThings([...things, thing])
+        return thing;
     }
-    useEffect(() => {
 
-        },[])
+    const refreshThings = (things) => {
+        if (things === undefined || things.size === 0) {
+            setThings([])
+        } else {
+            things.forEach((description, thingId) => {
+                App.gatewayModel.getThingModel(thingId).then((thingModel) => {
+                    renderThing(thingModel, description);
+                });
+            });
+        }
+    }
+
+
+    useEffect(() => {
+        App.gatewayModel.subscribe(Constants.REFRESH_THINGS, refreshThings, true);
+        return () => {
+            App.gatewayModel.unsubscribe(Constants.REFRESH_THINGS, refreshThings)
+        }
+
+    }, [])
     return things
 }
 
 
 function Router() {
 
-    const [things] = useThings()
+    App.init()
+
+    const [thingsList] = useThingsList()
     // //页面加载时，向model定阅更新things
     useEffect(() => {
-
-        App.init()
-        const renderThing = (thingModel, description, format) => {
-            const thing = createThingFromCapability(
-                description.selectedCapability,
-                thingModel,
-                description,
-                format
-            );
-            setThings([...things, thing])
-            console.log("thing screen add thing:", thing)
-            console.log("things:", things)
-            return thing;
-        }
-
-        const refreshThings = (things) => {
-            if (things === undefined || things.size === 0) {
-                setThings([])
-            } else {
-                things.forEach((description, thingId) => {
-                    App.gatewayModel.getThingModel(thingId).then((thingModel) => {
-                        renderThing(thingModel, description);
-                    });
-                });
-            }
-        }
-
-        // App.gatewayModel.unsubscribe(Constants.REFRESH_THINGS, refreshThing);
-        // App.gatewayModel.unsubscribe(Constants.DELETE_THINGS, refreshThing);
-        App.gatewayModel.subscribe(Constants.DELETE_THINGS, refreshThings);
-        App.gatewayModel.subscribe(Constants.REFRESH_THINGS, refreshThings, true);
-
-        return () => {
-            App.gatewayModel.unsubscribe(Constants.REFRESH_THINGS, refreshThings)
-        }
-
     }, [])
 
 
@@ -152,7 +132,7 @@ function Router() {
                             <Settings/>
                         </Route>
                         <Route path="/">
-                            <Things ts={things}/>
+                            <Things ts={thingsList}/>
                             <SideBar/>
                         </Route>
                     </Switch>

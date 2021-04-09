@@ -12,71 +12,39 @@
 
 
 import Thing from "./thing";
+import {useState} from "react";
 
-export default class OnOffSwitch extends Thing {
-    /**
-     * OnOffSwitch Constructor (extends Thing).
-     *
-     * @param {Object} description Thing description object.
-     * @param {Number} format See Constants.ThingFormat
-     * @param {Object} options Options for building the view.
-     */
-    constructor(model, description, format, options) {
-
-        super(model, description, format, options);
-
-    }
-
-    /**
-     * Find any properties required for this view.
-     */
-    findProperties() {
-        this.onProperty = null;
-        // Look for properties by type first.
-        for (const name in this.displayedProperties) {
-            const type = this.displayedProperties[name].property['@type'];
-            if (type === 'OnOffProperty') {
-                this.onProperty = name;
-                break;
-            }
+function useOnProperty(props) {
+    let onProperty = null
+    for (const name in props.displayedProperties) {
+        const type = props.displayedProperties[name].property['@type'];
+        if (type === 'OnOffProperty') {
+            onProperty = name;
+            break;
         }
-        // If necessary, match on name.
-        if (this.onProperty === null && this.displayedProperties.hasOwnProperty('on')) {
-            this.onProperty = 'on';
+        if (onProperty === null && props.displayedProperties.hasOwnProperty('on')) {
+            onProperty = 'on';
         }
     }
+    return onProperty
+}
 
-    /**
-     * Update the display for the provided property.
-     * @param {string} name - name of the property
-     * @param {*} value - value of the property
-     */
-    updateProperty(name, value) {
+export default function OnOffSwitch(props) {
 
-        value = super.updateProperty(name, value);
+    const [OnProperty] = useOnProperty(props)
+    const [on, setOn] = useState()
 
-        if (!this.displayedProperties.hasOwnProperty(name)) {
-            return;
+    function handleClick() {
+        if (OnProperty === null && !props.displayedProperties.hasOwnProperty(OnProperty)) {
+            return
         }
-
-        if (name === this.onProperty) {
-            this.icon.on = value;
-            console.log(value)
-            console.log(this.icon)
-        }
-        return value;
+        props.displayedProperties[OnProperty].model.setProperty(OnProperty, !on)
     }
 
-    /**
-     * Handle a click on the on/off switch.
-     */
-    handleClick() {
-        const newValue = !this.icon.on;
-        this.icon.on = null
-        this.model.setProperty(this.onProperty, newValue).catch((error) => {
-            console.error(`Error trying to toggle switch: ${error}`);
-        });
-    }
+
+    return (
+        <Thing {...props} handleClick={handleClick}/>
+    )
 }
 
 

@@ -4,14 +4,12 @@ import {ErrorOutlined} from "@material-ui/icons";
 import TopBar from "../component/topBar";
 import {useTranslation} from "react-i18next";
 import {makeStyles} from "@material-ui/core/styles";
-import {App, AppContext} from "../App";
-import Constants, {drawerWidth} from "../js/constant";
+import {AppContext} from "../App";
+import {drawerWidth} from "../js/constant";
 import clsx from "clsx";
 import {CircularProgress} from "@material-ui/core";
 import NewThingsDialog from "./AddThing";
 import {ThingPanel} from "../component/thing-panel";
-import IconView from "../component/icon-view";
-import {createThingFromCapability} from "../schema-impl/capability/capabilities";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -47,26 +45,25 @@ const useStyles = makeStyles((theme) => ({
 
 }))
 
-const states = {
-    pending: "pending",
-    connected: "connected",
-    disconnected: "disconnected",
-}
 
 export default function Things(props) {
     const classes = useStyles()
     const {drawerOpen} = useContext(AppContext)
-
-
     const [addThingShow, setAddThingShow] = useState(false)
     const [thingPanelShow, setThingPanelShow] = useState(false)
-    const [showId, setShowId] = useState()
-    const [state, setState] = useState(states.pending)
+
+
     const {t} = useTranslation();
 
 
 
-        //把things渲染至页面
+    useEffect(() => {
+
+
+    }, [])
+
+
+    //把things渲染至页面
     // const renderThings =
     //     () => {
     //         console.log("888888888", props.ts)
@@ -81,27 +78,22 @@ export default function Things(props) {
     //     }
 
 
-
-
     return (
         <>
             <TopBar add={true} show={setAddThingShow} title={t("Things")}/>
             <div className={classes.drawerHeader}/>
-            <Grid style={{"justifyContent": !state === states.pending ? 'flex-start' : "center"}}
-                  className={clsx(classes.containerGrid, {
-                      [classes.contentShift]: !drawerOpen,
-                  })}
+            <Grid className={clsx(classes.containerGrid, {[classes.contentShift]: !drawerOpen,})}
                   container spacing={2}>
-                {state === states.pending && <CircularProgress disableShrink/>}
-                {renderThings()}
-                {state === states.disconnected &&
-                <div style={{display: "flex", flexDirection: "column", alignItems: "center"}}>
+                {<CircularProgress disableShrink/>}
+
+                {<div style={{display: "flex", flexDirection: "column", alignItems: "center"}}>
                     <ErrorOutlined/>
                     <h4>{t("disconnect")}</h4></div>}
+                {props.ts}
             </Grid>
             <NewThingsDialog open={addThingShow} show={setAddThingShow}/>
-            {showId !== undefined &&
-            <ThingPanel open={thingPanelShow} show={setThingPanelShow} thingID={showId}/>}
+            {
+                <ThingPanel open={thingPanelShow} show={setThingPanelShow}/>}
         </>
     )
 }
