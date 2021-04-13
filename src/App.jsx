@@ -7,9 +7,8 @@ import SideBar from "./component/sideBar";
 import GatewayModel from "./models/gateway-model";
 import Things from "./views/Things";
 import Settings from "./views/Settings";
-import ThingsScreen from "./js/things-screen";
 import Constants from "./js/constant";
-import {createThingFromCapability} from "./thing-impl/capability/capabilities";
+import {createThingFromCapability} from "./schema-impl/capability/capabilities";
 
 
 export const AppContext = React.createContext({})
@@ -43,7 +42,6 @@ export const theme = createMuiTheme({
     // },
 });
 
-
 export const App = {
     ORIGIN: window.location.origin,
     HOST: window.location.host,
@@ -59,61 +57,50 @@ export const App = {
     },
 }
 
-
-ThingsScreen.init()
-ThingsScreen.showThings()
-
-
-function useThingsList(params) {
-
-    const [things, setThings] = useState([])
-
-    const renderThing = (thingModel, description, format) => {
-        const thing = createThingFromCapability(
-            description.selectedCapability,
-            thingModel,
-            description,
-        );
-        setThings([...things, thing])
-        return thing;
-    }
-
-    const refreshThings = (things) => {
-        if (things === undefined || things.size === 0) {
-            setThings([])
-        } else {
-            things.forEach((description, thingId) => {
-                App.gatewayModel.getThingModel(thingId).then((thingModel) => {
-                    renderThing(thingModel, description);
-                });
-            });
-        }
-    }
-
-
-    useEffect(() => {
-        App.gatewayModel.subscribe(Constants.REFRESH_THINGS, refreshThings, true);
-        return () => {
-            App.gatewayModel.unsubscribe(Constants.REFRESH_THINGS, refreshThings)
-        }
-
-    }, [])
-    return things
-}
-
+App.init()
+App.showThings()
 
 function Router() {
 
-    App.init()
-
-    const [thingsList] = useThingsList()
-    // //页面加载时，向model定阅更新things
-    useEffect(() => {
-    }, [])
-
-
+   // const [things, setThings] = useState([])
     const [drawerOpen, setDrawerOpen] = useState(false)
     const [newThingsOpen, setNewThingsOpen] = useState(false)
+
+    // const refreshThings = (list) => {
+    //
+    //     const ts = []
+    //     if (list === undefined || list.size === 0) {
+    //
+    //     } else {
+    //         console.log("App list forEach:", list)
+    //         list.forEach((description, thingId) => {
+    //             console.log("App description:", description, thingId)
+    //             App.gatewayModel.getThingModel(thingId).then((thingModel) => {
+    //                 let thing = createThingFromCapability(
+    //                     description.selectedCapability,
+    //                     thingModel,
+    //                     description,
+    //                 );
+    //                 ts.push(thing)
+    //             });
+    //         })
+    //     }
+    //     setThings(ts)
+    // }
+
+    useEffect(() => {
+        console.log("App Things=========:")
+    }, [])
+
+    // useEffect(() => {
+    //     App.gatewayModel.subscribe(Constants.REFRESH_THINGS, refreshThings);
+    //     return () => {
+    //         App.gatewayModel.unsubscribe(Constants.REFRESH_THINGS, refreshThings)
+    //     }
+    //
+    // }, [])
+
+
     return (
         <ThemeProvider theme={theme}>
             <AppContext.Provider value={{
@@ -132,7 +119,7 @@ function Router() {
                             <Settings/>
                         </Route>
                         <Route path="/">
-                            <Things ts={thingsList}/>
+                            <Things/>
                             <SideBar/>
                         </Route>
                     </Switch>

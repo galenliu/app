@@ -1,6 +1,3 @@
-
-
-
 import OnOffSwitch from './on-off-switch';
 
 export default class Light extends OnOffSwitch {
@@ -15,6 +12,7 @@ export default class Light extends OnOffSwitch {
             model,
             description,
         );
+        this.color = ""
     }
 
     /**

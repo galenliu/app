@@ -1,9 +1,3 @@
-/**
- * Thing Model.
- *
-
- */
-
 'use strict';
 
 import API from "../js/api";

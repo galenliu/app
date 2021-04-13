@@ -1,10 +1,4 @@
-/**
 
- */
-
-/**
-
- */
 class ReopeningWebSocket {
     constructor(href) {
         this.href = href;

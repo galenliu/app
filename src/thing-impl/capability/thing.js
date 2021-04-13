@@ -1,13 +1,3 @@
-/**
- * Thing.
- *
- * Represents an individual web thing.
- *
- * This Source Code Form is subject to the terms of the Mozilla Public
- * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/.
- */
-
 'use strict';
 
 import Constants from "../../js/constant"
@@ -278,7 +268,7 @@ export default function Thing(thingModel, description) {
     const classes = useStyles()
     const {t} = useTranslation();
 
-    const [displayedProperties] = useDisplayProperties(description)
+    const [displayProperties] = useDisplayProperties(description)
     const [properties, setProperties] = useState({})
 
 
@@ -319,7 +309,6 @@ export default function Thing(thingModel, description) {
         thingModel.subscribe(Constants.EVENT_OCCURRED, onEvent);
         thingModel.subscribe(Constants.PROPERTY_STATUS, updateProperty)
 
-
         return () => {
             thingModel.unsubscribe(Constants.CONNECTED, onConnected)
             thingModel.unsubscribe(Constants.EVENT_OCCURRED, onEvent)
@@ -327,15 +316,18 @@ export default function Thing(thingModel, description) {
         }
     }, [])
 
+    function handleClick() {
+
+    }
 
     return (
         <>
             <Grid item className={classes.root}>
                 <Card elevation={10} className={classes.thingCard}>
                     <div className={classes.cardTop}>
-                        <ThingIcons type={description.selectedCapability} style={{color: icon.color}}
+                        <ThingIcons type={description.selectedCapability}
                                     state={on ? "on" : "off"}/>
-                        <ActionsIcon type={description.selectedCapability} onClick={props.handleClick}/>
+                        <ActionsIcon type={description.selectedCapability} onClick={handleClick}/>
                     </div>
                     <div className={classes.cardBot}>
                         <Typography variant={"body1"}>

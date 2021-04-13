@@ -18,7 +18,7 @@ export default class OnOffSwitch extends Thing {
     constructor(model, description, format, options) {
 
         super(model, description, format, options);
-
+        this.on = false
     }
 
     /**
@@ -54,9 +54,7 @@ export default class OnOffSwitch extends Thing {
         }
 
         if (name === this.onProperty) {
-            this.icon.on = value;
-            console.log(value)
-            console.log(this.icon)
+            this.on = value;
         }
         return value;
     }

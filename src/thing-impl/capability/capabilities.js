@@ -1,13 +1,8 @@
-/**
- * This Source Code Form is subject to the terms of the Mozilla Public
- * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/.
- */
 
 'use strict';
 
-
-import Light from "./light"
+import React from "react";
+import {Light} from "./light"
 import Thing from "./thing";
 import {ThingType} from "../../js/constant";
 import OnOffSwitch from "./on-off-switch";
@@ -23,7 +18,7 @@ export function createThingFromCapability(capability, thingModel, description) {
         }
     }
 
-    return  Thing(thingModel, description, format);
+    return  Thing(thingModel, description);
 }
 
 

@@ -37,9 +37,6 @@ import AlarmDetail from '../property/alarm'
 import BooleanDetail from '../property/boolean'
 import InstantaneousPowerFactorDetail from "../property/instantaneous-power-factor"
 
-export const ThingStates = {
-    NoResponse: "No Response"
-}
 
 export default class Thing {
     /**
@@ -66,7 +63,7 @@ export default class Thing {
         this.model = model;
         this.listeners = [];
         this.connected = this.model.connected;
-        this.state = ThingStates.NoResponse
+
 
         if (Array.isArray(description['@type']) &&
             description['@type'].length > 0) {
@@ -77,7 +74,7 @@ export default class Thing {
 
         this.selectedCapability = description.selectedCapability;
         this.layoutIndex = description.layoutIndex;
-        this.icon = {}
+
 
         this.format = format;
         this.displayedProperties = this.displayedProperties || {};
@@ -275,12 +272,11 @@ export default class Thing {
 
 
     findProperties() {
-        this.iconLable = "";
+        this.label = "";
+        this.color = "";
     }
 
-    toggle() {
 
-    }
 
     /**
      * Update the display for the provided property.

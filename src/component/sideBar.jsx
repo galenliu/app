@@ -52,7 +52,7 @@ export default function SideBar() {
     const theme = useTheme()
     const {drawerOpen, setDrawerOpen} = useContext(AppContext)
     const history = useHistory()
-    console.log("layout sidebar", drawerOpen)
+
     const {t} = useTranslation();
 
     function handleClick(url) {

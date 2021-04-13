@@ -1,20 +1,12 @@
-/**
- * On/Off Switch.
- *
- * UI element representing an On/Off Switch.
- *
- * This Source Code Form is subject to the terms of the Mozilla Public
- * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/.
- */
+import React, {useState} from "react";
+import Thing from "./thing";
 
 'use strict';
 
 
-import Thing from "./thing";
-import {useState} from "react";
-
 function useOnProperty(props) {
+    const [property, setOnproperty] = useState()
+
     let onProperty = null
     for (const name in props.displayedProperties) {
         const type = props.displayedProperties[name].property['@type'];
@@ -26,7 +18,8 @@ function useOnProperty(props) {
             onProperty = 'on';
         }
     }
-    return onProperty
+    setOnproperty(onProperty)
+    return [property]
 }
 
 export default function OnOffSwitch(props) {

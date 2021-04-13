@@ -133,15 +133,15 @@ export default function NewThingsDialog(props) {
         if (availableThings === [] || availableThings === undefined || availableThings === null) {
             return
         }
-        console.log("availableThings:", availableThings)
+
         availableThings.forEach((thing, key) => {
-            console.log("render thing :", thing)
+
             if (thing["@type"]) {
                 const newThing = <NewThing key={key} newThing={thing}/>
                 list.push(newThing)
             }
         })
-        console.log("list:", list)
+
         return list
     }
 
