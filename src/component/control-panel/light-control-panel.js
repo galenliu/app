@@ -1,7 +1,6 @@
-import React, {useEffect, useState} from "react";
+import React from "react";
 import {makeStyles} from "@material-ui/core/styles";
 import {ColorPropertyItem, NumberPropertyListItem} from "../thing-property";
-import Constants from "../../js/constant";
 
 export const useStyles = makeStyles((theme) => ({
     listItem: {

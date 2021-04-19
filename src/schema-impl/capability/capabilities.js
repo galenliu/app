@@ -1,5 +1,3 @@
-
-
 import Light from "./light"
 import Thing from "./thing";
 import {ThingType} from "../../js/constant";
@@ -16,7 +14,7 @@ export function createThingFromCapability(capability, thingModel, description, f
         }
     }
 
-    return new Thing(thingModel, description, format);
+    return new Thing(thingModel, description, format, null);
 }
 
 export function getClassFromCapability(capability) {

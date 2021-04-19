@@ -27,7 +27,7 @@ class ThingModel extends Model {
 
         // Parse events URL
         for (const form of description.forms) {
-            if(form.rel === null){
+            if (form.rel === null) {
                 continue
             }
             switch (form.rel) {

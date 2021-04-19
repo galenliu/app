@@ -80,12 +80,6 @@ export default function NewThing(props) {
         setState(states.Processing)
         API.addThing(thing).then((data) => {
             setState(states.Saved)
-            if (data.id === thing.id) {
-                setThing({...thing})
-            } else {
-                setState(states.Fail)
-                throw new Error("fail");
-            }
         }).catch((e) => {
             setState(states.Fail)
             console.error(e)

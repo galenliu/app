@@ -32,6 +32,7 @@ class GatewayModel extends Model {
         return this.queue;
     }
 
+
     subscribe(event, handler, immediate = false) {
         super.subscribe(event, handler);
         switch (event) {

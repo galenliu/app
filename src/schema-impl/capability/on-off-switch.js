@@ -55,6 +55,13 @@ export default class OnOffSwitch extends Thing {
 
         if (name === this.onProperty) {
             this.on = value;
+            if (value) {
+                this.label = "on"
+                console.log(" this.label = on")
+            } else {
+                this.label = "off"
+                console.log(" this.label = off")
+            }
         }
         return value;
     }
@@ -62,9 +69,8 @@ export default class OnOffSwitch extends Thing {
     /**
      * Handle a click on the on/off switch.
      */
-    handleClick() {
-        const newValue = !this.icon.on;
-        this.icon.on = null
+    handleOnOff() {
+        const newValue = !this.on
         this.model.setProperty(this.onProperty, newValue).catch((error) => {
             console.error(`Error trying to toggle switch: ${error}`);
         });

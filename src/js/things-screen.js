@@ -1,7 +1,3 @@
-import {createThingFromCapability} from "../schema-impl/capability/capabilities";
-import {App} from "../App";
-import Constants from "./constant";
-
 const ThingsScreen = {
 
     // init: function () {

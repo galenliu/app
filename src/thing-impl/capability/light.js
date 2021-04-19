@@ -1,6 +1,5 @@
 import React from "react";
 import OnOffSwitch from "./on-off-switch";
-import {useEffect, useState} from "react";
 
 function getDisplayProperties(description) {
 
@@ -49,7 +48,6 @@ function getDisplayProperties(description) {
 }
 
 
-
 export function Light(thingModel, description) {
 
 
@@ -89,7 +87,7 @@ export function Light(thingModel, description) {
 
     return (
         <>
-            <OnOffSwitch thingModel={thingModel} description={description}  />
+            <OnOffSwitch thingModel={thingModel} description={description}/>
         </>
     )
 }

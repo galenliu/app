@@ -11,42 +11,40 @@
 'use strict';
 
 
-
-
 export default class ColorTemperatureDetail {
-  constructor(thing, name, property) {
-    this.thing = thing;
-    this.name = name;
-    this.readOnly = !!property.readOnly;
-    this.label = property.title  ;
-    this.min = property.minimum;
-    this.max = property.maximum;
+    constructor(thing, name, property) {
+        this.thing = thing;
+        this.name = name;
+        this.readOnly = !!property.readOnly;
+        this.label = property.title;
+        this.min = property.minimum;
+        this.max = property.maximum;
 
-    if (property.hasOwnProperty('multipleOf')) {
-      this.step = property.multipleOf;
-    } else if (property.type === 'number') {
-      this.step = 'any';
-    } else {
-      this.step = 1;
+        if (property.hasOwnProperty('multipleOf')) {
+            this.step = property.multipleOf;
+        } else if (property.type === 'number') {
+            this.step = 'any';
+        } else {
+            this.step = 1;
+        }
+
+
     }
 
+    attach() {
 
-  }
+    }
 
-  attach() {
+    view() {
 
-  }
+    }
 
-  view() {
+    update(temperature) {
 
-  }
+    }
 
-  update(temperature) {
+    set() {
 
-  }
-
-  set() {
-
-  }
+    }
 }
 

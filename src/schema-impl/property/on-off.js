@@ -19,7 +19,7 @@ export default class OnOffDetail {
         this.label = property.title
         this.listViewData = {
             label: name,
-          disabled: this.readOnly,
+            disabled: this.readOnly,
         }
     }
 

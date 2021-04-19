@@ -81,9 +81,9 @@ export default class Light extends OnOffSwitch {
         }
         if (name === this.brightnessProperty) {
             value = parseInt(value, 10);
-            this.icon.brightness = value;
+            this.label = value;
         } else if (name === this.colorProperty) {
-            this.icon.color = value
+            this.color = value
         } else if (name === this.colorTemperatureProperty) {
             value = parseInt(value, 10);
             this.icon.colorTemperature = value;

@@ -318,7 +318,7 @@ export default function AddonsDialog(props) {
                 </Grid>
             </Dialog>
             <FetchAddonsDialog installedAddons={installedAddons} availableAddons={availableAddons}
-                             reload={load} open={fetchAddonsShow} show={setFetchAddonsShow}/>
+                               reload={load} open={fetchAddonsShow} show={setFetchAddonsShow}/>
 
             <AddonConfigDialog open={addonConfigShow} show={setAddonConfigShow} {...configAddon}/>
         </div>

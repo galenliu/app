@@ -4,8 +4,7 @@ import './index.css';
 import Router from './App';
 
 ReactDOM.render(
-
-        <Router/>,
+    <Router/>,
 
     document.getElementById('root')
 );

@@ -22,7 +22,6 @@ import Slide from '@material-ui/core/Slide';
 import {BooleanPropertyListItem, NumberPropertyListItem, StringPropertyItem} from "./thing-property";
 import CloseIcon from "@material-ui/icons/Close";
 import ThingsScreen from "../js/things-screen";
-import {LightControlPanel} from "./control-panel/light-control-panel";
 import {ThingType} from "../js/constant";
 import {InputLabel, ListItem, ListItemIcon, MenuItem, Select, TextField} from "@material-ui/core";
 import FormControl from "@material-ui/core/FormControl";

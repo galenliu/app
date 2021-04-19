@@ -63,6 +63,7 @@ export default class Thing {
         this.model = model;
         this.listeners = [];
         this.connected = this.model.connected;
+        this.label = "off"
 
 
         if (Array.isArray(description['@type']) &&
@@ -275,7 +276,6 @@ export default class Thing {
         this.label = "";
         this.color = "";
     }
-
 
 
     /**

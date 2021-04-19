@@ -17,22 +17,22 @@ const Utils = require('../../utils');
 
 
 export default class InstantaneousPowerFactorDetail extends NumericLabelDetail {
-  constructor(thing, name, property) {
-    super(thing, name, !!property.readOnly,
-          property.title  , '', 0);
+    constructor(thing, name, property) {
+        super(thing, name, !!property.readOnly,
+            property.title, '', 0);
 
 
-    if (property.hasOwnProperty('multipleOf') &&
-        `${property.multipleOf}`.includes('.')) {
-      this.precision = `${property.multipleOf}`.split('.')[1].length;
-    } else {
-      this.precision = 0;
+        if (property.hasOwnProperty('multipleOf') &&
+            `${property.multipleOf}`.includes('.')) {
+            this.precision = `${property.multipleOf}`.split('.')[1].length;
+        } else {
+            this.precision = 0;
+        }
     }
-  }
 
-  view() {
+    view() {
 
-  }
+    }
 }
 
 

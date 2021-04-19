@@ -1,5 +1,3 @@
-
-
 class ThingDetailLayout {
     constructor(parent, elements) {
         this.elements = elements;

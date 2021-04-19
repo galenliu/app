@@ -7,8 +7,8 @@ import SideBar from "./component/sideBar";
 import GatewayModel from "./models/gateway-model";
 import Things from "./views/Things";
 import Settings from "./views/Settings";
-import Constants from "./js/constant";
 import {createThingFromCapability} from "./schema-impl/capability/capabilities";
+import Constants from "./js/constant";
 
 
 export const AppContext = React.createContext({})
@@ -48,6 +48,7 @@ export const App = {
     LANGUAGE: 'en-US',
     TIMEZONE: 'UTC',
     UNITS: {},
+    gatewayModel: null,
     init: function () {
         this.gatewayModel = new GatewayModel()
 
@@ -58,47 +59,85 @@ export const App = {
 }
 
 App.init()
+
+
+export const ThingsScreen = {
+    Things: [],
+
+    refreshThings: function (list) {
+        if (list === undefined || list.size === 0) {
+            return
+        } else {
+            list.forEach((description, thingId) => {
+                App.gatewayModel.getThingModel(thingId).then((thingModel) => {
+                    let th = createThingFromCapability(
+                        description.selectedCapability,
+                        thingModel,
+                        description,
+                    );
+                    console.log("Things:", this.Things)
+                    this.Things.push(th)
+                });
+            })
+        }
+    },
+
+    getThing: function (id) {
+        if (this.Things === null || this.Things.length === 0) {
+            return null
+        }
+        let t = null
+        this.Things.forEach((thing) => {
+            console.log("eeeeeeee", id, thing.id)
+            if (thing.id === id) {
+                console.log("dddddd", thing)
+                t = thing
+            }
+        })
+        return t
+    },
+
+    handleOnOff: function (id) {
+        const t = this.getThing(id)
+        if (t === null) {
+            return
+        }
+        t.handleOnOff(id)
+    },
+
+    init: function () {
+        App.gatewayModel.subscribe(Constants.REFRESH_THINGS, this.refreshThings.bind(this), true);
+    },
+
+    close: function () {
+        App.gatewayModel.unsubscribe(Constants.REFRESH_THINGS, this.refreshThings.bind(this));
+
+    },
+
+}
+
+ThingsScreen.init()
 App.showThings()
 
 function Router() {
-
-   // const [things, setThings] = useState([])
     const [drawerOpen, setDrawerOpen] = useState(false)
     const [newThingsOpen, setNewThingsOpen] = useState(false)
-
-    // const refreshThings = (list) => {
-    //
-    //     const ts = []
-    //     if (list === undefined || list.size === 0) {
-    //
-    //     } else {
-    //         console.log("App list forEach:", list)
-    //         list.forEach((description, thingId) => {
-    //             console.log("App description:", description, thingId)
-    //             App.gatewayModel.getThingModel(thingId).then((thingModel) => {
-    //                 let thing = createThingFromCapability(
-    //                     description.selectedCapability,
-    //                     thingModel,
-    //                     description,
-    //                 );
-    //                 ts.push(thing)
-    //             });
-    //         })
-    //     }
-    //     setThings(ts)
-    // }
+    const [things, setThings] = useState([])
 
     useEffect(() => {
-        console.log("App Things=========:")
-    }, [])
+        function refreshThings() {
+            let list = []
+            ThingsScreen.Things.forEach((thing)=>{
+                list.push(thing.id)
+            })
+            setThings(list)
+        }
 
-    // useEffect(() => {
-    //     App.gatewayModel.subscribe(Constants.REFRESH_THINGS, refreshThings);
-    //     return () => {
-    //         App.gatewayModel.unsubscribe(Constants.REFRESH_THINGS, refreshThings)
-    //     }
-    //
-    // }, [])
+        App.gatewayModel.subscribe(Constants.REFRESH_THINGS, refreshThings, true);
+        return () => {
+            App.gatewayModel.unsubscribe(Constants.REFRESH_THINGS, refreshThings);
+        }
+    }, [])
 
 
     return (
@@ -113,13 +152,15 @@ function Router() {
                 <BrowserRouter>
                     <Switch>
                         <Route exact path="/things">
-                            <h1>Things</h1>
+                            <Things/>
+                            <SideBar/>
                         </Route>
                         <Route exact path="/settings">
+                            <SideBar/>
                             <Settings/>
                         </Route>
                         <Route path="/">
-                            <Things/>
+                            <Things things={things}/>
                             <SideBar/>
                         </Route>
                     </Switch>

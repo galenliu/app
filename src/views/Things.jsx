@@ -3,41 +3,38 @@ import Grid from "@material-ui/core/Grid";
 import TopBar from "../component/topBar";
 import {useTranslation} from "react-i18next";
 import {makeStyles} from "@material-ui/core/styles";
-import {App, AppContext} from "../App";
-import Constants, {drawerWidth} from "../js/constant";
+import {AppContext, ThingsScreen} from "../App";
+import {drawerWidth} from "../js/constant";
 import clsx from "clsx";
 import NewThingsDialog from "./AddThing";
 import {ThingPanel} from "../component/thing-panel";
 import IconView from "../component/icon-view";
-import {createThingFromCapability} from "../schema-impl/capability/capabilities";
 
 
 const useStyles = makeStyles((theme) => ({
     containerGrid: {
         alignItems: "flex-start",
-        height: "200",
-        minHeight: "200",
-        // background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
-        flexGrow: 1,
-        padding: theme.spacing(3),
+        padding: theme.spacing(2),
         transition: theme.transitions.create('margin', {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
         }),
-        marginLeft: -drawerWidth,
+        marginLeft: 0,
     },
     contentShift: {
-        flexGrow: 1,
+        alignItems: "flex-start",
+        height: "200",
+        minHeight: "200",
+        padding: theme.spacing(2),
         transition: theme.transitions.create('margin', {
             easing: theme.transitions.easing.easeOut,
             duration: theme.transitions.duration.enteringScreen,
         }),
-        marginLeft: 0,
+        marginLeft: drawerWidth,
     },
     drawerHeader: {
         display: 'flex',
         alignItems: 'center',
-        padding: theme.spacing(0, 1),
         // necessary for content to be below app bar
         ...theme.mixins.toolbar,
         justifyContent: 'flex-end',
@@ -46,80 +43,57 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 export default function Things(props) {
+
     const classes = useStyles()
     const {drawerOpen} = useContext(AppContext)
     const [addThingShow, setAddThingShow] = useState(false)
     const [thingPanelShow, setThingPanelShow] = useState(false)
     const {t} = useTranslation();
+    const [state, setState] = useState()
 
-    const [things, setThings] = useState([])
 
-    const refreshThings = (list) => {
-
-        const ts = []
-        if (list === undefined || list.size === 0) {
-
-        } else {
-            console.log("App list forEach:", list)
-            list.forEach((description, thingId) => {
-                console.log("App description:", description, thingId)
-                App.gatewayModel.getThingModel(thingId).then((thingModel) => {
-                    let thing = createThingFromCapability(
-                        description.selectedCapability,
-                        thingModel,
-                        description,
-                    );
-                    ts.push(thing)
-                });
-            })
-        }
-        setThings(ts)
+    function handleOnOff(id) {
+        ThingsScreen.handleOnOff(id)
     }
 
     useEffect(() => {
-        console.log("App Things=========:", things)
-    }, [things])
-
-    useEffect(() => {
-        App.gatewayModel.subscribe(Constants.REFRESH_THINGS, refreshThings);
-        return () => {
-            App.gatewayModel.unsubscribe(Constants.REFRESH_THINGS, refreshThings)
+        if (props.things.size !== 0) {
+            setState(1)
         }
-
-    }, [])
-
-    useEffect(() => {
-        renderThings()
-    }, [things !== null])
+    }, [props.things])
 
 
     //把things渲染至页面
-    function renderThings() {
-        const list = []
-        for (const thing of things) {
-            console.log("111111111111111", thing)
-            const iv = <IconView on={thing.on} key={thing.id}
-                                 selectedCapability={thing.selectedCapability}
-                                 title={thing.title}/>
-            list.push(iv)
+    const renderThings = () => {
+        if (props.things === undefined || props.things === null || props.things.size < 1) {
+            console.log("renderThings:", "空")
+            return <h1>空</h1>
         }
-        // things.forEach((thing, id) => {
-        //     console.log("22222222222222", thing)
-        //
-        //
-        // })
-        console.log("333333333333333", list)
-        return list
+        const ls = []
+        console.log("renderThings", props.things)
+        props.things.forEach((id, key) => {
+            let thing = ThingsScreen.getThing(id)
+            if (thing !== null && thing !== undefined) {
+                const iv = <IconView id={thing.id} on={thing.on} key={key} label={thing.label}
+                                     handleOnOff={handleOnOff}
+                                     selectedCapability={thing.selectedCapability}
+                                     title={thing.title}/>
+                console.log(" list.push(iv):", iv)
+                console.log("add list:", ls)
+                ls.push(iv)
+            }
+        })
+        console.log("return list:", ls)
+        return ls
     }
-
 
     return (
         <>
             <TopBar add={true} show={setAddThingShow} title={t("Things")}/>
             <div className={classes.drawerHeader}/>
-            <Grid className={clsx(classes.containerGrid, {[classes.contentShift]: !drawerOpen,})}
-                  container spacing={2}>
-                {renderThings()}
+            <Grid className={clsx(classes.containerGrid, {[classes.contentShift]: drawerOpen,})} container
+                  direction="row" spacing={3}>
+                {state === 1 && renderThings()}
             </Grid>
             {addThingShow && <NewThingsDialog open={addThingShow} show={setAddThingShow}/>}
             {thingPanelShow && <ThingPanel open={thingPanelShow} show={setThingPanelShow}/>}

@@ -1,4 +1,3 @@
-
 'use strict';
 
 import React from "react";
@@ -18,7 +17,7 @@ export function createThingFromCapability(capability, thingModel, description) {
         }
     }
 
-    return  Thing(thingModel, description);
+    return Thing(thingModel, description);
 }
 
 

@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
 import {makeStyles} from "@material-ui/core/styles";
@@ -10,8 +10,8 @@ const useStyles = makeStyles((theme) => ({
     thingCard: {
         borderRadius: 12,
         display: 'flex',
-        minWidth: 160,
-        maxWidth: 160,
+        minWidth: 140,
+        maxWidth: 140,
         justifyContent: "space-between",
         flexDirection: "column",
     },
@@ -42,17 +42,26 @@ const useStyles = makeStyles((theme) => ({
     },
 }))
 
+function useIconViewState(id){
+    const [state,setState] = useState()
+    function Set(){
 
-export default function IconView(props) {
+    }
+}
+
+
+export default function IconView({id, on, color, label, title, selectedCapability, handleOnOff}) {
 
     console.log("&&&&&&&&&&&&&&&&&on, color, label, title, selectedCapability:", on, color, label, title, selectedCapability)
 
     const {t} = useTranslation();
     const classes = useStyles()
+    const [enable, setEnable] = useState(true)
+
 
     function handleClick(e) {
         e.stopPropagation()
-
+        handleOnOff(id)
     }
 
     useEffect(() => {
@@ -62,22 +71,21 @@ export default function IconView(props) {
 
     return (
 
-            <Grid item className={classes.root}>
-                <Card elevation={10} className={classes.thingCard}>
-                    <div className={classes.cardTop}>
-                        <ThingIcons type={props.selectedCapability}/>
-                        <ActionsIcon type={props.selectedCapability} onClick={handleClick}/>
-                    </div>
-                    <div className={classes.cardBot}>
-                        <Typography variant={"body1"}>
-                            {props.title}
-                        </Typography>
-                        <Typography t={2}>
-                            {t(props.label)}
-                        </Typography>
-                    </div>
-                </Card>
-            </Grid>
+        <Grid item className={classes.root}>
+            <Card elevation={10} className={classes.thingCard}  onClick={handleClick}>
+                <div className={classes.cardTop}>
+                    <ThingIcons type={selectedCapability}/>
+                </div>
+                <div className={classes.cardBot}>
+                    <Typography variant={"body1"}>
+                        {title}
+                    </Typography>
+                    <Typography t={2}>
+                        {t(label)}
+                    </Typography>
+                </div>
+            </Card>
+        </Grid>
     )
 
 }
