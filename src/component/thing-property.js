@@ -98,7 +98,7 @@ export function NumberPropertyListItem(props) {
                            onChange={(e, value) => {
                                setValue(value)
                            }}
-            />
+            > </PrettoSlider>
         </ListItem>
     )
 }
@@ -108,17 +108,17 @@ export function StringPropertyItem(props) {
     const {t} = useTranslation();
 
     return (
-        <>
-            <ListItem style={{width: "100%"}}>
-                <ListItemText primary={t(props.label)}/>
 
-                <ListItemIcon edg="end">
+        <ListItem style={{width: "100%"}}>
+            <ListItemText primary={t(props.label)}/>
 
-                    <ListItemText primary={t(props.state)}/>
+            <ListItemIcon edg="end">
 
-                </ListItemIcon>
-            </ListItem>
-        </>
+                <ListItemText primary={t(props.state)}/>
+
+            </ListItemIcon>
+        </ListItem>
+
     )
 }
 

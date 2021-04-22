@@ -55,3 +55,7 @@ export const SettingsType = {
 
 export const drawerWidth = 200;
 export default Constants;
+
+export const Error ={
+    ThingIsNull : "Thing is Null",
+}
