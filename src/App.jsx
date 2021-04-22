@@ -66,7 +66,7 @@ export const ThingsScreen = {
 
     refreshThings: function (list) {
         if (list === undefined || list.size === 0) {
-            return
+
         } else {
             list.forEach((description, thingId) => {
                 App.gatewayModel.getThingModel(thingId).then((thingModel) => {
@@ -127,7 +127,7 @@ function Router() {
     useEffect(() => {
         function refreshThings() {
             let list = []
-            ThingsScreen.Things.forEach((thing)=>{
+            ThingsScreen.Things.forEach((thing) => {
                 list.push(thing.id)
             })
             setThings(list)

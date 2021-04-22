@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
 import {makeStyles} from "@material-ui/core/styles";
-import ThingIcons, {ActionsIcon} from "./icons";
+import ThingIcons from "./icons";
 import Typography from "@material-ui/core/Typography";
 import {useTranslation} from "react-i18next";
 
@@ -42,9 +42,10 @@ const useStyles = makeStyles((theme) => ({
     },
 }))
 
-function useIconViewState(id){
-    const [state,setState] = useState()
-    function Set(){
+function useIconViewState(id) {
+    const [state, setState] = useState()
+
+    function Set() {
 
     }
 }
@@ -72,7 +73,7 @@ export default function IconView({id, on, color, label, title, selectedCapabilit
     return (
 
         <Grid item className={classes.root}>
-            <Card elevation={10} className={classes.thingCard}  onClick={handleClick}>
+            <Card elevation={10} className={classes.thingCard} onClick={handleClick}>
                 <div className={classes.cardTop}>
                     <ThingIcons type={selectedCapability}/>
                 </div>

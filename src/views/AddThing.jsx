@@ -87,7 +87,7 @@ export default function NewThingsDialog(props) {
             for (const th in availableThings) {
                 console.log(th)
                 if (th.id === message.id) {
-                    continue
+
                 }
             }
             copy.push(message)
