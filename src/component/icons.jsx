@@ -4,20 +4,19 @@ import ExtensionIcon from '@material-ui/icons/Extension';
 import PowerIcon from '@material-ui/icons/Power';
 import HourglassEmptyIcon from '@material-ui/icons/HourglassEmpty';
 import NotificationsIcon from '@material-ui/icons/Notifications';
+import {theme} from "../index";
 import "../js/constant"
 import {Information, Lightbulb, Power} from 'mdi-material-ui'
 import {AddonType, SettingsType, ThingType} from "../js/constant";
-import {theme} from "../App";
 import {makeStyles} from "@material-ui/core/styles";
 
 
 const useStyles = makeStyles((theme) => ({
     iconView: {
-        fontSize: theme.iconSize.l,
-        // color: theme.palette.info.light
+        fontSize: 60,
     },
     actionIcon: {
-        fontSize: theme.iconSize.m,
+        // fontSize: theme.iconSize.m,
         // color: theme.palette.secondary.light,
     }
 

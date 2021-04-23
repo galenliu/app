@@ -11,9 +11,13 @@ import {ThingPanel} from "../component/thing-panel";
 import IconView from "../component/icon-view";
 
 
+
 const useStyles = makeStyles((theme) => ({
     containerGrid: {
         alignItems: "flex-start",
+        backgroundColor:  theme.palette.primary.light,
+        height: "100%",
+        width: "100%",
         padding: theme.spacing(2),
         transition: theme.transitions.create('margin', {
             easing: theme.transitions.easing.sharp,
@@ -23,8 +27,8 @@ const useStyles = makeStyles((theme) => ({
     },
     contentShift: {
         alignItems: "flex-start",
-        height: "200",
-        minHeight: "200",
+        height: "100%",
+        width: "100%",
         padding: theme.spacing(2),
         transition: theme.transitions.create('margin', {
             easing: theme.transitions.easing.easeOut,
@@ -90,7 +94,7 @@ export default function Things(props) {
     return (
         <>
             <TopBar add={true} show={setAddThingShow} title={t("Things")}/>
-            <div className={classes.drawerHeader}/>
+
             <Grid className={clsx(classes.containerGrid, {[classes.contentShift]: drawerOpen,})} container
                   direction="row" spacing={3}>
                 {state === 1 && renderThings()}

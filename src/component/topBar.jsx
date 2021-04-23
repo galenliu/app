@@ -56,8 +56,7 @@ export default function TopBar(props) {
     const classes = useStyles();
     const {t} = useTranslation();
 
-    const {drawerOpen, setDrawerOpen, newThingsOpen, setNewThingsOpen} = useContext(AppContext)
-
+    const {drawerOpen, setDrawerOpen} = useContext(AppContext)
 
     return (
         <div className={classes.root}>
