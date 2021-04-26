@@ -3,7 +3,7 @@ import Grid from "@material-ui/core/Grid";
 import TopBar from "../component/topBar";
 import {useTranslation} from "react-i18next";
 import {makeStyles} from "@material-ui/core/styles";
-import {AppContext, ThingsScreen} from "../App";
+import {AppContext} from "../App";
 import {drawerWidth} from "../js/constant";
 import clsx from "clsx";
 import NewThingsDialog from "./AddThing";
@@ -11,11 +11,10 @@ import {ThingPanel} from "../component/thing-panel";
 import IconView from "../component/icon-view";
 
 
-
 const useStyles = makeStyles((theme) => ({
     containerGrid: {
         alignItems: "flex-start",
-        backgroundColor:  theme.palette.primary.light,
+        backgroundColor: theme.palette.primary.light,
         height: "100%",
         width: "100%",
         padding: theme.spacing(2),
@@ -57,7 +56,7 @@ export default function Things(props) {
 
 
     function handleOnOff(id) {
-        ThingsScreen.handleOnOff(id)
+
     }
 
     useEffect(() => {
@@ -75,10 +74,9 @@ export default function Things(props) {
         }
         const ls = []
         console.log("renderThings", props.things)
-        props.things.forEach((id, key) => {
-            let thing = ThingsScreen.getThing(id)
+        props.things.forEach((id, thing) => {
             if (thing !== null && thing !== undefined) {
-                const iv = <IconView id={thing.id} on={thing.on} key={key} label={thing.label}
+                const iv = <IconView id={thing.id} on={thing.on} key={id} label={thing.label}
                                      handleOnOff={handleOnOff}
                                      selectedCapability={thing.selectedCapability}
                                      title={thing.title}/>

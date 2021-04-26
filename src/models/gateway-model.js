@@ -10,7 +10,7 @@ import Constants from "../js/constant"
 import Model from "./model";
 import ReopeningWebSocket from "./reopening-web-socket";
 import ThingModel from "./thing-model";
-import {createThingFromCapability} from "../thing-impl/capability/capabilities";
+import {createThingFromCapability} from "../schema-impl/capability/capabilities";
 
 class GatewayModel extends Model {
     constructor() {
@@ -57,7 +57,7 @@ class GatewayModel extends Model {
             if (this.thingModels.has(thingId)) {
                 const thingModel = this.thingModels.get(thingId);
                 thingModel.updateFromDescription(description);
-                this.Thing.set(thingId, createThingFromCapability(description.selectedCapability, thingModel, description))
+                this.Things.set(thingId, createThingFromCapability(description.selectedCapability, thingModel, description))
             } else {
                 const thingModel = new ThingModel(description, this.ws);
                 thingModel.subscribe(
@@ -68,7 +68,7 @@ class GatewayModel extends Model {
                     thingModel.onConnected(this.connectedThings.get(thingId))
                 }
                 this.thingModels.set(thingId, thingModel)
-                this.Thing.set(thingId, createThingFromCapability(description.selectedCapability, thingModel, description))
+                this.Things.set(thingId, createThingFromCapability(description.selectedCapability, thingModel, description))
             }
             this.things.set(thingId, description);
         } catch (e) {
@@ -202,6 +202,7 @@ class GatewayModel extends Model {
                 console.error(`Get things failed ${e}`);
                 this.thingModels = new Map()
                 this.things = new Map()
+
                 return this.handleEvent(Constants.REFRESH_THINGS, new Map());
 
             });

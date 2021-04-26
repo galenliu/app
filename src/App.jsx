@@ -6,7 +6,6 @@ import SideBar from "./component/sideBar";
 import GatewayModel from "./models/gateway-model";
 import Things from "./views/Things";
 import Settings from "./views/Settings";
-import {createThingFromCapability} from "./schema-impl/capability/capabilities";
 import Constants from "./js/constant";
 
 
@@ -30,77 +29,83 @@ export const App = {
 
 App.init()
 
+//
+// export const ThingsScreen = {
+//     Things: [],
+//
+//     refreshThings: function (list) {
+//         if (list === undefined || list.size === 0) {
+//
+//         } else {
+//             list.forEach((description, thingId) => {
+//                 App.gatewayModel.getThingModel(thingId).then((thingModel) => {
+//                     let th = createThingFromCapability(
+//                         description.selectedCapability,
+//                         thingModel,
+//                         description,
+//                     );
+//                     console.log("Things:", this.Things)
+//                     this.Things.push(th)
+//                 });
+//             })
+//         }
+//     },
+//
+//     getThing: function (id) {
+//         if (this.Things === null || this.Things.length === 0) {
+//             return null
+//         }
+//         let t = null
+//         this.Things.forEach((thing) => {
+//             console.log("eeeeeeee", id, thing.id)
+//             if (thing.id === id) {
+//                 console.log("dddddd", thing)
+//                 t = thing
+//             }
+//         })
+//         return t
+//     },
+//
+//     handleOnOff: function (id) {
+//         const t = this.getThing(id)
+//         if (t === null) {
+//             return
+//         }
+//         t.handleOnOff(id)
+//     },
+//
+//     init: function () {
+//         App.gatewayModel.subscribe(Constants.REFRESH_THINGS, this.refreshThings.bind(this), true);
+//     },
+//
+//     close: function () {
+//         App.gatewayModel.unsubscribe(Constants.REFRESH_THINGS, this.refreshThings.bind(this));
+//
+//     },
+//
+// }
+// ThingsScreen.init()
 
-export const ThingsScreen = {
-    Things: [],
-
-    refreshThings: function (list) {
-        if (list === undefined || list.size === 0) {
-
-        } else {
-            list.forEach((description, thingId) => {
-                App.gatewayModel.getThingModel(thingId).then((thingModel) => {
-                    let th = createThingFromCapability(
-                        description.selectedCapability,
-                        thingModel,
-                        description,
-                    );
-                    console.log("Things:", this.Things)
-                    this.Things.push(th)
-                });
-            })
-        }
-    },
-
-    getThing: function (id) {
-        if (this.Things === null || this.Things.length === 0) {
-            return null
-        }
-        let t = null
-        this.Things.forEach((thing) => {
-            console.log("eeeeeeee", id, thing.id)
-            if (thing.id === id) {
-                console.log("dddddd", thing)
-                t = thing
-            }
-        })
-        return t
-    },
-
-    handleOnOff: function (id) {
-        const t = this.getThing(id)
-        if (t === null) {
-            return
-        }
-        t.handleOnOff(id)
-    },
-
-    init: function () {
-        App.gatewayModel.subscribe(Constants.REFRESH_THINGS, this.refreshThings.bind(this), true);
-    },
-
-    close: function () {
-        App.gatewayModel.unsubscribe(Constants.REFRESH_THINGS, this.refreshThings.bind(this));
-
-    },
-
-}
-
-ThingsScreen.init()
 App.showThings()
 
 function Router() {
     const [drawerOpen, setDrawerOpen] = useState(false)
     const [newThingsOpen, setNewThingsOpen] = useState(false)
-    const [things, setThings] = useState([])
+    const [things, setThings] = useState(new Map())
 
     useEffect(() => {
-        function refreshThings() {
-            let list = []
-            ThingsScreen.Things.forEach((thing) => {
-                list.push(thing.id)
+        function refreshThings(things) {
+            console.log("===", things)
+            if (things === undefined || things === null) {
+                return
+            }
+
+            let map = new Map()
+            things.forEach((id, thing) => {
+                console.log("===", id, thing)
+                map.set(id, thing)
             })
-            setThings(list)
+            setThings(map)
         }
 
         App.gatewayModel.subscribe(Constants.REFRESH_THINGS, refreshThings, true);
