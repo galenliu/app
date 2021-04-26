@@ -95,14 +95,11 @@ function Router() {
 
     useEffect(() => {
         function refreshThings(things) {
-            console.log("===", things)
             if (things === undefined || things === null) {
                 return
             }
-
             let map = new Map()
             things.forEach((id, thing) => {
-                console.log("===", id, thing)
                 map.set(id, thing)
             })
             setThings(map)

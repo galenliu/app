@@ -52,6 +52,9 @@ class GatewayModel extends Model {
     }
 
     setThing(thingId, description) {
+        if (description === null || description === undefined) {
+            return
+        }
         try {
             console.log("setThing thingId: \t\n", thingId, " \t\n description:\t\n", description)
             if (this.thingModels.has(thingId)) {
@@ -70,7 +73,6 @@ class GatewayModel extends Model {
                 this.thingModels.set(thingId, thingModel)
                 this.Things.set(thingId, createThingFromCapability(description.selectedCapability, thingModel, description))
             }
-            this.things.set(thingId, description);
         } catch (e) {
             console.log(e)
         }
@@ -161,7 +163,6 @@ class GatewayModel extends Model {
 
     onMessage(event) {
         const message = JSON.parse(event.data);
-
         switch (message.messageType) {
             case 'connected':
                 this.connectedThings.set(message.id, message.data);

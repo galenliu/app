@@ -80,6 +80,8 @@ export default function NewThingsDialog(props) {
 
     useEffect(() => {
         const addAvailableThings = (message) => {
+            console.log(typeof (message))
+            console.log("Paring message:", message)
             let copy = availableThings
             if (availableThings === [] || availableThings === undefined || availableThings === null) {
                 copy = []

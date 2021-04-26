@@ -107,13 +107,11 @@ class ThingModel extends Model {
         const onEvent = (event) => {
 
             const message = JSON.parse(event.data);
-
             if (message.hasOwnProperty('id') && message.id !== this.id) {
                 return;
             }
             switch (message.messageType) {
                 case 'propertyStatus':
-
                     this.onPropertyStatus(message.data)
                     break;
                 case 'event':
@@ -167,6 +165,7 @@ class ThingModel extends Model {
      * @return {Promise} which resolves to the property set.
      */
     setProperty(name, value) {
+        console.log("set property:", value)
         if (!this.propertyDescriptions.hasOwnProperty(name)) {
             return Promise.reject(`Unavailable property name ${name}`);
         }

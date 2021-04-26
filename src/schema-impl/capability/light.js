@@ -1,4 +1,5 @@
 import OnOffSwitch from './on-off-switch';
+import Constants from "../../js/constant";
 
 export default class Light extends OnOffSwitch {
     /**
@@ -12,7 +13,6 @@ export default class Light extends OnOffSwitch {
             model,
             description,
         );
-        this.color = ""
     }
 
     /**
@@ -74,21 +74,26 @@ export default class Light extends OnOffSwitch {
     updateProperty(name, value) {
         value = super.updateProperty(name, value);
 
-
-        console.log("Light Model Update name:", name, "value:", value)
+        if (this.iconData === undefined) {
+            this.iconData = {}
+        }
         if (!this.displayedProperties.hasOwnProperty(name)) {
             return;
         }
         if (name === this.brightnessProperty) {
             value = parseInt(value, 10);
-            this.label = value;
+            this.iconData.lable = value + "%"
+            this.model.handleEvent(Constants.ICON_STATUS, this.iconData)
         } else if (name === this.colorProperty) {
-            this.color = value
+            this.iconData.color = value
+            this.model.handleEvent(Constants.ICON_STATUS, this.iconData)
         } else if (name === this.colorTemperatureProperty) {
             value = parseInt(value, 10);
-            this.icon.colorTemperature = value;
+            this.iconData.colorTemperature = value
+            this.model.handleEvent(Constants.ICON_STATUS, this.iconData)
         } else if (name === this.colorModeProperty) {
             this.icon.colorMode = value;
+            this.model.handleEvent(Constants.ICON_STATUS, this.iconData)
         }
     }
 

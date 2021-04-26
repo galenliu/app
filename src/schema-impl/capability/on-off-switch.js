@@ -6,6 +6,7 @@
 
 
 import Thing from "./thing";
+import Constants from "../../js/constant";
 
 export default class OnOffSwitch extends Thing {
     /**
@@ -18,7 +19,11 @@ export default class OnOffSwitch extends Thing {
     constructor(model, description, format, options) {
 
         super(model, description, format, options);
-        this.on = false
+        if (this.iconData === undefined) {
+            this.iconData = {}
+        }
+        this.iconData.label = "off"
+        this.iconData.on = true
     }
 
     /**
@@ -52,14 +57,17 @@ export default class OnOffSwitch extends Thing {
         if (!this.displayedProperties.hasOwnProperty(name)) {
             return;
         }
-
         if (name === this.onProperty) {
-            this.on = value;
             if (value) {
-                this.label = "on"
-                console.log(" this.label = on")
+                this.iconData.on = true
+                if (this.iconData.label === "off") {
+                    this.iconData.label = "on"
+                }
+                this.model.handleEvent(Constants.ICON_STATUS, this.iconData)
             } else {
-                this.label = "off"
+                this.iconData.on = false
+                this.iconData.label = "off"
+                this.model.handleEvent(Constants.ICON_STATUS, this.iconData)
                 console.log(" this.label = off")
             }
         }
@@ -69,8 +77,12 @@ export default class OnOffSwitch extends Thing {
     /**
      * Handle a click on the on/off switch.
      */
-    handleOnOff() {
-        const newValue = !this.on
+    handleClick() {
+        if (this.iconData === undefined) {
+            this.iconData = {}
+        }
+        const newValue = !this.iconData.on
+        console.log("handle click:", this.iconData, "new value:", newValue)
         this.model.setProperty(this.onProperty, newValue).catch((error) => {
             console.error(`Error trying to toggle switch: ${error}`);
         });

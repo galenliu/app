@@ -121,10 +121,11 @@ export default function ThingIcons(props) {
             </SvgIcon>
         }
         case ThingType.Light: {
-            switch (props.on) {
+            switch (props.iconData.on) {
                 case true:
+                    return <Lightbulb style={{color: "orange"}} className={classes.iconView} {...props}/>
                 case false:
-                    return <Lightbulb style={{color: "darkgray"}} className={classes.iconView} {...props}/>
+                    return <Lightbulb  className={classes.iconView} {...props}/>
                 default:
                     return <Lightbulb className={classes.iconView}  {...props}/>
             }

@@ -8,6 +8,10 @@
       "paper": "#fff",
       "default": "#fafafa"
     },
+    "icon": {
+      "on": "rgba(255, 255, 255, 1)",
+      "off":  "rgba(222, 222, 222, 0.3)"
+    },
     "primary": {
       "light": "rgba(98, 234, 255, 1)",
       "main": "rgba(0, 183, 211, 1)",

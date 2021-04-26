@@ -5,6 +5,9 @@ import {makeStyles} from "@material-ui/core/styles";
 import ThingIcons from "./icons";
 import Typography from "@material-ui/core/Typography";
 import {useTranslation} from "react-i18next";
+import Constants from "../js/constant";
+import {theme} from "../index";
+import clsx from "clsx";
 
 const useStyles = makeStyles((theme) => ({
     thingCard: {
@@ -14,6 +17,19 @@ const useStyles = makeStyles((theme) => ({
         maxWidth: 140,
         justifyContent: "space-between",
         flexDirection: "column",
+        backgroundColor: theme.palette.icon.on,
+        cursor: "pointer"
+    },
+    off: {
+        borderRadius: 12,
+        display: 'flex',
+        minWidth: 140,
+        maxWidth: 140,
+        justifyContent: "space-between",
+        flexDirection: "column",
+        backgroundColor: theme.palette.icon.off,
+        cursor: "pointer"
+
     },
     modal: {
         display: 'flex',
@@ -42,27 +58,38 @@ const useStyles = makeStyles((theme) => ({
     },
 }))
 
-function useIconViewState(id) {
-    const [state, setState] = useState()
+function useIconViewState(thing) {
+    const [iconData, setIconData] = useState(thing.iconData)
 
-    function Set() {
-
+    function updateIconData(iconData) {
+        setIconData({...iconData})
     }
+
+    useEffect(() => {
+
+        thing.model.subscribe(Constants.ICON_STATUS, updateIconData)
+
+        return () => {
+            thing.model.unsubscribe(Constants.ICON_STATUS, updateIconData)
+        }
+    }, [])
+
+    return [iconData]
 }
 
 
-export default function IconView({id, on, color, label, title, selectedCapability, handleOnOff}) {
-
-    console.log("&&&&&&&&&&&&&&&&&on, color, label, title, selectedCapability:", on, color, label, title, selectedCapability)
-
+export default function IconView({title, selectedCapability, thing}) {
+    console.log("---------------thing", thing)
     const {t} = useTranslation();
     const classes = useStyles()
     const [enable, setEnable] = useState(true)
 
+    const [iconData] = useIconViewState(thing)
+
 
     function handleClick(e) {
         e.stopPropagation()
-        handleOnOff(id)
+        thing.handleClick()
     }
 
     useEffect(() => {
@@ -71,18 +98,17 @@ export default function IconView({id, on, color, label, title, selectedCapabilit
     }, [])
 
     return (
-
         <Grid item className={classes.root}>
-            <Card elevation={10} className={classes.thingCard} onClick={handleClick}>
+            <Card elevation={10} className={clsx(classes.thingCard, !iconData.on && classes.off)} onClick={handleClick}>
                 <div className={classes.cardTop}>
-                    <ThingIcons type={selectedCapability}/>
+                    <ThingIcons type={selectedCapability} iconData={iconData}/>
                 </div>
                 <div className={classes.cardBot}>
                     <Typography variant={"body1"}>
                         {title}
                     </Typography>
-                    <Typography t={2}>
-                        {t(label)}
+                    <Typography t={2} style={{color: theme.palette.text.secondary}}>
+                        {t(iconData.label)}
                     </Typography>
                 </div>
             </Card>

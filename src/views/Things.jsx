@@ -76,7 +76,7 @@ export default function Things(props) {
         console.log("renderThings", props.things)
         props.things.forEach((id, thing) => {
             if (thing !== null && thing !== undefined) {
-                const iv = <IconView id={thing.id} on={thing.on} key={id} label={thing.label}
+                const iv = <IconView id={thing.id}  key={id} thing={thing}
                                      handleOnOff={handleOnOff}
                                      selectedCapability={thing.selectedCapability}
                                      title={thing.title}/>
