@@ -95,6 +95,7 @@ function Router() {
 
     useEffect(() => {
         function refreshThings(things) {
+            console.log("refresh things:----------------------", things)
             if (things === undefined || things === null) {
                 return
             }
