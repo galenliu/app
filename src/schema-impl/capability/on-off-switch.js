@@ -19,9 +19,7 @@ export default class OnOffSwitch extends Thing {
     constructor(model, description, format, options) {
 
         super(model, description, format, options);
-        if (this.iconData === undefined) {
-            this.iconData = {}
-        }
+
         this.iconData.label = "off"
         this.iconData.on = true
     }
@@ -62,13 +60,14 @@ export default class OnOffSwitch extends Thing {
                 this.iconData.on = true
                 if (this.iconData.label === "off") {
                     this.iconData.label = "on"
+                    console.log(" this.label = on,value:", value)
                 }
                 this.model.handleEvent(Constants.ICON_STATUS, this.iconData)
             } else {
                 this.iconData.on = false
                 this.iconData.label = "off"
                 this.model.handleEvent(Constants.ICON_STATUS, this.iconData)
-                console.log(" this.label = off")
+                console.log(" this.label = off,value:", value)
             }
         }
         return value;

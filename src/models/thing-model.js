@@ -41,7 +41,6 @@ class ThingModel extends Model {
                     break;
             }
         }
-
         // Parse properties
         this.propertyDescriptions = {};
         if (description.hasOwnProperty('properties')) {
@@ -85,7 +84,6 @@ class ThingModel extends Model {
         if (!this.hasOwnProperty('href')) {
             return;
         }
-
         this.ws = globalWs;
 
         // After the websocket is open, add subscriptions for all events.
@@ -112,6 +110,7 @@ class ThingModel extends Model {
             }
             switch (message.messageType) {
                 case 'propertyStatus':
+                    console.log("++++++++++++++++++++++++++++propertyStatus", message)
                     this.onPropertyStatus(message.data)
                     break;
                 case 'event':
@@ -150,6 +149,9 @@ class ThingModel extends Model {
                 break;
             case Constants.CONNECTED:
                 handler(this.connected);
+                break;
+            case Constants.ICON_STATUS:
+                handler(this.iconData);
                 break;
             default:
                 console.warn(`ThingModel does not support event:${event}`);
@@ -235,6 +237,7 @@ class ThingModel extends Model {
      */
     onPropertyStatus(data) {
         const updatedProperties = {};
+
         for (const prop in data) {
             if (!this.propertyDescriptions.hasOwnProperty(prop)) {
                 continue;
@@ -283,7 +286,6 @@ class ThingModel extends Model {
 
     /**
      * Handle a 'connected' message.
-     *
      * @param {boolean} connected - Connected state
      */
     onConnected(connected) {
@@ -292,7 +294,6 @@ class ThingModel extends Model {
         if (connected) {
             this.updateProperties();
         }
-
         return this.handleEvent(Constants.CONNECTED, connected);
     }
 }

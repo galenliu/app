@@ -63,7 +63,10 @@ export default class Thing {
         this.model = model;
         this.listeners = [];
         this.connected = this.model.connected;
-        this.label = "off"
+        if (this.iconData === undefined) {
+            this.iconData = {}
+        }
+
 
 
         if (Array.isArray(description['@type']) &&
@@ -294,7 +297,6 @@ export default class Thing {
             ).value;
 
         }
-
         return value;
     }
 
@@ -362,7 +364,6 @@ export default class Thing {
      * @param {Object} data Property data
      */
     onPropertyStatus(data) {
-
         for (const prop in data) {
             if (!this.displayedProperties.hasOwnProperty(prop)) {
                 continue;
@@ -372,7 +373,6 @@ export default class Thing {
             if (typeof value === 'undefined' || value === null) {
                 continue;
             }
-
             this.updateProperty(prop, value);
         }
     }

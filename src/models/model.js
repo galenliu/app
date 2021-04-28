@@ -62,6 +62,7 @@ class Model {
             try {
                 await handler(state);
             } catch (e) {
+                console.log("handler:", handler, "state:", state)
                 console.error(
                     `Error occurred in handler event:${event} state:${state} ${e}`
                 );

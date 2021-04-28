@@ -79,10 +79,10 @@ function useIconViewState(thing) {
 
 
 export default function IconView({title, selectedCapability, thing}) {
-    console.log("---------------thing", thing)
+
     const {t} = useTranslation();
     const classes = useStyles()
-    const [enable, setEnable] = useState(true)
+    // const [enable, setEnable] = useState(true)
 
     const [iconData] = useIconViewState(thing)
 
