@@ -59,7 +59,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 function useIconViewState(thing) {
-    const [iconData, setIconData] = useState(thing.iconData)
+    const [iconData, setIconData] = useState(thing.model.iconData)
 
     function updateIconData(iconData) {
         setIconData({...iconData})

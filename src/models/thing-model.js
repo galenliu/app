@@ -17,6 +17,7 @@ class ThingModel extends Model {
 
         this.initWebSocket(ws);
         this.updateEvents()
+        this.iconData = {}
         return this;
     }
 
@@ -108,9 +109,9 @@ class ThingModel extends Model {
             if (message.hasOwnProperty('id') && message.id !== this.id) {
                 return;
             }
+            console.log("++++++++++++++++++++++++++++propertyStatus:", message, "thing id:", message.id)
             switch (message.messageType) {
                 case 'propertyStatus':
-                    console.log("++++++++++++++++++++++++++++propertyStatus", message)
                     this.onPropertyStatus(message.data)
                     break;
                 case 'event':

@@ -43,7 +43,6 @@ class Model {
         if (!this.handlers.has(event)) {
             this.handlers.set(event, new Map());
         }
-
         const eventHandlers = this.handlers.get(event);
         eventHandlers.set(handler, handler);
     }

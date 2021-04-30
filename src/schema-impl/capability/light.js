@@ -72,29 +72,29 @@ export default class Light extends OnOffSwitch {
      * @param {*} value - value of the property
      */
     updateProperty(name, value) {
-        value = super.updateProperty(name, value);
 
-        if (this.iconData === undefined) {
-            this.iconData = {}
-        }
+        value = super.updateProperty(name, value);
         if (!this.displayedProperties.hasOwnProperty(name)) {
             return;
         }
         if (name === this.brightnessProperty) {
             value = parseInt(value, 10);
-            this.iconData.lable = value + "%"
-            this.model.handleEvent(Constants.ICON_STATUS, this.iconData)
+            this.model.iconData.brightness = value;
+            if (value > 0) {
+                this.model.iconData.on = true
+            }
+            if (value === 0) {
+                this.model.iconData.on = false
+            }
         } else if (name === this.colorProperty) {
-            this.iconData.color = value
-            this.model.handleEvent(Constants.ICON_STATUS, this.iconData)
+            this.model.iconData.color = value
         } else if (name === this.colorTemperatureProperty) {
             value = parseInt(value, 10);
-            this.iconData.colorTemperature = value
-            this.model.handleEvent(Constants.ICON_STATUS, this.iconData)
+            this.model.iconData.colorTemperature = value
         } else if (name === this.colorModeProperty) {
-            this.icon.colorMode = value;
-            this.model.handleEvent(Constants.ICON_STATUS, this.iconData)
+            this.model.iconData.colorMode = value;
         }
+        this.model.handleEvent(Constants.ICON_STATUS, this.model.iconData)
     }
 
     handleClick() {

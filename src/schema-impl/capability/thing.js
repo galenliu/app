@@ -63,11 +63,9 @@ export default class Thing {
         this.model = model;
         this.listeners = [];
         this.connected = this.model.connected;
-        if (this.iconData === undefined) {
-            this.iconData = {}
-        }
-
-
+        this.iconData = {}
+        this.model.iconData.label = "off"
+        this.model.iconData.on = false
 
         if (Array.isArray(description['@type']) &&
             description['@type'].length > 0) {
@@ -276,8 +274,7 @@ export default class Thing {
 
 
     findProperties() {
-        this.label = "";
-        this.color = "";
+
     }
 
 

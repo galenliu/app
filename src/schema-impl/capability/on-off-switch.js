@@ -20,8 +20,7 @@ export default class OnOffSwitch extends Thing {
 
         super(model, description, format, options);
 
-        this.iconData.label = "off"
-        this.iconData.on = true
+
     }
 
     /**
@@ -41,6 +40,7 @@ export default class OnOffSwitch extends Thing {
         if (this.onProperty === null && this.displayedProperties.hasOwnProperty('on')) {
             this.onProperty = 'on';
         }
+
     }
 
     /**
@@ -49,26 +49,19 @@ export default class OnOffSwitch extends Thing {
      * @param {*} value - value of the property
      */
     updateProperty(name, value) {
-
         value = super.updateProperty(name, value);
-
         if (!this.displayedProperties.hasOwnProperty(name)) {
             return;
         }
         if (name === this.onProperty) {
-            if (value) {
-                this.iconData.on = true
-                if (this.iconData.label === "off") {
-                    this.iconData.label = "on"
-                    console.log(" this.label = on,value:", value)
-                }
-                this.model.handleEvent(Constants.ICON_STATUS, this.iconData)
+            this.model.iconData.on = !!value
+            if (this.model.iconData.on) {
+                this.model.iconData.label = "on"
             } else {
-                this.iconData.on = false
-                this.iconData.label = "off"
-                this.model.handleEvent(Constants.ICON_STATUS, this.iconData)
-                console.log(" this.label = off,value:", value)
+                this.model.iconData.label = "off"
             }
+            this.model.handleEvent(Constants.ICON_STATUS, this.model.iconData)
+            console.log("on off switch:", this.model.iconData)
         }
         return value;
     }
@@ -77,11 +70,8 @@ export default class OnOffSwitch extends Thing {
      * Handle a click on the on/off switch.
      */
     handleClick() {
-        if (this.iconData === undefined) {
-            this.iconData = {}
-        }
-        const newValue = !this.iconData.on
-        console.log("handle click:", this.iconData, "new value:", newValue)
+        const newValue = !this.model.iconData.on
+        this.model.iconData.on = null
         this.model.setProperty(this.onProperty, newValue).catch((error) => {
             console.error(`Error trying to toggle switch: ${error}`);
         });
