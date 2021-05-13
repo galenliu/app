@@ -5,8 +5,8 @@ import {LightControlPanel} from "./light-control-panel";
 
 export default function ControlPanel(props) {
 
-    if (props.selectedCapability === ThingType.Light) {
-        return <LightControlPanel {...props}/>
-    }
+  if (props.selectedCapability === ThingType.Light) {
+    return <LightControlPanel {...props}/>
+  }
 
 }

@@ -21,103 +21,103 @@ import RoomIcon from '@material-ui/icons/Room';
 
 
 const useStyles = makeStyles((theme) => ({
-    root: {
-        display: 'flex',
-    },
-    grow: {
-        flexGrow: 1,
-    },
+  root: {
+    display: 'flex',
+  },
+  grow: {
+    flexGrow: 1,
+  },
 
-    drawer: {
-        width: drawerWidth,
-        flexShrink: 0,
-    },
-    drawerPaper: {
-        width: drawerWidth,
-    },
-    drawerHeader: {
-        display: 'flex',
-        alignItems: 'center',
-        padding: theme.spacing(0, 1),
-        // necessary for content to be below app bar
-        ...theme.mixins.toolbar,
-        justifyContent: 'flex-end',
-    },
+  drawer: {
+    width: drawerWidth,
+    flexShrink: 0,
+  },
+  drawerPaper: {
+    width: drawerWidth,
+  },
+  drawerHeader: {
+    display: 'flex',
+    alignItems: 'center',
+    padding: theme.spacing(0, 1),
+    // necessary for content to be below app bar
+    ...theme.mixins.toolbar,
+    justifyContent: 'flex-end',
+  },
 
 }));
 
 export default function SideBar() {
 
-    const classes = useStyles();
-    const theme = useTheme()
-    const {drawerOpen, setDrawerOpen} = useContext(AppContext)
-    const history = useHistory()
+  const classes = useStyles();
+  const theme = useTheme()
+  const {drawerOpen, setDrawerOpen} = useContext(AppContext)
+  const history = useHistory()
 
-    const {t} = useTranslation();
+  const {t} = useTranslation();
 
-    function handleClick(url) {
-        setDrawerOpen(false)
-        history.push(url)
-    }
+  function handleClick(url) {
+    setDrawerOpen(false)
+    history.push(url)
+  }
 
-    return (
-        <>
-            <Drawer
-                className={classes.drawer}
-                width="240"
-                variant="persistent"
-                anchor="left"
-                open={drawerOpen}
-                classes={{
-                    paper: classes.drawerPaper,
-                }}
-            >
-                <div className={classes.drawerHeader}>
-                    <IconButton onClick={() => setDrawerOpen(false)}>
-                        {theme.direction === 'ltr' ? <ChevronLeftIcon/> : <ChevronRightIcon/>}
-                    </IconButton>
-                </div>
-                <Divider/>
+  return (
+    <>
+      <Drawer
+        className={classes.drawer}
+        width="240"
+        variant="persistent"
+        anchor="left"
+        open={drawerOpen}
+        classes={{
+          paper: classes.drawerPaper,
+        }}
+      >
+        <div className={classes.drawerHeader}>
+          <IconButton onClick={() => setDrawerOpen(false)}>
+            {theme.direction === 'ltr' ? <ChevronLeftIcon/> : <ChevronRightIcon/>}
+          </IconButton>
+        </div>
+        <Divider/>
 
-                <List>
+        <List>
 
-                    <ListItem button key={"home"} onClick={() => handleClick("/home")}>
-                        <ListItemIcon>
-                            <HomeIcon/>
-                        </ListItemIcon>
-                        <ListItemText primary={t('Things')}/>
-                    </ListItem>
+          <ListItem button key={"home"} onClick={() => handleClick("/home")}>
+            <ListItemIcon>
+              <HomeIcon/>
+            </ListItemIcon>
+            <ListItemText primary={t('Things')}/>
+          </ListItem>
 
-                    <ListItem button key={"rules"} onClick={() => handleClick("/rules")}>
-                        <ListItemIcon>
-                            <AlarmOnIcon/>
-                        </ListItemIcon>
-                        <ListItemText primary={t('Rules')}/>
-                    </ListItem>
+          <ListItem button key={"rules"} onClick={() => handleClick("/rules")}>
+            <ListItemIcon>
+              <AlarmOnIcon/>
+            </ListItemIcon>
+            <ListItemText primary={t('Rules')}/>
+          </ListItem>
 
-                    <ListItem button key={"settings"} onClick={() => handleClick("/settings")}>
-                        <ListItemIcon>
-                            <SettingsIcon/>
-                        </ListItemIcon>
-                        <ListItemText primary={t('Settings')}/>
-                    </ListItem>
+          <ListItem button key={"settings"} onClick={() => handleClick("/settings")}>
+            <ListItemIcon>
+              <SettingsIcon/>
+            </ListItemIcon>
+            <ListItemText primary={t('Settings')}/>
+          </ListItem>
 
-                </List>
-                <Divider/>
-                <List subheader={
-                    <ListSubheader component="div" id="nested-list-subheader">
-                        房间列表
-                    </ListSubheader>
-                }>
-                    {['客厅', '餐厅', '卧室'].map((text) => (
-                        <ListItem button key={text}>
-                            <ListItemIcon><RoomIcon/></ListItemIcon>
-                            <ListItemText primary={text}/>
-                        </ListItem>
-                    ))}
-                </List>
-            </Drawer>
+        </List>
+        <Divider/>
+        <List subheader={
+          <ListSubheader component="div" id="nested-list-subheader">
+            房间列表
+          </ListSubheader>
+        }>
+          {['客厅', '餐厅', '卧室'].map((text) => (
+            <ListItem button key={text}>
+              <ListItemIcon><RoomIcon/></ListItemIcon>
+              <ListItemText primary={text}/>
+            </ListItem>
+          ))}
+        </List>
+      </Drawer>
 
-        </>
-    );
+    </>
+  );
 }

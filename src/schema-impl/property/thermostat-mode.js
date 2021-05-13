@@ -14,13 +14,13 @@ import EnumDetail from "./enum"
 
 
 export default class ThermostatModeDetail extends EnumDetail {
-    constructor(thing, name, property) {
-        super(thing, name, property);
+  constructor(thing, name, property) {
+    super(thing, name, property);
 
-    }
+  }
 
-    view() {
-    }
+  view() {
+  }
 }
 
 

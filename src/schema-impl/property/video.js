@@ -13,57 +13,57 @@
 
 
 export default class VideoDetail {
-    constructor(thing, name, property) {
-        this.thing = thing;
-        this.name = name;
-        this.label = property.title || name;
+  constructor(thing, name, property) {
+    this.thing = thing;
+    this.name = name;
+    this.label = property.title || name;
 
 
-        this.dashHref = null;
-        this.hlsHref = null;
-        this.mjpegHref = null;
-        this.player = null;
+    this.dashHref = null;
+    this.hlsHref = null;
+    this.mjpegHref = null;
+    this.player = null;
 
-        for (const link of property.forms) {
-            if (link.rel === 'alternate') {
-                if (this.dashHref === null &&
-                    link.mediaType === 'application/dash+xml') {
-                    this.dashHref = link.href;
-                } else if (this.hlsHref === null &&
-                    link.mediaType === 'application/vnd.apple.mpegurl') {
-                    this.hlsHref = link.href;
-                } else if (this.mjpegHref === null &&
-                    (link.mediaType === 'video/x-motion-jpeg' ||
-                        link.mediaType === 'video/x-jpeg')) {
-                    this.mjpegHref = link.href;
-                }
-            }
+    for (const link of property.forms) {
+      if (link.rel === 'alternate') {
+        if (this.dashHref === null &&
+          link.mediaType === 'application/dash+xml') {
+          this.dashHref = link.href;
+        } else if (this.hlsHref === null &&
+          link.mediaType === 'application/vnd.apple.mpegurl') {
+          this.hlsHref = link.href;
+        } else if (this.mjpegHref === null &&
+          (link.mediaType === 'video/x-motion-jpeg' ||
+            link.mediaType === 'video/x-jpeg')) {
+          this.mjpegHref = link.href;
         }
-
-        this.expandVideo = this._expandVideo.bind(this);
-        this.positionButtons = this._positionButtons.bind(this);
+      }
     }
 
-    /**
-     * Attach to the view.
-     */
-    attach() {
-    }
+    this.expandVideo = this._expandVideo.bind(this);
+    this.positionButtons = this._positionButtons.bind(this);
+  }
 
-    /**
-     * Build the detail view.
-     */
-    view() {
-    }
+  /**
+   * Attach to the view.
+   */
+  attach() {
+  }
 
-    /**
-     * Expand the video view.
-     */
-    _expandVideo() {
-    }
+  /**
+   * Build the detail view.
+   */
+  view() {
+  }
 
-    _positionButtons() {
-    }
+  /**
+   * Expand the video view.
+   */
+  _expandVideo() {
+  }
+
+  _positionButtons() {
+  }
 }
 
 

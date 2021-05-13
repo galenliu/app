@@ -8,13 +8,13 @@ import d from "./json/theme.json"
 export const theme = createMuiTheme(d);
 
 ReactDOM.render(
-    <React.StrictMode>
-        <MuiThemeProvider theme={theme}>
-            <Router/>
-        </MuiThemeProvider>
-    </React.StrictMode>,
+  <React.StrictMode>
+    <MuiThemeProvider theme={theme}>
+      <Router/>
+    </MuiThemeProvider>
+  </React.StrictMode>,
 
-    document.getElementById('root')
+  document.getElementById('root')
 );
 
 

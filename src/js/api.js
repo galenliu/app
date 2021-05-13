@@ -8,644 +8,644 @@
 'use strict';
 
 const API = {
-    jwt: localStorage.getItem('jwt'),
-
-    isLoggedIn() {
-        return !!this.jwt;
-    },
-
-    /**
-     * The default options to use with fetching API calls
-     * @return {Object}
-     */
-    headers(contentType) {
-        const headers = {
-            Accept: 'application/json',
-        };
-
-        if (this.jwt) {
-            headers.Authorization = `Bearer ${this.jwt}`;
-        }
-
-        if (contentType) {
-            headers['Content-Type'] = contentType;
-        }
-
-        return headers;
-    },
-
-    getJson(url) {
-
-        const opts = {
-            method: 'GET',
-            headers: this.headers(),
-        };
-        return fetch(url, opts).then((res) => {
-            if (!res.ok) {
-
-                throw new Error(res.status);
-            }
-            return res.json();
-        });
-    },
-
-    postJson(url, data) {
-        const opts = {
-            method: 'POST',
-            headers: this.headers('application/json'),
-            body: JSON.stringify(data),
-        };
-
-        return fetch(url, opts).then((res) => {
-            if (!res.ok) {
-                throw new Error(res.status);
-            }
-
-            if (res.status !== 204) {
-                return res.json();
-            }
-        });
-    },
-
-    putJson(url, data) {
-        const opts = {
-            method: 'PUT',
-            headers: this.headers('application/json'),
-            body: JSON.stringify(data),
-        };
-
-        return fetch(url, opts).then((res) => {
-            if (!res.ok) {
-                throw new Error(res.status);
-            }
-
-            return res.json();
-        });
-    },
-
-    patchJson(url, data) {
-        const opts = {
-            method: 'PATCH',
-            headers: this.headers('application/json'),
-            body: JSON.stringify(data),
-        };
-
-        return fetch(url, opts).then((res) => {
-            if (!res.ok) {
-                throw new Error(res.status);
-            }
-
-            return res.json();
-        });
-    },
-
-    delete(url) {
-        const opts = {
-            method: 'DELETE',
-            headers: this.headers(),
-        };
-        console.log("url:", url)
-        return fetch(url, opts).then((res) => {
-            if (!res.ok) {
-                throw new Error(res.status);
-            }
-        });
-    },
-
-    loadImage(url) {
-        const opts = {
-            headers: {
-                Authorization: `Bearer ${this.jwt}`,
-            },
-            cache: 'reload',
-        };
-
-        return fetch(url, opts).then((res) => {
-            if (!res.ok) {
-                throw new Error(res.status);
-            }
-
-            return res.blob();
-        });
-    },
-
-    userCount() {
-        return this.getJson('/users/count').then((body) => {
-            return body.count;
-        }).catch(() => {
-            throw new Error('Failed to get user count.');
-        });
-    },
-
-    assertJWT() {
-        if (!this.jwt) {
-            throw new Error('No JWT go login..');
-        }
-    },
-
-    verifyJWT() {
-        return fetch('/things', {headers: this.headers()}).then((res) => res.ok);
-    },
-
-    createUser(name, email, password) {
-        return this.postJson('/users', {name, email, password}).then((body) => {
-            const jwt = body.jwt;
-            localStorage.setItem('jwt', jwt);
-            API.jwt = jwt;
-        }).catch(() => {
-            throw new Error('Repeating signup not permitted');
-        });
-    },
-
-    getUser(id) {
-        return this.getJson(`/users/${encodeURIComponent(id)}`);
-    },
-
-    addUser(name, email, password) {
-        return this.postJson('/users', {name, email, password});
-    },
-
-    editUser(id, name, email, password, newPassword) {
-        return this.putJson(
-            `/users/${encodeURIComponent(id)}`,
-            {id, name, email, password, newPassword}
-        );
-    },
-
-    userEnableMfa(id, totp = null) {
-        const body = {
-            enable: true,
-        };
-
-        if (totp) {
-            body.mfa = {totp};
-        }
-
-        return this.postJson(`/users/${encodeURIComponent(id)}/mfa`, body);
-    },
-
-    userDisableMfa(id) {
-        return this.postJson(
-            `/users/${encodeURIComponent(id)}/mfa`,
-            {enable: false}
-        );
-    },
-
-    userRegenerateMfaBackupCodes(id) {
-        return this.putJson(
-            `/users/${encodeURIComponent(id)}/mfa/codes`,
-            {generate: true}
-        );
-    },
-
-    deleteUser(id) {
-        return this.delete(`/users/${encodeURIComponent(id)}`);
-    },
-
-    getAllUserInfo() {
-        return this.getJson('/users/info');
-    },
-
-    login(email, password, totp) {
-        const body = {
-            email,
-            password,
-        };
-
-        if (totp) {
-            body.mfa = {totp};
-        }
-
-        const opts = {
-            method: 'POST',
-            headers: this.headers('application/json'),
-            body: JSON.stringify(body),
-        };
-
-        return fetch('/login', opts).then((res) => {
-            if (!res.ok) {
-                if (res.status === 401) {
-                    return res.text().then((body) => {
-                        throw new Error(body);
-                    });
-                } else {
-                    throw new Error(res.status);
-                }
-            }
-
-            return res.json().then((body) => {
-                const jwt = body.jwt;
-                localStorage.setItem('jwt', jwt);
-                this.jwt = jwt;
-            });
-        });
-    },
-
-    logout() {
-        this.assertJWT();
-        localStorage.removeItem('jwt');
-
-        return this.postJson('/log-out', {}).catch(() => {
-            console.error('Logout failed...');
-        });
-    },
-
-    getInstalledAddons() {
-        return this.getJson('/addons');
-    },
-
-    getAddonConfig(addonId) {
-        return this.getJson(`/addons/${encodeURIComponent(addonId)}/config`);
-    },
-
-    setAddonConfig(addonId, config) {
-        return this.putJson(
-            `/addons/${encodeURIComponent(addonId)}/config`,
-            {config}
-        );
-    },
-
-    setAddonSetting(addonId, enabled) {
-        return this.putJson(`/addons/${encodeURIComponent(addonId)}`, {enabled});
-    },
-
-    installAddon(addonId, addonUrl, addonChecksum) {
-        return this.postJson('/addons', {
-            id: addonId,
-            url: addonUrl,
-            checksum: addonChecksum,
-        });
-    },
-
-    uninstallAddon(addonId) {
-        return this.delete(`/addons/${encodeURIComponent(addonId)}`);
-    },
-
-    updateAddon(addonId, addonUrl, addonChecksum) {
-        return this.patchJson(
-            `/addons/${encodeURIComponent(addonId)}`,
-            {
-                url: addonUrl,
-                checksum: addonChecksum,
-            }
-        );
-    },
-
-    getAddonsInfo() {
-        return this.getJson('/settings/addonsInfo');
-    },
-
-    getExperimentSetting(experimentName) {
-        return this.getJson(
-            `/settings/experiments/${encodeURIComponent(experimentName)}`
-        ).then((json) => {
-            return json.enabled;
-        }).catch((e) => {
-            if (e.message === '404') {
-                return false;
-            }
-
-            throw new Error(`Error getting ${experimentName}`);
-        });
-    },
-
-    setExperimentSetting(experimentName, enabled) {
-        return this.putJson(
-            `/settings/experiments/${encodeURIComponent(experimentName)}`,
-            {enabled}
-        );
-    },
-
-    getUpdateStatus() {
-        return this.getJson('/updates/status');
-    },
-
-    getUpdateLatest() {
-        return this.getJson('/updates/latest');
-    },
-
-    getSelfUpdateStatus() {
-        return this.getJson('/updates/self-update');
-    },
-
-    setSelfUpdateStatus(enabled) {
-        return this.putJson('/updates/self-update', {enabled});
-    },
-
-    startUpdate() {
-        return this.postJson('/updates/update', {});
-    },
-
-    getExtensions() {
-        return this.getJson('/extensions');
-    },
-
-    getThings() {
-        return this.getJson('/things');
-    },
-
-    getThing(thingId) {
-        return this.getJson(`/things/${encodeURIComponent(thingId)}`);
-    },
-
-    setThingLayoutIndex(thingId, index) {
-        return this.patchJson(
-            `/things/${encodeURIComponent(thingId)}`,
-            {layoutIndex: index}
-        );
-    },
-
-    setThingFloorplanPosition(thingId, x, y) {
-        return this.patchJson(
-            `/things/${encodeURIComponent(thingId)}`,
-            {
-                floorplanX: x,
-                floorplanY: y,
-            }
-        );
-    },
-
-    setThingCredentials(thingId, data) {
-        const body = {
-            thingId,
-        };
-
-        if (data.hasOwnProperty('pin')) {
-            body.pin = data.pin;
+  jwt: localStorage.getItem('jwt'),
+
+  isLoggedIn() {
+    return !!this.jwt;
+  },
+
+  /**
+   * The default options to use with fetching API calls
+   * @return {Object}
+   */
+  headers(contentType) {
+    const headers = {
+      Accept: 'application/json',
+    };
+
+    if (this.jwt) {
+      headers.Authorization = `Bearer ${this.jwt}`;
+    }
+
+    if (contentType) {
+      headers['Content-Type'] = contentType;
+    }
+
+    return headers;
+  },
+
+  getJson(url) {
+
+    const opts = {
+      method: 'GET',
+      headers: this.headers(),
+    };
+    return fetch(url, opts).then((res) => {
+      if (!res.ok) {
+
+        throw new Error(res.status);
+      }
+      return res.json();
+    });
+  },
+
+  postJson(url, data) {
+    const opts = {
+      method: 'POST',
+      headers: this.headers('application/json'),
+      body: JSON.stringify(data),
+    };
+
+    return fetch(url, opts).then((res) => {
+      if (!res.ok) {
+        throw new Error(res.status);
+      }
+
+      if (res.status !== 204) {
+        return res.json();
+      }
+    });
+  },
+
+  putJson(url, data) {
+    const opts = {
+      method: 'PUT',
+      headers: this.headers('application/json'),
+      body: JSON.stringify(data),
+    };
+
+    return fetch(url, opts).then((res) => {
+      if (!res.ok) {
+        throw new Error(res.status);
+      }
+
+      return res.json();
+    });
+  },
+
+  patchJson(url, data) {
+    const opts = {
+      method: 'PATCH',
+      headers: this.headers('application/json'),
+      body: JSON.stringify(data),
+    };
+
+    return fetch(url, opts).then((res) => {
+      if (!res.ok) {
+        throw new Error(res.status);
+      }
+
+      return res.json();
+    });
+  },
+
+  delete(url) {
+    const opts = {
+      method: 'DELETE',
+      headers: this.headers(),
+    };
+    console.log("url:", url)
+    return fetch(url, opts).then((res) => {
+      if (!res.ok) {
+        throw new Error(res.status);
+      }
+    });
+  },
+
+  loadImage(url) {
+    const opts = {
+      headers: {
+        Authorization: `Bearer ${this.jwt}`,
+      },
+      cache: 'reload',
+    };
+
+    return fetch(url, opts).then((res) => {
+      if (!res.ok) {
+        throw new Error(res.status);
+      }
+
+      return res.blob();
+    });
+  },
+
+  userCount() {
+    return this.getJson('/users/count').then((body) => {
+      return body.count;
+    }).catch(() => {
+      throw new Error('Failed to get user count.');
+    });
+  },
+
+  assertJWT() {
+    if (!this.jwt) {
+      throw new Error('No JWT go login..');
+    }
+  },
+
+  verifyJWT() {
+    return fetch('/things', {headers: this.headers()}).then((res) => res.ok);
+  },
+
+  createUser(name, email, password) {
+    return this.postJson('/users', {name, email, password}).then((body) => {
+      const jwt = body.jwt;
+      localStorage.setItem('jwt', jwt);
+      API.jwt = jwt;
+    }).catch(() => {
+      throw new Error('Repeating signup not permitted');
+    });
+  },
+
+  getUser(id) {
+    return this.getJson(`/users/${encodeURIComponent(id)}`);
+  },
+
+  addUser(name, email, password) {
+    return this.postJson('/users', {name, email, password});
+  },
+
+  editUser(id, name, email, password, newPassword) {
+    return this.putJson(
+      `/users/${encodeURIComponent(id)}`,
+      {id, name, email, password, newPassword}
+    );
+  },
+
+  userEnableMfa(id, totp = null) {
+    const body = {
+      enable: true,
+    };
+
+    if (totp) {
+      body.mfa = {totp};
+    }
+
+    return this.postJson(`/users/${encodeURIComponent(id)}/mfa`, body);
+  },
+
+  userDisableMfa(id) {
+    return this.postJson(
+      `/users/${encodeURIComponent(id)}/mfa`,
+      {enable: false}
+    );
+  },
+
+  userRegenerateMfaBackupCodes(id) {
+    return this.putJson(
+      `/users/${encodeURIComponent(id)}/mfa/codes`,
+      {generate: true}
+    );
+  },
+
+  deleteUser(id) {
+    return this.delete(`/users/${encodeURIComponent(id)}`);
+  },
+
+  getAllUserInfo() {
+    return this.getJson('/users/info');
+  },
+
+  login(email, password, totp) {
+    const body = {
+      email,
+      password,
+    };
+
+    if (totp) {
+      body.mfa = {totp};
+    }
+
+    const opts = {
+      method: 'POST',
+      headers: this.headers('application/json'),
+      body: JSON.stringify(body),
+    };
+
+    return fetch('/login', opts).then((res) => {
+      if (!res.ok) {
+        if (res.status === 401) {
+          return res.text().then((body) => {
+            throw new Error(body);
+          });
         } else {
-            body.username = data.username;
-            body.password = data.password;
+          throw new Error(res.status);
         }
+      }
 
-        return this.patchJson('/things', body);
-    },
+      return res.json().then((body) => {
+        const jwt = body.jwt;
+        localStorage.setItem('jwt', jwt);
+        this.jwt = jwt;
+      });
+    });
+  },
 
-    addThing(description) {
-        return this.postJson('/things', description);
-    },
+  logout() {
+    this.assertJWT();
+    localStorage.removeItem('jwt');
 
-    addWebThing(url) {
-        return this.postJson('/new_things', {url});
-    },
+    return this.postJson('/log-out', {}).catch(() => {
+      console.error('Logout failed...');
+    });
+  },
 
-    removeThing(thingId) {
-        return this.delete(`/things/${encodeURIComponent(thingId)}`);
-    },
+  getInstalledAddons() {
+    return this.getJson('/addons');
+  },
 
-    updateThing(thingId, updates) {
-        return this.putJson(`/things/${encodeURIComponent(thingId)}`, updates);
-    },
+  getAddonConfig(addonId) {
+    return this.getJson(`/addons/${encodeURIComponent(addonId)}/config`);
+  },
 
-    getPushKey() {
-        return this.getJson('/push/vapid-public-key');
-    },
+  setAddonConfig(addonId, config) {
+    return this.putJson(
+      `/addons/${encodeURIComponent(addonId)}/config`,
+      {config}
+    );
+  },
 
-    pushSubscribe(subscription) {
-        return this.postJson('/push/register', subscription);
-    },
+  setAddonSetting(addonId, enabled) {
+    return this.putJson(`/addons/${encodeURIComponent(addonId)}`, {enabled});
+  },
 
-    getNotifiers() {
-        return this.getJson('/notifiers');
-    },
+  installAddon(addonId, addonUrl, addonChecksum) {
+    return this.postJson('/addons', {
+      id: addonId,
+      url: addonUrl,
+      checksum: addonChecksum,
+    });
+  },
 
-    startPairing(timeout) {
-        return this.postJson('/actions', {
-            pair: {
-                input: {
-                    timeout,
-                },
-            },
-        });
-    },
+  uninstallAddon(addonId) {
+    return this.delete(`/addons/${encodeURIComponent(addonId)}`);
+  },
 
-    cancelPairing(actionUrl) {
-        return this.delete(actionUrl);
-    },
+  updateAddon(addonId, addonUrl, addonChecksum) {
+    return this.patchJson(
+      `/addons/${encodeURIComponent(addonId)}`,
+      {
+        url: addonUrl,
+        checksum: addonChecksum,
+      }
+    );
+  },
 
-    getRules() {
-        return this.getJson('/rules');
-    },
+  getAddonsInfo() {
+    return this.getJson('/settings/addonsInfo');
+  },
 
-    getRule(ruleId) {
-        return this.getJson(`/rules/${encodeURIComponent(ruleId)}`);
-    },
+  getExperimentSetting(experimentName) {
+    return this.getJson(
+      `/settings/experiments/${encodeURIComponent(experimentName)}`
+    ).then((json) => {
+      return json.enabled;
+    }).catch((e) => {
+      if (e.message === '404') {
+        return false;
+      }
 
-    addRule(description) {
-        return this.postJson('/rules', description);
-    },
+      throw new Error(`Error getting ${experimentName}`);
+    });
+  },
 
-    updateRule(ruleId, description) {
-        return this.putJson(`/rules/${encodeURIComponent(ruleId)}`, description);
-    },
+  setExperimentSetting(experimentName, enabled) {
+    return this.putJson(
+      `/settings/experiments/${encodeURIComponent(experimentName)}`,
+      {enabled}
+    );
+  },
 
-    deleteRule(ruleId) {
-        return this.delete(`/rules/${encodeURIComponent(ruleId)}`);
-    },
+  getUpdateStatus() {
+    return this.getJson('/updates/status');
+  },
 
-    getLogs() {
-        return this.getJson('/logs/.schema');
-    },
+  getUpdateLatest() {
+    return this.getJson('/updates/latest');
+  },
 
-    addLog(description) {
-        const opts = {
-            method: 'POST',
-            headers: this.headers('application/json'),
-            body: JSON.stringify(description),
-        };
+  getSelfUpdateStatus() {
+    return this.getJson('/updates/self-update');
+  },
 
-        let ok;
-        return fetch('/logs', opts).then((res) => {
-            ok = res.ok;
+  setSelfUpdateStatus(enabled) {
+    return this.putJson('/updates/self-update', {enabled});
+  },
 
-            if (!res.ok) {
-                return res.text();
-            }
+  startUpdate() {
+    return this.postJson('/updates/update', {});
+  },
 
-            return res.json();
-        }).then((body) => {
-            return [ok, body];
-        }).catch(() => {
-            return [ok, null];
-        });
-    },
+  getExtensions() {
+    return this.getJson('/extensions');
+  },
 
-    deleteLog(thingId, propertyId) {
-        return this.delete(
-            `/logs/things/${encodeURIComponent(thingId)}/properties/${encodeURIComponent(propertyId)}`
-        );
-    },
+  getThings() {
+    return this.getJson('/things');
+  },
 
-    uploadFloorplan(file) {
-        const formData = new FormData();
-        formData.append('file', file);
+  getThing(thingId) {
+    return this.getJson(`/things/${encodeURIComponent(thingId)}`);
+  },
 
-        const opts = {
-            method: 'POST',
-            headers: {
-                Authorization: `Bearer ${this.jwt}`,
-            },
-            body: formData,
-        };
+  setThingLayoutIndex(thingId, index) {
+    return this.patchJson(
+      `/things/${encodeURIComponent(thingId)}`,
+      {layoutIndex: index}
+    );
+  },
 
-        return fetch('/uploads', opts).then((res) => {
-            if (!res.ok) {
-                throw new Error(res.status);
-            }
-        });
-    },
+  setThingFloorplanPosition(thingId, x, y) {
+    return this.patchJson(
+      `/things/${encodeURIComponent(thingId)}`,
+      {
+        floorplanX: x,
+        floorplanY: y,
+      }
+    );
+  },
 
-    setupTunnel(email, subdomain, reclamationToken, optout) {
-        const opts = {
-            method: 'POST',
-            headers: this.headers('application/json'),
-            body: JSON.stringify({email, subdomain, reclamationToken, optout}),
-        };
+  setThingCredentials(thingId, data) {
+    const body = {
+      thingId,
+    };
 
-        return fetch('/settings/subscribe', opts).then((res) => {
-            if (!res.ok) {
-                return [false, res.statusText];
-            }
+    if (data.hasOwnProperty('pin')) {
+      body.pin = data.pin;
+    } else {
+      body.username = data.username;
+      body.password = data.password;
+    }
 
-            return res.json().then((body) => [true, body]);
-        });
-    },
+    return this.patchJson('/things', body);
+  },
 
-    skipTunnel() {
-        const opts = {
-            method: 'POST',
-            headers: this.headers('application/json'),
-            body: JSON.stringify({}),
-        };
+  addThing(description) {
+    return this.postJson('/things', description);
+  },
 
-        return fetch('/settings/skiptunnel', opts).then((res) => {
-            if (!res.ok) {
-                return [false, res.statusText];
-            }
+  addWebThing(url) {
+    return this.postJson('/new_things', {url});
+  },
 
-            return res.json().then((body) => [true, body]);
-        });
-    },
+  removeThing(thingId) {
+    return this.delete(`/things/${encodeURIComponent(thingId)}`);
+  },
 
-    reclaimDomain(subdomain) {
-        return this.postJson('/settings/reclaim', {subdomain});
-    },
+  updateThing(thingId, updates) {
+    return this.putJson(`/things/${encodeURIComponent(thingId)}`, updates);
+  },
 
-    getLanSettings() {
-        return this.getJson('/settings/network/lan');
-    },
+  getPushKey() {
+    return this.getJson('/push/vapid-public-key');
+  },
 
-    getWlanSettings() {
-        return this.getJson('/settings/network/wireless');
-    },
+  pushSubscribe(subscription) {
+    return this.postJson('/push/register', subscription);
+  },
 
-    getDhcpSettings() {
-        return this.getJson('/settings/network/dhcp');
-    },
+  getNotifiers() {
+    return this.getJson('/notifiers');
+  },
 
-    getWirelessNetworks() {
-        return this.getJson('/settings/network/wireless/networks');
-    },
+  startPairing(timeout) {
+    return this.postJson('/actions', {
+      pair: {
+        input: {
+          timeout,
+        },
+      },
+    });
+  },
 
-    getNetworkAddresses() {
-        return this.getJson('/settings/network/addresses');
-    },
+  cancelPairing(actionUrl) {
+    return this.delete(actionUrl);
+  },
 
-    setLanSettings(settings) {
-        return this.putJson('/settings/network/lan', settings);
-    },
+  getRules() {
+    return this.getJson('/rules');
+  },
 
-    setWlanSettings(settings) {
-        return this.putJson('/settings/network/wireless', settings);
-    },
+  getRule(ruleId) {
+    return this.getJson(`/rules/${encodeURIComponent(ruleId)}`);
+  },
 
-    setDhcpSettings(settings) {
-        return this.putJson('/settings/network/dhcp', settings);
-    },
+  addRule(description) {
+    return this.postJson('/rules', description);
+  },
 
-    getNtpStatus() {
-        return this.getJson('/settings/system/ntp');
-    },
+  updateRule(ruleId, description) {
+    return this.putJson(`/rules/${encodeURIComponent(ruleId)}`, description);
+  },
 
-    restartNtpSync() {
-        return this.postJson('/settings/system/ntp', {});
-    },
+  deleteRule(ruleId) {
+    return this.delete(`/rules/${encodeURIComponent(ruleId)}`);
+  },
 
-    getSshStatus() {
-        return this.getJson('/settings/system/ssh');
-    },
+  getLogs() {
+    return this.getJson('/logs/.schema');
+  },
 
-    setSshStatus(enabled) {
-        return this.putJson('/settings/system/ssh', {enabled});
-    },
+  addLog(description) {
+    const opts = {
+      method: 'POST',
+      headers: this.headers('application/json'),
+      body: JSON.stringify(description),
+    };
 
-    getPlatform() {
-        return this.getJson('/settings/system/platform');
-    },
+    let ok;
+    return fetch('/logs', opts).then((res) => {
+      ok = res.ok;
 
-    getTunnelInfo() {
-        return this.getJson('/settings/tunnelinfo');
-    },
+      if (!res.ok) {
+        return res.text();
+      }
 
-    setDomainSettings(settings) {
-        return this.putJson('/settings/domain', settings);
-    },
+      return res.json();
+    }).then((body) => {
+      return [ok, body];
+    }).catch(() => {
+      return [ok, null];
+    });
+  },
 
-    getAdapters() {
-        return this.getJson('/adapters');
-    },
+  deleteLog(thingId, propertyId) {
+    return this.delete(
+      `/logs/things/${encodeURIComponent(thingId)}/properties/${encodeURIComponent(propertyId)}`
+    );
+  },
 
-    getAuthorizations() {
-        return this.getJson('/authorizations');
-    },
+  uploadFloorplan(file) {
+    const formData = new FormData();
+    formData.append('file', file);
 
-    revokeAuthorization(clientId) {
-        return this.delete(`/authorizations/${encodeURIComponent(clientId)}`);
-    },
+    const opts = {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${this.jwt}`,
+      },
+      body: formData,
+    };
 
-    ping() {
-        const opts = {
-            method: 'GET',
-            headers: this.headers(),
-        };
+    return fetch('/uploads', opts).then((res) => {
+      if (!res.ok) {
+        throw new Error(res.status);
+      }
+    });
+  },
 
-        return fetch('/ping', opts).then((res) => {
-            if (!res.ok) {
-                throw new Error(res.status);
-            }
-        });
-    },
+  setupTunnel(email, subdomain, reclamationToken, optout) {
+    const opts = {
+      method: 'POST',
+      headers: this.headers('application/json'),
+      body: JSON.stringify({email, subdomain, reclamationToken, optout}),
+    };
 
-    getCountry() {
-        return this.getJson('/settings/localization/country');
-    },
+    return fetch('/settings/subscribe', opts).then((res) => {
+      if (!res.ok) {
+        return [false, res.statusText];
+      }
 
-    setCountry(country) {
-        return this.putJson('/settings/localization/country', {country});
-    },
+      return res.json().then((body) => [true, body]);
+    });
+  },
 
-    getTimezone() {
-        return this.getJson('/settings/localization/timezone');
-    },
+  skipTunnel() {
+    const opts = {
+      method: 'POST',
+      headers: this.headers('application/json'),
+      body: JSON.stringify({}),
+    };
 
-    setTimezone(zone) {
-        return this.putJson('/settings/localization/timezone', {zone});
-    },
+    return fetch('/settings/skiptunnel', opts).then((res) => {
+      if (!res.ok) {
+        return [false, res.statusText];
+      }
 
-    getLanguage() {
-        return this.getJson('/settings/localization/language');
-    },
+      return res.json().then((body) => [true, body]);
+    });
+  },
 
-    setLanguage(language) {
-        return this.putJson('/settings/localization/language', {language});
-    },
+  reclaimDomain(subdomain) {
+    return this.postJson('/settings/reclaim', {subdomain});
+  },
 
-    getUnits() {
-        return this.getJson('/settings/localization/units');
-    },
+  getLanSettings() {
+    return this.getJson('/settings/network/lan');
+  },
 
-    setUnits(units) {
-        return this.putJson('/settings/localization/units', units);
-    },
+  getWlanSettings() {
+    return this.getJson('/settings/network/wireless');
+  },
+
+  getDhcpSettings() {
+    return this.getJson('/settings/network/dhcp');
+  },
+
+  getWirelessNetworks() {
+    return this.getJson('/settings/network/wireless/networks');
+  },
+
+  getNetworkAddresses() {
+    return this.getJson('/settings/network/addresses');
+  },
+
+  setLanSettings(settings) {
+    return this.putJson('/settings/network/lan', settings);
+  },
+
+  setWlanSettings(settings) {
+    return this.putJson('/settings/network/wireless', settings);
+  },
+
+  setDhcpSettings(settings) {
+    return this.putJson('/settings/network/dhcp', settings);
+  },
+
+  getNtpStatus() {
+    return this.getJson('/settings/system/ntp');
+  },
+
+  restartNtpSync() {
+    return this.postJson('/settings/system/ntp', {});
+  },
+
+  getSshStatus() {
+    return this.getJson('/settings/system/ssh');
+  },
+
+  setSshStatus(enabled) {
+    return this.putJson('/settings/system/ssh', {enabled});
+  },
+
+  getPlatform() {
+    return this.getJson('/settings/system/platform');
+  },
+
+  getTunnelInfo() {
+    return this.getJson('/settings/tunnelinfo');
+  },
+
+  setDomainSettings(settings) {
+    return this.putJson('/settings/domain', settings);
+  },
+
+  getAdapters() {
+    return this.getJson('/adapters');
+  },
+
+  getAuthorizations() {
+    return this.getJson('/authorizations');
+  },
+
+  revokeAuthorization(clientId) {
+    return this.delete(`/authorizations/${encodeURIComponent(clientId)}`);
+  },
+
+  ping() {
+    const opts = {
+      method: 'GET',
+      headers: this.headers(),
+    };
+
+    return fetch('/ping', opts).then((res) => {
+      if (!res.ok) {
+        throw new Error(res.status);
+      }
+    });
+  },
+
+  getCountry() {
+    return this.getJson('/settings/localization/country');
+  },
+
+  setCountry(country) {
+    return this.putJson('/settings/localization/country', {country});
+  },
+
+  getTimezone() {
+    return this.getJson('/settings/localization/timezone');
+  },
+
+  setTimezone(zone) {
+    return this.putJson('/settings/localization/timezone', {zone});
+  },
+
+  getLanguage() {
+    return this.getJson('/settings/localization/language');
+  },
+
+  setLanguage(language) {
+    return this.putJson('/settings/localization/language', {language});
+  },
+
+  getUnits() {
+    return this.getJson('/settings/localization/units');
+  },
+
+  setUnits(units) {
+    return this.putJson('/settings/localization/units', units);
+  },
 };
 
 // Elevate this to the window level.

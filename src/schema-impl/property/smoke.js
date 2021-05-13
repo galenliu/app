@@ -14,22 +14,22 @@ import StringLabelDetail from './string-label'
 
 
 export default class SmokeDetail extends StringLabelDetail {
-    constructor(thing, name, property) {
-        super(thing, name, !!property.readOnly,
-            property.title);
+  constructor(thing, name, property) {
+    super(thing, name, !!property.readOnly,
+      property.title);
 
+  }
+
+  view() {
+  }
+
+  update(value) {
+    if (!this.label) {
+      return;
     }
 
-    view() {
-    }
-
-    update(value) {
-        if (!this.label) {
-            return;
-        }
-
-        this.labelElement.value = value;
-    }
+    this.labelElement.value = value;
+  }
 }
 
 

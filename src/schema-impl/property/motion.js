@@ -15,19 +15,19 @@ import StringLabelDetail from './string-label'
 
 
 export default class MotionDetail extends StringLabelDetail {
-    constructor(thing, name, property) {
-        super(thing, name, !!property.readOnly,
-            property.title);
+  constructor(thing, name, property) {
+    super(thing, name, !!property.readOnly,
+      property.title);
 
-    }
+  }
 
-    view() {
+  view() {
 
-    }
+  }
 
-    update(value) {
+  update(value) {
 
-    }
+  }
 }
 
 

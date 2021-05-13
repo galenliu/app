@@ -15,13 +15,13 @@ import NumberDetail from "./number"
 
 
 export default class TargetTemperatureDetail extends NumberDetail {
-    constructor(thing, name, property) {
-        super(thing, name, property);
+  constructor(thing, name, property) {
+    super(thing, name, property);
 
-    }
+  }
 
-    view() {
-    }
+  view() {
+  }
 }
 
 

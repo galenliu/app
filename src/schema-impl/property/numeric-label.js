@@ -15,30 +15,30 @@ import Units from "../../js/units";
 
 
 export default class NumericLabelDetail {
-    constructor(thing, name, readOnly, label, unit, precision) {
-        this.thing = thing;
-        this.name = name;
-        this.readOnly = readOnly;
-        this.label = label;
-        this.unit = Units.nameToAbbreviation(unit);
-        this.precision = precision;
+  constructor(thing, name, readOnly, label, unit, precision) {
+    this.thing = thing;
+    this.name = name;
+    this.readOnly = readOnly;
+    this.label = label;
+    this.unit = Units.nameToAbbreviation(unit);
+    this.precision = precision;
 
+  }
+
+  attach() {
+
+  }
+
+  view() {
+  }
+
+  update(value) {
+    if (!this.label) {
+      return;
     }
 
-    attach() {
-
-    }
-
-    view() {
-    }
-
-    update(value) {
-        if (!this.label) {
-            return;
-        }
-
-        this.labelElement.value = parseFloat(value) || 0;
-    }
+    this.labelElement.value = parseFloat(value) || 0;
+  }
 }
 
 

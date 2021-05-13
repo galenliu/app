@@ -16,55 +16,55 @@ import {escapeHtmlForIdClass} from "../../utils"
 
 
 export default class LevelDetail {
-    constructor(thing, name, property) {
-        this.thing = thing;
-        this.name = name;
-        this.readOnly = !!property.readOnly;
-        this.label = property.title;
-        this.unit =
-            property.unit ? Units.nameToAbbreviation(property.unit) : null;
+  constructor(thing, name, property) {
+    this.thing = thing;
+    this.name = name;
+    this.readOnly = !!property.readOnly;
+    this.label = property.title;
+    this.unit =
+      property.unit ? Units.nameToAbbreviation(property.unit) : null;
 
-        if (property.hasOwnProperty('minimum')) {
-            this.min = property.minimum;
-        } else {
-            this.min = 0;
-        }
-
-        if (property.hasOwnProperty('maximum')) {
-            this.max = property.maximum;
-        } else {
-            this.max = 100;
-        }
-
-        this.precision = 0;
-        if (property.hasOwnProperty('multipleOf')) {
-            this.step = property.multipleOf;
-
-            if (`${property.multipleOf}`.includes('.')) {
-                this.precision = `${property.multipleOf}`.split('.')[1].length;
-            }
-        } else if (property.type === 'number') {
-            this.step = 'any';
-        } else {
-            this.step = 1;
-        }
-
-        this.id = `level-${escapeHtmlForIdClass(this.name)}`;
+    if (property.hasOwnProperty('minimum')) {
+      this.min = property.minimum;
+    } else {
+      this.min = 0;
     }
 
-    attach() {
-
+    if (property.hasOwnProperty('maximum')) {
+      this.max = property.maximum;
+    } else {
+      this.max = 100;
     }
 
-    view() {
+    this.precision = 0;
+    if (property.hasOwnProperty('multipleOf')) {
+      this.step = property.multipleOf;
+
+      if (`${property.multipleOf}`.includes('.')) {
+        this.precision = `${property.multipleOf}`.split('.')[1].length;
+      }
+    } else if (property.type === 'number') {
+      this.step = 'any';
+    } else {
+      this.step = 1;
     }
 
-    update(level) {
-    }
+    this.id = `level-${escapeHtmlForIdClass(this.name)}`;
+  }
 
-    set() {
-        this.thing.setProperty(this.name, this.level.value);
-    }
+  attach() {
+
+  }
+
+  view() {
+  }
+
+  update(level) {
+  }
+
+  set() {
+    this.thing.setProperty(this.name, this.level.value);
+  }
 }
 
 

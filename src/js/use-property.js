@@ -6,28 +6,29 @@ import Constants from "./constant";
 
 function useProperty(props) {
 
-    const {thingId, propertyName} = props
-    const [value, SetValue] = useState(null)
-    const [err, setError] = useState(null)
+  const {thingId, propertyName} = props
+  const [value, SetValue] = useState(null)
+  const [err, setError] = useState(null)
 
-    useEffect(() => {
-        function onChange(property) {
-            if (property[propertyName] !== undefined) {
-                SetValue(property[propertyName])
-            }
-        }
-        const thing = ThingsScreen.getThing(thingId)
-        if (thing == null) {
-            setError(Error.ThingIsNull)
-        } else {
-            thing.model.subscribe(Constants.PROPERTY_STATUS, onChange)
-        }
-        return () => {
-            if (thing !== null) {
-                thing.model.unsubscribe(Constants.PROPERTY_STATUS, onChange)
-            }
-        }
-    }, [])
+  useEffect(() => {
+    function onChange(property) {
+      if (property[propertyName] !== undefined) {
+        SetValue(property[propertyName])
+      }
+    }
 
-    return [value, err]
+    const thing = ThingsScreen.getThing(thingId)
+    if (thing == null) {
+      setError(Error.ThingIsNull)
+    } else {
+      thing.model.subscribe(Constants.PROPERTY_STATUS, onChange)
+    }
+    return () => {
+      if (thing !== null) {
+        thing.model.unsubscribe(Constants.PROPERTY_STATUS, onChange)
+      }
+    }
+  }, [])
+
+  return [value, err]
 }

@@ -14,25 +14,25 @@ import EnumDetail from './enum'
 
 
 export default class ColorModeDetail extends EnumDetail {
-    constructor(thing, name, property) {
-        super(thing, name, property);
+  constructor(thing, name, property) {
+    super(thing, name, property);
 
+  }
+
+  attach() {
+    if (this.readOnly) {
+      this.labelElement = this.thing.element.querySelector(`#${this.id}`);
+    } else {
+      super.attach();
     }
+  }
 
-    attach() {
-        if (this.readOnly) {
-            this.labelElement = this.thing.element.querySelector(`#${this.id}`);
-        } else {
-            super.attach();
-        }
-    }
+  view() {
 
-    view() {
+  }
 
-    }
+  update(value) {
 
-    update(value) {
-
-    }
+  }
 }
 

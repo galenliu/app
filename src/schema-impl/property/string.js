@@ -13,38 +13,38 @@
 const Utils = require('../../utils');
 
 export default class StringDetail {
-    constructor(thing, name, property) {
-        this.thing = thing;
-        this.name = name;
-        this.readOnly = !!property.readOnly;
-        this.label = property.title || name;
+  constructor(thing, name, property) {
+    this.thing = thing;
+    this.name = name;
+    this.readOnly = !!property.readOnly;
+    this.label = property.title || name;
 
+  }
+
+  /**
+   * Attach to the view.
+   */
+  attach() {
+
+  }
+
+  /**
+   * Build the detail view.
+   */
+  view() {
+
+  }
+
+  /**
+   * Update the detail view with the new property value.
+   */
+  update(string) {
+    if (!this.input) {
+      return;
     }
 
-    /**
-     * Attach to the view.
-     */
-    attach() {
-
-    }
-
-    /**
-     * Build the detail view.
-     */
-    view() {
-
-    }
-
-    /**
-     * Update the detail view with the new property value.
-     */
-    update(string) {
-        if (!this.input) {
-            return;
-        }
-
-        this.input.value = string;
-    }
+    this.input.value = string;
+  }
 }
 
 

@@ -12,31 +12,31 @@
 
 
 export default class ColorDetail {
-    constructor(thing, name, property) {
-        this.thing = thing;
-        this.name = name;
-        this.readOnly = !!property.readOnly;
-        this.label = property.title;
-        this.listViewData = {
-            label: name,
-            disabled: this.readOnly
-        }
+  constructor(thing, name, property) {
+    this.thing = thing;
+    this.name = name;
+    this.readOnly = !!property.readOnly;
+    this.label = property.title;
+    this.listViewData = {
+      label: name,
+      disabled: this.readOnly
     }
+  }
 
-    attach() {
+  attach() {
 
-    }
+  }
 
-    view() {
+  view() {
 
-    }
+  }
 
-    update(color) {
-        this.listViewData.state = color
-    }
+  update(color) {
+    this.listViewData.state = color
+  }
 
-    set() {
+  set() {
 
-    }
+  }
 }
 

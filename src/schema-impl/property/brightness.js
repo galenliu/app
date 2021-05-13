@@ -14,56 +14,56 @@ import {debounce, escapeHtmlForIdClass} from "../../utils"
 
 
 export default class BrightnessDetail {
-    constructor(thing, name, property) {
-        this.thing = thing;
-        this.name = name;
-        this.readOnly = !!property.readOnly;
-        this.label = property.title;
+  constructor(thing, name, property) {
+    this.thing = thing;
+    this.name = name;
+    this.readOnly = !!property.readOnly;
+    this.label = property.title;
 
-        if (property.hasOwnProperty('minimum')) {
-            this.min = property.minimum;
-        } else {
-            this.min = 0;
-        }
-
-        if (property.hasOwnProperty('maximum')) {
-            this.max = property.maximum;
-        } else {
-            this.max = 100;
-        }
-
-        if (property.hasOwnProperty('multipleOf')) {
-            this.step = property.multipleOf;
-        } else if (property.type === 'number') {
-            this.step = 'any';
-        } else {
-            this.step = 1;
-        }
-
-        this.id = `brightness-${escapeHtmlForIdClass(this.name)}`;
+    if (property.hasOwnProperty('minimum')) {
+      this.min = property.minimum;
+    } else {
+      this.min = 0;
     }
 
-    attach() {
-        this.brightness = this.thing.element.querySelector(`#${this.id}`);
-        const setBrightness = debounce(500, this.set.bind(this));
-        this.brightness.addEventListener('change', setBrightness);
+    if (property.hasOwnProperty('maximum')) {
+      this.max = property.maximum;
+    } else {
+      this.max = 100;
     }
 
-    view() {
-
+    if (property.hasOwnProperty('multipleOf')) {
+      this.step = property.multipleOf;
+    } else if (property.type === 'number') {
+      this.step = 'any';
+    } else {
+      this.step = 1;
     }
 
-    update(brightness) {
-        if (!this.brightness) {
-            return;
-        }
+    this.id = `brightness-${escapeHtmlForIdClass(this.name)}`;
+  }
 
-        this.brightness.value = brightness;
+  attach() {
+    this.brightness = this.thing.element.querySelector(`#${this.id}`);
+    const setBrightness = debounce(500, this.set.bind(this));
+    this.brightness.addEventListener('change', setBrightness);
+  }
+
+  view() {
+
+  }
+
+  update(brightness) {
+    if (!this.brightness) {
+      return;
     }
 
-    set() {
-        this.thing.setProperty(this.name, this.brightness.value);
-    }
+    this.brightness.value = brightness;
+  }
+
+  set() {
+    this.thing.setProperty(this.name, this.brightness.value);
+  }
 }
 
 

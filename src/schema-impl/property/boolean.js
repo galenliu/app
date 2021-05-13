@@ -12,38 +12,38 @@
 
 
 export default class BooleanDetail {
-    constructor(thing, name, property) {
-        this.thing = thing;
-        this.name = name;
-        this.readOnly = !!property.readOnly;
-        this.label = property.title || name;
+  constructor(thing, name, property) {
+    this.thing = thing;
+    this.name = name;
+    this.readOnly = !!property.readOnly;
+    this.label = property.title || name;
 
-    }
+  }
 
-    /**
-     * Attach to the view.
-     */
-    attach() {
+  /**
+   * Attach to the view.
+   */
+  attach() {
 
-    }
+  }
 
-    /**
-     * Build the detail view.
-     */
-    view() {
+  /**
+   * Build the detail view.
+   */
+  view() {
 
-    }
+  }
 
-    /**
-     * Update the detail view with the new property value.
-     */
-    update(bool) {
+  /**
+   * Update the detail view with the new property value.
+   */
+  update(bool) {
 
-    }
+  }
 
-    set() {
+  set() {
 
-    }
+  }
 }
 
 
