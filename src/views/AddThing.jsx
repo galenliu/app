@@ -9,7 +9,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import Slide from '@mui/material/Slide';
 import API from "../js/api";
 import {useTranslation} from "react-i18next";
-import NewThing from "../component/new-thing";
+import NewThing from "../components/new-thing";
 import Grid from "@mui/material/Grid";
 import {App} from "../App";
 

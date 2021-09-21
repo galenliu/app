@@ -1,14 +1,12 @@
 import React, {useContext, useEffect, useState} from "react";
 import Grid from "@mui/material/Grid";
-import TopBar from "../component/topBar";
+
 import {useTranslation} from "react-i18next";
 import {makeStyles} from "@mui/material/styles";
 import {AppContext} from "../App";
 import {drawerWidth} from "../js/constant";
 import clsx from "clsx";
 import NewThingsDialog from "./AddThing";
-import {ThingPanel} from "../component/thing-panel";
-import IconView from "../component/icon-view";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -74,32 +72,32 @@ export default function Things(props) {
     }
     const ls = []
     console.log("renderThings", props.things)
-    props.things.forEach((id, thing) => {
-      if (thing !== null && thing !== undefined) {
-        const iv = <IconView id={thing.id} key={id} thing={thing}
-                             handleOnOff={handleOnOff}
-                             selectedCapability={thing.selectedCapability}
-                             title={thing.title}/>
-        console.log(" list.push(iv):", iv)
-        console.log("add list:", ls)
-        ls.push(iv)
-      }
-    })
+    // props.things.forEach((id, thing) => {
+    //   if (thing !== null && thing !== undefined) {
+    //     const iv = <IconView id={thing.id} key={id} thing={thing}
+    //                          handleOnOff={handleOnOff}
+    //                          selectedCapability={thing.selectedCapability}
+    //                          title={thing.title}/>
+    //     console.log(" list.push(iv):", iv)
+    //     console.log("add list:", ls)
+    //     ls.push(iv)
+    //   }
+    // })
     console.log("return list:", ls)
     return ls
   }
 
   return (
-    <>
-      <TopBar add={true} show={setAddThingShow} title={t("Things")}/>
+      <>
 
-      <Grid className={clsx(classes.containerGrid, {[classes.contentShift]: drawerOpen,})} container
-            direction="row" spacing={3}>
-        {state === 1 && renderThings()}
-      </Grid>
-      {addThingShow && <NewThingsDialog open={addThingShow} show={setAddThingShow}/>}
-      {thingPanelShow && <ThingPanel open={thingPanelShow} show={setThingPanelShow}/>}
-    </>
+
+        <Grid className={clsx(classes.containerGrid, {[classes.contentShift]: drawerOpen,})} container
+              direction="row" spacing={3}>
+          {state === 1 && renderThings()}
+        </Grid>
+        {addThingShow && <NewThingsDialog open={addThingShow} show={setAddThingShow}/>}
+
+      </>
   )
 }
 
