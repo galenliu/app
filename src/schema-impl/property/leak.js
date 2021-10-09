@@ -15,18 +15,18 @@ import StringLabelDetail from "./string-label"
 
 
 export default class LeakDetail extends StringLabelDetail {
-  constructor(thing, name, property) {
-    super(thing, name, !!property.readOnly,
-      property.title);
+    constructor(thing, name, property) {
+        super(thing, name, !!property.readOnly,
+            property.title);
 
-  }
+    }
 
-  view() {
+    view() {
 
-  }
+    }
 
-  update(value) {
-  }
+    update(value) {
+    }
 }
 
 

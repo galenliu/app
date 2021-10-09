@@ -13,53 +13,53 @@
 
 
 export default class ImageDetail {
-  constructor(thing, name, property) {
-    this.thing = thing;
-    this.name = name;
-    this.label = property.title || name;
+    constructor(thing, name, property) {
+        this.thing = thing;
+        this.name = name;
+        this.label = property.title || name;
 
 
-    this.imageHref = null;
-    for (const link of property.links) {
-      if (link.rel === 'alternate' && link.mediaType &&
-        link.mediaType.startsWith('image/')) {
-        this.imageHref = link.href;
-        break;
-      }
+        this.imageHref = null;
+        for (const link of property.links) {
+            if (link.rel === 'alternate' && link.mediaType &&
+                link.mediaType.startsWith('image/')) {
+                this.imageHref = link.href;
+                break;
+            }
+        }
+
+        this.expandImage = this._expandImage.bind(this);
+        this.reloadImage = this._reloadImage.bind(this);
+        this.positionButtons = this._positionButtons.bind(this);
     }
 
-    this.expandImage = this._expandImage.bind(this);
-    this.reloadImage = this._reloadImage.bind(this);
-    this.positionButtons = this._positionButtons.bind(this);
-  }
+    /**
+     * Attach to the view.
+     */
+    attach() {
 
-  /**
-   * Attach to the view.
-   */
-  attach() {
+    }
 
-  }
+    /**
+     * Build the detail view.
+     */
+    view() {
 
-  /**
-   * Build the detail view.
-   */
-  view() {
+    }
 
-  }
+    /**
+     * Expand the image view.
+     */
+    _expandImage() {
+    }
 
-  /**
-   * Expand the image view.
-   */
-  _expandImage() {
-  }
+    _reloadImage() {
 
-  _reloadImage() {
+    }
 
-  }
+    _positionButtons() {
 
-  _positionButtons() {
-
-  }
+    }
 }
 
 

@@ -6,6 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+import * as Fluent from './fluent';
 
 /**
  * @param {String} str
@@ -29,11 +30,6 @@ export function escapeHtml(text: string): string {
     .replace(/°/g, '&deg;')
     .replace(/⋅/g, '&sdot;');
 }
-
-export function versionStringCompare() {
-  return 1
-}
-
 
 export function unescapeHtml(text: string): string {
   if (typeof text !== 'string') {
@@ -63,38 +59,38 @@ export function escapeHtmlForIdClass(text: string): string {
   return text;
 }
 
-// export function fuzzyTime(date: number): string {
-//   const now = new Date().getTime();
-//   const delta = Math.round((now - date) / 1000);
-//
-//   const minute = 60;
-//   const hour = minute * 60;
-//   const day = hour * 24;
-//   const week = day * 7;
-//   const month = day * 30;
-//   const year = day * 365;
-//
-//   let fuzzy;
-//   if (delta < 5) {
-//     fuzzy = Fluent.getMessage('utils-now');
-//   } else if (delta < minute) {
-//     fuzzy = Fluent.getMessage('utils-seconds-ago', { value: delta });
-//   } else if (delta < hour) {
-//     fuzzy = Fluent.getMessage('utils-minutes-ago', { value: Math.floor(delta / minute) });
-//   } else if (delta < day) {
-//     fuzzy = Fluent.getMessage('utils-hours-ago', { value: Math.floor(delta / hour) });
-//   } else if (delta < week) {
-//     fuzzy = Fluent.getMessage('utils-days-ago', { value: Math.floor(delta / day) });
-//   } else if (delta < month) {
-//     fuzzy = Fluent.getMessage('utils-weeks-ago', { value: Math.floor(delta / week) });
-//   } else if (delta < year) {
-//     fuzzy = Fluent.getMessage('utils-months-ago', { value: Math.floor(delta / month) });
-//   } else {
-//     fuzzy = Fluent.getMessage('utils-years-ago', { value: Math.floor(delta / year) });
-//   }
-//
-//   return fuzzy;
-// }
+export function fuzzyTime(date: number): string {
+  const now = new Date().getTime();
+  const delta = Math.round((now - date) / 1000);
+
+  const minute = 60;
+  const hour = minute * 60;
+  const day = hour * 24;
+  const week = day * 7;
+  const month = day * 30;
+  const year = day * 365;
+
+  let fuzzy;
+  if (delta < 5) {
+    fuzzy = Fluent.getMessage('utils-now');
+  } else if (delta < minute) {
+    fuzzy = Fluent.getMessage('utils-seconds-ago', { value: delta });
+  } else if (delta < hour) {
+    fuzzy = Fluent.getMessage('utils-minutes-ago', { value: Math.floor(delta / minute) });
+  } else if (delta < day) {
+    fuzzy = Fluent.getMessage('utils-hours-ago', { value: Math.floor(delta / hour) });
+  } else if (delta < week) {
+    fuzzy = Fluent.getMessage('utils-days-ago', { value: Math.floor(delta / day) });
+  } else if (delta < month) {
+    fuzzy = Fluent.getMessage('utils-weeks-ago', { value: Math.floor(delta / week) });
+  } else if (delta < year) {
+    fuzzy = Fluent.getMessage('utils-months-ago', { value: Math.floor(delta / month) });
+  } else {
+    fuzzy = Fluent.getMessage('utils-years-ago', { value: Math.floor(delta / year) });
+  }
+
+  return fuzzy;
+}
 
 export function debounce(
   delay: number,

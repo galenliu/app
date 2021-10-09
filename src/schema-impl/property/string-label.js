@@ -12,23 +12,23 @@
 
 
 export default class StringLabelDetail {
-  constructor(thing, name, readOnly, label) {
-    this.thing = thing;
-    this.name = name;
-    this.readOnly = readOnly;
-    this.label = label;
+    constructor(thing, name, readOnly, label) {
+        this.thing = thing;
+        this.name = name;
+        this.readOnly = readOnly;
+        this.label = label;
 
-  }
+    }
 
-  attach() {
-    this.labelElement = this.thing.element.querySelector(`#${this.id}`);
-  }
+    attach() {
+        this.labelElement = this.thing.element.querySelector(`#${this.id}`);
+    }
 
-  view() {
-  }
+    view() {
+    }
 
-  update(value) {
+    update(value) {
 
 
-  }
+    }
 }

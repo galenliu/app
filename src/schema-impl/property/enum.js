@@ -15,35 +15,35 @@ import Units from "../../js/units";
 
 
 export default class EnumDetail {
-  constructor(thing, name, property) {
-    this.thing = thing;
-    this.name = name;
-    this.readOnly = !!property.readOnly;
-    this.label = property.title || name;
-    this.type = property.type;
-    this.unit =
-      property.unit ? Units.nameToAbbreviation(property.unit) : null;
-    this.choices = property.enum;
+    constructor(thing, name, property) {
+        this.thing = thing;
+        this.name = name;
+        this.readOnly = !!property.readOnly;
+        this.label = property.title || name;
+        this.type = property.type;
+        this.unit =
+            property.unit ? Units.nameToAbbreviation(property.unit) : null;
+        this.choices = property.enum;
 
-  }
-
-  attach() {
-
-  }
-
-  view() {
-  }
-
-  update(value) {
-    if (!this.select) {
-      return;
     }
 
-    this.select.value = value;
-  }
+    attach() {
 
-  set() {
-    this.thing.setProperty(this.name, this.select.value);
-  }
+    }
+
+    view() {
+    }
+
+    update(value) {
+        if (!this.select) {
+            return;
+        }
+
+        this.select.value = value;
+    }
+
+    set() {
+        this.thing.setProperty(this.name, this.select.value);
+    }
 }
 

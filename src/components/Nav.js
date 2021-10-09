@@ -21,7 +21,7 @@ import HomeIcon from "@mui/icons-material/Home";
 import AlarmOnIcon from "@mui/icons-material/AlarmOn";
 import SettingsIcon from "@mui/icons-material/Settings";
 import {useTranslation} from "react-i18next";
-import {useHistory} from "react-router-dom";
+import {Outlet, useNavigate} from "react-router";
 
 const drawerWidth = 240;
 
@@ -74,7 +74,8 @@ export default function Nav(props) {
     const theme = useTheme();
     const {t} = useTranslation();
     const [open, setOpen] = React.useState(false);
-    const history = useHistory()
+
+    const navigate = useNavigate()
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -86,7 +87,7 @@ export default function Nav(props) {
 
     function handleClick(url) {
         setOpen(false)
-        history.push(url)
+        navigate(url)
     }
 
     return (
@@ -142,6 +143,13 @@ export default function Nav(props) {
                         <ListItemText primary={t('Rules')}/>
                     </ListItem>
 
+                    <ListItem button key={"users"} onClick={() => handleClick("/users")}>
+                        <ListItemIcon>
+                            <AlarmOnIcon/>
+                        </ListItemIcon>
+                        <ListItemText primary={t('Users')}/>
+                    </ListItem>
+
                     <ListItem button key={"settings"} onClick={() => handleClick("/settings")}>
                         <ListItemIcon>
                             <SettingsIcon/>
@@ -163,6 +171,9 @@ export default function Nav(props) {
             </Drawer>
             <Main open={open}>
                 <DrawerHeader/>
+                <h1>这里是主页</h1>
+                <Outlet/>
+
             </Main>
         </Box>
     );

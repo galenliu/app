@@ -12,28 +12,28 @@
 
 
 export default class OnOffDetail {
-  constructor(thing, name, property) {
-    this.thing = thing;
-    this.name = name;
-    this.readOnly = !!property.readOnly;
-    this.label = property.title
-    this.listViewData = {
-      label: name,
-      disabled: this.readOnly,
+    constructor(thing, name, property) {
+        this.thing = thing;
+        this.name = name;
+        this.readOnly = !!property.readOnly;
+        this.label = property.title
+        this.listViewData = {
+            label: name,
+            disabled: this.readOnly,
+        }
     }
-  }
 
-  attach() {
-  }
+    attach() {
+    }
 
 
-  update(on) {
-    this.listViewData.state = !!on;
-  }
+    update(on) {
+        this.listViewData.state = !!on;
+    }
 
-  set() {
-    this.thing.setProperty(this.name, this.input.checked);
-  }
+    set() {
+        this.thing.setProperty(this.name, this.input.checked);
+    }
 }
 
 
