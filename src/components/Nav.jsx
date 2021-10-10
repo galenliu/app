@@ -15,15 +15,14 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
-import HomeIcon from "@mui/icons-material/Home";
-import AlarmOnIcon from "@mui/icons-material/AlarmOn";
-import SettingsIcon from "@mui/icons-material/Settings";
 import {useTranslation} from "react-i18next";
 import {Outlet, useNavigate} from "react-router";
+import {useContext} from "react";
+import {AppContext} from "../App";
+import {DividerList, DividerBottomList} from "../js/dividerList";
+import AddIcon from "@mui/icons-material/Add";
 
-const drawerWidth = 240;
+const drawerWidth = 150;
 
 const Main = styled('main', {shouldForwardProp: (prop) => prop !== 'open'})(
     ({theme, open}) => ({
@@ -70,10 +69,12 @@ const DrawerHeader = styled('div')(({theme}) => ({
     justifyContent: 'flex-end',
 }));
 
+
 export default function Nav(props) {
     const theme = useTheme();
     const {t} = useTranslation();
     const [open, setOpen] = React.useState(false);
+    const {appNavTitle, setNewThingShow, addSButtonShow} = useContext(AppContext)
 
     const navigate = useNavigate()
 
@@ -104,9 +105,15 @@ export default function Nav(props) {
                     >
                         <MenuIcon/>
                     </IconButton>
-                    <Typography variant="h6" noWrap component="div">
-                        Persistent drawer
+                    <Typography variant="h6" noWrap component="div" sx={{flexGrow: 1}} edge="start">
+                        {appNavTitle}
                     </Typography>
+
+                    <IconButton edge={"end"} color="inherit" aria-label="close" onClick={() => {
+                        setNewThingShow(true)
+                    }} sx={{...(!addSButtonShow || open && {display: 'none'})}}>
+                        <AddIcon/>
+                    </IconButton>
                 </Toolbar>
             </AppBar>
             <Drawer
@@ -126,54 +133,41 @@ export default function Nav(props) {
                     <IconButton onClick={handleDrawerClose}>
                         {theme.direction === 'ltr' ? <ChevronLeftIcon/> : <ChevronRightIcon/>}
                     </IconButton>
+
                 </DrawerHeader>
                 <Divider/>
                 <List>
-                    <ListItem button key={"home"} onClick={() => handleClick("/things")}>
-                        <ListItemIcon>
-                            <HomeIcon/>
-                        </ListItemIcon>
-                        <ListItemText primary={t('Things')}/>
-                    </ListItem>
+                    {
+                        Object.keys(DividerList).map((k, index) => (
+                            <ListItem button key={index} onClick={() => handleClick(DividerList[k].Path)}>
+                                <ListItemIcon>
+                                    {DividerList[k].ListItemIcon}
+                                </ListItemIcon>
+                                <ListItemText primary={t(DividerList[k].Title)}/>
+                            </ListItem>
+                        ))
+                    }
 
-                    <ListItem button key={"rules"} onClick={() => handleClick("/rules")}>
-                        <ListItemIcon>
-                            <AlarmOnIcon/>
-                        </ListItemIcon>
-                        <ListItemText primary={t('Rules')}/>
-                    </ListItem>
 
-                    <ListItem button key={"users"} onClick={() => handleClick("/users")}>
-                        <ListItemIcon>
-                            <AlarmOnIcon/>
-                        </ListItemIcon>
-                        <ListItemText primary={t('Users')}/>
-                    </ListItem>
-
-                    <ListItem button key={"settings"} onClick={() => handleClick("/settings")}>
-                        <ListItemIcon>
-                            <SettingsIcon/>
-                        </ListItemIcon>
-                        <ListItemText primary={t('Settings')}/>
-                    </ListItem>
                 </List>
                 <Divider/>
                 <List>
-                    {['All mail', 'Trash', 'Spam'].map((text, index) => (
-                        <ListItem button key={text}>
-                            <ListItemIcon>
-                                {index % 2 === 0 ? <InboxIcon/> : <MailIcon/>}
-                            </ListItemIcon>
-                            <ListItemText primary={text}/>
-                        </ListItem>
-                    ))}
+                    {
+                        Object.keys(DividerBottomList).map((k, index) => (
+                            <ListItem button key={index} onClick={() => handleClick(DividerBottomList[k].Path)}>
+                                <ListItemIcon>
+                                    {DividerBottomList[k].ListItemIcon}
+                                </ListItemIcon>
+                                <ListItemText primary={t(DividerBottomList[k].Title)}/>
+                            </ListItem>
+                        ))
+                    }
+
                 </List>
             </Drawer>
             <Main open={open}>
                 <DrawerHeader/>
-                <h1>这里是主页</h1>
                 <Outlet/>
-
             </Main>
         </Box>
     );

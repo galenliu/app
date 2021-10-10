@@ -8,7 +8,7 @@
 
 'use strict';
 
-const App = require('./app');
+const App = require('./App');
 const fluent = require('./fluent');
 
 const Units = {

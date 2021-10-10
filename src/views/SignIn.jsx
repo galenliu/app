@@ -12,6 +12,8 @@ import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import {createTheme, ThemeProvider} from '@mui/material/styles';
+import {useNavigate} from "react-router-dom";
+import {useTranslation} from "react-i18next";
 
 function Copyright(props) {
     return (
@@ -28,7 +30,9 @@ function Copyright(props) {
 
 const theme = createTheme();
 
-export default function SignInSide() {
+export default function SignIn() {
+    const navigate = useNavigate()
+    const {t} = useTranslation()
     const handleSubmit = (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
@@ -38,6 +42,10 @@ export default function SignInSide() {
             password: data.get('password'),
         });
     };
+
+    function SignIn() {
+        navigate("/things")
+    }
 
     return (
         <ThemeProvider theme={theme}>
@@ -71,7 +79,7 @@ export default function SignInSide() {
                             <LockOutlinedIcon/>
                         </Avatar>
                         <Typography component="h1" variant="h5">
-                            Sign in
+                            {t("Sign In")}
                         </Typography>
                         <Box component="form" noValidate onSubmit={handleSubmit} sx={{mt: 1}}>
                             <TextField
@@ -79,7 +87,7 @@ export default function SignInSide() {
                                 required
                                 fullWidth
                                 id="email"
-                                label="Email Address"
+                                label={t("Email Address")}
                                 name="email"
                                 autoComplete="email"
                                 autoFocus
@@ -89,32 +97,35 @@ export default function SignInSide() {
                                 required
                                 fullWidth
                                 name="password"
-                                label="Password"
+                                label={t("Password")}
                                 type="password"
                                 id="password"
                                 autoComplete="current-password"
                             />
                             <FormControlLabel
                                 control={<Checkbox value="remember" color="primary"/>}
-                                label="Remember me"
+                                label={t("Remember me")}
                             />
                             <Button
                                 type="submit"
                                 fullWidth
                                 variant="contained"
                                 sx={{mt: 3, mb: 2}}
+                                onClick={SignIn}
                             >
-                                Sign In
+                                {t("Sign In")}
                             </Button>
                             <Grid container>
                                 <Grid item xs>
                                     <Link href="#" variant="body2">
-                                        Forgot password?
+                                        {t("Forgot password?")}
                                     </Link>
                                 </Grid>
                                 <Grid item>
-                                    <Link href="#" variant="body2">
-                                        {"Don't have an account? Sign Up"}
+                                    <Link href="#" variant="body2" onClick={() => {
+                                        navigate("/register")
+                                    }}>
+                                        {t("Don't have an account? Sign Up")}
                                     </Link>
                                 </Grid>
                             </Grid>

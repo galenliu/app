@@ -4,18 +4,24 @@ import React, {useState} from "react";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import Settings from "./views/Settings"
 import {createTheme, ThemeProvider} from "@mui/material/styles";
-import {Theme} from "./components/Theme"
-import SignInSide from "./views/SignIn";
+import {Theme} from "./js/Theme"
+import SignIn from "./views/SignIn";
 import SignUp from "./views/SignUp";
+import {useTranslation} from "react-i18next";
+import Things from "./views/Things";
+import Rules from "./views/Rules";
 
 export const AppContext = React.createContext({})
 const theme = createTheme(Theme);
 
 
 function App() {
-
+    const {t} = useTranslation();
     const [drawerOpen, setDrawerOpen] = useState(false)
     const [navOpen, setNavOpen] = useState(true)
+    const [appNavTitle, setAppNavTitle] = useState(t("Things"))
+    const [newThingShow, setNewThingShow] = useState(false)
+    const [addSButtonShow, setAddSButtonShow] = useState(false)
 
     return (
         <AppContext.Provider value={{
@@ -23,24 +29,28 @@ function App() {
             setDrawerOpen: setDrawerOpen,
             navOpen: navOpen,
             setNavOpen: setNavOpen,
+            appNavTitle: appNavTitle,
+            setAppNavTitle: setAppNavTitle,
+            setNewThingShow: setNewThingShow,
+            newThingShow: newThingShow,
+            addSButtonShow: addSButtonShow,
+            setAddSButtonShow: setAddSButtonShow,
         }}>
             <ThemeProvider theme={theme}>
                 <div className="App">
                     <BrowserRouter>
                         <Routes>
                             <Route path="/" element={<Nav/>}>s
-                                <Route path="/things/*" element={<h1>Thing</h1>}/>
-                                <Route path="/rules" element={<h1>Rules</h1>}/>
+                                <Route path="/things" element={<Things/>}/>
+                                <Route path="/rules" element={<Rules/>}/>
                                 <Route path="settings" element={<Settings/>}/>
-                                <Route path="/users" element={<h1>User</h1>}/>
                             </Route>
-                            <Route exact path="/register">
-                                <SignUp/>
-                            </Route>
-                            <Route exact path="/login">
-                                <SignInSide/>
-                            </Route>
+                            <Route exact path="/register" element={<SignUp/>}/>
+
+                            <Route exact path="login" element={<SignIn/>}/>
+
                         </Routes>
+
                     </BrowserRouter>
                 </div>
             </ThemeProvider>

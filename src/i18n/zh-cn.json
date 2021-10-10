@@ -3,7 +3,7 @@
   "Things": "设备",
   "Rules": "规则",
   "Settings": "设置",
-  "Domain": "区域",
+  "Domain": "域名",
   "Network": "网络",
   "Users": "用户",
   "Addons": "附加组件",
@@ -75,5 +75,18 @@
   "Ok": "好的",
   "Cancel": "取消",
   "No Response": "未响应",
-  "Confirm to remove this accessory": "确认移除此配件"
+  "Confirm to remove this accessory": "确认移除此配件",
+  "Time": "时间",
+  "Don't have an account? Sign Up": "没有帐号？注册",
+  "Forgot password?": "忘记密码？",
+  "Remember me": "记住我",
+  "Sign In": "登录",
+  "Password": "密码",
+  "Email Address": "邮箱地址",
+  "Last Name": "名",
+  "First Name": "姓",
+  "I want to receive inspiration, marketing promotions and updates via email.": "我想通过电子邮件收到灵感、营销推广和最新消息。",
+  "Sign up": "注册",
+  "Already have an account? Sign in": "已有帐号？登陆",
+  "Installed Addons": "已安装的附加组件"
 }

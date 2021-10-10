@@ -1,13 +1,10 @@
-import React, {useContext, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {makeStyles} from "@mui/styles";
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import ListItem from '@mui/material/ListItem';
 import List from "@mui/material/List";
 import {useTranslation} from "react-i18next";
-import DomainIcon from '@mui/icons-material/Domain';
-import ExtensionIcon from '@mui/icons-material/Extension';
-import {CssBaseline} from "@mui/material";
+import {CssBaseline, ListItemButton} from "@mui/material";
 import clsx from "clsx";
 import {AppContext} from "../App";
 import Grid from "@mui/material/Grid";
@@ -16,6 +13,7 @@ import Divider from "@mui/material/Divider";
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import {drawerWidth} from "../js/constant";
 import {useNavigate} from "react-router";
+import {SettingsList} from "../js/settingsList";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -63,6 +61,18 @@ export default function Settings(props) {
     const {drawerOpen} = useContext(AppContext)
     const [addonsDialogShow, setAddonsDialogShow] = useState(false)
     const navigate = useNavigate()
+    const {setAppNavTitle} = useContext(AppContext)
+
+    useEffect(() => {
+        setAppNavTitle(t("Settings"))
+    }, [])
+
+    function selectedItem(url) {
+        if (url === "/addons") {
+            setAddonsDialogShow(true)
+        }
+    }
+
     return (
         <>
             <CssBaseline/>
@@ -72,47 +82,25 @@ export default function Settings(props) {
             })}>
                 <Grid container justify="flex-start" alignItems="center" direction="column">
                     <div className={classes.drawerHeader}/>
-                    <List component="nav" aria-label="main mailbox folders" className={classes.list}>
+                    <List component="nav" aria-label="main mailbox folders">
                         <Divider/>
-                        <ListItem button
-                                  className={classes.listItem} variant="contained" elevation={111}>
-                            <ListItemIcon>
-                                <DomainIcon/>
-                            </ListItemIcon>
-                            <ListItemText primary={t("Domain")}/>
-                            <NavigateNextIcon/>
-                        </ListItem>
-                        <Divider/>
-                        <ListItem button
-                                  className={classes.listItem} variant="contained"
-                                  onClick={() => {
-                                      setAddonsDialogShow(true)
-                                  }}>
-                            <ListItemIcon>
-                                <ExtensionIcon/>
-                            </ListItemIcon>
-                            <ListItemText primary={t("Addons")}/>
-                            <NavigateNextIcon/>
-                        </ListItem>
-                        <Divider/>
-                        <ListItem button
-                                  className={classes.listItem} variant="contained" elevation={111}>
-                            <ListItemIcon>
-                                <DomainIcon/>
-                            </ListItemIcon>
-                            <ListItemText primary={t("Domain")}/>
-                            <NavigateNextIcon/>
-                        </ListItem>
-                        <Divider/>
-                        <ListItem button
-                                  className={classes.listItem} variant="contained" elevation={111}>
-                            <ListItemIcon>
-                                <DomainIcon/>
-                            </ListItemIcon>
-                            <ListItemText primary={t("Domain")}/>
-                            <NavigateNextIcon/>
-                        </ListItem>
-                        <Divider/>
+                        {
+                            Object.keys(SettingsList).map((k, index) => (
+                                <>
+                                    <ListItemButton key={index} button onClick={() => {
+                                        selectedItem(SettingsList[k].Path)
+                                    }} className={classes.listItem} variant="contained" elevation={2222}>
+                                        <ListItemIcon>
+                                            {SettingsList[k].ListItemIcon}
+                                        </ListItemIcon>
+                                        <ListItemText primary={t(SettingsList[k].Title)}/>
+                                        <NavigateNextIcon/>
+                                    </ListItemButton>
+                                    <Divider/>
+                                </>
+                            ))
+                        }
+
                     </List>
                 </Grid>
             </main>

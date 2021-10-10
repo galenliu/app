@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import Card from "@mui/material/Card";
-import {makeStyles} from "@mui/material/styles";
+import {makeStyles} from "@mui/styles";
 import ThingIcons from "./icons";
 import {Button, CircularProgress, MenuItem, Select} from "@mui/material";
 import FormControl from "@mui/material/FormControl"

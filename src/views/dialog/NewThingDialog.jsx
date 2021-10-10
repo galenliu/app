@@ -1,5 +1,5 @@
-import React, {useCallback, useEffect, useRef, useState} from 'react';
-import {makeStyles} from '@mui/material/styles';
+import React, {useCallback, useContext, useEffect, useRef, useState} from 'react';
+import {makeStyles} from "@mui/styles";
 import Dialog from '@mui/material/Dialog';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
@@ -7,11 +7,11 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import CloseIcon from '@mui/icons-material/Close';
 import Slide from '@mui/material/Slide';
-import API from "../js/api";
+import API from "../../js/api";
 import {useTranslation} from "react-i18next";
-import NewThing from "../components/new-thing";
+import NewThing from "../../components/new-thing";
 import Grid from "@mui/material/Grid";
-import {App} from "../App";
+import {AppContext} from "../../App";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -45,6 +45,7 @@ export default function NewThingsDialog(props) {
     const [readyState, setReadyState] = useState('正在链接中');
     const [availableThings, setAvailableThings] = useState([])
     const [actionUrl, setActionUrl] = useState()
+    const {newThingShow, setNewThingShow} = useContext(AppContext);
 
     const webSocketInit = useCallback((path) => {
         const stateArr = [
@@ -121,7 +122,6 @@ export default function NewThingsDialog(props) {
             }
             if (!props.open) {
                 {
-                    App.showThings()
                     cancelPairing()
                     ws.current?.close();
                 }
@@ -150,7 +150,7 @@ export default function NewThingsDialog(props) {
 
     return (
         <div>
-            <Dialog fullScreen open={props.open} onClose={() => props.show(true)}
+            <Dialog fullScreen open={newThingShow} onClose={() => setNewThingShow(false)}
                     TransitionComponent={Transition}>
                 <AppBar className={classes.appBar}>
                     <Toolbar>
@@ -159,12 +159,13 @@ export default function NewThingsDialog(props) {
                         </Typography>
                         <IconButton autoFocus color="inherit" onClick={() => {
                             {
-                                props.show(false)
+                                setNewThingShow(false)
                                 cancelPairing()
                             }
                         }} aria-label="close">
                             <CloseIcon/>
                         </IconButton>
+
                     </Toolbar>
                 </AppBar>
                 <div className={classes.drawerHeader}/>
