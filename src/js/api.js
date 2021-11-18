@@ -144,7 +144,6 @@ const API = {
             if (!res.ok) {
                 throw new Error(res.status);
             }
-
             return res.blob();
         });
     },

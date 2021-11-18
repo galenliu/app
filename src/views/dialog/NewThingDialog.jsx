@@ -9,7 +9,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import Slide from '@mui/material/Slide';
 import API from "../../js/api";
 import {useTranslation} from "react-i18next";
-import NewThing from "../../components/new-thing";
+import NewThing from "../../components/NewThing";
 import Grid from "@mui/material/Grid";
 import {AppContext} from "../../App";
 
@@ -105,7 +105,7 @@ export default function NewThingsDialog(props) {
 
     useEffect(
         () => {
-            if (props.open) {
+            if (newThingShow) {
                 API.startPairing(5000).then((action) => {
                     setActionUrl(action.href)
                     let proto = 'ws://';
@@ -120,7 +120,7 @@ export default function NewThingsDialog(props) {
                     console.log("startPairing err:", err)
                 })
             }
-            if (!props.open) {
+            if (!newThingShow) {
                 {
                     cancelPairing()
                     ws.current?.close();
@@ -143,7 +143,6 @@ export default function NewThingsDialog(props) {
                 list.push(newThing)
             }
         })
-
         return list
     }
 
@@ -160,7 +159,6 @@ export default function NewThingsDialog(props) {
                         <IconButton autoFocus color="inherit" onClick={() => {
                             {
                                 setNewThingShow(false)
-                                cancelPairing()
                             }
                         }} aria-label="close">
                             <CloseIcon/>

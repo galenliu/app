@@ -21,8 +21,9 @@ import {useContext} from "react";
 import {AppContext} from "../App";
 import {DividerList, DividerBottomList} from "../js/dividerList";
 import AddIcon from "@mui/icons-material/Add";
+import {drawerWidth} from "../js/constant";
 
-const drawerWidth = 150;
+
 
 const Main = styled('main', {shouldForwardProp: (prop) => prop !== 'open'})(
     ({theme, open}) => ({
@@ -74,15 +75,17 @@ export default function Nav(props) {
     const theme = useTheme();
     const {t} = useTranslation();
     const [open, setOpen] = React.useState(false);
-    const {appNavTitle, setNewThingShow, addSButtonShow} = useContext(AppContext)
+    const {appNavTitle, setNewThingShow, addSButtonShow, setDrawerOpen} = useContext(AppContext)
 
     const navigate = useNavigate()
 
     const handleDrawerOpen = () => {
+        setDrawerOpen(true)
         setOpen(true);
     };
 
     const handleDrawerClose = () => {
+        setDrawerOpen(false)
         setOpen(false);
     };
 
@@ -111,7 +114,7 @@ export default function Nav(props) {
 
                     <IconButton edge={"end"} color="inherit" aria-label="close" onClick={() => {
                         setNewThingShow(true)
-                    }} sx={{...(!addSButtonShow || open && {display: 'none'})}}>
+                    }} sx={{...((!addSButtonShow || open) && {display: 'none'})}}>
                         <AddIcon/>
                     </IconButton>
                 </Toolbar>
@@ -148,7 +151,6 @@ export default function Nav(props) {
                         ))
                     }
 
-
                 </List>
                 <Divider/>
                 <List>
@@ -162,7 +164,6 @@ export default function Nav(props) {
                             </ListItem>
                         ))
                     }
-
                 </List>
             </Drawer>
             <Main open={open}>

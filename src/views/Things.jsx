@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: theme.palette.primary.light,
         height: "100%",
         width: "100%",
-        padding: theme.spacing(2),
+        padding: theme.spacing(1),
         transition: theme.transitions.create('margin', {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
@@ -26,12 +26,10 @@ const useStyles = makeStyles((theme) => ({
         alignItems: "flex-start",
         height: "100%",
         width: "100%",
-        padding: theme.spacing(2),
         transition: theme.transitions.create('margin', {
             easing: theme.transitions.easing.easeOut,
             duration: theme.transitions.duration.enteringScreen,
         }),
-        marginLeft: drawerWidth,
     },
     drawerHeader: {
         display: 'flex',
@@ -51,7 +49,6 @@ export default function Things(props) {
     const [thingPanelShow, setThingPanelShow] = useState(false)
     const {t} = useTranslation();
     const [state, setState] = useState()
-
 
     useEffect(() => {
         setAppNavTitle(t("Things"))
@@ -96,6 +93,7 @@ export default function Things(props) {
                 {/*{state === 1 && renderThings()}*/}
             </Grid>
             <NewThingsDialog/>
+
         </>
     )
 }
