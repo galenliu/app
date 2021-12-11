@@ -16,8 +16,7 @@ class GatewayModel extends Model {
     constructor() {
         super();
         this.thingModels = new Map();
-        // this.things = new Map();
-        this.Things = new Map()
+        this.things = new Map()
         this.connectedThings = new Map();
         this.onMessage = this.onMessage.bind(this);
         this.queue = Promise.resolve(true);
@@ -26,7 +25,6 @@ class GatewayModel extends Model {
     }
 
     addQueue(job) {
-
         this.queue = this.queue.then(job)
             .catch((e) => {
                 console.error(e);
@@ -60,7 +58,7 @@ class GatewayModel extends Model {
             if (this.thingModels.has(thingId)) {
                 const thingModel = this.thingModels.get(thingId);
                 thingModel.updateFromDescription(description);
-                this.Things.set(thingId, createThingFromCapability(description.selectedCapability, thingModel, description))
+                this.things.set(thingId, createThingFromCapability(description.selectedCapability, thingModel, description))
             } else {
                 const thingModel = new ThingModel(description, this.ws);
                 thingModel.subscribe(
@@ -71,7 +69,7 @@ class GatewayModel extends Model {
                     thingModel.onConnected(this.connectedThings.get(thingId))
                 }
                 this.thingModels.set(thingId, thingModel)
-                this.Things.set(thingId, createThingFromCapability(description.selectedCapability, thingModel, description))
+                this.things.set(thingId, createThingFromCapability(description.selectedCapability, thingModel, description))
             }
         } catch (e) {
             console.log(e)
@@ -88,11 +86,11 @@ class GatewayModel extends Model {
     // }
 
     getThing(thingId) {
-        if (this.thingModels.has(thingId) && this.Things.has(thingId)) {
-            return Promise.resolve(this.Things.get(thingId));
+        if (this.thingModels.has(thingId) && this.things.has(thingId)) {
+            return Promise.resolve(this.things.get(thingId));
         }
         return this.refreshThing(thingId).then(() => {
-            return this.Things.get(thingId);
+            return this.things.get(thingId);
         });
     }
 
@@ -198,7 +196,7 @@ class GatewayModel extends Model {
                 });
                 removedIds.forEach((thingId) => this.handleRemove(thingId, true));
 
-                return this.handleEvent(Constants.REFRESH_THINGS, this.Things);
+                return this.handleEvent(Constants.REFRESH_THINGS, this.things);
             }).catch((e) => {
                 console.error(`Get things failed ${e}`);
                 this.thingModels = new Map()
@@ -217,7 +215,7 @@ class GatewayModel extends Model {
                     throw new Error(`Unavailable Thing Description: ${description}`);
                 }
                 this.setThing(thingId, description);
-                return this.handleEvent(Constants.REFRESH_THINGS, this.Things);
+                return this.handleEvent(Constants.REFRESH_THINGS, this.things);
             }).catch((e) => {
                 console.error(`Get thing id:${thingId} failed ${e}`);
             });

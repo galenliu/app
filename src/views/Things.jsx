@@ -41,6 +41,7 @@ const useStyles = makeStyles((theme) => ({
 
 }))
 
+
 export default function Things(props) {
 
     const classes = useStyles()
@@ -92,7 +93,7 @@ export default function Things(props) {
                   direction="row" spacing={3}>
                 {/*{state === 1 && renderThings()}*/}
             </Grid>
-            <NewThingsDialog/>
+            <NewThingsDialog open={newThingShow}/>
 
         </>
     )

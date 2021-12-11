@@ -1,6 +1,6 @@
 import './App.css';
 import Nav from "./components/Nav";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import Settings from "./views/Settings"
 import {createTheme, ThemeProvider} from "@mui/material/styles";
@@ -10,10 +10,11 @@ import SignUp from "./views/SignUp";
 import {useTranslation} from "react-i18next";
 import Things from "./views/Things";
 import Rules from "./views/Rules";
+import GatewayModel from "./models/gateway-model";
 
 export const AppContext = React.createContext({})
 const theme = createTheme(Theme);
-
+const gatewayModel = new GatewayModel();
 
 function App() {
     const {t} = useTranslation();
@@ -22,6 +23,11 @@ function App() {
     const [appNavTitle, setAppNavTitle] = useState(t("Things"))
     const [newThingShow, setNewThingShow] = useState(false)
     const [addSButtonShow, setAddSButtonShow] = useState(false)
+
+    useEffect(()=>{
+
+
+    },[])
 
     return (
         <AppContext.Provider value={{

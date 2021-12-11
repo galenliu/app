@@ -103,25 +103,26 @@ export default function NewThingsDialog(props) {
 
     useEffect(
         () => {
-
-            API.startPairing(5000).then((action) => {
-                setActionUrl(action.href)
-                let proto = 'ws://';
-                if (window.location.protocol === 'https:') {
-                    proto = 'wss://';
+            if (props.open) {
+                API.startPairing(5000).then((action) => {
+                    setActionUrl(action.href)
+                    let proto = 'ws://';
+                    if (window.location.protocol === 'https:') {
+                        proto = 'wss://';
+                    }
+                    let host = window.location.host
+                    const path = proto + "localhost:9090" + "/new_things"
+                    console.log("start websocket request Pairing websocket:", path)
+                    webSocketInit(path)
+                }).catch((err) => {
+                    console.log("startPairing err:", err)
+                })
+                return () => {
+                    cancelPairing()
+                    ws.current?.close();
                 }
-                let host = window.location.host
-                const path = proto + "localhost:9090" + "/new_things"
-                console.log("start websocket request Pairing websocket:", path)
-                webSocketInit(path)
-            }).catch((err) => {
-                console.log("startPairing err:", err)
-            })
-            return () => {
-                cancelPairing()
-                ws.current?.close();
-            }
 
+            }
         }, [props.open]
     )
 
