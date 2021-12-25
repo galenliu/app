@@ -94,7 +94,6 @@ export default function Things(props) {
                 {/*{state === 1 && renderThings()}*/}
             </Grid>
             <NewThingsDialog open={newThingShow}/>
-
         </>
     )
 }

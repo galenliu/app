@@ -3,7 +3,7 @@
 import API from "../js/api";
 import Model from "./model";
 import Constants from "../js/constant";
-import {App} from "../App"
+import App from "../App"
 
 
 class ThingModel extends Model {
