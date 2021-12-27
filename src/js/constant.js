@@ -33,7 +33,6 @@ export const Constants = {
     PROPERTY_STATUS: 'propertyStatus',
     ICON_STATUS: 'iconStatus',
     REFRESH_THINGS: 'refreshThings',
-
 }
 
 

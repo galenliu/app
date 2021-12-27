@@ -11,7 +11,6 @@ export default function Rules(props) {
         setAppNavTitle(t("Rules"))
     }, [])
 
-
     return (
         <>
             <Grid>

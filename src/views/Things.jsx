@@ -3,7 +3,6 @@ import Grid from "@mui/material/Grid";
 import {useTranslation} from "react-i18next";
 import {makeStyles} from "@mui/styles";
 import {AppContext} from "../App";
-import {drawerWidth} from "../js/constant";
 import clsx from "clsx";
 import NewThingsDialog from "./dialog/NewThingDialog";
 // import NewThingsDialog from "./AddThing";
