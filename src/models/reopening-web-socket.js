@@ -1,6 +1,8 @@
 class ReopeningWebSocket {
     constructor(href) {
+        console.log("websocket url: ",href)
         this.href = href;
+        console.log("websocket url: ",href)
         this.ws = null;
         this.closing = false;
         this.opening = false;
@@ -22,8 +24,8 @@ class ReopeningWebSocket {
         if (this.closing) {
             return;
         }
-
         this.opening = true;
+        console.log("websocket url1: ",this.href)
         this.ws = new WebSocket(this.href);
         window.addEventListener('beforeunload', this.closePermanently);
         this.ws.addEventListener('open', this.onOpen);
@@ -88,7 +90,6 @@ class ReopeningWebSocket {
     closePermanently() {
         this.closing = true;
         this.listeners = {};
-
         if (this.ws) {
             this.ws.removeEventListener('open', this.onOpen);
             this.ws.removeEventListener('message', this.onMessage);

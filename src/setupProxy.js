@@ -5,7 +5,7 @@ module.exports = function (app) {
         '/api',
         createProxyMiddleware(
             {
-                target: 'http://localhost:9090',
+                target: 'http://192.168.1.106:9090',
                 changeOrigin: true,
                 pathRewrite: {"^api": ""}
             }
@@ -14,7 +14,7 @@ module.exports = function (app) {
         '/api',
         createProxyMiddleware(
             {
-                target: 'ws://localhost:9090',
+                target: 'ws://192.168.1.106:9090',
                 changeOrigin: true,
                 ws: true,
                 pathRewrite: {"^api": ""}

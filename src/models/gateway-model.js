@@ -149,14 +149,12 @@ class GatewayModel extends Model {
         try {
             const thingsHref = `${window.location.origin}/things`;
             const wsHref = thingsHref.replace(/^http/, 'ws');
-            console.log("websocket url:", wsHref)
             this.ws = new ReopeningWebSocket(wsHref);
             this.ws.addEventListener('open', this.refreshThings.bind(this));
             this.ws.addEventListener('message', this.onMessage);
         } catch (e) {
             console.log("app websocket err: ", e)
         }
-
     }
 
     onMessage(event) {
