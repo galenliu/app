@@ -1,13 +1,7 @@
-/**
- * Temporary API for interacting with the server.
- *
- * This Source Code Form is subject to the terms of the Mozilla Public
- * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/.
- */
 
 class API {
   jwt: string | null = localStorage.getItem('jwt');
+
 
   isLoggedIn(): boolean {
     return !!this.jwt;
@@ -79,8 +73,24 @@ class API {
       if (!res.ok) {
         throw new Error(`${res.status}`);
       }
-
       return res.json();
+    });
+  }
+
+  putJsonWithEmptyResponse(url: string, data: Record<string, unknown>): Promise<void> {
+    const opts = {
+      method: 'PUT',
+      headers: {
+        Authorization: `Bearer ${this.jwt}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    };
+
+    return fetch(url, opts).then((res) => {
+      if (!res.ok) {
+        throw new Error(`${res.status}`);
+      }
     });
   }
 
@@ -132,12 +142,12 @@ class API {
 
   userCount(): Promise<number> {
     return this.getJson('/users/count')
-      .then((body) => {
-        return <number>body.count;
-      })
-      .catch(() => {
-        throw new Error('Failed to get user count.');
-      });
+        .then((body) => {
+          return <number>body.count;
+        })
+        .catch(() => {
+          throw new Error('Failed to get user count.');
+        });
   }
 
   assertJWT(): void {
@@ -152,14 +162,14 @@ class API {
 
   createUser(name: string, email: string, password: string): Promise<void> {
     return this.postJson('/users', { name, email, password })
-      .then((body) => {
-        const jwt = <string>body!.jwt!;
-        localStorage.setItem('jwt', jwt);
-        this.jwt = jwt;
-      })
-      .catch(() => {
-        throw new Error('Repeating signup not permitted');
-      });
+        .then((body) => {
+          const jwt = <string>body!.jwt!;
+          localStorage.setItem('jwt', jwt);
+          this.jwt = jwt;
+        })
+        .catch(() => {
+          throw new Error('Repeating signup not permitted');
+        });
   }
 
   getUser(id: number): Promise<Record<string, unknown>> {
@@ -171,11 +181,11 @@ class API {
   }
 
   editUser(
-    id: string,
-    name: string,
-    email: string,
-    password: string,
-    newPassword: string
+      id: string,
+      name: string,
+      email: string,
+      password: string,
+      newPassword: string
   ): Promise<Record<string, unknown>> {
     return this.putJson(`/users/${encodeURIComponent(id)}`, {
       id,
@@ -271,8 +281,8 @@ class API {
   }
 
   setAddonConfig(
-    addonId: string,
-    config: Record<string, unknown>
+      addonId: string,
+      config: Record<string, unknown>
   ): Promise<Record<string, unknown>> {
     return this.putJson(`/addons/${encodeURIComponent(addonId)}/config`, { config });
   }
@@ -282,9 +292,9 @@ class API {
   }
 
   async installAddon(
-    addonId: string,
-    addonUrl: string,
-    addonChecksum: string
+      addonId: string,
+      addonUrl: string,
+      addonChecksum: string
   ): Promise<Record<string, unknown>> {
     return (await this.postJson('/addons', {
       id: addonId,
@@ -298,9 +308,9 @@ class API {
   }
 
   updateAddon(
-    addonId: string,
-    addonUrl: string,
-    addonChecksum: string
+      addonId: string,
+      addonUrl: string,
+      addonChecksum: string
   ): Promise<Record<string, unknown>> {
     return this.patchJson(`/addons/${encodeURIComponent(addonId)}`, {
       url: addonUrl,
@@ -314,16 +324,16 @@ class API {
 
   getExperimentSetting(experimentName: string): Promise<boolean> {
     return this.getJson(`/settings/experiments/${encodeURIComponent(experimentName)}`)
-      .then((json) => {
-        return <boolean>json.enabled;
-      })
-      .catch((e) => {
-        if (e.message === '404') {
-          return false;
-        }
+        .then((json) => {
+          return <boolean>json.enabled;
+        })
+        .catch((e) => {
+          if (e.message === '404') {
+            return false;
+          }
 
-        throw new Error(`Error getting ${experimentName}`);
-      });
+          throw new Error(`Error getting ${experimentName}`);
+        });
   }
 
   setExperimentSetting(experimentName: string, enabled: boolean): Promise<Record<string, unknown>> {
@@ -372,9 +382,9 @@ class API {
   }
 
   setThingGroupAndLayoutIndex(
-    thingId: string,
-    groupId: string | null,
-    index: number
+      thingId: string,
+      groupId: string | null,
+      index: number
   ): Promise<Record<string, unknown>> {
     groupId = groupId || '';
     return this.patchJson(`/things/${encodeURIComponent(thingId)}`, {
@@ -384,9 +394,9 @@ class API {
   }
 
   setThingFloorplanPosition(
-    thingId: string,
-    x: number,
-    y: number
+      thingId: string,
+      x: number,
+      y: number
   ): Promise<Record<string, unknown>> {
     return this.patchJson(`/things/${encodeURIComponent(thingId)}`, {
       floorplanX: x,
@@ -395,8 +405,8 @@ class API {
   }
 
   setThingCredentials(
-    thingId: string,
-    data: Record<string, unknown>
+      thingId: string,
+      data: Record<string, unknown>
   ): Promise<Record<string, unknown>> {
     const body: Record<string, unknown> = {
       thingId,
@@ -493,8 +503,8 @@ class API {
   }
 
   updateRule(
-    ruleId: string,
-    description: Record<string, unknown>
+      ruleId: string,
+      description: Record<string, unknown>
   ): Promise<Record<string, unknown>> {
     return this.putJson(`/rules/${encodeURIComponent(ruleId)}`, description);
   }
@@ -508,7 +518,7 @@ class API {
   }
 
   async addLog(
-    description: Record<string, unknown>
+      description: Record<string, unknown>
   ): Promise<[boolean, string | Record<string, unknown> | null]> {
     const opts = {
       method: 'POST',
@@ -531,7 +541,7 @@ class API {
 
   deleteLog(thingId: string, propertyId: string): Promise<void> {
     return this.delete(
-      `/logs/things/${encodeURIComponent(thingId)}/properties/${encodeURIComponent(propertyId)}`
+        `/logs/things/${encodeURIComponent(thingId)}/properties/${encodeURIComponent(propertyId)}`
     );
   }
 
@@ -555,10 +565,10 @@ class API {
   }
 
   setupTunnel(
-    email: string,
-    subdomain: string,
-    reclamationToken: string,
-    optout: boolean
+      email: string,
+      subdomain: string,
+      reclamationToken: string,
+      optout: boolean
   ): Promise<[boolean, string | Record<string, unknown>]> {
     const opts = {
       method: 'POST',

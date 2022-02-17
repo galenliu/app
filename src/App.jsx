@@ -20,12 +20,12 @@ const theme = createTheme(Theme);
 function App() {
     const {t} = useTranslation();
     const [drawerOpen, setDrawerOpen] = useState(false)
-    const [navOpen, setNavOpen] = useState(true)
+    const [navOpen, setNavOpen] = useState(false)
     const [appNavTitle, setAppNavTitle] = useState(t("Things"))
     const [newThingShow, setNewThingShow] = useState(false)
     const [addSButtonShow, setAddSButtonShow] = useState(false)
 
-    const [thingModels,connected] = UseGateway()
+    const [thingModels,connected,isRegistered] = UseGateway()
 
     useEffect(() => {
 
@@ -50,7 +50,7 @@ function App() {
                     <BrowserRouter>
                         <Routes>
                             <Route path="/" element={<Nav/>}>
-                                <Route index element={<Things thingModels={thingModels}/>}/>
+                                {/*<Route index element={<Things thingModels={thingModels}/>}/>*/}
                                 <Route path="things" element={<Things thingModels={thingModels}/>}/>
                                 <Route path="rules" element={<Rules/>}/>
                                 <Route path="settings" element={<Settings/>}/>

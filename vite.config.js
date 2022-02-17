@@ -5,12 +5,14 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   server: {
+    open: true,//启动项目自动弹出浏览器
+    port: 4000,//启动端口
     proxy: {
-      "/api": {
-        target: 'http://192.168.1.100:9090',
+      "/": {
+        target: 'http://127.0.0.1:9090',
         changeOrigin: true,
         ws: true,
-        rewrite: path => path.replace(/^\/api/, ''),
+        // rewrite: path => path.replace(/^\//, ''),
       }
     }
   }
