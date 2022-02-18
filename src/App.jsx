@@ -11,13 +11,18 @@ import SignIn from "./views/SignIn";
 import {Theme} from "./js/theme";
 import {createTheme, ThemeProvider} from "@mui/material/styles";
 import {useTranslation} from "react-i18next";
-import {UseGateway} from "./hooks/use-gateway";
 import "./i18n"
+import GatewayModel from "./models/gateway-model";
+import Constants from '../src/constants';
+
 
 export const AppContext = createContext({})
 const theme = createTheme(Theme);
 
+const gateway = new GatewayModel()
+
 function App() {
+
     const {t} = useTranslation();
     const [drawerOpen, setDrawerOpen] = useState(false)
     const [navOpen, setNavOpen] = useState(false)
@@ -25,11 +30,16 @@ function App() {
     const [newThingShow, setNewThingShow] = useState(false)
     const [addSButtonShow, setAddSButtonShow] = useState(false)
 
-    const [thingModels,connected,isRegistered] = UseGateway()
+    const [things, setThings] = useState(new Map())
 
     useEffect(() => {
-
-
+        const refreshThings = (things) => {
+            setThings(gateway.thingModels)
+        }
+        gateway.subscribe(Constants.REFRESH_THINGS, refreshThings, true)
+        return () => {
+            gateway.unsubscribe(Constants.REFRESH_THINGS, refreshThings)
+        }
     }, [])
 
     return (
@@ -51,7 +61,7 @@ function App() {
                         <Routes>
                             <Route path="/" element={<Nav/>}>
                                 {/*<Route index element={<Things thingModels={thingModels}/>}/>*/}
-                                <Route path="things" element={<Things thingModels={thingModels}/>}/>
+                                <Route path="things" element={<Things things={things}/>}/>
                                 <Route path="rules" element={<Rules/>}/>
                                 <Route path="settings" element={<Settings/>}/>
                             </Route>

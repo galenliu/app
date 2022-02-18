@@ -75,30 +75,23 @@ export default function Nav(props) {
         navigate(url)
     }
 
-    return (<Box sx={{display: 'flex'}}>
-            <CssBaseline/>
-            <AppBar position="fixed" open={open}>
-                <Toolbar>
-                    <IconButton
-                        color="inherit"
-                        aria-label="open drawer"
-                        onClick={handleDrawerOpen}
-                        edge="start"
-                        sx={{mr: 2, ...(open && {display: 'none'})}}
-                    >
-                        <MenuIcon/>
-                    </IconButton>
-                    <Typography variant="h6" noWrap component="div" sx={{flexGrow: 1}} edge="start">
-                        {appNavTitle}
-                    </Typography>
+    return (<>
 
-                    <IconButton edge={"end"} color="inherit" aria-label="close" onClick={() => {
-                        setNewThingShow(true)
-                    }} sx={{...((!addSButtonShow || open) && {display: 'none'})}}>
-                        <AddIcon/>
-                    </IconButton>
-                </Toolbar>
-            </AppBar>
+        <IconButton
+            style={{
+                float: "left",
+                margin: "5px 5px"
+            }}
+            color="inherit"
+            float="left"
+            aria-label="open drawer"
+            onClick={handleDrawerOpen}
+        >
+            <MenuIcon/>
+        </IconButton>
+
+        <Box sx={{display: 'flex'}} >
+            <CssBaseline/>
             <Drawer
                 sx={{
                     width: drawerWidth, flexShrink: 0, '& .MuiDrawer-paper': {
@@ -113,7 +106,6 @@ export default function Nav(props) {
                     <IconButton onClick={handleDrawerClose}>
                         {theme.direction === 'ltr' ? <ChevronLeftIcon/> : <ChevronRightIcon/>}
                     </IconButton>
-
                 </DrawerHeader>
                 <Divider/>
                 <List>
@@ -137,9 +129,9 @@ export default function Nav(props) {
                         </ListItem>))}
                 </List>
             </Drawer>
-            <Main open={open}>
-                <DrawerHeader/>
+
+            <Main>
                 <Outlet/>
             </Main>
-        </Box>);
+        </Box></>);
 }

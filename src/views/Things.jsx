@@ -51,6 +51,7 @@ export default function Things(props) {
     const [state, setState] = useState()
 
     useEffect(() => {
+        console.log("things props:", props)
         setAppNavTitle(t("Things"))
         setAddSButtonShow(true)
         return () => {
@@ -86,11 +87,26 @@ export default function Things(props) {
     //     return ls
     // }
 
+    function renderThings() {
+        let list = []
+        if (props.things) {
+            props.things.forEach((value, key, m) => {
+                if (value !== null && value !== undefined) {
+                    list.push(<div>
+                        <p>id:{value.id}</p>
+                        <p>title:{value.title}</p>
+                    </div>)
+                }
+            })
+        }
+        return list
+    }
+
     return (
         <>
             <Grid className={clsx(classes.containerGrid, {[classes.contentShift]: drawerOpen,})} container
                   direction="row" spacing={3}>
-                {/*{state === 1 && renderThings()}*/}
+                {renderThings()}
             </Grid>
             <NewThingsDialog open={newThingShow}/>
         </>

@@ -1,6 +1,7 @@
 {
   "name": "app",
   "version": "0.0.1",
+  "private": true,
   "scripts": {
     "dev": "vite --open",
     "build": "vite build",
@@ -28,6 +29,7 @@
   "devDependencies": {
     "@vitejs/plugin-react": "^1.2.0",
     "typescript": "^4.5.5",
-    "vite": "^2.8.3"
+    "vite": "^2.8.3",
+    "vite-plugin-mock": "^2.9.6"
   }
 }
