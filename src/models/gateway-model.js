@@ -1,11 +1,4 @@
-/**
- * Gateway Model.
- *
- * This Source Code Form is subject to the terms of the Mozilla Public
- * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/.
- */
-'use strict';
+
 import API from "../js/api"
 import Constants from '../constants';
 import Model from './model';
@@ -143,11 +136,11 @@ class GatewayModel extends Model {
     this.ws = new ReopeningWebSocket(wsHref);
     this.ws.addEventListener('open', this.refreshThings.bind(this));
     this.ws.addEventListener('message', this.onMessage);
-    const groupsHref = `${window.location.origin}/groups?jwt=${API.jwt}`;
-    const groupsWsHref = groupsHref.replace(/^http/, 'ws');
-    this.groupsWs = new ReopeningWebSocket(groupsWsHref);
-    this.groupsWs.addEventListener('open', this.refreshThings.bind(this));
-    this.groupsWs.addEventListener('message', this.onMessage);
+    //const groupsHref = `${window.location.origin}/groups?jwt=${API.jwt}`;
+   // const groupsWsHref = groupsHref.replace(/^http/, 'ws');
+   // this.groupsWs = new ReopeningWebSocket(groupsWsHref);
+    //this.groupsWs.addEventListener('open', this.refreshThings.bind(this));
+    //this.groupsWs.addEventListener('message', this.onMessage);
   }
 
   onMessage(event) {
@@ -306,4 +299,4 @@ class GatewayModel extends Model {
   }
 }
 
-module.exports = GatewayModel;
+export default GatewayModel;

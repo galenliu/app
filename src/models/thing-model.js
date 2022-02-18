@@ -7,11 +7,11 @@
  */
 'use strict';
 
-const API = require('../api').default;
-const App = require('../app');
-const Model = require('./model');
-const Constants = require('../constants');
-const Utils = require('../utils');
+import API from "../js/api";
+
+import Model from "./model"
+import Constants from '../constants'
+import * as Utils from '../utils'
 
 class ThingModel extends Model {
   constructor(description, ws) {
@@ -19,7 +19,7 @@ class ThingModel extends Model {
     this.properties = {};
     this.events = [];
     this.connected = false;
-    this.base = App.ORIGIN;
+//    this.base = App.ORIGIN;
 
     this.updateFromDescription(description);
 
@@ -324,4 +324,4 @@ class ThingModel extends Model {
   }
 }
 
-module.exports = ThingModel;
+export default ThingModel;
