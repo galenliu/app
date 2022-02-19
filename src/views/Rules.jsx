@@ -5,10 +5,10 @@ import {useTranslation} from "react-i18next";
 
 export default function Rules(props) {
     const {t} = useTranslation()
-    const {drawerOpen, setAppNavTitle} = useContext(AppContext)
+    const {setTitle} = useContext(AppContext)
 
     useEffect(() => {
-        setAppNavTitle(t("Rules"))
+        setTitle(t("Rules"))
     }, [])
 
     return (

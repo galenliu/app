@@ -2,9 +2,11 @@ import React, {useContext, useEffect, useState} from "react";
 import Grid from "@mui/material/Grid";
 import {useTranslation} from "react-i18next";
 import {makeStyles} from "@mui/styles";
-import {AppContext} from "../App";
+import {AppContext, gateway} from "../App";
 import clsx from "clsx";
 import NewThingsDialog from "./dialog/NewThingDialog";
+import Constants from "../constants";
+import {useThings} from "../hooks/use-things";
 // import NewThingsDialog from "./AddThing";
 
 
@@ -44,15 +46,13 @@ const useStyles = makeStyles((theme) => ({
 export default function Things(props) {
 
     const classes = useStyles()
-    const {drawerOpen, setAppNavTitle, newThingShow, setAddSButtonShow} = useContext(AppContext)
-
-    const [thingPanelShow, setThingPanelShow] = useState(false)
+    const {drawerOpen, setTitle, newThingShow, setAddSButtonShow} = useContext(AppContext)
     const {t} = useTranslation();
-    const [state, setState] = useState()
+    const [things] = useThings()
 
     useEffect(() => {
-        console.log("things props:", props)
-        setAppNavTitle(t("Things"))
+        console.log("this is entry things view")
+        setTitle(t("Things"))
         setAddSButtonShow(true)
         return () => {
             setAddSButtonShow(false)
@@ -89,10 +89,10 @@ export default function Things(props) {
 
     function renderThings() {
         let list = []
-        if (props.things) {
-            props.things.forEach((value, key, m) => {
+        if ( things) {
+             things.forEach((value, key, m) => {
                 if (value !== null && value !== undefined) {
-                    list.push(<div>
+                    list.push(<div key={key}>
                         <p>id:{value.id}</p>
                         <p>title:{value.title}</p>
                     </div>)
