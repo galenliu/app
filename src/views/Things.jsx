@@ -2,11 +2,12 @@ import React, {useContext, useEffect, useState} from "react";
 import Grid from "@mui/material/Grid";
 import {useTranslation} from "react-i18next";
 import {makeStyles} from "@mui/styles";
-import {AppContext, gateway} from "../App";
+import {AppContext} from "../App";
 import clsx from "clsx";
 import NewThingsDialog from "./dialog/NewThingDialog";
 import Constants from "../constants";
 import {useThings} from "../hooks/use-things";
+import ThingCard from "../thing/ThingCard";
 // import NewThingsDialog from "./AddThing";
 
 
@@ -90,12 +91,11 @@ export default function Things(props) {
     function renderThings() {
         let list = []
         if ( things) {
-             things.forEach((value, key, m) => {
-                if (value !== null && value !== undefined) {
-                    list.push(<div key={key}>
-                        <p>id:{value.id}</p>
-                        <p>title:{value.title}</p>
-                    </div>)
+             things.forEach((t, key, m) => {
+                 console.log("thingMode:",t)
+                if (t !== null && t !== undefined) {
+                    list.push(<ThingCard key={key} title={t.title} state={"connected"}>
+                    </ThingCard>)
                 }
             })
         }
@@ -105,7 +105,7 @@ export default function Things(props) {
     return (
         <>
             <Grid className={clsx(classes.containerGrid, {[classes.contentShift]: drawerOpen,})} container
-                  direction="row" spacing={3}>
+                  direction="row" spacing={4}>
                 {renderThings()}
             </Grid>
             <NewThingsDialog open={newThingShow}/>

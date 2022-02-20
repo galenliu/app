@@ -1,14 +1,3 @@
-/**
- * Unit utility functions.
- *
- * This Source Code Form is subject to the terms of the Mozilla Public
- * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/.
- */
-
-'use strict';
-
-const App = require('./app');
 const fluent = require('./fluent');
 
 const Units = {
@@ -26,29 +15,29 @@ const Units = {
     switch (unit.toLowerCase()) {
       case 'volt':
       case 'volts':
-        return fluent.getMessage('abbrev-volt');
+        return 'volt';
 
       case 'hertz':
-        return fluent.getMessage('abbrev-hertz');
+        return 'hertz';
 
       case 'amp':
       case 'amps':
       case 'ampere':
       case 'amperes':
-        return fluent.getMessage('abbrev-amp');
+        return amp;
 
       case 'watt':
       case 'watts':
-        return fluent.getMessage('abbrev-watt');
+        return watt;
 
       case 'kilowatt hour':
       case 'kilowatt-hour':
       case 'kilowatt hours':
       case 'kilowatt-hours':
-        return fluent.getMessage('abbrev-kilowatt-hour');
+        return 'kilowatt hour';
 
       case 'percent':
-        return fluent.getMessage('abbrev-percent');
+        return 'percent';
 
       case 'degree fahrenheit':
       case 'degrees fahrenheit':
@@ -147,4 +136,4 @@ const Units = {
   },
 };
 
-module.exports = Units;
+export default Units
