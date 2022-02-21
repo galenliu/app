@@ -13,12 +13,14 @@ export default function ThingCard(props) {
 
     return (
         <Card sx={{
+            boxShadow: 3,
             display: 'flex',
             flexDirection: "column",
             margin: "0px 10px",
             justifyContent: "space-between",
             width: "120px",
-            height: "120px"
+            height: "120px",
+            padding: "1ox"
         }}>
             <Box sx={{display: 'flex', flex: "70%", justifyContent: "space-around"}}>
                 <CardMedia sx={{display: "flex", flex: "70%", justifyContent: "center", alignItems: "center"}}>

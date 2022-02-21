@@ -23,6 +23,7 @@ import MotionDetail from '../property/motion';
 import NumberDetail from '../property/number';
 import OnOffDetail from '../property/on-off';
 import OpenDetail from '../property/open';
+import { EventEmitter } from 'events';
 import PushedDetail from '../property/pushed';
 import SmokeDetail from '../property/smoke';
 import StringDetail from '../property/string';
@@ -36,7 +37,7 @@ import Utils from '../../utils';
 import VideoDetail from '../property/video';
 import VoltageDetail from '../property/voltage';
 
-class Thing {
+class Thing extends EventEmitter {
     /**
      * Thing constructor.
      *
@@ -45,6 +46,7 @@ class Thing {
      * @param {Object} options Options for building the view.
      */
     constructor(model, description, format, options) {
+        super();
         const opts = options || {};
         const defaults = {
             on: OnOffDetail,

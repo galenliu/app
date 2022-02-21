@@ -1,10 +1,17 @@
+/**
+ * Thing Model.
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ */
 'use strict';
 
 import API from "../js/api";
-import Model from "./model";
-import Constants from "../js/constant";
-import App from "../../src/App"
 
+import Model from "./model"
+import Constants from '../constants'
+import * as Utils from '../utils'
 
 class ThingModel extends Model {
     constructor(description, ws) {
@@ -12,44 +19,61 @@ class ThingModel extends Model {
         this.properties = {};
         this.events = [];
         this.connected = false;
-
+        this.base = Constants.ORIGIN;
+        this.id = description.id;
         this.updateFromDescription(description);
 
         this.initWebSocket(ws);
-        this.updateEvents()
-        this.iconData = {}
+
+        this.updateEvents();
+
         return this;
     }
 
     updateFromDescription(description) {
         this.title = description.title;
-        this.id = decodeURIComponent(description.id.split('/').pop());
-        this.href = new URL(description.id, App.ORIGIN);
+        this.base = description.base ?? Constants.ORIGIN;
+        // Parse base URL of Thing
+        if (description.href) {
+            // this.href = new URL(description.href, App.ORIGIN);
+            this.href = new URL(description.href, Constants.ORIGIN);
+            this.id = decodeURIComponent(this.href.pathname.split('/').pop());
+        }
+        console.log("this.description:", description);
+        // Parse group id of Thing
+        this.group_id = description.group_id;
 
-        // Parse events URL
-        for (const form of description.forms) {
-            if (form.rel === null) {
-                continue
-            }
-            switch (form.rel) {
-                case 'events':
-                    this.eventsHref = new URL(form.href, App.ORIGIN);
-                    break;
-                case 'properties':
-                    this.propertiesHref = new URL(form.href, App.ORIGIN);
-                    break;
-                default:
-                    break;
+        // Parse properties and events URLs
+        if (description.forms) {
+            for (const form of description.forms) {
+                const op = form.op;
+                // Properties URL
+                if (
+                    (typeof op === 'string' && op === Constants.WoTOperation.READ_ALL_PROPERTIES) ||
+                    (Array.isArray(op) && op.includes(Constants.WoTOperation.READ_ALL_PROPERTIES))
+                ) {
+                    this.propertiesHref = new URL(form.href, this.base);
+
+                    // Events URL
+                } else if (
+                    (typeof op === 'string' && op === Constants.WoTOperation.SUBSCRIBE_ALL_EVENTS) ||
+                    (Array.isArray(op) && op.includes(Constants.WoTOperation.SUBSCRIBE_ALL_EVENTS))
+                ) {
+                    this.eventsHref = new URL(form.href, this.base);
+                }
             }
         }
+
         // Parse properties
         this.propertyDescriptions = {};
         if (description.hasOwnProperty('properties')) {
             for (const propertyName in description.properties) {
+                console.debug("this.properties:", this.properties)
                 const property = description.properties[propertyName];
                 this.propertyDescriptions[propertyName] = property;
             }
         }
+
 
         // Parse events
         this.eventDescriptions = {};
@@ -66,7 +90,7 @@ class ThingModel extends Model {
      */
     removeThing() {
         return API.removeThing(this.id).then(() => {
-            this.handleEvent(Constants.DELETE_THING, this.id).then();
+            this.handleEvent(Constants.DELETE_THING, this.id);
             this.cleanup();
         });
     }
@@ -85,11 +109,12 @@ class ThingModel extends Model {
         if (!this.hasOwnProperty('href')) {
             return;
         }
+
         this.ws = globalWs;
 
         // After the websocket is open, add subscriptions for all events.
         this.ws.addEventListener('open', () => {
-            if (Object.keys(this.eventDescriptions).length === 0) {
+            if (Object.keys(this.eventDescriptions).length == 0) {
                 return;
             }
             const msg = {
@@ -104,21 +129,19 @@ class ThingModel extends Model {
         });
 
         const onEvent = (event) => {
-
             const message = JSON.parse(event.data);
             if (message.hasOwnProperty('id') && message.id !== this.id) {
                 return;
             }
-            console.log("++++++++++++++++++++++++++++propertyStatus:", message, "thing id:", message.id)
             switch (message.messageType) {
                 case 'propertyStatus':
-                    this.onPropertyStatus(message.data)
+                    this.onPropertyStatus(message.data);
                     break;
                 case 'event':
-                    this.onEvent(message.data)
+                    this.onEvent(message.data);
                     break;
                 case 'connected':
-                    this.onConnected(message.data)
+                    this.onConnected(message.data);
                     break;
                 case 'error':
                     // status 404 means that the Thing already removed.
@@ -151,9 +174,6 @@ class ThingModel extends Model {
             case Constants.CONNECTED:
                 handler(this.connected);
                 break;
-            case Constants.ICON_STATUS:
-                handler(this.iconData);
-                break;
             default:
                 console.warn(`ThingModel does not support event:${event}`);
                 break;
@@ -165,13 +185,15 @@ class ThingModel extends Model {
      *
      * @param {string} name - name of the property
      * @param {*} value - value of the property
-     * @return {Promise} which resolves to the property set.
+     * @return {Promise} which resolves with the provided value
+     *   (Note that the value is only returned for backwards compatibility and
+     *   might not reflect the actual remote property value set)
      */
     setProperty(name, value) {
-        console.log("set property:", value)
         if (!this.propertyDescriptions.hasOwnProperty(name)) {
             return Promise.reject(`Unavailable property name ${name}`);
         }
+
         switch (this.propertyDescriptions[name].type) {
             case 'number':
                 value = parseFloat(value);
@@ -183,21 +205,25 @@ class ThingModel extends Model {
                 value = Boolean(value);
                 break;
         }
+
         const property = this.propertyDescriptions[name];
 
-        let href;
-        for (const form of property.forms) {
-            if (!form.rel || form.rel === 'property') {
-                href = form.href;
-                break;
-            }
-        }
-        return API.putJson(href, value).then((json) => {
-            this.onPropertyStatus(json)
-        }).catch((error) => {
-            console.error(error);
-            //throw new Error(`Error trying to set ${name}`);
-        });
+        const href = Utils.selectFormHref(
+            property.forms,
+            Constants.WoTOperation.READ_PROPERTY,
+            this.base
+        );
+
+        return API.putJsonWithEmptyResponse(href, value)
+            .then(() => {
+                const result = {};
+                result[name] = value;
+                this.onPropertyStatus(result);
+            })
+            .catch((error) => {
+                console.error(error);
+                throw new Error(`Error trying to set ${name}`);
+            });
     }
 
     /**
@@ -207,10 +233,8 @@ class ThingModel extends Model {
         let getPropertiesPromise;
         if (typeof this.propertiesHref === 'undefined') {
             const urls = Object.values(this.propertyDescriptions).map((v) => {
-                for (const link of v.forms) {
-                    if (!link.rel || link.rel === 'property') {
-                        return link.href;
-                    }
+                if (v.forms) {
+                    return Utils.selectFormHref(v.forms, Constants.WoTOperation.WRITE_PROPERTY, this.base);
                 }
             });
             const requests = urls.map((u) => API.getJson(u));
@@ -225,11 +249,13 @@ class ThingModel extends Model {
             getPropertiesPromise = API.getJson(this.propertiesHref);
         }
 
-        getPropertiesPromise.then((properties) => {
-            this.onPropertyStatus(properties)
-        }).catch((error) => {
-            console.error(`Error fetching ${this.title} status: ${error}`);
-        });
+        getPropertiesPromise
+            .then((properties) => {
+                this.onPropertyStatus(properties);
+            })
+            .catch((error) => {
+                console.error(`Error fetching ${this.title} status: ${error}`);
+            });
     }
 
     /**
@@ -238,11 +264,11 @@ class ThingModel extends Model {
      */
     onPropertyStatus(data) {
         const updatedProperties = {};
-
         for (const prop in data) {
             if (!this.propertyDescriptions.hasOwnProperty(prop)) {
                 continue;
             }
+
             const value = data[prop];
             if (typeof value === 'undefined' || value === null) {
                 continue;
@@ -261,12 +287,13 @@ class ThingModel extends Model {
         if (typeof this.eventsHref === 'undefined') {
             return;
         }
-
-        return API.getJson(this.eventsHref).then((events) => {
-            this.events = events;
-        }).catch((e) => {
-            console.error(`Error fetching events: ${e}`);
-        });
+        return API.getJson(this.eventsHref)
+            .then((events) => {
+                this.events = events;
+            })
+            .catch((e) => {
+                console.error(`Error fetching events: ${e}`);
+            });
     }
 
     /**
@@ -287,14 +314,16 @@ class ThingModel extends Model {
 
     /**
      * Handle a 'connected' message.
+     *
      * @param {boolean} connected - Connected state
      */
     onConnected(connected) {
         this.connected = connected;
-        console.log("thing on connected:", this.id, ":", connected)
+
         if (connected) {
             this.updateProperties();
         }
+
         return this.handleEvent(Constants.CONNECTED, connected);
     }
 }

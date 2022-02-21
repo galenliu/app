@@ -15,8 +15,6 @@ const useStyles = makeStyles((theme) => ({
     containerGrid: {
         alignItems: "flex-start",
         backgroundColor: theme.palette.primary.light,
-        height: "100%",
-        width: "100%",
         padding: theme.spacing(1),
         transition: theme.transitions.create('margin', {
             easing: theme.transitions.easing.sharp,

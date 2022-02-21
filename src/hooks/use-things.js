@@ -15,5 +15,5 @@ export function useThings() {
         }
     }, [])
 
-    return things
+    return [things]
 }

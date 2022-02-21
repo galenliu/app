@@ -76,21 +76,21 @@ export default function Nav(props) {
     }
 
     return (<>
+        <div style={{
+            position:"fixed",
+            float: "left",
+            margin: "5px 5px"
+        }}>
+            <IconButton
+                color="inherit"
+                aria-label="open drawer"
+                onClick={handleDrawerOpen}
+            >
+                <MenuIcon/>
+            </IconButton>
+        </div>
 
-        <IconButton
-            style={{
-                float: "left",
-                margin: "5px 5px"
-            }}
-            color="inherit"
-            float="left"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-        >
-            <MenuIcon/>
-        </IconButton>
-
-        <Box sx={{display: 'flex'}} >
+        <Box sx={{display: 'flex'}}>
             <CssBaseline/>
             <Drawer
                 sx={{
