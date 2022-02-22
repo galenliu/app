@@ -1,18 +1,7 @@
-/**
- * Binary Sensor.
- *
- * UI element representing a Binary Sensor.
- *
- * This Source Code Form is subject to the terms of the Mozilla Public
- * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/.
- */
 
-'use strict';
+import Thing from './thing';
 
-const Thing = require('./thing');
-
-class BinarySensor extends Thing {
+export default class BinarySensor extends Thing {
   /**
    * BinarySensor Constructor (extends Thing).
    *
@@ -68,11 +57,6 @@ class BinarySensor extends Thing {
     }
   }
 
-  iconView() {
-    return `
-      <webthing-binary-sensor-capability>
-      </webthing-binary-sensor-capability>`;
-  }
+
 }
 
-module.exports = BinarySensor;

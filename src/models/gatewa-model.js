@@ -1,26 +1,64 @@
 import Model from "./model";
-import ReopeningWebSocket from "../models1/reopening-web-socket";
+import ReopeningWebSocket from "../models/reopening-web-socket";
 import Constants from "../js/constant";
+import ThingModel from "./thing-model";
 
 
-export default class GatewayModel extends Model{
+export default class GatewayModel extends Model {
     constructor() {
         super();
-        this.thing = new Map();
-        this.thingModles = new Map();
-        this.connectedThing = new Map();
+        this.things = {};
+        this.thingModels = {};
+        this.connectedThings = new Map();
         this.groups = new Map();
         this.onMessage = this.onMessage.bind(this)
         this.queue = Promise.resolve(true)
         this.connectWebSocket()
     }
 
+    addQueue(job) {
+        this.queue = this.queue.then(job).catch((e) => {
+            console.error(e);
+        });
+        return this.queue;
+    }
 
-    onMessage(event){
+    subscribe(event, handler, immediate = false) {
+        super.subscribe(event, handler);
+        switch (event) {
+            case Constants.REFRESH_THINGS:
+                if (immediate) {
+                    handler(this.things, this.groups);
+                }
+                break;
+            case Constants.DELETE_THINGS:
+                break;
+            default:
+                console.warn(`GatewayModel does not support event:${event}`);
+                break;
+        }
+    }
+
+
+    onMessage(event) {
+        const message = JSON.parse(event.data);
+        switch (message.messageType) {
+            case "connected":
+                this.connectedThings.set(message.id, message.data)
+                break
+            case "thingAdded":
+                this.refreshThings()
+                break
+            case "thingModified":
+                this.refreshThing(message.id)
+                break
+            default:
+                break
+        }
 
     }
 
-    connectWebSocket(){
+    connectWebSocket() {
         // const thingsHref = `${window.location.origin}/things?jwt=${API.jwt}`;
         const thingsHref = `${window.location.origin}/things`;
         const wsHref = thingsHref.replace(/^http/, 'ws');
@@ -34,19 +72,29 @@ export default class GatewayModel extends Model{
         //this.groupsWs.addEventListener('message', this.onMessage);
     }
 
-    refreshThings(){
+    refreshThing(thingId) {
+
+    }
+
+    refreshThings() {
         return this.addQueue(() => {
             return API.getThings()
                 .then((things) => {
                     const fetchedIds = new Set();
+
                     things.forEach((description) => {
+
                         let thingId = decodeURIComponent(description.id);
                         fetchedIds.add(thingId);
+
                         this.setThing(thingId, description);
+
                     });
+
                     const removedIds = Array.from(this.thingModels.keys()).filter((id) => {
                         return !fetchedIds.has(id);
                     });
+
                     removedIds.forEach((thingId) => this.handleRemove(thingId, true));
                     //return API.getGroups();
                     return this.handleEvent(Constants.REFRESH_THINGS, this.things);
@@ -55,6 +103,45 @@ export default class GatewayModel extends Model{
                     console.error(`Get things or groups failed ${e}`);
                 });
         });
+    }
+
+    setThing(thingId, description) {
+
+        if (this.thingModels.hasOwnProperty(thingId)) {
+            let thingModel = this.thingModels[thingId]
+             thingModel.updateFromDescription(description)
+        } else {
+            let thingModel = new ThingModel(description, this.ws)
+            thingModel.subscribe(Constants.DELETE_THINGS, this.handleRemove.bind(this))
+            if (this.connectedThings.get(thingId)) {
+                thingModel.onConnected(this.connectedThings.get(thingId))
+            }
+            this.thingModels[thingId]=thingModel
+        }
+        this.things[thingId] =description
+    }
+
+    handleRemove(thingId,skipEvent=false){
+        if (this.thingModels.hasOwnProperty(thingId)) {
+            this.thingModels[thingId].cleanup();
+            this.thingModels.delete(thingId);
+        }
+        if (this.things.hasOwnProperty(thingId)) {
+            this.things.delete(thingId);
+        }
+
+        if (!skipEvent) {
+            return this.handleEvent(Constants.DELETE_THINGS, this.things, this.groups);
+        }
+    }
+
+    getThingModel(thingId) {
+        if (this.thingModels.has(thingId)) {
+            return Promise.resolve(this.thingModels.get(thingId))
+        }
+        return this.refreshThing(thingId).then(() => {
+            return this.thingModels.get(thingId)
+        })
     }
 
 }

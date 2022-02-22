@@ -12,13 +12,11 @@ import {Theme} from "./js/theme";
 import {createTheme, ThemeProvider} from "@mui/material/styles";
 import {useTranslation} from "react-i18next";
 import "./i18n"
-import GatewayModel from "./models/gateway-model";
-import Constants from '../src/constants';
+import GatewayModel from "./models/gatewa-model";
 
-
-export const AppContext = createContext({})
 const theme = createTheme(Theme);
 
+export const AppContext = createContext({})
 export const gateway = new GatewayModel()
 
 function App() {
@@ -30,9 +28,6 @@ function App() {
     const [newThingShow, setNewThingShow] = useState(false)
     const [addSButtonShow, setAddSButtonShow] = useState(false)
 
-    useEffect(()=>{
-        document.title = title
-    },[title])
     return (
         <AppContext.Provider value={{
             drawerOpen: drawerOpen,
@@ -52,7 +47,7 @@ function App() {
                         <Routes>
                             <Route path="/" element={<Nav/>}>
                                 <Route index element={<Things/>}/>
-                                <Route path="things" element={<Things />}/>
+                                <Route path="things" element={<Things/>}/>
                                 <Route path="rules" element={<Rules/>}/>
                                 <Route path="settings" element={<Settings/>}/>
                             </Route>

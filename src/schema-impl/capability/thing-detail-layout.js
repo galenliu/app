@@ -1,6 +1,6 @@
-'use strict';
 
-class ThingDetailLayout {
+
+export default class ThingDetailLayout {
   constructor(parent, elements) {
     this.elements = elements;
     this.svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
@@ -100,4 +100,4 @@ class ThingDetailLayout {
   }
 }
 
-module.exports = ThingDetailLayout;
+

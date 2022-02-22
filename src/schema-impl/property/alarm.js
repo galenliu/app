@@ -56,4 +56,4 @@ class AlarmDetail extends StringLabelDetail {
   }
 }
 
-module.exports = AlarmDetail;
+export default  AlarmDetail;

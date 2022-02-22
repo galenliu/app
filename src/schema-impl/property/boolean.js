@@ -1,16 +1,5 @@
-/**
- * BooleanDetail
- *
- * A generic boolean property detail.
- *
- * This Source Code Form is subject to the terms of the Mozilla Public
- * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/.
- */
 
-'use strict';
 
-const Utils = require('../../utils');
 
 class BooleanDetail {
   constructor(thing, name, property) {
@@ -30,16 +19,7 @@ class BooleanDetail {
     this.input.addEventListener('change', setChecked);
   }
 
-  /**
-   * Build the detail view.
-   */
-  view() {
-    const readOnly = this.readOnly ? 'data-read-only="true"' : '';
-    return `
-      <webthing-boolean-property data-name="${Utils.escapeHtml(this.label)}"
-        id="${this.id}" ${readOnly}>
-      </webthing-boolean-property>`;
-  }
+
 
   /**
    * Update the detail view with the new property value.

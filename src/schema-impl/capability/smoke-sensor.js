@@ -1,18 +1,6 @@
-/**
- * Smoke Sensor.
- *
- * UI element representing a Smoke Sensor.
- *
- * This Source Code Form is subject to the terms of the Mozilla Public
- * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/.
- */
+import Thing from './thing';
 
-'use strict';
-
-const Thing = require('./thing');
-
-class SmokeSensor extends Thing {
+export default class SmokeSensor extends Thing {
   /**
    * SmokeSensor Constructor (extends Thing).
    *
@@ -63,11 +51,6 @@ class SmokeSensor extends Thing {
     }
   }
 
-  iconView() {
-    return `
-      <webthing-smoke-sensor-capability>
-      </webthing-smoke-sensor-capability>`;
-  }
 }
 
-module.exports = SmokeSensor;
+

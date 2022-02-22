@@ -23,7 +23,6 @@ import MotionDetail from '../property/motion';
 import NumberDetail from '../property/number';
 import OnOffDetail from '../property/on-off';
 import OpenDetail from '../property/open';
-import { EventEmitter } from 'events';
 import PushedDetail from '../property/pushed';
 import SmokeDetail from '../property/smoke';
 import StringDetail from '../property/string';
@@ -33,11 +32,11 @@ import ThermostatModeDetail from '../property/thermostat-mode';
 import ThingDetailLayout from './thing-detail-layout';
 import UnlockActionDetail from '../action/unlock';
 import Units from '../../units';
-import Utils from '../../utils';
+
 import VideoDetail from '../property/video';
 import VoltageDetail from '../property/voltage';
 
-class Thing extends EventEmitter {
+class Thing {
     /**
      * Thing constructor.
      *
@@ -46,7 +45,6 @@ class Thing extends EventEmitter {
      * @param {Object} options Options for building the view.
      */
     constructor(model, description, format, options) {
-        super();
         const opts = options || {};
         const defaults = {
             on: OnOffDetail,

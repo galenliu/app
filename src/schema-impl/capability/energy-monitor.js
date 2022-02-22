@@ -1,20 +1,6 @@
-/**
- * EnergyMonitor
- *
- * UI element representing a device which can monitor power usage.
- *
- * This Source Code Form is subject to the terms of the Mozilla Public
- * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/.
- */
+import Thing from './thing';
 
-'use strict';
-
-const Thing = require('./thing');
-const Units = require('../../units');
-const Utils = require('../../utils');
-
-class EnergyMonitor extends Thing {
+export default class EnergyMonitor extends Thing {
   /**
    * EnergyMonitor Constructor (extends Thing).
    *
@@ -89,13 +75,6 @@ class EnergyMonitor extends Thing {
     }
   }
 
-  iconView() {
-    const unit = Utils.escapeHtml(Units.nameToAbbreviation(this.unit));
-    return `
-      <webthing-energy-monitor-capability data-unit="${unit}"
-        data-precision="${this.precision}">
-      </webthing-energy-monitor-capability>`;
-  }
+
 }
 
-module.exports = EnergyMonitor;

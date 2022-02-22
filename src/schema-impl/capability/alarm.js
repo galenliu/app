@@ -35,9 +35,6 @@ class Alarm extends Thing {
     }
   }
 
-  get icon() {
-    return this.element.querySelector('webthing-alarm-capability');
-  }
 
   /**
    * Update the display for the provided property.
@@ -56,11 +53,7 @@ class Alarm extends Thing {
     }
   }
 
-  iconView() {
-    return `
-      <webthing-alarm-capability>
-      </webthing-alarm-capability>`;
-  }
+
 }
 
 export default Alarm;

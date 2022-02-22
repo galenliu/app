@@ -1,20 +1,8 @@
-/**
- * TemperatureDetail
- *
- * A bubble showing temperature.
- *
- * This Source Code Form is subject to the terms of the Mozilla Public
- * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/.
- */
 
-'use strict';
+import NumericLabelDetail from './numeric-label';
 
-const NumericLabelDetail = require('./numeric-label');
-const Utils = require('../../utils');
-const fluent = require('../../fluent');
 
-class TemperatureDetail extends NumericLabelDetail {
+export default class TemperatureDetail extends NumericLabelDetail {
   constructor(thing, name, property) {
     super(
       thing,
@@ -33,15 +21,6 @@ class TemperatureDetail extends NumericLabelDetail {
     }
   }
 
-  view() {
-    const readOnly = this.readOnly ? 'data-read-only="true"' : '';
-
-    return `
-      <webthing-temperature-property data-value="0" ${readOnly}
-        data-name="${Utils.escapeHtml(this.label)}" data-unit="${this.unit}"
-        data-precision="${this.precision}" id="${this.id}">
-      </webthing-temperature-property>`;
-  }
 }
 
-module.exports = TemperatureDetail;
+

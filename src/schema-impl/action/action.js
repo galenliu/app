@@ -10,63 +10,24 @@
 
 'use strict';
 
-const API = require('../../api').default;
-const Utils = require('../../utils');
-const page = require('page');
+import API from '../../js/api';
 
-class ActionDetail {
-  constructor(thing, name, action, href) {
-    this.thing = thing;
-    this.name = name;
-    this.label = action.title || action.label || name;
-    this.input = action.input;
-    this.href = href;
-    this.id = `action-button-${Utils.escapeHtmlForIdClass(this.name)}`;
-  }
 
-  attach() {
-    this.button = this.thing.element.querySelector(`#${this.id}`);
-    this.button.addEventListener('click', this.handleClick.bind(this));
-  }
-
-  view() {
-    let disabled = '';
-    if (typeof this.input !== 'undefined') {
-      // double-encode slashes to make page.js happy
-      const base = `${window.location.pathname}/actions/${encodeURIComponent(this.name).replace(
-        /%2F/g,
-        '%252F'
-      )}`;
-      const params = new URLSearchParams();
-      params.set('referrer', encodeURIComponent(window.location.pathname));
-      this.inputPageRef = `${base}?${params.toString()}`;
-      if (
-        typeof this.input === 'object' &&
-        ((this.input.hasOwnProperty('required') &&
-          Array.isArray(this.input.required) &&
-          this.input.required.length > 0) ||
-          this.input.type !== 'object')
-      ) {
-        disabled = 'disabled';
-      }
+export default class ActionDetail {
+    constructor(thing, name, action, href) {
+        this.thing = thing;
+        this.name = name;
+        this.label = action.title || action.label || name;
+        this.input = action.input;
+        this.href = href;
+        this.id = `action-button-${Utils.escapeHtmlForIdClass(this.name)}`;
     }
 
-    return `
-      <webthing-action ${disabled} id="${this.id}"
-        data-name="${Utils.escapeHtml(this.label)}">
-      </webthing-action>`;
-  }
-
-  handleClick() {
-    const input = {};
-    if (typeof this.input === 'undefined') {
-      API.postJson(this.href, input).catch((e) => {
-        console.error(`Error performing action "${this.name}": ${e}`);
-      });
-    } else {
-      page(this.inputPageRef);
+    attach() {
+        this.button = this.thing.element.querySelector(`#${this.id}`);
+        this.button.addEventListener('click', this.handleClick.bind(this));
     }
-  }
+
+
 }
 
-module.exports = ActionDetail;

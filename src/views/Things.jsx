@@ -106,7 +106,7 @@ export default function Things(props) {
                   direction="row" spacing={4}>
                 {renderThings()}
             </Grid>
-            <NewThingsDialog open={newThingShow}/>
+            {/*<NewThingsDialog open={newThingShow}/>*/}
         </>
     )
 }
