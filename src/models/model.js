@@ -30,11 +30,13 @@ export default class Model {
     }
 
     async handleEvent(event, ...state) {
+
+        console.log("handleEvent state:",...state)
         if (!this.handlers.has(event)) {
             return;
         }
         const eventHandlers = this.handlers.get(event);
-        for (let handler of eventHandlers.keys()) {
+        for (const handler of eventHandlers.keys()) {
             try {
                 await handler(...state)
             } catch (e) {

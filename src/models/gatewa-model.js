@@ -7,8 +7,8 @@ import ThingModel from "./thing-model";
 export default class GatewayModel extends Model {
     constructor() {
         super();
-        this.things = {};
-        this.thingModels = {};
+        this.things = new Map();
+        this.thingModels = new Map();
         this.connectedThings = new Map();
         this.groups = new Map();
         this.onMessage = this.onMessage.bind(this)
@@ -28,6 +28,7 @@ export default class GatewayModel extends Model {
         switch (event) {
             case Constants.REFRESH_THINGS:
                 if (immediate) {
+                    console.log("subscribe this.things:",this.things)
                     handler(this.things, this.groups);
                 }
                 break;
@@ -42,15 +43,16 @@ export default class GatewayModel extends Model {
 
     onMessage(event) {
         const message = JSON.parse(event.data);
+
         switch (message.messageType) {
-            case "connected":
-                this.connectedThings.set(message.id, message.data)
+            case 'connected':
+                this.connectedThings.set(message.id, message.data);
                 break
-            case "thingAdded":
-                this.refreshThings()
+            case 'thingAdded':
+                this.refreshThings();
                 break
-            case "thingModified":
-                this.refreshThing(message.id)
+            case 'thingModified':
+                this.refreshThing(message.id);
                 break
             default:
                 break
@@ -81,16 +83,12 @@ export default class GatewayModel extends Model {
             return API.getThings()
                 .then((things) => {
                     const fetchedIds = new Set();
-
                     things.forEach((description) => {
-
                         let thingId = decodeURIComponent(description.id);
                         fetchedIds.add(thingId);
-
                         this.setThing(thingId, description);
 
                     });
-
                     const removedIds = Array.from(this.thingModels.keys()).filter((id) => {
                         return !fetchedIds.has(id);
                     });
@@ -107,26 +105,26 @@ export default class GatewayModel extends Model {
 
     setThing(thingId, description) {
 
-        if (this.thingModels.hasOwnProperty(thingId)) {
-            let thingModel = this.thingModels[thingId]
-             thingModel.updateFromDescription(description)
+        if (this.thingModels.has(thingId)) {
+            let thingModel = this.thingModels.get(thingId)
+            thingModel.updateFromDescription(description)
         } else {
             let thingModel = new ThingModel(description, this.ws)
             thingModel.subscribe(Constants.DELETE_THINGS, this.handleRemove.bind(this))
             if (this.connectedThings.get(thingId)) {
                 thingModel.onConnected(this.connectedThings.get(thingId))
             }
-            this.thingModels[thingId]=thingModel
+            this.thingModels.set(thingId,thingModel)
         }
-        this.things[thingId] =description
+        this.things.set(thingId ,description)
     }
 
-    handleRemove(thingId,skipEvent=false){
-        if (this.thingModels.hasOwnProperty(thingId)) {
-            this.thingModels[thingId].cleanup();
+    handleRemove(thingId, skipEvent = false) {
+        if (this.thingModels.has(thingId)) {
+            this.thingModels.get(thingId).cleanup();
             this.thingModels.delete(thingId);
         }
-        if (this.things.hasOwnProperty(thingId)) {
+        if (this.things.has(thingId)) {
             this.things.delete(thingId);
         }
 

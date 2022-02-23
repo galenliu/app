@@ -62,7 +62,7 @@ export default class ThingModel extends Model {
             case Constants.PROPERTY_STATUS:
                 handler(this.properties);
                 break
-            case Constants.DELETE_THING:
+            case Constants.DELETE_THINGS:
                 break
             case Constants.CONNECTED:
                 handler(this.connected)

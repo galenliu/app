@@ -6,7 +6,7 @@ import {AppContext} from "../App";
 import clsx from "clsx";
 import NewThingsDialog from "./dialog/NewThingDialog";
 import Constants from "../constants";
-import {useThings} from "../hooks/use-things";
+import useThings from "../hooks/use-things";
 import ThingCard from "../thing/ThingCard";
 // import NewThingsDialog from "./AddThing";
 
@@ -56,7 +56,7 @@ export default function Things(props) {
         return () => {
             setAddSButtonShow(false)
         }
-    }, [])
+    })
 
     function handleOnOff(id) {
 
