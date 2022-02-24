@@ -1,10 +1,11 @@
 import Constants from '../../constants';
 import Thing from './thing';
 
-class OnOffSwitch extends Thing {
+export default class OnOffSwitch extends Thing {
     /**
      * OnOffSwitch Constructor (extends Thing).
      *
+     * @param model
      * @param {Object} description Thing description object.
      * @param {Number} format See Constants.ThingFormat
      * @param {Object} options Options for building the view.
@@ -13,12 +14,8 @@ class OnOffSwitch extends Thing {
         options = options || {
             baseIcon: '/images/thing-icons/on_off_switch.svg',
         };
-
         super(model, description, format, options);
 
-        if (this.format !== Constants.ThingFormat.LINK_ICON) {
-            this.icon.addEventListener('click', this.handleClick.bind(this));
-        }
     }
 
     /**
@@ -77,4 +74,4 @@ class OnOffSwitch extends Thing {
 
 }
 
-export default OnOffSwitch;
+

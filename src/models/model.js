@@ -14,24 +14,23 @@ export default class Model {
 
     subscribe(event, handler) {
         if (!this.handlers.has(event)) {
-            return;
+            this.handlers.set(event,new Map())
         }
-        const eventHandlers = this.handlers[event]
-        eventHandlers.delete(event, handler)
+        const eventHandlers = this.handlers.get(event)
+        eventHandlers.set(handler, handler)
     }
 
     unsubscribe(event, handler) {
         if (!this.handlers.has(event)) {
-            this.handlers.set(event, new Map());
+         return
         }
-        const eventHandlers = this.handlers[event]
-        eventHandlers.set(event, handler)
+        const eventHandlers = this.handlers.get(event)
+        eventHandlers.delete(handler)
 
     }
 
     async handleEvent(event, ...state) {
 
-        console.log("handleEvent state:",...state)
         if (!this.handlers.has(event)) {
             return;
         }

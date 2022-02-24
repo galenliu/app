@@ -2,7 +2,7 @@ import React, {useContext, useEffect, useState} from "react";
 import Grid from "@mui/material/Grid";
 import {useTranslation} from "react-i18next";
 import {makeStyles} from "@mui/styles";
-import {AppContext} from "../App";
+import {AppContext, gateway} from "../App";
 import clsx from "clsx";
 import NewThingsDialog from "./dialog/NewThingDialog";
 import Constants from "../constants";
@@ -47,7 +47,7 @@ export default function Things(props) {
     const classes = useStyles()
     const {drawerOpen, setTitle, newThingShow, setAddSButtonShow} = useContext(AppContext)
     const {t} = useTranslation();
-    const [things] = useThings()
+    const [things] = useThings(gateway)
 
     useEffect(() => {
         console.log("this is entry things view")

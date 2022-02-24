@@ -7,19 +7,20 @@ export default class ThingModel extends Model {
     constructor(description, ws) {
         super();
         this.connected = false;
+
         this.properties = new Map()
         this.propertiesDescriptions = {}
         this.eventsDescriptions = {}
         this.events = []
         this.title = description.title
         this.base = description.base ?? Constants.ORIGIN
-        this.group_id = description.group_id
+        this.group_id = 1;
         this.id = description.includes
         this.initWS(ws)
         return this
     }
 
-    initWS(ws){
+    initWS(ws) {
 
     }
 

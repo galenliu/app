@@ -13,6 +13,7 @@ import {createTheme, ThemeProvider} from "@mui/material/styles";
 import {useTranslation} from "react-i18next";
 import "./i18n"
 import GatewayModel from "./models/gatewa-model";
+import useThings from "./hooks/use-things";
 
 const theme = createTheme(Theme);
 
@@ -40,6 +41,7 @@ function App() {
             newThingShow: newThingShow,
             addSButtonShow: addSButtonShow,
             setAddSButtonShow: setAddSButtonShow,
+
         }}>
             <ThemeProvider theme={theme}>
                 <div className="App">

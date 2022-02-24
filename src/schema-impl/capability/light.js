@@ -1,9 +1,10 @@
 import OnOffSwitch from './on-off-switch';
 
-class Light extends OnOffSwitch {
+export default class Light extends OnOffSwitch {
     /**
      * Light Constructor (extends OnOffSwitch).
      *
+     * @param model
      * @param {Object} description Thing description object.
      * @param {Number} format See Constants.ThingFormat
      */
@@ -88,4 +89,4 @@ class Light extends OnOffSwitch {
 
 }
 
-export default Light;
+

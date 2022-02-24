@@ -4,7 +4,7 @@ class BrightnessDetail {
     this.thing = thing;
     this.name = name;
     this.readOnly = !!property.readOnly;
-    this.label = property.title || fluent.getMessage('brightness');
+    this.label = property.title || 'brightness';
 
     if (property.hasOwnProperty('minimum')) {
       this.min = property.minimum;
@@ -26,24 +26,11 @@ class BrightnessDetail {
       this.step = 1;
     }
 
-    this.id = `brightness-${Utils.escapeHtmlForIdClass(this.name)}`;
+    // this.id = `brightness-${Utils.escapeHtmlForIdClass(this.name)}`;
   }
 
-  attach() {
-    this.brightness = this.thing.element.querySelector(`#${this.id}`);
-    const setBrightness = Utils.debounce(500, this.set.bind(this));
-    this.brightness.addEventListener('change', setBrightness);
-  }
 
-  view() {
-    const readOnly = this.readOnly ? 'data-read-only="true"' : '';
 
-    return `
-      <webthing-brightness-property data-name="${Utils.escapeHtml(this.label)}"
-        value="0" min="${this.min}" max="${this.max}" step="${this.step}"
-        id="${this.id}" ${readOnly}>
-      </webthing-brightness-property>`;
-  }
 
   update(brightness) {
     if (!this.brightness) {

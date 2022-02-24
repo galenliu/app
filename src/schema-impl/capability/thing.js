@@ -31,15 +31,17 @@ import TemperatureDetail from '../property/temperature';
 import ThermostatModeDetail from '../property/thermostat-mode';
 import ThingDetailLayout from './thing-detail-layout';
 import UnlockActionDetail from '../action/unlock';
-import Units from '../../units';
+import {selectFormHref, adjustInputValue} from '../../utils';
 
 import VideoDetail from '../property/video';
 import VoltageDetail from '../property/voltage';
+import Units from "../../units";
 
 class Thing {
     /**
      * Thing constructor.
      *
+     * @param model
      * @param {Object} description Thing description object.
      * @param {Number} format See Constants.ThingFormat
      * @param {Object} options Options for building the view.
@@ -61,7 +63,7 @@ class Thing {
         this.title = description.title;
         this.model = model;
         this.listeners = [];
-        this.connected = this.model.connected;
+        this.connected = false;
 
         if (Array.isArray(description['@type']) && description['@type'].length > 0) {
             this['@type'] = description['@type'];
@@ -70,55 +72,56 @@ class Thing {
         }
 
         this.selectedCapability = description.selectedCapability;
-        this.floorplanVisibility = 'floorplanVisibility' in description !== false;
-        this.layoutIndex = description.layoutIndex;
+        // this.floorplanVisibility = 'floorplanVisibility' in description !== false;
+        // this.layoutIndex = description.layoutIndex;
         this.iconHref = description.iconHref || '';
-        this.baseIcon = opts.baseIcon || fluent.getMessage('thing-icons-thing-src');
+        // this.baseIcon = opts.baseIcon || fluent.getMessage('thing-icons-thing-src');
         this.format = format;
         this.displayedProperties = this.displayedProperties || {};
         this.displayedActions = this.displayedActions || {};
 
-        if (format === Constants.ThingFormat.LINK_ICON) {
-            this.container = document.getElementById('floorplan');
-            this.x = description.floorplanX;
-            this.y = description.floorplanY;
-        } else if (this.model.group_id) {
-            this.container = document.querySelector(`#group-${this.model.group_id}`);
-        } else {
-            this.container = document.getElementById('things');
-        }
+        // if (format === Constants.ThingFormat.LINK_ICON) {
+        //     this.container = document.getElementById('floorplan');
+        //     this.x = description.floorplanX;
+        //     this.y = description.floorplanY;
+        // } else if (this.model.group_id) {
+        //     this.container = document.querySelector(`#group-${this.model.group_id}`);
+        // } else {
+        //     this.container = document.getElementById('things');
+        // }
+        //
+        // this.uiHref = null;
+        // if (description.links) {
+        //     for (const link of description.links) {
+        //         if (link.rel === 'alternate' && link.type === 'text/html') {
+        //             if (link.href.startsWith('/proxy/')) {
+        //                 this.uiHref = `${link.href}?jwt=${API.jwt}`;
+        //             } else if (
+        //                 link.href.startsWith('http://') ||
+        //                 link.href.startsWith('https://') ||
+        //                 link.href.startsWith('/extensions/')
+        //             ) {
+        //                 this.uiHref = link.href;
+        //             }
+        //
+        //             break;
+        //         }
+        //     }
+        // }
 
-        this.uiHref = null;
-        if (description.links) {
-            for (const link of description.links) {
-                if (link.rel === 'alternate' && link.type === 'text/html') {
-                    if (link.href.startsWith('/proxy/')) {
-                        this.uiHref = `${link.href}?jwt=${API.jwt}`;
-                    } else if (
-                        link.href.startsWith('http://') ||
-                        link.href.startsWith('https://') ||
-                        link.href.startsWith('/extensions/')
-                    ) {
-                        this.uiHref = link.href;
-                    }
-
-                    break;
-                }
-            }
-        }
         this.base = description.base ?? App.ORIGIN;
         // Parse base URL of Thing
-        if (description.href) {
-            this.href = new URL(description.href, App.ORIGIN);
-            // double-encode slashes to make page.js happy
-            const params = new URLSearchParams();
-            params.set('referrer', encodeURIComponent(this.href.pathname.replace(/%2F/g, '%252F')));
-            this.eventsHref = `${this.href.pathname.replace(
-                /%2F/g,
-                '%252F'
-            )}/events?${params.toString()}`;
-            this.id = decodeURIComponent(this.href.pathname.split('/').pop());
-        }
+        // if (description.href) {
+        //     this.href = new URL(description.href, App.ORIGIN);
+        //     // double-encode slashes to make page.js happy
+        //     const params = new URLSearchParams();
+        //     params.set('referrer', encodeURIComponent(this.href.pathname.replace(/%2F/g, '%252F')));
+        //     this.eventsHref = `${this.href.pathname.replace(
+        //         /%2F/g,
+        //         '%252F'
+        //     )}/events?${params.toString()}`;
+        //     this.id = decodeURIComponent(this.href.pathname.split('/').pop());
+        // }
 
         // Parse properties
         if (description.properties) {
@@ -154,15 +157,15 @@ class Thing {
                     }
                 }
 
-                const href = Utils.selectFormHref(
+                const href = selectFormHref(
                     property.forms,
                     Constants.WoTOperation.READ_PROPERTY,
                     this.base
                 );
 
-                if (!href) {
-                    continue;
-                }
+                // if (!href) {
+                //     continue;
+                // }
 
                 let detail;
                 switch (property['@type']) {
@@ -279,88 +282,8 @@ class Thing {
             }
         }
 
-        if (format === Constants.ThingFormat.EXPANDED) {
-            // Parse actions
-            if (description.actions) {
-                for (const name in description.actions) {
-                    const action = description.actions[name];
-
-                    const href = Utils.selectFormHref(
-                        action.forms,
-                        Constants.WoTOperation.INVOKE_ACTION,
-                        this.base
-                    );
-
-                    if (!href) {
-                        continue;
-                    }
-
-                    let detail;
-                    switch (action['@type']) {
-                        case 'LockAction':
-                            detail = new LockActionDetail(this, name, action, href);
-                            break;
-                        case 'UnlockAction':
-                            detail = new UnlockActionDetail(this, name, action, href);
-                            break;
-                        default:
-                            detail = new ActionDetail(this, name, action, href);
-                            break;
-                    }
-                    this.displayedActions[name] = {detail};
-                }
-            }
-
-            // Parse events
-            const menu = [];
-            if (description.events) {
-                this.displayEvents = true;
-                menu.push({
-                    href: this.eventsHref,
-                    name: fluent.getMessage('event-log'),
-                    icon: '/images/rules-icon.png',
-                });
-            } else {
-                this.displayEvents = false;
-            }
-
-            menu.push(
-                {
-                    listener: this.handleEdit.bind(this),
-                    name: fluent.getMessage('edit'),
-                    icon: '/images/edit-plain.svg',
-                },
-                {
-                    listener: this.handleRemove.bind(this),
-                    name: fluent.getMessage('remove'),
-                    icon: '/images/remove.svg',
-                }
-            );
-
-            App.buildOverflowMenu(menu);
-
-            const thingsView = document.getElementById('things-view');
-            if (!thingsView.classList.contains('hidden')) {
-                App.showOverflowButton();
-            }
-        } else {
-            App.hideOverflowButton();
-        }
-
         this.findProperties();
-        this.element = this.render(format);
-
-        if (format === Constants.ThingFormat.EXPANDED) {
-            this.attachExpandedView();
-
-            if (!this.connected) {
-                App.showPersistentMessage(fluent.getMessage('disconnected'));
-            }
-        }
-
         this.onPropertyStatus = this.onPropertyStatus.bind(this);
-        this.onEvent = this.onEvent.bind(this);
-        this.onConnected = this.onConnected.bind(this);
         this.updateStatus();
     }
 
@@ -371,113 +294,6 @@ class Thing {
         // pass
     }
 
-    /**
-     * HTML view for Thing.
-     */
-    attachExpandedView() {
-        // Note: the UI will not show them in actual sorted order around the hub.
-        // However, sorting here will at least make it draw them in a consistent
-        // position each time.
-        const props = Array.from(Object.values(this.displayedProperties)).sort((a, b) =>
-            a.detail.label.localeCompare(b.detail.label)
-        );
-        for (const prop of props) {
-            // only attach the first time.
-            if ((!prop.hasOwnProperty('attached') || !prop.attached) && prop.hasOwnProperty('detail')) {
-                prop.detail.attach();
-                prop.attached = true;
-            }
-        }
-
-        const actions = Array.from(Object.values(this.displayedActions)).sort((a, b) =>
-            a.detail.label.localeCompare(b.detail.label)
-        );
-        for (const action of actions) {
-            // only attach the first time.
-            if (
-                (!action.hasOwnProperty('attached') || !action.attached) &&
-                action.hasOwnProperty('detail')
-            ) {
-                action.detail.attach();
-                action.attached = true;
-            }
-        }
-
-        this.layout = new ThingDetailLayout(
-            this,
-            this.element.querySelectorAll('.thing-detail-container')
-        );
-    }
-
-    /**
-     * HTML icon view for Thing.
-     */
-    iconView() {
-        const href = `data-icon-href="${this.iconHref}"` || '';
-        return `
-      <webthing-custom-capability ${href}>
-      </webthing-custom-capability>`;
-    }
-
-    /**
-     * HTML link for Thing Detail view
-     */
-    detailLink() {
-        // double-encode slashes to make page.js happy
-        return `<a href="${this.href.pathname.replace(/%2F/g, '%252F')}"
-      class="thing-details-link" data-l10n-id="thing-details"></a>`;
-    }
-
-    /**
-     * HTML link for custom UI.
-     */
-    uiLink() {
-        // If this is an internal link, don't open a new tab.
-        if (this.uiHref.startsWith('/extensions/')) {
-            return `<a href="${this.uiHref}" class="thing-ui-link"></a>`;
-        }
-
-        return `<a href="${this.uiHref}" class="thing-ui-link"
-              target="_blank" rel="noopener"></a>`;
-    }
-
-    /**
-     * HTML view for Thing.
-     */
-    interactiveView() {
-        const id = `thing-${Utils.escapeHtml(this.id)}`;
-        return `<div class="thing" draggable="true" id="${id}"
-      data-layout-index="${this.layoutIndex}">
-      ${this.uiHref ? this.uiLink() : ''}
-      ${this.detailLink()}
-      ${this.iconView()}
-      <span class="thing-title">${Utils.escapeHtml(this.title)}</span>
-    </div>`;
-    }
-
-    /**
-     * HTML detail view for Thing.
-     */
-    expandedView() {
-        let detailsHTML = '';
-
-        for (const prop of Object.values(this.displayedProperties)) {
-            if (prop.hasOwnProperty('detail')) {
-                detailsHTML += `<div class="thing-detail-container">${prop.detail.view()}</div>`;
-            }
-        }
-
-        for (const action of Object.values(this.displayedActions)) {
-            if (action.hasOwnProperty('detail')) {
-                detailsHTML += `<div class="thing-detail-container">${action.detail.view()}</div>`;
-            }
-        }
-
-        return `<div class="thing">
-      ${this.iconView()}
-      ${detailsHTML}
-    </div>`;
-    }
 
     /**
      * Update the display for the provided property.
@@ -518,7 +334,7 @@ class Thing {
 
         // Adjust the value to match property limits
         const property = this.displayedProperties[name].property;
-        value = Utils.adjustInputValue(value, property);
+        value = adjustInputValue(value, property);
 
         this.model.setProperty(name, value);
     }
@@ -527,21 +343,11 @@ class Thing {
      * Update the status of Thing.
      */
     updateStatus() {
-        this.model.subscribe(Constants.PROPERTY_STATUS, this.onPropertyStatus);
-        this.model.subscribe(Constants.EVENT_OCCURRED, this.onEvent);
-        this.model.subscribe(Constants.CONNECTED, this.onConnected);
+        //this.model.subscribe(Constants.PROPERTY_STATUS, this.onPropertyStatus);
+        // this.model.subscribe(Constants.EVENT_OCCURRED, this.onEvent);
+        // this.model.subscribe(Constants.CONNECTED, this.onConnected);
     }
 
-    /**
-     * Add event listener and store params to cleanup listeners
-     * @param {Element} element
-     * @param {Event} event
-     * @param {Function} handler
-     */
-    registerEventListener(element, event, handler) {
-        element.addEventListener(event, handler);
-        this.listeners.push({element, event, handler});
-    }
 
     /**
      * Cleanup added listeners and subscribed events
@@ -557,205 +363,6 @@ class Thing {
         this.model.unsubscribe(Constants.CONNECTED, this.onConnected);
     }
 
-    /**
-     * HTML-based view for Thing on the floorplan
-     * @return {String}
-     */
-    linkIconView() {
-        // double-encode slashes to make page.js happy
-        return `<div
-        class="floorplan-thing"
-        data-x="${this.x}"
-        data-y="${this.y}"
-        data-href="${this.href.pathname.replace(/%2F/g, '%252F')}"
-        >
-      ${this.iconView()}
-      <div class="floorplan-thing-title">${Utils.escapeHtml(this.title)}</div>
-    </div>`;
-    }
-
-    /**
-     * Render Thing view and add to DOM.
-     *
-     * @param {Number} format See Constants.ThingFormat
-     */
-    render(format) {
-        const element = document.createElement('div');
-        if (format == Constants.ThingFormat.LINK_ICON) {
-            element.innerHTML = this.linkIconView().trim();
-            return this.container.appendChild(element.firstChild);
-        }
-
-        if (format == Constants.ThingFormat.EXPANDED) {
-            element.innerHTML = this.expandedView().trim();
-            return document.getElementById('things').appendChild(element.firstChild);
-        }
-
-        element.innerHTML = this.interactiveView().trim();
-        element.firstChild.ondragstart = this.handleDragStart.bind(this);
-        element.firstChild.ondragover = this.handleDragOver.bind(this);
-        element.firstChild.ondragenter = this.handleDragEnter.bind(this);
-        element.firstChild.ondragleave = this.handleDragLeave.bind(this);
-        element.firstChild.ondragend = this.handleDragEnd.bind(this);
-        element.firstChild.ondrop = this.handleDrop.bind(this);
-
-        if (!this.container) {
-            this.container = document.getElementById('things');
-        }
-
-        for (const node of this.container.childNodes.values()) {
-            if (node.dataset.layoutIndex > this.layoutIndex) {
-                return this.container.insertBefore(element.firstChild, node);
-            }
-        }
-
-        return this.container.appendChild(element.firstChild);
-    }
-
-    handleDragStart(e) {
-        e.target.style.cursor = 'grabbing';
-        e.dataTransfer.setData('text', this.element.id);
-        e.dataTransfer.items.add('', 'application/thing');
-        e.dataTransfer.effectAllowed = 'move';
-        e.dataTransfer.dropEffect = 'move';
-
-        if ('vibrate' in navigator) {
-            navigator.vibrate(50);
-        }
-    }
-
-    handleDragOver(e) {
-        e.preventDefault();
-
-        if (!Array.from(e.dataTransfer.types).includes('application/thing')) {
-            return;
-        }
-
-        this.container.childNodes.forEach((node) => {
-            node.classList.remove('drag-start', 'drag-end');
-        });
-        e.dataTransfer.dropEffect = 'move';
-
-        const dropX = e.clientX;
-        const elementStart = this.element.getBoundingClientRect().x;
-        const elementWidth = this.element.getBoundingClientRect().width;
-
-        if (dropX - elementStart < elementWidth / 2) {
-            this.element.classList.add('drag-start');
-        } else {
-            this.element.classList.add('drag-end');
-        }
-    }
-
-    handleDragEnter(e) {
-        e.preventDefault();
-    }
-
-    handleDragLeave(e) {
-        e.preventDefault();
-
-        this.element.classList.remove('drag-start', 'drag-end');
-    }
-
-    handleDrop(e) {
-        e.preventDefault();
-
-        if (!Array.from(e.dataTransfer.types).includes('application/thing')) {
-            return;
-        }
-
-        e.stopPropagation();
-
-        const dragNode = document.getElementById(e.dataTransfer.getData('text'));
-        if (!dragNode) {
-            return;
-        }
-
-        const dropX = e.clientX;
-        const elementStart = this.element.getBoundingClientRect().x;
-        const elementWidth = this.element.getBoundingClientRect().width;
-
-        let dropIndex = parseInt(this.element.getAttribute('data-layout-index'));
-
-        if (
-            dragNode.parentNode === this.element.parentNode &&
-            parseInt(dragNode.getAttribute('data-layout-index')) < dropIndex
-        ) {
-            dropIndex -= 1;
-        }
-
-        dragNode.parentNode.removeChild(dragNode);
-
-        if (dropX - elementStart < elementWidth / 2) {
-            this.container.insertBefore(dragNode, this.element);
-        } else {
-            const sibling = this.element.nextSibling;
-            if (sibling) {
-                this.container.insertBefore(dragNode, sibling);
-            } else {
-                this.container.appendChild(dragNode);
-            }
-            dropIndex += 1;
-        }
-
-        const dragNodeId = Utils.unescapeHtml(dragNode.id).replace(/^thing-/, '');
-        API.setThingGroupAndLayoutIndex(dragNodeId, this.model.group_id, dropIndex)
-            .then(() => {
-                App.gatewayModel.refreshThings();
-            })
-            .catch((e) => {
-                console.error(`Error trying to change group of thing ${dragNodeId}: ${e}`);
-            });
-    }
-
-    handleDragEnd() {
-        let container;
-        if (this.format === Constants.ThingFormat.LINK_ICON) {
-            container = document.getElementById('floorplan');
-        } else {
-            container = document.getElementById('things-container');
-        }
-        container.querySelectorAll('.drag-start, .drag-end, .drag-target').forEach((node) => {
-            node.classList.remove('drag-start', 'drag-end', 'drag-target');
-        });
-        container.querySelectorAll('.thing').forEach((node) => {
-            node.style.cursor = 'grab';
-        });
-    }
-
-    /**
-     * Handle an edit click event.
-     */
-    handleEdit() {
-        const newEvent = new CustomEvent('_contextmenu', {
-            detail: {
-                thingId: this.id,
-                thingTitle: this.title,
-                floorplanVisibility: this.floorplanVisibility,
-                thingIcon: this.baseIcon,
-                action: 'edit',
-                capabilities: this['@type'],
-                selectedCapability: this.selectedCapability,
-                iconHref: this.iconHref,
-            },
-        });
-        window.dispatchEvent(newEvent);
-    }
-
-    /**
-     * Handle a remove click event.
-     */
-    handleRemove() {
-        const newEvent = new CustomEvent('_contextmenu', {
-            detail: {
-                thingId: this.id,
-                thingTitle: this.title,
-                thingIcon: this.baseIcon,
-                action: 'remove',
-            },
-        });
-        window.dispatchEvent(newEvent);
-    }
 
     /**
      * Handle a 'propertyStatus' message.
@@ -776,43 +383,6 @@ class Thing {
         }
     }
 
-    /**
-     * Handle an 'event' message.
-     * @param {Object} data Event data
-     */
-    onEvent(data) {
-        if (!this.displayEvents) {
-            return;
-        }
-
-        for (const name in data) {
-            App.showMessage(`<a href="${this.eventsHref}">${Utils.escapeHtml(name)}</a>`, 3000);
-        }
-    }
-
-    /**
-     * Handle a 'connected' message.
-     * @param {boolean} connected - New connectivity state
-     */
-    onConnected(connected) {
-        this.connected = connected;
-
-        if (this.format === Constants.ThingFormat.EXPANDED) {
-            if (connected) {
-                this.layout.svg.classList.add('connected');
-                App.hidePersistentMessage();
-            } else {
-                this.layout.svg.classList.remove('connected');
-                App.showPersistentMessage(fluent.getMessage('disconnected'));
-            }
-        }
-
-        if (connected) {
-            this.element.classList.add('connected');
-        } else {
-            this.element.classList.remove('connected');
-        }
-    }
 }
 
 export default Thing;
