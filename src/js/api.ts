@@ -726,10 +726,10 @@ class API {
   }
 }
 
-const instance = new API();
+const Api = new API();
 
 // Elevate this to the window level.
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-(window as any).API = instance;
+(window as any).API = Api;
 
-export default instance;
+export default Api;

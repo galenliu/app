@@ -1,5 +1,5 @@
 import Card from '@mui/material/Card';
-import { CardMedia} from "@mui/material";
+import {CardMedia} from "@mui/material";
 import Typography from "@mui/material/Typography";
 import React, {useState} from 'react';
 import Box from "@mui/material/Box";
@@ -9,14 +9,14 @@ import IconButton from "@mui/material/IconButton";
 
 export default function ThingCard(props) {
 
-    const [power,setPower] = useState()
+
 
     return (
         <Card sx={{
             boxShadow: 3,
             display: 'flex',
             flexDirection: "column",
-            margin: "0px 10px",
+            margin: "10px 10px",
             justifyContent: "space-between",
             width: "120px",
             height: "120px",
@@ -27,9 +27,10 @@ export default function ThingCard(props) {
                     <LightbulbIcon sx={{}}/>
                 </CardMedia>
                 <Box sx={{display: "flex", flexDirection: "column"}}>
-                    <IconButton>
+                    {props.thing.onProperty !== null && <IconButton>
                         <PowerSettingsNewIcon sx={{color: "green"}}/>
                     </IconButton>
+                    }
                 </Box>
             </Box>
             <Box sx={{
@@ -40,11 +41,11 @@ export default function ThingCard(props) {
                 alignItems: "start"
             }}>
                 <Typography sx={{fontSize: 14, flex: "60%",}} color="text.main" gutterBottom>
-                    {props.title ? props.title : "Null"}
+                    {props.thing.title ? props.thing.title : "Null"}
                 </Typography>
                 <Typography sx={{fontSize: 10, flex: "40%", color: !props.state ? "red" : "blue"}}
                             color="text.secondary" gutterBottom>
-                    {props.state}
+                    {props.thing.state ? props.things.state : "Null"}
                 </Typography>
             </Box>
 

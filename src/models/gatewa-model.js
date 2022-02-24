@@ -2,6 +2,7 @@ import Model from "./model";
 import ReopeningWebSocket from "../models/reopening-web-socket";
 import Constants from "../js/constant";
 import ThingModel from "./thing-model";
+import Api from "../js/api";
 
 
 export default class GatewayModel extends Model {
@@ -28,7 +29,7 @@ export default class GatewayModel extends Model {
         switch (event) {
             case Constants.REFRESH_THINGS:
                 if (immediate) {
-                    console.log("subscribe this.things:",this.things)
+                    console.log("subscribe this.things:", this.things)
                     handler(this.things, this.groups);
                 }
                 break;
@@ -40,10 +41,9 @@ export default class GatewayModel extends Model {
         }
     }
 
-
     onMessage(event) {
         const message = JSON.parse(event.data);
-
+        console.log("messageType:", message.messageType)
         switch (message.messageType) {
             case 'connected':
                 this.connectedThings.set(message.id, message.data);
@@ -80,7 +80,7 @@ export default class GatewayModel extends Model {
 
     refreshThings() {
         return this.addQueue(() => {
-            return API.getThings()
+            return Api.getThings()
                 .then((things) => {
                     const fetchedIds = new Set();
                     things.forEach((description) => {
@@ -111,12 +111,10 @@ export default class GatewayModel extends Model {
         } else {
             let thingModel = new ThingModel(description, this.ws)
             thingModel.subscribe(Constants.DELETE_THINGS, this.handleRemove.bind(this))
-            if (this.connectedThings.get(thingId)) {
-                thingModel.onConnected(this.connectedThings.get(thingId))
-            }
-            this.thingModels.set(thingId,thingModel)
+            thingModel.connected = this.connectedThings.has(thingId)
+            this.thingModels.set(thingId, thingModel)
         }
-        this.things.set(thingId ,description)
+        this.things.set(thingId, description)
     }
 
     handleRemove(thingId, skipEvent = false) {

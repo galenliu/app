@@ -63,10 +63,8 @@ export default class OnOffSwitch extends Thing {
     /**
      * Handle a click on the on/off switch.
      */
-    handleClick() {
-        const newValue = !this.icon.on;
-        this.icon.on = null;
-        this.model.setProperty(this.onProperty, newValue).catch((error) => {
+    handleClick(value) {
+        this.model.setProperty(this.onProperty, value).catch((error) => {
             console.error(`Error trying to toggle switch: ${error}`);
         });
     }

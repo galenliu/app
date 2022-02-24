@@ -92,7 +92,7 @@ export default function Things(props) {
              things.forEach((t, key, m) => {
                  console.log("thingMode:",t)
                 if (t !== null && t !== undefined) {
-                    list.push(<ThingCard key={key} title={t.title} state={"connected"}>
+                    list.push(<ThingCard key={key} thing={t}>
                     </ThingCard>)
                 }
             })

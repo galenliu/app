@@ -26,9 +26,11 @@ export default class ThingModel extends Model {
 
 
     updateFromDescription(description) {
+        console.log("description.forms",description.forms)
         if (description.forms) {
             for (let form of description.forms) {
-                let op = form[op]
+                console.log("form:",form)
+                let op = form.op
                 if ((typeof op == "string" && op === Constants.WoTOperation.READ_ALL_PROPERTIES) ||
                     (Array.isArray(op) && op.includes(Constants.WoTOperation.READ_ALL_PROPERTIES))) {
                     this.propertiesHref = new URL(form.href, this.base)
