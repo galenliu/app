@@ -133,7 +133,7 @@ export default class GatewayModel extends Model {
 
     getThingModel(thingId) {
         if (this.thingModels.has(thingId)) {
-            return Promise.resolve(this.thingModels.get(thingId))
+            return this.thingModels.get(thingId)
         }
         return this.refreshThing(thingId).then(() => {
             return this.thingModels.get(thingId)

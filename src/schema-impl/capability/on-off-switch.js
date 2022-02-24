@@ -11,9 +11,6 @@ export default class OnOffSwitch extends Thing {
      * @param {Object} options Options for building the view.
      */
     constructor(model, description, format, options) {
-        options = options || {
-            baseIcon: '/images/thing-icons/on_off_switch.svg',
-        };
         super(model, description, format, options);
 
     }
@@ -22,12 +19,13 @@ export default class OnOffSwitch extends Thing {
      * Find any properties required for this view.
      */
     findProperties() {
+
         this.onProperty = null;
-
         // Look for properties by type first.
-        for (const name in this.displayedProperties) {
-            const type = this.displayedProperties[name].property['@type'];
-
+        for (let name in this.displayedProperties) {
+            let type = this.displayedProperties[name].property['@type'];
+            console.log(" name:", name)
+            console.log(" type:", type)
             if (type === 'OnOffProperty') {
                 this.onProperty = name;
                 break;

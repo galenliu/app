@@ -12,25 +12,7 @@ import ThingCard from "../thing/ThingCard";
 
 
 const useStyles = makeStyles((theme) => ({
-    containerGrid: {
-        alignItems: "flex-start",
-        backgroundColor: theme.palette.primary.light,
-        padding: theme.spacing(1),
-        transition: theme.transitions.create('margin', {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.leavingScreen,
-        }),
-        marginLeft: 0,
-    },
-    contentShift: {
-        alignItems: "flex-start",
-        height: "100%",
-        width: "100%",
-        transition: theme.transitions.create('margin', {
-            easing: theme.transitions.easing.easeOut,
-            duration: theme.transitions.duration.enteringScreen,
-        }),
-    },
+
     drawerHeader: {
         display: 'flex',
         alignItems: 'center',
@@ -88,9 +70,9 @@ export default function Things(props) {
 
     function renderThings() {
         let list = []
-        if ( things) {
-             things.forEach((t, key, m) => {
-                 console.log("thingMode:",t)
+        if (things) {
+            things.forEach((t, key, m) => {
+                console.log("thingMode:", t)
                 if (t !== null && t !== undefined) {
                     list.push(<ThingCard key={key} thing={t}>
                     </ThingCard>)
@@ -102,8 +84,8 @@ export default function Things(props) {
 
     return (
         <>
-            <Grid className={clsx(classes.containerGrid, {[classes.contentShift]: drawerOpen,})} container
-                  direction="row" spacing={4}>
+            <Grid sx={{marginTop: "12px", marginLeft: "12px"}} container
+                  direction="row" spacing={2}>
                 {renderThings()}
             </Grid>
             {/*<NewThingsDialog open={newThingShow}/>*/}

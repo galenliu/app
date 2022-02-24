@@ -6,10 +6,11 @@ import Box from "@mui/material/Box";
 import LightbulbIcon from '@mui/icons-material/Lightbulb';
 import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
 import IconButton from "@mui/material/IconButton";
+import useOnOffSwitch from "../hooks/use-onOffSwitch";
 
 export default function ThingCard(props) {
 
-
+    const [on,setOn] = useOnOffSwitch(props.thing)
 
     return (
         <Card sx={{
@@ -27,8 +28,8 @@ export default function ThingCard(props) {
                     <LightbulbIcon sx={{}}/>
                 </CardMedia>
                 <Box sx={{display: "flex", flexDirection: "column"}}>
-                    {props.thing.onProperty !== null && <IconButton>
-                        <PowerSettingsNewIcon sx={{color: "green"}}/>
+                    {props.thing.onProperty !== null && <IconButton onClick={()=>(setOn())}>
+                        <PowerSettingsNewIcon  sx={{color: "green"}}/>
                     </IconButton>
                     }
                 </Box>

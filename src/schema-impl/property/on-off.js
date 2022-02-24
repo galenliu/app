@@ -9,12 +9,6 @@ export default  class OnOffDetail {
     this.id = `on-off-${Utils.escapeHtmlForIdClass(this.name)}`;
   }
 
-  attach() {
-    this.input = this.thing.element.querySelector(`#${this.id}`);
-    const setOnOff = Utils.debounce(500, this.set.bind(this));
-    this.input.addEventListener('change', setOnOff);
-  }
-
 
 
   update(on) {

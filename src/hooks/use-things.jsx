@@ -9,29 +9,28 @@ export default function useThings(gateway) {
 
 
     useEffect(() => {
-            const refreshThings = (ts, ground) => {
-                const list = []
-                try {
-                    if (ts.size === 0) {
-                        return
-                    }
-                    ts.forEach((thing, id) => {
-                        console.log("thing，id:", thing, id)
-                        let t = createThingFromCapability(thing.selectedCapability, thing.model, thing)
-                        list.push(t)
-                    })
-                    console.log("list :", list)
-                    setThings(list)
-                } catch (e) {
-                    console.warn(e)
+        const refreshThings = (ts, ground) => {
+            const list = []
+            try {
+                if (ts.size === 0) {
+                    return
                 }
-                console.log("things :", things)
+                ts.forEach((thing, id) => {
+                    let t = createThingFromCapability(thing.selectedCapability, gateway.getThingModel(id), thing)
+                    list.push(t)
+                })
+                console.log("list :", list)
+                setThings(list)
+            } catch (e) {
+                console.warn(e)
             }
-            gateway.subscribe(Constants.REFRESH_THINGS, refreshThings, true)
-            return () => {
-                gateway.unsubscribe(Constants.REFRESH_THINGS, refreshThings)
-            }
-        }, [])
+            console.log("things :", things)
+        }
+        gateway.subscribe(Constants.REFRESH_THINGS, refreshThings, true)
+        return () => {
+            gateway.unsubscribe(Constants.REFRESH_THINGS, refreshThings)
+        }
+    }, [])
 
     return [things]
 }

@@ -9,9 +9,7 @@ export default class Light extends OnOffSwitch {
      * @param {Number} format See Constants.ThingFormat
      */
     constructor(model, description, format) {
-        super(model, description, format, {
-            baseIcon: '/images/thing-icons/light.svg',
-        });
+        super(model, description, format,{})
     }
 
     /**

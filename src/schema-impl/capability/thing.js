@@ -124,6 +124,8 @@ class Thing {
         // }
 
         // Parse properties
+
+
         if (description.properties) {
             for (const name in description.properties) {
                 const property = description.properties[name];
@@ -166,9 +168,11 @@ class Thing {
                 // if (!href) {
                 //     continue;
                 // }
+                console.log("name, property['@type']:",name, property['@type'])
 
                 let detail;
                 switch (property['@type']) {
+
                     case 'BooleanProperty':
                         detail = new BooleanDetail(this, name, convertedProperty);
                         break;

@@ -24,6 +24,7 @@ import Thing from './thing';
 import VideoCamera from './video-camera';
 
 function createThingFromCapability(capability, thingModel, description, format) {
+
     if (capability) {
         switch (capability) {
             case 'OnOffSwitch':
@@ -75,7 +76,7 @@ function createThingFromCapability(capability, thingModel, description, format) 
         }
     }
 
-    return new Thing(thingModel, description, format);
+    return new Thing(thingModel, description, format,{});
 }
 
 function getClassFromCapability(capability) {
