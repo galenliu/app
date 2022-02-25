@@ -27,55 +27,26 @@ const useStyles = makeStyles((theme) => ({
 export default function Things(props) {
 
     const classes = useStyles()
-    const {drawerOpen, setTitle, newThingShow, setAddSButtonShow} = useContext(AppContext)
     const {t} = useTranslation();
+    const {gateway} = useContext(AppContext)
     const [things] = useThings(gateway)
 
+
     useEffect(() => {
-        console.log("this is entry things view")
-        setTitle(t("Things"))
-        setAddSButtonShow(true)
+        renderThingCards()
+        console.log("This is Things view")
         return () => {
-            setAddSButtonShow(false)
+            console.log("exits Things view")
         }
-    })
-
-    function handleOnOff(id) {
-
-    }
+    }, [])
 
 
-    //把things渲染至页面
-    // const renderThings = () => {
-    //     if (props.things === undefined || props.things === null || props.things.size < 1) {
-    //         console.log("renderThings:", "空")
-    //         return <h1>空</h1>
-    //     }
-    //     const ls = []
-    //     console.log("renderThings", props.things)
-    //     // props.things.forEach((id, thing) => {
-    //     //   if (thing !== null && thing !== undefined) {
-    //     //     const iv = <IconView id={thing.id} key={id} thing={thing}
-    //     //                          handleOnOff={handleOnOff}
-    //     //                          selectedCapability={thing.selectedCapability}
-    //     //                          title={thing.title}/>
-    //     //     console.log(" list.push(iv):", iv)
-    //     //     console.log("add list:", ls)
-    //     //     ls.push(iv)
-    //     //   }
-    //     // })
-    //     console.log("return list:", ls)
-    //     return ls
-    // }
-
-    function renderThings() {
+    function renderThingCards() {
         let list = []
-        if (things) {
+        if (things && things.length > 0) {
             things.forEach((t, key, m) => {
-                console.log("thingMode:", t)
-                if (t !== null && t !== undefined) {
-                    list.push(<ThingCard key={key} thing={t}>
-                    </ThingCard>)
+                if (t) {
+                    list.push(<ThingCard key={key} thing={t}/>)
                 }
             })
         }
@@ -86,7 +57,7 @@ export default function Things(props) {
         <>
             <Grid sx={{marginTop: "12px", marginLeft: "12px"}} container
                   direction="row" spacing={2}>
-                {renderThings()}
+                {renderThingCards()}
             </Grid>
             {/*<NewThingsDialog open={newThingShow}/>*/}
         </>

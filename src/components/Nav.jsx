@@ -58,8 +58,6 @@ export default function Nav(props) {
     const theme = useTheme();
     const {t} = useTranslation();
     const [open, setOpen] = React.useState(false);
-    const {appNavTitle, setNewThingShow, addSButtonShow} = useContext(AppContext)
-
     const navigate = useNavigate()
 
     const handleDrawerOpen = () => {

@@ -13,7 +13,8 @@ import {createTheme, ThemeProvider} from "@mui/material/styles";
 import {useTranslation} from "react-i18next";
 import "./i18n"
 import GatewayModel from "./models/gatewa-model";
-import useThings from "./hooks/use-things";
+
+
 
 const theme = createTheme(Theme);
 
@@ -23,7 +24,6 @@ export const gateway = new GatewayModel()
 function App() {
 
     const {t} = useTranslation();
-    const [drawerOpen, setDrawerOpen] = useState(false)
     const [navOpen, setNavOpen] = useState(false)
     const [title, setTitle] = useState(t("WebThings"))
     const [newThingShow, setNewThingShow] = useState(false)
@@ -31,8 +31,7 @@ function App() {
 
     return (
         <AppContext.Provider value={{
-            drawerOpen: drawerOpen,
-            setDrawerOpen: setDrawerOpen,
+            gateway: gateway,
             navOpen: navOpen,
             setNavOpen: setNavOpen,
             title: title,

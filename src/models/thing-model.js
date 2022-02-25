@@ -7,29 +7,26 @@ export default class ThingModel extends Model {
     constructor(description, ws) {
         super();
         this.connected = false;
-
         this.properties = new Map()
-        this.propertiesDescriptions = {}
-        this.eventsDescriptions = {}
         this.events = []
         this.title = description.title
         this.base = description.base ?? Constants.ORIGIN
         this.group_id = 1;
         this.id = description.includes
-        this.initWS(ws)
+        this.updateFromDescription(description);
+        this.initWebSocket(ws)
         return this
     }
 
-    initWS(ws) {
+    initWebSocket(ws) {
 
     }
 
-
     updateFromDescription(description) {
-        console.log("description.forms",description.forms)
+
         if (description.forms) {
             for (let form of description.forms) {
-                console.log("form:",form)
+
                 let op = form.op
                 if ((typeof op == "string" && op === Constants.WoTOperation.READ_ALL_PROPERTIES) ||
                     (Array.isArray(op) && op.includes(Constants.WoTOperation.READ_ALL_PROPERTIES))) {
@@ -39,21 +36,26 @@ export default class ThingModel extends Model {
                     (Array.isArray(op) && op.includes(Constants.WoTOperation.SUBSCRIBE_ALL_EVENTS))) {
                     this.eventsHref = new URL(form.href, this.base)
                 }
+
             }
         }
 
-        if (description.hasOwnProperty("properties")) {
-            for (let propertyName in description.properties) {
-                this.propertiesDescriptions[propertyName] = description.properties[propertyName]
+        // Parse properties
+        this.propertyDescriptions = {};
+        if (description.hasOwnProperty('properties')) {
+            for (const propertyName in description.properties) {
+                const property = description.properties[propertyName];
+                this.propertyDescriptions[propertyName] = property;
             }
         }
 
-
-        if (description.hasOwnProperty("events")) {
-            for (let eventName in description.events) {
-                this.eventsDescriptions[eventName] = description.events[eventName]
+        // Parse events
+        this.eventDescriptions = {};
+        if (description.hasOwnProperty('events')) {
+            for (const eventName in description.events) {
+                const event = description.events[eventName];
+                this.eventDescriptions[eventName] = event;
             }
-
         }
     }
 
@@ -84,11 +86,13 @@ export default class ThingModel extends Model {
     }
 
     setProperty(name, value) {
-        if (!this.propertiesDescriptions.hasOwnProperty(name)) {
+
+        console.log("name:", name)
+        if (!this.propertyDescriptions.hasOwnProperty(name)) {
             return Promise.reject(`unavailable property name ${name}`)
         }
 
-        let property = this.propertiesDescriptions[name]
+        let property = this.propertyDescriptions[name]
         switch (property.type) {
             case "number":
                 value = parseFloat(value)
@@ -101,7 +105,7 @@ export default class ThingModel extends Model {
                 break
         }
         const href = selectFormHref(property.forms, Constants.WoTOperation.READ_PROPERTY)
-
+        console.log("href:", href)
         return API.putJsonWithEmptyResponse(href, value)
             .then(() => {
                 let result = {}
@@ -117,7 +121,7 @@ export default class ThingModel extends Model {
     onPropertyStatus(data) {
         let updateProperties = {}
         for (let prop in data) {
-            if (!this.propertiesDescriptions.hasOwnProperty(prop)) {
+            if (!this.propertyDescriptions.hasOwnProperty(prop)) {
                 continue
             }
             let value = data[prop]

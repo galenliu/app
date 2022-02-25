@@ -29,7 +29,6 @@ export default class GatewayModel extends Model {
         switch (event) {
             case Constants.REFRESH_THINGS:
                 if (immediate) {
-                    console.log("subscribe this.things:", this.things)
                     handler(this.things, this.groups);
                 }
                 break;
@@ -133,7 +132,7 @@ export default class GatewayModel extends Model {
 
     getThingModel(thingId) {
         if (this.thingModels.has(thingId)) {
-            return this.thingModels.get(thingId)
+            return Promise.resolve(this.thingModels.get(thingId));
         }
         return this.refreshThing(thingId).then(() => {
             return this.thingModels.get(thingId)

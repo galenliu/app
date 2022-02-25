@@ -168,7 +168,6 @@ class Thing {
                 // if (!href) {
                 //     continue;
                 // }
-                console.log("name, property['@type']:",name, property['@type'])
 
                 let detail;
                 switch (property['@type']) {

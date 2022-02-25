@@ -1,5 +1,8 @@
 import OnOffSwitch from './on-off-switch';
 
+import React from "react";
+import LightbulbIcon from '@mui/icons-material/Lightbulb';
+
 export default class Light extends OnOffSwitch {
     /**
      * Light Constructor (extends OnOffSwitch).
@@ -10,6 +13,7 @@ export default class Light extends OnOffSwitch {
      */
     constructor(model, description, format) {
         super(model, description, format,{})
+        this.icon =  <LightbulbIcon />
     }
 
     /**

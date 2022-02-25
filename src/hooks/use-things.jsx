@@ -1,8 +1,7 @@
-import React, {useEffect, useState} from "react";
+import React, {useCallback, useContext, useEffect, useState} from "react";
 import Constants from "../constants";
 import {createThingFromCapability} from "../schema-impl/capability/capabilities";
-import {selectFormHref} from "../utils";
-
+import {AppContext} from "../App";
 
 export default function useThings(gateway) {
     const [things, setThings] = useState([])
@@ -10,22 +9,24 @@ export default function useThings(gateway) {
 
     useEffect(() => {
         const refreshThings = (ts, ground) => {
+            console.log("ts", ts)
             const list = []
             try {
-                if (ts.size === 0) {
-                    return
+                for (let [id, description] of ts) {
+                    gateway.getThingModel(id).then(model => {
+                        let t = createThingFromCapability(description.selectedCapability, model, description)
+                        list.push(t)
+                        console.log("t", t)
+                    })
+                    setThings(list)
                 }
-                ts.forEach((thing, id) => {
-                    let t = createThingFromCapability(thing.selectedCapability, gateway.getThingModel(id), thing)
-                    list.push(t)
-                })
-                console.log("list :", list)
-                setThings(list)
             } catch (e) {
-                console.warn(e)
+                console.warn("1111111111", e)
             }
+
             console.log("things :", things)
         }
+
         gateway.subscribe(Constants.REFRESH_THINGS, refreshThings, true)
         return () => {
             gateway.unsubscribe(Constants.REFRESH_THINGS, refreshThings)

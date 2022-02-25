@@ -24,8 +24,6 @@ export default class OnOffSwitch extends Thing {
         // Look for properties by type first.
         for (let name in this.displayedProperties) {
             let type = this.displayedProperties[name].property['@type'];
-            console.log(" name:", name)
-            console.log(" type:", type)
             if (type === 'OnOffProperty') {
                 this.onProperty = name;
                 break;

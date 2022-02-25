@@ -36,7 +36,7 @@ export default defineConfig({
 
     server: {
         open: true,//启动项目自动弹出浏览器
-        port: 4000,//启动端口
+        port: 3000,//启动端口
         proxy: {
             "/things": {
                 target: 'http://127.0.0.1:9090',

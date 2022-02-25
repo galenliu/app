@@ -1,7 +1,7 @@
 import Card from '@mui/material/Card';
 import {CardMedia} from "@mui/material";
 import Typography from "@mui/material/Typography";
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Box from "@mui/material/Box";
 import LightbulbIcon from '@mui/icons-material/Lightbulb';
 import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
@@ -10,7 +10,11 @@ import useOnOffSwitch from "../hooks/use-onOffSwitch";
 
 export default function ThingCard(props) {
 
-    const [on,setOn] = useOnOffSwitch(props.thing)
+    const [on, setOn] = useOnOffSwitch(props.thing)
+
+    useEffect(()=>{
+        console.log("This is ThingCard")
+    })
 
     return (
         <Card sx={{
@@ -25,11 +29,12 @@ export default function ThingCard(props) {
         }}>
             <Box sx={{display: 'flex', flex: "70%", justifyContent: "space-around"}}>
                 <CardMedia sx={{display: "flex", flex: "70%", justifyContent: "center", alignItems: "center"}}>
-                    <LightbulbIcon sx={{}}/>
+                    {/*<LightbulbIcon sx={{}}/>*/}
+                    {props.thing.icon}
                 </CardMedia>
                 <Box sx={{display: "flex", flexDirection: "column"}}>
-                    {props.thing.onProperty !== null && <IconButton onClick={()=>(setOn())}>
-                        <PowerSettingsNewIcon  sx={{color: "green"}}/>
+                    {props.thing.onProperty !== null && <IconButton onClick={() => (setOn())}>
+                        <PowerSettingsNewIcon sx={{color: on? "green": "gray"}}/>
                     </IconButton>
                     }
                 </Box>
