@@ -4,7 +4,7 @@ import Nav from "./components/Nav";
 import Things from "./views/Things";
 import Rules from "./views/Rules";
 import {Route, Routes} from "react-router"
-import {HashRouter} from "react-router-dom"
+import {BrowserRouter} from "react-router-dom"
 import Settings from "./views/Settings";
 import SignUp from "./views/SignUp";
 import SignIn from "./views/SignIn";
@@ -13,7 +13,7 @@ import {createTheme, ThemeProvider} from "@mui/material/styles";
 import {useTranslation} from "react-i18next";
 import "./i18n"
 import GatewayModel from "./models/gatewa-model";
-
+import useThings from "./hooks/use-things";
 
 
 const theme = createTheme(Theme);
@@ -26,25 +26,20 @@ function App() {
     const {t} = useTranslation();
     const [navOpen, setNavOpen] = useState(false)
     const [title, setTitle] = useState(t("WebThings"))
-    const [newThingShow, setNewThingShow] = useState(false)
-    const [addSButtonShow, setAddSButtonShow] = useState(false)
+
+    useEffect(() => {
+        window.document.title = title
+    }, [title])
 
     return (
         <AppContext.Provider value={{
-            gateway: gateway,
             navOpen: navOpen,
             setNavOpen: setNavOpen,
-            title: title,
             setTitle: setTitle,
-            setNewThingShow: setNewThingShow,
-            newThingShow: newThingShow,
-            addSButtonShow: addSButtonShow,
-            setAddSButtonShow: setAddSButtonShow,
-
         }}>
             <ThemeProvider theme={theme}>
                 <div className="App">
-                    <HashRouter>
+                    <BrowserRouter>
                         <Routes>
                             <Route path="/" element={<Nav/>}>
                                 <Route index element={<Things/>}/>
@@ -55,7 +50,7 @@ function App() {
                             <Route exact path="register" element={<SignUp/>}/>
                             <Route exact path="login" element={<SignIn/>}/>
                         </Routes>
-                    </HashRouter>
+                    </BrowserRouter>
                 </div>
             </ThemeProvider>
         </AppContext.Provider>

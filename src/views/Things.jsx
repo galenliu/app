@@ -2,7 +2,7 @@ import React, {useContext, useEffect, useState} from "react";
 import Grid from "@mui/material/Grid";
 import {useTranslation} from "react-i18next";
 import {makeStyles} from "@mui/styles";
-import {AppContext, gateway} from "../App";
+import {gateway} from "../App";
 import clsx from "clsx";
 import NewThingsDialog from "./dialog/NewThingDialog";
 import Constants from "../constants";
@@ -28,28 +28,26 @@ export default function Things(props) {
 
     const classes = useStyles()
     const {t} = useTranslation();
-    const {gateway} = useContext(AppContext)
+
     const [things] = useThings(gateway)
 
 
+
     useEffect(() => {
-        renderThingCards()
-        console.log("This is Things view")
+        renderThings()
+        console.log("This is Things view things:", things)
         return () => {
             console.log("exits Things view")
         }
     }, [])
 
 
-    function renderThingCards() {
+    function renderThings() {
         let list = []
-        if (things && things.length > 0) {
-            things.forEach((t, key, m) => {
-                if (t) {
-                    list.push(<ThingCard key={key} thing={t}/>)
-                }
-            })
-        }
+        console.log("renderThings:", things)
+        things.forEach((t, key, m) => {
+            list.push(<ThingCard key={key} thing={t}/>)
+        })
         return list
     }
 
@@ -57,7 +55,7 @@ export default function Things(props) {
         <>
             <Grid sx={{marginTop: "12px", marginLeft: "12px"}} container
                   direction="row" spacing={2}>
-                {renderThingCards()}
+                {renderThings()}
             </Grid>
             {/*<NewThingsDialog open={newThingShow}/>*/}
         </>

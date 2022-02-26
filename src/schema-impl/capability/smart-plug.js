@@ -8,9 +8,7 @@ export default class SmartPlug extends OnOffSwitch {
      * @param {Number} format See Constants.ThingFormat
      */
     constructor(model, description, format) {
-        super(model, description, format, {
-            baseIcon: '/images/thing-icons/smart_plug.svg',
-        });
+        super(model, description, format);
     }
 
     /**

@@ -15,6 +15,7 @@ export default class GatewayModel extends Model {
         this.onMessage = this.onMessage.bind(this)
         this.queue = Promise.resolve(true)
         this.connectWebSocket()
+        console.log("gateway model initialized")
     }
 
     addQueue(job) {
@@ -46,13 +47,13 @@ export default class GatewayModel extends Model {
         switch (message.messageType) {
             case 'connected':
                 this.connectedThings.set(message.id, message.data);
-                break
+                break;
             case 'thingAdded':
-                this.refreshThings();
-                break
+                this.refreshThings().then();
+                break;
             case 'thingModified':
                 this.refreshThing(message.id);
-                break
+                break;
             default:
                 break
         }
@@ -82,6 +83,7 @@ export default class GatewayModel extends Model {
             return Api.getThings()
                 .then((things) => {
                     const fetchedIds = new Set();
+
                     things.forEach((description) => {
                         let thingId = decodeURIComponent(description.id);
                         fetchedIds.add(thingId);
@@ -91,10 +93,9 @@ export default class GatewayModel extends Model {
                     const removedIds = Array.from(this.thingModels.keys()).filter((id) => {
                         return !fetchedIds.has(id);
                     });
-
                     removedIds.forEach((thingId) => this.handleRemove(thingId, true));
                     //return API.getGroups();
-                    return this.handleEvent(Constants.REFRESH_THINGS, this.things);
+                   return  this.handleEvent(Constants.REFRESH_THINGS, this.things);
                 })
                 .catch((e) => {
                     console.error(`Get things or groups failed ${e}`);

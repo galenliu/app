@@ -9,9 +9,7 @@ export default class MultiLevelSwitch extends OnOffSwitch {
      * @param {Number} format See Constants.ThingFormat
      */
     constructor(model, description, format) {
-        super(model, description, format, {
-            baseIcon: '/images/thing-icons/multi_level_switch.svg',
-        });
+        super(model, description, format);
     }
 
     /**
