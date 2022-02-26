@@ -9,7 +9,6 @@ export default function useThings(gateway) {
 
     useEffect(() => {
         const refreshThings = (ts, ground) => {
-            console.log("ts", ts)
             const list = []
             try {
                 for (let [id, description] of ts) {
