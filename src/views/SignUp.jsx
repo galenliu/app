@@ -14,6 +14,7 @@ import Container from '@mui/material/Container';
 import {createTheme, ThemeProvider} from '@mui/material/styles';
 import {useNavigate} from "react-router-dom";
 import {useTranslation} from "react-i18next";
+import {Path} from "../js/menuList"
 
 function Copyright(props) {
     return (
@@ -123,7 +124,7 @@ export default function SignUp() {
                         <Grid container justifyContent="flex-end">
                             <Grid item>
                                 <Link href="#" variant="body2" onClick={() => {
-                                    navigate("/login")
+                                    navigate(Path.Login)
                                 }}>
                                     {t( "Already have an account? Sign in")}
                                 </Link>

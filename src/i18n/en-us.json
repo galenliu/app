@@ -6,6 +6,7 @@
   "Domain": "Domain",
   "Network": "Network",
   "Users": "Users",
+  "Time": "Time",
   "Addons": "Addons",
   "Localization": "Localization",
   "Updates": "Updates",
@@ -54,5 +55,8 @@
   "Thermostat": "Thermostat",
   "VideoCamera": "VideoCamera",
   "Custom": "Custom",
-  "add things": "add things"
+  "add things": "add things",
+  "Exit": "Exit",
+  "Forgot_password":"Forgot password",
+  "Don't_have_an_account?_Sign_Up": "Don't have an account? Sign Up"
 }

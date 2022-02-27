@@ -19,7 +19,7 @@ import {useTranslation} from "react-i18next";
 import {Outlet, useNavigate} from "react-router";
 import {useContext} from "react";
 import {AppContext} from "../App";
-import {DividerList, DividerBottomList} from "../js/dividerList";
+import {MenuList, DividerBottomList} from "../js/menuList";
 import AddIcon from "@mui/icons-material/Add";
 import {drawerWidth} from "../js/constant";
 
@@ -54,7 +54,7 @@ const DrawerHeader = styled('div')(({theme}) => ({
 }));
 
 
-export default function Nav(props) {
+export default function Layout(props) {
     const theme = useTheme();
     const {t} = useTranslation();
     const [open, setOpen] = React.useState(false);
@@ -73,63 +73,63 @@ export default function Nav(props) {
         navigate(url)
     }
 
-    return (<>
-        <div style={{
-            position:"fixed",
-            float: "left",
-            margin: "5px 5px"
-        }}>
-            <IconButton
-                color="inherit"
-                aria-label="open drawer"
-                onClick={handleDrawerOpen}
-            >
-                <MenuIcon/>
-            </IconButton>
-        </div>
+    return (
+        <>
+            <div style={{
+                position: "fixed",
+                float: "left",
+                margin: "5px 5px"
+            }}>
+                <IconButton
+                    color="inherit"
+                    aria-label="open drawer"
+                    onClick={handleDrawerOpen}
+                >
+                    <MenuIcon/>
+                </IconButton>
+            </div>
+            <Box sx={{display: 'flex'}}>
+                <CssBaseline/>
+                <Drawer
+                    sx={{
+                        width: drawerWidth, flexShrink: 0, '& .MuiDrawer-paper': {
+                            width: drawerWidth, boxSizing: 'border-box',
+                        },
+                    }}
+                    variant="persistent"
+                    anchor="left"
+                    open={open}
+                >
+                    <DrawerHeader>
+                        <IconButton onClick={handleDrawerClose}>
+                            {theme.direction === 'ltr' ? <ChevronLeftIcon/> : <ChevronRightIcon/>}
+                        </IconButton>
+                    </DrawerHeader>
+                    <Divider/>
+                    <List>
+                        {Object.keys(MenuList).map((k, index) => (
+                            <ListItem button key={index} onClick={() => handleClick(MenuList[k].Path)}>
+                                <ListItemIcon>
+                                    {MenuList[k].ListItemIcon}
+                                </ListItemIcon>
+                                <ListItemText primary={t(MenuList[k].Title)}/>
+                            </ListItem>))}
 
-        <Box sx={{display: 'flex'}}>
-            <CssBaseline/>
-            <Drawer
-                sx={{
-                    width: drawerWidth, flexShrink: 0, '& .MuiDrawer-paper': {
-                        width: drawerWidth, boxSizing: 'border-box',
-                    },
-                }}
-                variant="persistent"
-                anchor="left"
-                open={open}
-            >
-                <DrawerHeader>
-                    <IconButton onClick={handleDrawerClose}>
-                        {theme.direction === 'ltr' ? <ChevronLeftIcon/> : <ChevronRightIcon/>}
-                    </IconButton>
-                </DrawerHeader>
-                <Divider/>
-                <List>
-                    {Object.keys(DividerList).map((k, index) => (
-                        <ListItem button key={index} onClick={() => handleClick(DividerList[k].Path)}>
-                            <ListItemIcon>
-                                {DividerList[k].ListItemIcon}
-                            </ListItemIcon>
-                            <ListItemText primary={t(DividerList[k].Title)}/>
-                        </ListItem>))}
+                    </List>
+                    <Divider/>
+                    <List>
+                        {Object.keys(DividerBottomList).map((k, index) => (
+                            <ListItem button key={index} onClick={() => handleClick(DividerBottomList[k].Path)}>
+                                <ListItemIcon>
+                                    {DividerBottomList[k].ListItemIcon}
+                                </ListItemIcon>
+                                <ListItemText primary={t(DividerBottomList[k].Title)}/>
+                            </ListItem>))}
+                    </List>
+                </Drawer>
+            </Box>
+            <Outlet/>
+        </>);
 
-                </List>
-                <Divider/>
-                <List>
-                    {Object.keys(DividerBottomList).map((k, index) => (
-                        <ListItem button key={index} onClick={() => handleClick(DividerBottomList[k].Path)}>
-                            <ListItemIcon>
-                                {DividerBottomList[k].ListItemIcon}
-                            </ListItemIcon>
-                            <ListItemText primary={t(DividerBottomList[k].Title)}/>
-                        </ListItem>))}
-                </List>
-            </Drawer>
 
-            <Main>
-                <Outlet/>
-            </Main>
-        </Box></>);
 }

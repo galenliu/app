@@ -19,14 +19,7 @@ const resources = {
 i18n.use(LanguageDetector) //嗅探当前浏览器语言
 i18n.use(initReactI18next) // passes i18n down to react-i18next
     .init({
-            resources: {
-                en: {
-                    translation: enTrans,
-                },
-                zh: {
-                    translation: zhTrans,
-                },
-            },
+            resources: resources,
             keySeparator: true, // we do not use keys in form messages.welcome
 
             interpolation: {

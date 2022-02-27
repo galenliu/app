@@ -1,34 +1,36 @@
-import React, {useCallback, useContext, useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import Constants from "../constants";
 import {createThingFromCapability} from "../schema-impl/capability/capabilities";
-import {AppContext} from "../App";
+
 
 export default function useThings(gateway) {
-    const [things, setThings] = useState([])
+    const [things, set] = useState([])
+
+    const refreshThings = (ts, ground) => {
+        if (!ts.size > 0) {
+            return
+        }
+        console.log("useThings ts :", ts)
+        try {
+            let list = [];
+            let t
+            for (let [id, description] of ts) {
+                gateway.getThingModel(id).then(model => {
+                    t = createThingFromCapability(description.selectedCapability, model, description)
+                    list.push(t)
+                })
+            }
+            if (list) {
+                console.log("useThings List :", list)
+                set(list)
+            }
+        } catch (e) {
+            console.warn(e)
+        }
+    }
 
     useEffect(() => {
-        const refreshThings = (ts, ground) => {
-            if (!ts.size > 0) {
-                return
-            }
-            try {
-                let list = []
-                let t
-                for (let [id, description] of ts) {
-                    gateway.getThingModel(id).then(model => {
-                        t = createThingFromCapability(description.selectedCapability, model, description)
-                        list.push(t)
-                    })
-                }
-                if (list) {
-                    console.log("list :", list)
-                    setThings(list)
-                }
-            } catch (e) {
-                console.warn(e)
-            }
-        }
-        gateway.subscribe(Constants.REFRESH_THINGS, refreshThings, true)
+        gateway.subscribe(Constants.REFRESH_THINGS, refreshThings,true)
         return () => {
             gateway.unsubscribe(Constants.REFRESH_THINGS, refreshThings)
         }

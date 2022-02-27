@@ -4,35 +4,46 @@ import AlarmOnIcon from "@mui/icons-material/AlarmOn";
 import SettingsIcon from "@mui/icons-material/Settings";
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import PersonIcon from '@mui/icons-material/Person';
+import enTrans from "../i18n/en-us.json"
+import {useTranslation} from "react-i18next";
 
 
-export const DividerList = {
-    Things: {
+export const Path = {
+    Home: "/home",
+    Rules: "/rules",
+    Settings: "/settings",
+    Login: "/login",
+    Users: "/users",
+    Register: "/register"
+}
+
+export const MenuList = {
+    Home: {
         ListItemIcon: <HomeIcon/>,
-        Path: "/things",
-        Title: "Things"
+        Path: Path.Home,
+        Title: enTrans.Home
     },
     Rules: {
         ListItemIcon: <AlarmOnIcon/>,
-        Path: "/rules",
-        Title: "Rules"
+        Path: Path.Rules,
+        Title: enTrans.Rules
     },
     Settings: {
         ListItemIcon: <SettingsIcon/>,
-        Path: "/settings",
-        Title: "Settings"
+        Path: Path.Settings,
+        Title: enTrans.Settings
     },
 }
 
 export const DividerBottomList = {
     Exit: {
         ListItemIcon: <ExitToAppIcon/>,
-        Path: "/login",
-        Title: "Exit"
+        Path: Path.Login,
+        Title: enTrans.Exit
     },
     Users: {
         ListItemIcon: <PersonIcon/>,
-        Path: "/login",
-        Title: "Users"
+        Path: Path.Register,
+        Title: enTrans.Users
     }
 }

@@ -1,10 +1,8 @@
 import {useState, createContext, useEffect} from 'react'
 import './App.css'
-import Nav from "./components/Nav";
 import Things from "./views/Things";
 import Rules from "./views/Rules";
-import {Route, Routes} from "react-router"
-import {BrowserRouter} from "react-router-dom"
+import {HashRouter as Router, Route, Routes} from "react-router-dom"
 import Settings from "./views/Settings";
 import SignUp from "./views/SignUp";
 import SignIn from "./views/SignIn";
@@ -13,19 +11,20 @@ import {createTheme, ThemeProvider} from "@mui/material/styles";
 import {useTranslation} from "react-i18next";
 import "./i18n"
 import GatewayModel from "./models/gatewa-model";
+import Layout from "./views/Layout";
+import {Path} from "./js/menuList";
+import enTrans from "./i18n/en-us.json"
 import useThings from "./hooks/use-things";
-
-
 const theme = createTheme(Theme);
-
 export const AppContext = createContext({})
+
 export const gateway = new GatewayModel()
 
 function App() {
-
     const {t} = useTranslation();
-    const [navOpen, setNavOpen] = useState(false)
-    const [title, setTitle] = useState(t("WebThings"))
+    const [title, setTitle] = useState(t(enTrans.Things))
+
+    const [things] =useThings(gateway)
 
     useEffect(() => {
         window.document.title = title
@@ -33,24 +32,22 @@ function App() {
 
     return (
         <AppContext.Provider value={{
-            navOpen: navOpen,
-            setNavOpen: setNavOpen,
             setTitle: setTitle,
         }}>
             <ThemeProvider theme={theme}>
                 <div className="App">
-                    <BrowserRouter>
+                    <Router>
                         <Routes>
-                            <Route path="/" element={<Nav/>}>
-                                <Route index element={<Things/>}/>
-                                <Route path="things" element={<Things/>}/>
-                                <Route path="rules" element={<Rules/>}/>
-                                <Route path="settings" element={<Settings/>}/>
+                            <Route path="/" element={<Layout/>}>
+                                <Route index element={<Things things={things}/>}/>
+                                <Route path={Path.Home} element={<Things things={things}/>}/>
+                                <Route path={Path.Rules} element={<Rules/>}/>
+                                <Route path={Path.Settings} element={<Settings/>}/>
                             </Route>
-                            <Route exact path="register" element={<SignUp/>}/>
-                            <Route exact path="login" element={<SignIn/>}/>
+                            <Route exact path={Path.Register} element={<SignUp/>}/>
+                            <Route exact path={Path.Login} element={<SignIn/>}/>
                         </Routes>
-                    </BrowserRouter>
+                    </Router>
                 </div>
             </ThemeProvider>
         </AppContext.Provider>

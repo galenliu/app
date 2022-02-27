@@ -14,6 +14,8 @@ import Typography from '@mui/material/Typography';
 import {createTheme, ThemeProvider} from '@mui/material/styles';
 import {useNavigate} from "react-router-dom";
 import {useTranslation} from "react-i18next";
+import {MenuList, Path} from "../js/menuList";
+import enTrans from "../i18n/en-us.json";
 
 function Copyright(props) {
     return (
@@ -44,7 +46,7 @@ export default function SignIn() {
     };
 
     function SignIn() {
-        navigate("/things")
+        navigate(Path.Home)
     }
 
     return (
@@ -113,19 +115,19 @@ export default function SignIn() {
                                 sx={{mt: 3, mb: 2}}
                                 onClick={SignIn}
                             >
-                                {t("Sign In")}
+                                {t(enTrans.Home)}
                             </Button>
                             <Grid container>
                                 <Grid item xs>
                                     <Link href="#" variant="body2">
-                                        {t("Forgot password?")}
+                                        {t(enTrans.Forgot_password)}
                                     </Link>
                                 </Grid>
                                 <Grid item>
                                     <Link href="#" variant="body2" onClick={() => {
-                                        navigate("/register")
+                                        navigate(Path.Register)
                                     }}>
-                                        {t("Don't have an account? Sign Up")}
+                                        {t(enTrans["Don't_have_an_account?_Sign_Up"])}
                                     </Link>
                                 </Grid>
                             </Grid>
