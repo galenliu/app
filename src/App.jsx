@@ -6,7 +6,7 @@ import {HashRouter as Router, Route, Routes} from "react-router-dom"
 import Settings from "./views/Settings/Settings";
 import SignUp from "./views/Singn/SignUp";
 import SignIn from "./views/Singn/SignIn";
-import {Theme} from "./js/theme";
+import {DefaultTheme} from "./js/defaultTheme";
 import {createTheme, ThemeProvider} from "@mui/material/styles";
 import {useTranslation} from "react-i18next";
 import "./i18n"
@@ -16,7 +16,8 @@ import {Path} from "./js/menuList";
 import enTrans from "./i18n/en-us.json"
 import useThings from "./hooks/use-things";
 import InstalledAddonsView from "./views/Addons/InstelledAddons";
-const theme = createTheme(Theme);
+import DiscoverAddonsView from "./views/Addons/DiscoverAddons";
+const theme = createTheme(DefaultTheme);
 export const AppContext = createContext({})
 
 export const gateway = new GatewayModel()
@@ -45,6 +46,7 @@ function App() {
                                 <Route path={Path.Settings} element={<Settings/>}/>
                             </Route>
                             <Route path={Path.InstalledAddons} element={<InstalledAddonsView/>}/>
+                            <Route path={Path.DiscoverAddons} element={<DiscoverAddonsView/>}/>
                             <Route exact path={Path.Register} element={<SignUp/>}/>
                             <Route exact path={Path.Login} element={<SignIn/>}/>
                         </Routes>

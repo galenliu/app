@@ -15,7 +15,8 @@ export const Path = {
     Login: "/login",
     Users: "/users",
     Register: "/register",
-    InstalledAddons: "/installed_addons"
+    InstalledAddons: "/installed_addons",
+    DiscoverAddons: "/discover_addons"
 }
 
 export const MenuList = {

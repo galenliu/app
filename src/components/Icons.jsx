@@ -262,7 +262,7 @@ export function NotifierIcon(props) {
 
 export function AdapterIcon(props) {
     return (
-        <PowerIcon/>
+        <PowerIcon {...props}/>
     )
 }
 

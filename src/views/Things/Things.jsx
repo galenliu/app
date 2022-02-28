@@ -26,8 +26,7 @@ export default function Things(props) {
 
 
     return (
-        <Grid sx={{marginTop: "40px", marginLeft: "12px"}} container
-              direction="row" spacing={2}>
+        <Grid sx={{mt:8, ml: 2}} container direction="row">
             {
                 Things.map((thing, i) => {
                     return (

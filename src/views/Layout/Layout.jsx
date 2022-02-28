@@ -81,14 +81,14 @@ export default function Layout(props) {
                 margin: "5px 5px"
             }}>
                 <IconButton
-                    color="inherit"
+                    sx={{backgroundColor: "primary.light",float: "left", mt:1,ml:1}}
                     aria-label="open drawer"
                     onClick={handleDrawerOpen}
                 >
                     <MenuIcon/>
                 </IconButton>
             </div>
-            <Box sx={{display: 'flex'}}>
+            <Box  sx={{display: 'flex'}}>
                 <CssBaseline/>
                 <Drawer
                     sx={{
