@@ -18,10 +18,10 @@ import ListItemText from '@mui/material/ListItemText';
 import {useTranslation} from "react-i18next";
 import {Outlet, useNavigate} from "react-router";
 import {useContext} from "react";
-import {AppContext} from "../App";
-import {MenuList, DividerBottomList} from "../js/menuList";
+import {AppContext} from "../../App";
+import {MenuList, DividerBottomList} from "../../js/menuList";
 import AddIcon from "@mui/icons-material/Add";
-import {drawerWidth} from "../js/constant";
+import {drawerWidth} from "../../js/constant";
 
 
 const Main = styled('main', {shouldForwardProp: (prop) => prop !== 'open'})(({theme, open}) => ({

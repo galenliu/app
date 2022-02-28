@@ -1,9 +1,9 @@
 import React, {useContext, useEffect, useState} from "react";
 import Grid from "@mui/material/Grid";
 import {useTranslation} from "react-i18next";
-import ThingCard from "../thing/ThingCard";
-import {AppContext} from "../App";
-import enTrans from "../i18n/en-us.json"
+import ThingCard from "../../thing/ThingCard";
+import {AppContext} from "../../App";
+import enTrans from "../../i18n/en-us.json"
 
 
 export default function Things(props) {

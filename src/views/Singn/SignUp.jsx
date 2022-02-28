@@ -14,7 +14,7 @@ import Container from '@mui/material/Container';
 import {createTheme, ThemeProvider} from '@mui/material/styles';
 import {useNavigate} from "react-router-dom";
 import {useTranslation} from "react-i18next";
-import {Path} from "../js/menuList"
+import {Path} from "../../js/menuList"
 
 function Copyright(props) {
     return (

@@ -14,8 +14,8 @@ import Typography from '@mui/material/Typography';
 import {createTheme, ThemeProvider} from '@mui/material/styles';
 import {useNavigate} from "react-router-dom";
 import {useTranslation} from "react-i18next";
-import {MenuList, Path} from "../js/menuList";
-import enTrans from "../i18n/en-us.json";
+import {MenuList, Path} from "../../js/menuList";
+import enTrans from "../../i18n/en-us.json";
 
 function Copyright(props) {
     return (

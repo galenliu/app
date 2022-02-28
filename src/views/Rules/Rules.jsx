@@ -1,6 +1,6 @@
 import Grid from "@mui/material/Grid";
 import {useContext, useEffect} from "react";
-import {AppContext} from "../App";
+import {AppContext} from "../../App";
 import {useTranslation} from "react-i18next";
 
 export default function Rules(props) {

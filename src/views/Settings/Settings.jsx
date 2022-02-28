@@ -6,14 +6,13 @@ import List from "@mui/material/List";
 import {useTranslation} from "react-i18next";
 import {CssBaseline, ListItem, ListItemButton} from "@mui/material";
 import clsx from "clsx";
-import {AppContext} from "../App";
+import {AppContext} from "../../App";
 import Grid from "@mui/material/Grid";
 import Divider from "@mui/material/Divider";
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 
 import {useNavigate} from "react-router";
-import {SettingsList} from "../js/settingsList";
-
+import {SettingsList} from "../../js/settingsList";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -31,7 +30,6 @@ export default function Settings(props) {
     const classes = useStyles();
     const {t} = useTranslation();
     const navigate = useNavigate()
-    const {setAppNavTitle} = useContext(AppContext)
 
 
     return (
@@ -41,7 +39,7 @@ export default function Settings(props) {
                     <List>
                         {
                             Object.keys(SettingsList).map((k, index) => (
-                                <ListItem disablePadding key={index}>
+                                <ListItem disablePadding key={index} onClick={() => (navigate(SettingsList[k].Path))}>
                                     <ListItemButton className={classes.listItem}>
                                         <ListItemIcon>
                                             {SettingsList[k].ListItemIcon}

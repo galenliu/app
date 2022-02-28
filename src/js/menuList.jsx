@@ -14,7 +14,8 @@ export const Path = {
     Settings: "/settings",
     Login: "/login",
     Users: "/users",
-    Register: "/register"
+    Register: "/register",
+    InstalledAddons: "/installed_addons"
 }
 
 export const MenuList = {

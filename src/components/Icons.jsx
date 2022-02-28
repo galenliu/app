@@ -5,11 +5,20 @@ import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import {makeStyles, useTheme} from "@mui/styles";
 import "../js/constant"
-import InfoIcon from '@mui/icons-material/Info';
+
 import PowerIcon from '@mui/icons-material/Power';
 import {Lightbulb, Power} from '@mui/icons-material';
-import {AddonType, SettingsType, ThingType} from "../js/constant";
+import {SettingsType, ThingType} from "../js/constant";
 
+
+export function AddonIcon() {
+    return <SvgIcon>
+        <path
+            id="path33982"
+            d="m 25.846133,13.948735 c 0,-5.0051332 -2.707666,-9.2717999 -7.3846,-10.3384666 V 2.461535 C 18.461533,1.0666684 17.394867,1.725e-6 16,1.725e-6 14.605133,1.725e-6 13.538467,1.0666684 13.538467,2.461535 V 3.6102684 C 8.8615329,4.7590018 6.1537999,8.9436018 6.1537999,13.948735 v 8.205134 l -3.282,3.282 v 1.641066 H 29.1282 v -1.641066 l -3.282067,-3.282 z M 16,32.000002 c 0.246133,0 0.410267,0 0.6564,-0.08207 1.066667,-0.246133 1.9692,-0.9846 2.379467,-1.9692 C 19.2,29.538466 19.282,29.128199 19.282,28.635932 h -6.564067 c 0,1.887134 1.476934,3.364067 3.282067,3.364067 z"
+            className="st1"/>
+    </SvgIcon>
+}
 
 const useStyles = makeStyles({
     iconView: {
@@ -243,53 +252,18 @@ export default function ThingIcons(props) {
     }
 }
 
-export const actionsType = {
-    powerOn: "powerOn"
+
+export function NotifierIcon(props) {
+    return (
+        <NotificationsIcon/>
+    )
 }
 
-export function ActionsIcon(props) {
-    const classes = useStyles();
-    const theme = useTheme();
-    switch (props.type) {
-        case ThingType.Light: {
 
-            switch (props.value) {
-                case true:
-                    props = {...props, style: {fontSize: 21, color: theme.palette.secondary.light}}
-                    break
-                case false:
-                    props = {...props, style: {fontSize: 21, color: theme.palette.secondary.dark}}
-                    break
-                default:
-                    break
-            }
-            return <Power className={classes.actionIcon} {...props}/>
-        }
-        case "Information": {
-            return <InfoIcon {...props}/>
-        }
-        default: {
-            return <h1>Error</h1>
-        }
-    }
-}
-
-export function AddonIcons(props) {
-
-    switch (props.type) {
-
-        case AddonType.Adapter: {
-            return <PowerIcon {...props}/>
-        }
-        case AddonType.Extension: {
-            return <ExtensionIcon {...props}/>
-
-        }
-        case AddonType.Notifier: {
-            return <NotificationsIcon {...props}/>
-
-        }
-    }
+export function AdapterIcon(props) {
+    return (
+        <PowerIcon/>
+    )
 }
 
 

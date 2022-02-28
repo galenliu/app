@@ -1,9 +1,10 @@
-import * as React from 'react';
+import React from 'react';
 import DomainIcon from "@mui/icons-material/Domain";
 import ExtensionIcon from "@mui/icons-material/Extension";
 import PersonIcon from '@mui/icons-material/Person';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import enTrans from "../i18n/en-us.json"
+import {Path} from "./menuList";
 
 export const SettingsList = {
     Domain: {
@@ -14,7 +15,7 @@ export const SettingsList = {
     Addons: {
         ListItemIcon: <ExtensionIcon/>,
         Title: enTrans.Addons,
-        Path: "/addons"
+        Path: Path.InstalledAddons
     },
     Users: {
         ListItemIcon: <PersonIcon/>,
