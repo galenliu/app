@@ -17,6 +17,7 @@ import enTrans from "./i18n/en-us.json"
 import useThings from "./hooks/use-things";
 import InstalledAddonsView from "./views/Addons/InstelledAddons";
 import DiscoverAddonsView from "./views/Addons/DiscoverAddons";
+import Box from "@mui/material/Box";
 const theme = createTheme(DefaultTheme);
 export const AppContext = createContext({})
 
@@ -36,7 +37,7 @@ function App() {
             setTitle: setTitle,
         }}>
             <ThemeProvider theme={theme}>
-                <div className="App">
+                <Box className="App">
                     <Router>
                         <Routes>
                             <Route path="/" element={<Layout/>}>
@@ -51,7 +52,7 @@ function App() {
                             <Route exact path={Path.Login} element={<SignIn/>}/>
                         </Routes>
                     </Router>
-                </div>
+                </Box>
             </ThemeProvider>
         </AppContext.Provider>
     );

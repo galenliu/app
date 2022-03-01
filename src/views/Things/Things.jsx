@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useState} from "react";
 import Grid from "@mui/material/Grid";
 import {useTranslation} from "react-i18next";
-import ThingCard from "../../thing/ThingCard";
+import ThingCard from "./ThingCard";
 import {AppContext} from "../../App";
 import enTrans from "../../i18n/en-us.json"
 
