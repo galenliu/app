@@ -18,6 +18,7 @@ import useThings from "./hooks/use-things";
 import InstalledAddonsView from "./views/Addons/InstelledAddons";
 import DiscoverAddonsView from "./views/Addons/DiscoverAddons";
 import Box from "@mui/material/Box";
+
 const theme = createTheme(DefaultTheme);
 export const AppContext = createContext({})
 
@@ -25,8 +26,11 @@ export const gateway = new GatewayModel()
 
 function App() {
     const {t} = useTranslation();
+    const [availableAddons, setAvailableAddons] = useState(new Map())
+    const [installedAddons, setInstalledAddons] = useState(new Map())
+
     const [title, setTitle] = useState(t(enTrans.Things))
-    const [things] =useThings(gateway)
+    const [things] = useThings(gateway)
 
     useEffect(() => {
         window.document.title = title
@@ -34,7 +38,11 @@ function App() {
 
     return (
         <AppContext.Provider value={{
-            setTitle: setTitle,
+            setTitle,
+            availableAddons,
+            setAvailableAddons,
+            installedAddons,
+            setInstalledAddons,
         }}>
             <ThemeProvider theme={theme}>
                 <Box className="App">

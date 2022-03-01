@@ -46,10 +46,17 @@ export default defineConfig({
             "/groups": {
                 target: 'http://127.0.0.1:9090',
                 changeOrigin: true,
+            },
+            "/addons": {
+                target: 'http://127.0.0.1:9090',
+                changeOrigin: true,
+            },
+            "/settings": {
+                target: 'http://127.0.0.1:9090',
+                changeOrigin: true,
             }
         }
     }
 })
-
 
 

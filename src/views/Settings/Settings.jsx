@@ -10,8 +10,8 @@ import {AppContext} from "../../App";
 import Grid from "@mui/material/Grid";
 import Divider from "@mui/material/Divider";
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
-
-import {useNavigate} from "react-router";
+import enTrans from "../../i18n/en-us.json"
+import {useNavigate} from "react-router-dom";
 import {SettingsList} from "../../js/settingsList";
 
 
@@ -26,11 +26,14 @@ const useStyles = makeStyles((theme) => ({
 
 
 export default function Settings(props) {
-
+    const {setTitle} = useContext(AppContext)
     const classes = useStyles();
     const {t} = useTranslation();
     const navigate = useNavigate()
 
+    useEffect(() => {
+        setTitle(t(enTrans.Settings))
+    })
 
     return (
         <>
