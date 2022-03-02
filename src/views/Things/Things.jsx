@@ -4,6 +4,9 @@ import {useTranslation} from "react-i18next";
 import ThingCard from "./ThingCard";
 import {AppContext} from "../../App";
 import enTrans from "../../i18n/en-us.json"
+import IconButton from "@mui/material/IconButton";
+import {Path} from "../../js/menuList";
+import AddIcon from "@mui/icons-material/Add";
 
 
 export default function Things(props) {
@@ -26,15 +29,22 @@ export default function Things(props) {
 
 
     return (
-        <Grid sx={{mt:8, ml: 2}} container direction="row">
-            {
-                Things.map((thing, i) => {
-                    return (
-                        <ThingCard key={i} thing={thing}/>
-                    )
-                })
-            }
-        </Grid>
+        <>
+            <IconButton sx={{position: "fixed", mt: 1, mr: 1, right: 0, backgroundColor: "primary.light"}}
+                        onClick={() => {
+                        }}>
+                <AddIcon/>
+            </IconButton>
+            <Grid sx={{mt: 8, ml: 2}} container direction="row">
+                {
+                    Things.map((thing, i) => {
+                        return (
+                            <ThingCard key={i} thing={thing}/>
+                        )
+                    })
+                }
+            </Grid>
+        </>
     )
 }
 

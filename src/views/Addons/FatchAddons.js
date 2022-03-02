@@ -4,7 +4,6 @@ import API from "../../js/api";
 export function fetchAvailableAddonList() {
     return new Promise(function (resolve, reject) {
         return API.getAddonsInfo().then((data) => {
-            console.log(data)
             if (!data.nodeVersion || !data.version || !data.architecture || !data.urls || !data) {
                 return;
             }
