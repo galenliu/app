@@ -22,6 +22,7 @@
   "configure": "configure",
   "update": "update",
   "remove": "remove",
+  "removing": "removing",
   "disable": "disable",
   "enable": "enable",
   "Add": "Add",

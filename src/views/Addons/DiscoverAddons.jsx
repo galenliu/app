@@ -1,4 +1,3 @@
-import InstalledAddonsView from "./InstelledAddons";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import React, {useContext, useEffect, useState} from "react";
@@ -7,7 +6,6 @@ import IconButton from "@mui/material/IconButton";
 import {Path} from "../../js/menuList";
 import {useNavigate} from "react-router-dom";
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-import AddIcon from "@mui/icons-material/Add";
 import {AppContext} from "../../App";
 import {fetchAvailableAddonList} from "./FatchAddons";
 import API from "../../js/api";
@@ -23,11 +21,16 @@ export default function DiscoverAddonsView(props) {
         replaceList.get(id).status = "installing"
         setAvailableAddons([...replaceList])
         API.installAddon(id, url, sum).then(() => {
+            let replaceList = new Map(availableAddons)
             replaceList.get(id).status = "installed"
             setAvailableAddons([...replaceList])
         }).catch((e) => {
-            replaceList.get(id).status = "error"
-            setAvailableAddons([...replaceList])
+            console.error(e)
+            if (replaceList.has(id)) {
+                replaceList.get(id).status = "error"
+                replaceList.get(id).error = e
+                setAvailableAddons([...replaceList])
+            }
         })
     }
 
@@ -46,20 +49,36 @@ export default function DiscoverAddonsView(props) {
                 })
                 setAvailableAddons(map)
             })
+        }else {
+            setAvailableAddons([...availableMap])
         }
-    },[])
+    }, [])
 
     useEffect(() => {
         let installedMap = new Map(installedAddons)
         let listAddon = []
         for (let [id, addon] of availableAddons) {
-            if(installedMap.has(addon.id)){
+            if (installedMap.has(addon.id)) {
                 addon.status = "installed"
+            }else {
+                addon.installed = false
+                addon.status = undefined
             }
             listAddon.push(addon)
         }
-        setAddons([...listAddon])
-    }, [availableAddons])
+        listAddon.sort(function (a, b) {
+            let x = a.id.toLowerCase();
+            let y = b.id.toLowerCase();
+            if (x < y) {
+                return -1;
+            }
+            if (x > y) {
+                return 1;
+            }
+            return 0;
+        })
+        setAddons(listAddon)
+    }, [availableAddons, installedAddons])
 
     return (
         <Box sx={{
@@ -67,7 +86,7 @@ export default function DiscoverAddonsView(props) {
             height: "100%",
             p: 1,
         }}>
-            <IconButton sx={{position: "fixed", left: 1, mt: 1.5, ml: 1.5, backgroundColor: "primary.light"}}
+            <IconButton sx={{position: "fixed", left: 6, top: 6, backgroundColor: "primary.light"}}
                         onClick={() => {
                             navigate(Path.InstalledAddons)
                         }}>

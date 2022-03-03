@@ -1,6 +1,6 @@
 import {useTranslation} from "react-i18next";
 import Card from "@mui/material/Card";
-import {CardMedia, Stack} from "@mui/material";
+import {Alert, CardMedia, Stack} from "@mui/material";
 import {AdapterIcon} from "../../components/Icons";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
@@ -58,22 +58,24 @@ export default function AddonCard(addon) {
                 </Box>
             </Stack>
             <Stack spacing={1} direction={{xs: 'row', sm: 'row'}} sx={{m: 1, justifyContent: "flex-end"}}>
-                {addon.schema !== undefined &&
+                {(addon.schema !== undefined && addon.status !== "removing") &&
                     <Button variant="contained" startIcon={<SettingsIcon/>}>
                         {t(enTrans.Settings)}
                     </Button>
                 }
                 {(addon.status === "enabled") &&
-                    <Button variant="contained" sx={{}} startIcon={<DeleteIcon/>}>
+                    <Button onClick={() => {
+                        addon.removeAddon(addon.id)
+                    }} variant="contained" sx={{}} startIcon={<DeleteIcon/>}>
                         {t(enTrans.remove)}
                     </Button>}
-                {(addon.enabled && true) &&
-                    <Button variant="contained" startIcon={<PauseIcon/>}>
+                {(addon.enabled && true && addon.status !== "removing") &&
+                    <Button onClick={()=>{addon.setAddon(addon.id,false)}} variant="contained" startIcon={<PauseIcon/>}>
                         {t(enTrans.disable)}
                     </Button>
                 }
-                {(!addon.enabled && addon.enabled !== undefined) &&
-                    <Button variant="contained" startIcon={<DoneIcon/>}>
+                {(!addon.enabled && addon.enabled !== undefined && addon.status !== "removing") &&
+                    <Button onClick={()=>{addon.setAddon(addon.id,true)}} variant="contained" startIcon={<DoneIcon/>}>
                         {t(enTrans.enable)}
                     </Button>
                 }
@@ -85,7 +87,7 @@ export default function AddonCard(addon) {
                     </Button>
                 }
                 {
-                    (addon.status !== "installed" || addon.status !== "enabled") && addon.status === undefined &&
+                    (addon.status !== "installed" && addon.status !== "enabled" && addon.status !== "installing") &&
                     <Button onClick={() => {
                         addon.installAddon(addon.id, addon.url, addon.checksum)
                     }} variant="contained" startIcon={<AddIcon/>}>
@@ -93,20 +95,20 @@ export default function AddonCard(addon) {
                     </Button>
                 }
                 {
-                    addon.status === "installing" && <Button variant="contained" disabled>
-                        {t(enTrans.Installing)}
-                    </Button>
+                    addon.status === "installing" &&
+                    <Alert severity="info"> {t(enTrans.Installing)}</Alert>
                 }
                 {
-                    addon.status === "error" && <Button variant="contained" color="error" disabled>
-                        {t(enTrans.Error)}
-                    </Button>
+                    addon.status === "error" &&
+                    <Alert severity="error">{addon.error}</Alert>
+                }
+                {
+                    addon.status === "removing" &&
+                    <Alert severity="warning">{t(enTrans.removing)}</Alert>
                 }
                 {
                     (addon.status === "installed") &&
-                    <Button color="success" variant="contained" disabled>
-                        {t(enTrans.Installed)}
-                    </Button>
+                    <Alert severity="success"> {t(enTrans.Installed)}</Alert>
                 }
 
             </Stack>
@@ -118,14 +120,14 @@ export default function AddonCard(addon) {
 
 export const versionStringCompare = (preVersion = '', lastVersion = '') => {
     let sources = preVersion.split('.');
-    let dests = lastVersion.split('.');
-    let maxL = Math.max(sources.length, dests.length);
+    let dest = lastVersion.split('.');
+    let maxL = Math.max(sources.length, dest.length);
     let result = 0;
     for (let i = 0; i < maxL; i++) {
         let preValue = sources.length > i ? sources[i] : 0;
-        let preNum = isNaN(Number(preValue)) ? preValue.charCodeAt() : Number(preValue);
-        let lastValue = dests.length > i ? dests[i] : 0;
-        let lastNum = isNaN(Number(lastValue)) ? lastValue.charCodeAt() : Number(lastValue);
+        let preNum = isNaN(Number(preValue)) ? preValue.charCodeAt(0) : Number(preValue);
+        let lastValue = dest.length > i ? dest[i] : 0;
+        let lastNum = isNaN(Number(lastValue)) ? lastValue.charCodeAt(0) : Number(lastValue);
         if (preNum < lastNum) {
             result = -1;
             break;

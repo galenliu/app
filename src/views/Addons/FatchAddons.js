@@ -11,8 +11,6 @@ export function fetchAvailableAddonList() {
             //params.set('arch', data.architecture);
             params.set('arch', "linux-arm");
             params.set('version', data.version);
-            params.set('node', data.nodeVersion);
-
             if (data.pythonVersions && data.pythonVersions.length > 0) {
                 params.set('python', data.pythonVersions.join(','));
             }
