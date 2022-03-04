@@ -9,8 +9,11 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import {AppContext} from "../../App";
 import {fetchAvailableAddonList} from "./FatchAddons";
 import API from "../../js/api";
+import {useTranslation} from "react-i18next";
+import enTrans from "../../i18n/en-us.json"
 
 export default function DiscoverAddonsView(props) {
+    const {t} = useTranslation();
     const navigate = useNavigate()
     const [addons, setAddons] = useState([])
     const {availableAddons, installedAddons, setAvailableAddons} = useContext(AppContext)
@@ -25,31 +28,35 @@ export default function DiscoverAddonsView(props) {
             replaceList.get(id).status = "installed"
             setAvailableAddons([...replaceList])
         }).catch((e) => {
-            console.error(e)
+            console.log(e)
+            let replaceList = new Map(availableAddons)
             if (replaceList.has(id)) {
                 replaceList.get(id).status = "error"
-                replaceList.get(id).error = e
+                replaceList.get(id).error = t(enTrans.Fail)
                 setAvailableAddons([...replaceList])
             }
+        }).catch((e)=>{
+            console.log(e)
         })
     }
 
     useEffect(() => {
-        let installedMap = new Map(installedAddons)
+
         let availableMap = new Map(availableAddons)
         if (availableMap.size === 0) {
             fetchAvailableAddonList().then((data) => {
                 let map = new Map
                 data.forEach((addon, index, m) => {
-                    if (installedMap.has(addon.id)) {
-                        addon.installed = true
-                    }
-                    addon.installed = false
                     map.set(addon.id, addon)
                 })
                 setAvailableAddons(map)
             })
         }else {
+            for(let [id,addon]of availableMap){
+                if(addon.status === "error"){
+                    availableMap.get(id).status = undefined
+                }
+            }
             setAvailableAddons([...availableMap])
         }
     }, [])
@@ -60,9 +67,6 @@ export default function DiscoverAddonsView(props) {
         for (let [id, addon] of availableAddons) {
             if (installedMap.has(addon.id)) {
                 addon.status = "installed"
-            }else {
-                addon.installed = false
-                addon.status = undefined
             }
             listAddon.push(addon)
         }

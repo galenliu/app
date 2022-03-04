@@ -10,9 +10,11 @@ import API from "../../js/api";
 import {fetchAvailableAddonList} from "./FatchAddons";
 import {AppContext} from "../../App";
 import AddonCard, {versionStringCompare} from "./AddonCard"
+import enTrans from "../../i18n/en-us.json"
 
 
 export default function InstalledAddonsView() {
+
     const navigate = useNavigate()
     const {installedAddons, setInstalledAddons} = useContext(AppContext)
     const {availableAddons, setAvailableAddons} = useContext(AppContext)
@@ -27,7 +29,7 @@ export default function InstalledAddonsView() {
         }).catch((e) => {
                 console.error(e)
                 installMap.get(addonId).status = "error"
-                installMap.get(addonId).error = e.toString()
+                installMap.get(addonId).error = t(enTrans.Error)
                 setInstalledAddons([...installMap])
             }
         )

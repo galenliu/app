@@ -87,7 +87,7 @@ export default function AddonCard(addon) {
                     </Button>
                 }
                 {
-                    (addon.status !== "installed" && addon.status !== "enabled" && addon.status !== "installing") &&
+                    (addon.status === undefined) &&
                     <Button onClick={() => {
                         addon.installAddon(addon.id, addon.url, addon.checksum)
                     }} variant="contained" startIcon={<AddIcon/>}>
