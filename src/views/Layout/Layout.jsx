@@ -75,20 +75,12 @@ export default function Layout(props) {
 
     return (
         <>
-            <div style={{
-                position: "fixed",
-                float: "left",
-                margin: "5px 5px"
-            }}>
-                <IconButton
-                    sx={{backgroundColor: "primary.light",float: "left", mt:1,ml:1}}
-                    aria-label="open drawer"
-                    onClick={handleDrawerOpen}
-                >
-                    <MenuIcon/>
-                </IconButton>
-            </div>
-            <Box  sx={{display: 'flex'}}>
+            <IconButton sx={{position: "fixed", backgroundColor: "primary.light", top: 6, left: 6}}
+                        aria-label="open drawer"
+                        onClick={handleDrawerOpen}>
+                <MenuIcon/>
+            </IconButton>
+            <Box sx={{display: 'flex'}}>
                 <CssBaseline/>
                 <Drawer
                     sx={{

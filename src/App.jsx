@@ -18,6 +18,7 @@ import useThings from "./hooks/use-things";
 import InstalledAddonsView from "./views/Addons/InstelledAddons";
 import DiscoverAddonsView from "./views/Addons/DiscoverAddons";
 import Box from "@mui/material/Box";
+import NewThings from "./views/Things/NewThings";
 
 const theme = createTheme(DefaultTheme);
 export const AppContext = createContext({})
@@ -58,6 +59,7 @@ function App() {
                             <Route path={Path.DiscoverAddons} element={<DiscoverAddonsView/>}/>
                             <Route exact path={Path.Register} element={<SignUp/>}/>
                             <Route exact path={Path.Login} element={<SignIn/>}/>
+                            <Route exact path={Path.NewThings} element={<NewThings/>}></Route>
                         </Routes>
                     </Router>
                 </Box>

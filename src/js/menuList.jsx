@@ -16,7 +16,8 @@ export const Path = {
     Users: "/users",
     Register: "/register",
     InstalledAddons: "/installed_addons",
-    DiscoverAddons: "/discover_addons"
+    DiscoverAddons: "/discover_addons",
+    NewThings: "/new_things"
 }
 
 export const MenuList = {
