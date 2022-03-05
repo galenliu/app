@@ -54,6 +54,15 @@ export default defineConfig({
             "/settings": {
                 target: 'http://127.0.0.1:9090',
                 changeOrigin: true,
+            },
+            "/new_things": {
+                target: 'http://127.0.0.1:9090',
+                changeOrigin: true,
+                ws: true,
+            },
+            "/actions": {
+                target: 'http://127.0.0.1:9090',
+                changeOrigin: true,
             }
         }
     }

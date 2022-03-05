@@ -11,18 +11,11 @@ import UsePairing from "./add-thing";
 
 export default function NewThings(props) {
     let navigate = useNavigate()
-    const [newThings,addThing,startPairing,cancelPairing] = UsePairing()
+    const [newThings] = UsePairing( 10000)
     const [things,setThings]=useState([])
 
     useEffect(() => {
-      startPairing().then(() =>{}).catch((e) =>{console.log(e)})
-        return()=>{
-          cancelPairing()
-        }
-    })
-
-    useEffect(()=>{
-
+      console.log("new things :",newThings)
     },[newThings])
 
     return (
