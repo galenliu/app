@@ -11,27 +11,37 @@ import UsePairing from "./add-thing";
 
 export default function NewThings(props) {
     let navigate = useNavigate()
-    const [newThings] = UsePairing( 10000)
-    const [things,setThings]=useState([])
+    const [newThing] = UsePairing(10000)
+    const [things, setThings] = useState([])
+
 
     useEffect(() => {
-      console.log("new things :",newThings)
-    },[newThings])
+        let old = things
+        // if (old.some((t) => {
+        //     return t.id !== newThing.id
+        // })) {
+        //     return
+        // }
+        old.push(newThing)
+        setThings([...old])
+    }, [newThing])
 
     return (
-        <Box sx={{height: "100%", backgroundColor: "primary.background"}}>
+        <Box sx={{height: "100%", backgroundColor: "pink"}}>
             <IconButton sx={{position: "fixed", left: 6, top: 6, backgroundColor: "primary.light"}}
                         onClick={() => {
                             navigate(Path.Home)
                         }}>
                 <ArrowBackIosIcon/>
             </IconButton>
-            <Grid sx={{height: "100%"}}/>
+            <Grid sx={{mt: 8, ml: 2,height: "100%"}} container direction="row" >
             {
-                things.map((thing,index) =>{
-                    return <NewThingCard thing={thing}/>
+                things.map((thing, index) => {
+                    console.log("index:", index, "thing:", thing)
+                    return <NewThingCard thing={thing} key={index}/>
                 })
             }
+            </Grid>
         </Box>
 
     )

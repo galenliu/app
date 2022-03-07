@@ -5,7 +5,7 @@ import {useEffect, useRef, useState} from "react";
 import API from "../../js/api"
 
 export default function UsePairing(timeout) {
-    const [newThings, setNewThings] = useState([])
+    const [newThing, setNewThing] = useState({})
     const [actionUrl, setActionUrl] = useState()
     const ws = useRef(null)
     const timeOut = useRef(null)
@@ -16,16 +16,12 @@ export default function UsePairing(timeout) {
             return
         }
         requestStartPairing()
-    }, [])
-
-    useEffect(() => {
-
-        if (typeof actionUrl === "undefined" || ws.current !== null) {
-            return
-        }
         timeOut.current = setTimeout(() => {
             requestCancelPairing();
         }, timeout);
+    }, [])
+
+    useEffect(() => {
 
         let proto = 'ws';
         if (window.location.protocol === 'https:') {
@@ -33,6 +29,7 @@ export default function UsePairing(timeout) {
         }
         const wsHref = window.location.origin.replace(/^http/, proto);
         const path = `${wsHref}/new_things?jwt=${API.jwt}`;
+        //const path = `${wsHref}/new_things`;
         console.log("new things websocket url", path)
         ws.current = new WebSocket(path);
         ws.current.onopen = () => console.log("ws opened");
@@ -43,7 +40,7 @@ export default function UsePairing(timeout) {
         return () => {
             close()
         };
-    }, [actionUrl]);
+    }, []);
 
 
     function requestStartPairing() {
@@ -90,19 +87,16 @@ export default function UsePairing(timeout) {
     }
 
     function onMessage(event) {
-        let list = []
         if (event.data) {
-            for (let [thing, index] of event.data) {
-                list.push(thing)
-            }
+            console.log(event.data)
+            setNewThing( JSON.parse(event.data))
         }
-        setNewThings(list)
     }
 
     const addThing = (thing) => {
         return API.addThing(thing)
     }
 
-    return [newThings, addThing]
+    return [newThing, addThing]
 }
 
