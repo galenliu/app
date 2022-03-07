@@ -7,7 +7,8 @@ import Box from "@mui/material/Box";
 import {useNavigate} from "react-router-dom"
 import NewThingCard from "./NewThingCard";
 import UsePairing from "./add-thing";
-
+import {Stack} from "@mui/material";
+import enTrans from "../../i18n/en-us.json"
 
 export default function NewThings(props) {
     let navigate = useNavigate()
@@ -16,14 +17,13 @@ export default function NewThings(props) {
 
 
     useEffect(() => {
-        let old = things
-        // if (old.some((t) => {
-        //     return t.id !== newThing.id
-        // })) {
-        //     return
-        // }
-        old.push(newThing)
-        setThings([...old])
+        console.log("newThing:", newThing)
+        if (newThing === {} || newThing === undefined || newThing === null) {
+            return
+        }
+        let news = things
+        news.push(newThing)
+        setThings([...news])
     }, [newThing])
 
     return (
@@ -34,14 +34,17 @@ export default function NewThings(props) {
                         }}>
                 <ArrowBackIosIcon/>
             </IconButton>
-            <Grid sx={{mt: 8, ml: 2,height: "100%"}} container direction="row" >
-            {
-                things.map((thing, index) => {
-                    console.log("index:", index, "thing:", thing)
-                    return <NewThingCard thing={thing} key={index}/>
-                })
-            }
-            </Grid>
+            <Stack container direction="column" spacing={1} justifyContent="center"  alignItems="center">
+                {
+                    things.map((thing, index) => {
+                        if (JSON.stringify(thing) === "{}") {
+                            return
+                        }
+                        console.log("index:", index, "thing:", thing)
+                        return <NewThingCard thing={thing} key={index}/>
+                    })
+                }
+            </Stack>
         </Box>
 
     )
