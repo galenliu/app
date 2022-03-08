@@ -7,7 +7,7 @@ import enTrans from "../../i18n/en-us.json"
 import IconButton from "@mui/material/IconButton";
 import {Path} from "../../js/menuList";
 import AddIcon from "@mui/icons-material/Add";
-import {useNavigate} from "react-router";
+import {useNavigate} from "react-router-dom";
 import Box from "@mui/material/Box";
 import {Fab} from "@mui/material";
 

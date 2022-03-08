@@ -11,7 +11,7 @@ import Grid from "@mui/material/Grid";
 import Divider from "@mui/material/Divider";
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import enTrans from "../../i18n/en-us.json"
-import {useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router";
 import {SettingsList} from "../../js/settingsList";
 
 

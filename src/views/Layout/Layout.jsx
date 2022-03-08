@@ -14,7 +14,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import {useTranslation} from "react-i18next";
-import {Outlet, useNavigate} from "react-router";
+import {Outlet, useNavigate} from "react-router-dom";
 import {MenuList, DividerBottomList, Path} from "../../js/menuList";
 import {drawerWidth} from "../../js/constant";
 import {Fab} from "@mui/material";

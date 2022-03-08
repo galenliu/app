@@ -1,4 +1,4 @@
-import fluent from "fluent";
+
 
 export default class LevelDetail {
   constructor(thing, name, property) {
