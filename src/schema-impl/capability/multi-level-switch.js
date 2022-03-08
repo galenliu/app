@@ -86,8 +86,6 @@ export default class MultiLevelSwitch extends OnOffSwitch {
             super.handleClick();
         }
     }
-
-
 }
 
 

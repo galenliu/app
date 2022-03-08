@@ -1,5 +1,3 @@
-import Grid from "@mui/material/Grid";
-import IconButton from "@mui/material/IconButton";
 import {Path} from "../../js/menuList";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import React, {useEffect, useState} from "react";
@@ -7,42 +5,85 @@ import Box from "@mui/material/Box";
 import {useNavigate} from "react-router-dom"
 import NewThingCard from "./NewThingCard";
 import UsePairing from "./add-thing";
-import {Stack} from "@mui/material";
-import enTrans from "../../i18n/en-us.json"
+import {CircularProgress, Fab, LinearProgress, Stack} from "@mui/material";
+import Api from "../../js/api";
+
+
+export const Status = ["Paring", "Error", "Complete"]
 
 export default function NewThings(props) {
     let navigate = useNavigate()
-    const [newThing] = UsePairing(10000)
-    const [things, setThings] = useState([])
-
+    let [newThing, state] = UsePairing(10000)
+    let [things, setThings] = useState([])
 
     useEffect(() => {
-        console.log("newThing:", newThing)
-        if (newThing === {} || newThing === undefined || newThing === null) {
+        let news = things
+        if (newThing === undefined || newThing === null) {
             return
         }
-        let news = things
+        for (let t of news) {
+            if (t.id === newThing.id) {
+                return;
+            }
+        }
         news.push(newThing)
         setThings([...news])
     }, [newThing])
 
+    function handlerSave(thing) {
+        if (!thing || !thing.id || !thing.selectedCapability || thing.title=== ""){
+            return
+        }
+        Api.addThing(thing).then(()=>{
+            console.log("create thing:",thing)
+
+        }).catch((e)=>{
+            console.log(e)
+        })
+    }
+
     return (
-        <Box sx={{height: "100%", backgroundColor: "pink"}}>
-            <IconButton sx={{position: "fixed", left: 6, top: 6, backgroundColor: "primary.light"}}
-                        onClick={() => {
-                            navigate(Path.Home)
-                        }}>
+        <Box sx={{height: "100%", mt: 10}}>
+
+            <Fab
+                color="primary"
+                onClick={() => {
+                    navigate(Path.Home)
+                }}
+                sx={{
+                    position: 'fixed',
+                    top: (theme) => theme.spacing(1),
+                    left: (theme) => theme.spacing(1),
+                }}
+            >
                 <ArrowBackIosIcon/>
-            </IconButton>
-            <Stack container direction="column" spacing={1} justifyContent="center"  alignItems="center">
+            </Fab>
+
+
+            {state === Status[0] && <Fab
+                color="primary"
+                sx={{
+                    position: 'fixed',
+                    top: (theme) => theme.spacing(1),
+                    right: (theme) => theme.spacing(1),
+                }}
+            >
+                <CircularProgress/>
+            </Fab>}
+
+
+            <Stack direction="column" spacing={2} justifyContent="center" alignItems="center">
+                <LinearProgress variant="determinate" value={92}/>
                 {
                     things.map((thing, index) => {
                         if (JSON.stringify(thing) === "{}") {
                             return
                         }
                         console.log("index:", index, "thing:", thing)
-                        return <NewThingCard thing={thing} key={index}/>
+                        return <NewThingCard thing={thing} save={handlerSave} key={index}/>
                     })
+
+
                 }
             </Stack>
         </Box>

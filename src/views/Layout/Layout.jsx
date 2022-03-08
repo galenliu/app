@@ -4,9 +4,7 @@ import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import CssBaseline from '@mui/material/CssBaseline';
 import MuiAppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
 import List from '@mui/material/List';
-import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -17,11 +15,9 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import {useTranslation} from "react-i18next";
 import {Outlet, useNavigate} from "react-router";
-import {useContext} from "react";
-import {AppContext} from "../../App";
-import {MenuList, DividerBottomList} from "../../js/menuList";
-import AddIcon from "@mui/icons-material/Add";
+import {MenuList, DividerBottomList, Path} from "../../js/menuList";
 import {drawerWidth} from "../../js/constant";
+import {Fab} from "@mui/material";
 
 
 const Main = styled('main', {shouldForwardProp: (prop) => prop !== 'open'})(({theme, open}) => ({
@@ -75,11 +71,18 @@ export default function Layout(props) {
 
     return (
         <>
-            <IconButton sx={{position: "fixed", backgroundColor: "primary.light", top: 6, left: 6}}
-                        aria-label="open drawer"
-                        onClick={handleDrawerOpen}>
+            <Fab
+                color="primary"
+                onClick={handleDrawerOpen}
+                sx={{
+                    position: 'fixed',
+                    top: (theme) => theme.spacing(1),
+                    left: (theme) => theme.spacing(1),
+                }}
+            >
                 <MenuIcon/>
-            </IconButton>
+            </Fab>
+
             <Box sx={{display: 'flex'}}>
                 <CssBaseline/>
                 <Drawer

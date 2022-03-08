@@ -7,6 +7,8 @@ import LightbulbIcon from '@mui/icons-material/Lightbulb';
 import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
 import IconButton from "@mui/material/IconButton";
 import useOnOffSwitch from "../../hooks/use-onOffSwitch";
+import ThingIcons from "../../images/thing-icons/thingIcons";
+
 
 export default function ThingCard(props) {
 
@@ -29,8 +31,7 @@ export default function ThingCard(props) {
         }}>
             <Box sx={{display: 'flex', flex: "70%", justifyContent: "space-around"}}>
                 <Box sx={{display: "flex", flex: "70%", justifyContent: "center", alignItems: "center"}}>
-                    {/*<LightbulbIcon sx={{}}/>*/}
-                    {props.thing.icon}
+                   <ThingIcons selected={props.thing.selectedCapability} sx={{fontSize:50,color: [on? "primary.on":"primary.off"]}}/>
                 </Box>
                 <Box sx={{display: "flex", flexDirection: "column"}}>
                     {props.thing.onProperty !== null && <IconButton onClick={() => (setOn())}>

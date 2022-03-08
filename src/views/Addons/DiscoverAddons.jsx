@@ -11,6 +11,7 @@ import {fetchAvailableAddonList} from "./FatchAddons";
 import API from "../../js/api";
 import {useTranslation} from "react-i18next";
 import enTrans from "../../i18n/en-us.json"
+import {Fab} from "@mui/material";
 
 export default function DiscoverAddonsView(props) {
     const {t} = useTranslation();
@@ -90,12 +91,19 @@ export default function DiscoverAddonsView(props) {
             height: "100%",
             p: 1,
         }}>
-            <IconButton sx={{position: "fixed", left: 6, top: 6, backgroundColor: "primary.light"}}
-                        onClick={() => {
-                            navigate(Path.InstalledAddons)
-                        }}>
+            <Fab
+                color="secondary"
+                onClick={() => {
+                    navigate(Path.InstalledAddons)
+                }}
+                sx={{
+                    position: 'fixed',
+                    top: (theme) => theme.spacing(1),
+                    left: (theme) => theme.spacing(1),
+                }}
+            >
                 <ArrowBackIosIcon/>
-            </IconButton>
+            </Fab>
 
             <Grid container className="discoverAddonsGrid"
                   sx={{

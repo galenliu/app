@@ -59,7 +59,7 @@ function App() {
                             <Route path={Path.DiscoverAddons} element={<DiscoverAddonsView/>}/>
                             <Route exact path={Path.Register} element={<SignUp/>}/>
                             <Route exact path={Path.Login} element={<SignIn/>}/>
-                            <Route exact path={Path.NewThings} element={<NewThings/>}></Route>
+                            <Route exact path={Path.NewThings} element={<NewThings/>}/>
                         </Routes>
                     </Router>
                 </Box>

@@ -3,12 +3,14 @@
  */
 import {useEffect, useRef, useState} from "react";
 import API from "../../js/api"
+import {Status} from "./NewThings"
 
 export default function UsePairing(timeout) {
     const [newThing, setNewThing] = useState({})
     const [actionUrl, setActionUrl] = useState()
     const ws = useRef(null)
     const timeOut = useRef(null)
+    const [state, setState] = useState("")
 
     useEffect(() => {
         //第一次加载，发送配对请求
@@ -19,9 +21,6 @@ export default function UsePairing(timeout) {
         timeOut.current = setTimeout(() => {
             requestCancelPairing();
         }, timeout);
-    }, [])
-
-    useEffect(() => {
 
         let proto = 'ws';
         if (window.location.protocol === 'https:') {
@@ -34,7 +33,10 @@ export default function UsePairing(timeout) {
         ws.current = new WebSocket(path);
         ws.current.onopen = () => console.log("ws opened");
         ws.current.onclose = () => console.log("ws closed");
-        ws.current.onError = (e) => console.error(e)
+        ws.current.onError = (e) => {
+            console.log(e)
+            setState(Status[1])
+        }
         ws.current.onmessage = onMessage
 
         return () => {
@@ -46,10 +48,11 @@ export default function UsePairing(timeout) {
     function requestStartPairing() {
         API.startPairing(timeout)
             .then((json) => {
-                console.log("href:", json.pair.href)
+                setState(Status[0])
                 setActionUrl(json.pair.href)
             })
             .catch((error) => {
+                setState(Status[1])
                 console.error(`pairing request failed: ${error}`);
             });
     }
@@ -70,7 +73,8 @@ export default function UsePairing(timeout) {
     }
 
     function requestCancelPairing() {
-        console.log("requestCancelPairing")
+
+        setState(Status[2])
         if (timeOut.current != null) {
             clearTimeout(timeOut.current)
         }
@@ -88,8 +92,10 @@ export default function UsePairing(timeout) {
 
     function onMessage(event) {
         if (event.data) {
-            console.log(event.data)
-            setNewThing( JSON.parse(event.data))
+            if (!event.data) {
+                return
+            }
+            setNewThing(JSON.parse(event.data))
         }
     }
 
@@ -97,6 +103,6 @@ export default function UsePairing(timeout) {
         return API.addThing(thing)
     }
 
-    return [newThing, addThing]
+    return [newThing, state, addThing]
 }
 

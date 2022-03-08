@@ -19,7 +19,9 @@ export const DefaultTheme = {
             "light": "rgba(98, 234, 255, 1)",
             "main": "rgba(0, 183, 211, 1)",
             "dark": "rgba(0, 135, 162, 1)",
-            "contrastText": "#fff"
+            "contrastText": "#fff",
+            "on": "#f44336",
+            "off": "#8a8a8a"
         },
         "secondary": {
             "light": "rgba(102, 255, 166, 1)",

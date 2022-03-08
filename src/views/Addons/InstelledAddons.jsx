@@ -11,6 +11,7 @@ import {fetchAvailableAddonList} from "./FatchAddons";
 import {AppContext} from "../../App";
 import AddonCard, {versionStringCompare} from "./AddonCard"
 import enTrans from "../../i18n/en-us.json"
+import {Fab} from "@mui/material";
 
 
 export default function InstalledAddonsView() {
@@ -109,19 +110,34 @@ export default function InstalledAddonsView() {
         <Box className="installedAddonRootBox" sx={{
             backgroundColor: "primary.background",
         }}>
-            <IconButton sx={{position: "fixed", left: 6, top: 6, backgroundColor: "primary.light"}}
-                        onClick={() => {
-                            navigate(Path.Settings)
-                        }}>
+            <Fab
+                color="secondary"
+                onClick={() => {
+                    navigate(Path.Settings)
+                }}
+                sx={{
+                    position: 'fixed',
+                    top: (theme) => theme.spacing(1),
+                    left: (theme) => theme.spacing(1),
+                }}
+            >
                 <ArrowBackIosIcon/>
-            </IconButton>
+            </Fab>
 
-            <IconButton sx={{position: "fixed", right: 6, top: 6, backgroundColor: "primary.light"}}
-                        onClick={() => {
-                            navigate(Path.DiscoverAddons)
-                        }}>
+            <Fab
+                color="secondary"
+                onClick={() => {
+                    navigate(Path.DiscoverAddons)
+                }}
+                sx={{
+                    position: 'fixed',
+                    top: (theme) => theme.spacing(1),
+                    right: (theme) => theme.spacing(1),
+                }}
+            >
                 <AddIcon/>
-            </IconButton>
+            </Fab>
+
 
             <Grid container className="installedAddonsGrid"
                   sx={{

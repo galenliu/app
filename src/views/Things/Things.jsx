@@ -7,9 +7,9 @@ import enTrans from "../../i18n/en-us.json"
 import IconButton from "@mui/material/IconButton";
 import {Path} from "../../js/menuList";
 import AddIcon from "@mui/icons-material/Add";
-import {useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router";
 import Box from "@mui/material/Box";
-
+import {Fab} from "@mui/material";
 
 export default function Things(props) {
     const {t} = useTranslation();
@@ -33,12 +33,21 @@ export default function Things(props) {
 
     return (
         <Box>
-            <IconButton sx={{position: "fixed", right: 6, top: 6, backgroundColor: "primary.light"}}
-                        onClick={() => {
-                            navigate(Path.NewThings)
-                        }}>
+            <Fab
+                color="primary"
+                onClick={() => {
+                    navigate(Path.NewThings)
+                }}
+                sx={{
+                    position: 'fixed',
+                    top: (theme) => theme.spacing(1),
+                    right: (theme) => theme.spacing(1),
+                }}
+            >
                 <AddIcon/>
-            </IconButton>
+            </Fab>
+
+
             <Grid sx={{mt: 8, ml: 2}} container direction="row">
                 {
                     Things.map((thing, i) => {

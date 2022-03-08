@@ -1,10 +1,11 @@
+import fluent from "fluent";
 
 export default class LevelDetail {
   constructor(thing, name, property) {
     this.thing = thing;
     this.name = name;
     this.readOnly = !!property.readOnly;
-    this.label = property.title || fluent.getMessage('level');
+    this.label = property.title;
     this.unit = property.unit ? Units.nameToAbbreviation(property.unit) : null;
 
     if (property.hasOwnProperty('minimum')) {
