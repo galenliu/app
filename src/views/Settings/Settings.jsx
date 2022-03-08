@@ -11,7 +11,7 @@ import Grid from "@mui/material/Grid";
 import Divider from "@mui/material/Divider";
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import enTrans from "../../i18n/en-us.json"
-import {useNavigate} from "react-router";
+import {useNavigate} from "react-router-dom";
 import {SettingsList} from "../../js/settingsList";
 
 
@@ -40,19 +40,25 @@ export default function Settings(props) {
             <Grid sx={{marginTop: "40px", marginLeft: "12px", justifyContent: "center"}} container spacing={2}>
                 <nav aria-label="main mailbox folders">
                     <List>
+                        <Divider/>
                         {
                             Object.keys(SettingsList).map((k, index) => (
-                                <ListItem disablePadding key={index} onClick={() => (navigate(SettingsList[k].Path))}>
-                                    <ListItemButton className={classes.listItem}>
-                                        <ListItemIcon>
-                                            {SettingsList[k].ListItemIcon}
-                                        </ListItemIcon>
-                                        <ListItemText primary={t(SettingsList[k].Title)}/>
-                                        <NavigateNextIcon/>
-                                    </ListItemButton>
-                                </ListItem>
+                                <>
+                                    <ListItem disablePadding key={index}
+                                              onClick={() => (navigate(SettingsList[k].Path))}>
+                                        <ListItemButton className={classes.listItem}>
+                                            <ListItemIcon>
+                                                {SettingsList[k].ListItemIcon}
+                                            </ListItemIcon>
+                                            <ListItemText primary={t(SettingsList[k].Title)}/>
+                                            <NavigateNextIcon/>
+                                        </ListItemButton>
+                                    </ListItem>
+                                    <Divider/>
+                                </>
                             ))
                         }
+
                     </List>
                 </nav>
             </Grid>
