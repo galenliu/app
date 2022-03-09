@@ -6,7 +6,7 @@ export default class LevelDetail {
     this.name = name;
     this.readOnly = !!property.readOnly;
     this.label = property.title;
-    this.unit = property.unit ? Units.nameToAbbreviation(property.unit) : null;
+    this.unit = property.unit // ? Units.nameToAbbreviation(property.unit) : null;
 
     if (property.hasOwnProperty('minimum')) {
       this.min = property.minimum;
@@ -33,7 +33,7 @@ export default class LevelDetail {
       this.step = 1;
     }
 
-    this.id = `level-${Utils.escapeHtmlForIdClass(this.name)}`;
+   // this.id = `level-${Utils.escapeHtmlForIdClass(this.name)}`;
   }
 
 

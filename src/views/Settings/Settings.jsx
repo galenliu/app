@@ -4,7 +4,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import List from "@mui/material/List";
 import {useTranslation} from "react-i18next";
-import {CssBaseline, ListItem, ListItemButton} from "@mui/material";
+import {CssBaseline, ListItem, ListItemButton, Stack} from "@mui/material";
 import clsx from "clsx";
 import {AppContext} from "../../App";
 import Grid from "@mui/material/Grid";
@@ -13,6 +13,7 @@ import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import enTrans from "../../i18n/en-us.json"
 import {useNavigate} from "react-router-dom";
 import {SettingsList} from "../../js/settingsList";
+import Box from "@mui/material/Box";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -43,8 +44,8 @@ export default function Settings(props) {
                         <Divider/>
                         {
                             Object.keys(SettingsList).map((k, index) => (
-                                <>
-                                    <ListItem disablePadding key={index}
+                                <Stack key={index} spacing={0.5}>
+                                    <ListItem disablePadding
                                               onClick={() => (navigate(SettingsList[k].Path))}>
                                         <ListItemButton className={classes.listItem}>
                                             <ListItemIcon>
@@ -55,10 +56,9 @@ export default function Settings(props) {
                                         </ListItemButton>
                                     </ListItem>
                                     <Divider/>
-                                </>
+                                </Stack>
                             ))
                         }
-
                     </List>
                 </nav>
             </Grid>

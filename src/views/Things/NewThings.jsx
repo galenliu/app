@@ -61,7 +61,6 @@ export default function NewThings(props) {
 
 
             {state === Status[0] && <Fab
-                color="primary"
                 sx={{
                     position: 'fixed',
                     top: (theme) => theme.spacing(1),
@@ -82,7 +81,6 @@ export default function NewThings(props) {
                         console.log("index:", index, "thing:", thing)
                         return <NewThingCard thing={thing} save={handlerSave} key={index}/>
                     })
-
 
                 }
             </Stack>

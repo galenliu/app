@@ -1,7 +1,7 @@
 import {useTranslation} from "react-i18next";
 import Card from "@mui/material/Card";
 import {Alert, CardMedia, Stack} from "@mui/material";
-import {AdapterIcon} from "../../components/Icons";
+import AdapterIcon from "../../images/adapter-icon";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";

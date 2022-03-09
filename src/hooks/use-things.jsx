@@ -6,6 +6,14 @@ import {createThingFromCapability} from "../schema-impl/capability/capabilities"
 export default function useThings(gateway) {
     const [things, set] = useState([])
 
+    function getThing(thingId) {
+        for (const thing of things) {
+            if (thing.id === thingId) {
+                return thing
+            }
+        }
+    }
+
     const refreshThings = (ts, ground) => {
         if (!ts.size > 0) {
             return
@@ -30,7 +38,7 @@ export default function useThings(gateway) {
     }
 
     useEffect(() => {
-        gateway.subscribe(Constants.REFRESH_THINGS, refreshThings,true)
+        gateway.subscribe(Constants.REFRESH_THINGS, refreshThings, true)
         return () => {
             gateway.unsubscribe(Constants.REFRESH_THINGS, refreshThings)
         }

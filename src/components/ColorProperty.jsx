@@ -11,6 +11,6 @@ export default function ColorProperty(props) {
     },[color])
 
     return (
-        <HexColorPicker color={color} onChange={setColor}/>
+        <HexColorPicker color={color? color:"#ffffff"} onChange={setColor}/>
     )
 }
