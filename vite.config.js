@@ -1,15 +1,12 @@
 import {defineConfig} from 'vite'
 import react from '@vitejs/plugin-react'
 import {resolve} from "path"
+
 // import {viteMockServe} from 'vite-plugin-mock'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-    plugins: [react(),
-        // viteMockServe({
-        //     mockPath: 'mock',
-        // }),
-    ],
+    plugins: [react(),],
     base: "./",
     resolve: {
         alias: {
@@ -38,29 +35,29 @@ export default defineConfig({
         open: true,//启动项目自动弹出浏览器
         port: 3000,//启动端口
         proxy: {
-            "/things": {
+            '/things': {
+                target: 'http://127.0.0.1:9090',
+                // changeOrigin: true,
+                ws: true,
+            },
+            '/groups': {
+                target: 'http://127.0.0.1:9090',
+                changeOrigin: true,
+            },
+            '/addons': {
+                target: 'http://127.0.0.1:9090',
+                changeOrigin: true,
+            },
+            '/settings': {
+                target: 'http://127.0.0.1:9090',
+                changeOrigin: true,
+            },
+            '/new_things': {
                 target: 'http://127.0.0.1:9090',
                 changeOrigin: true,
                 ws: true,
             },
-            "/groups": {
-                target: 'http://127.0.0.1:9090',
-                changeOrigin: true,
-            },
-            "/addons": {
-                target: 'http://127.0.0.1:9090',
-                changeOrigin: true,
-            },
-            "/settings": {
-                target: 'http://127.0.0.1:9090',
-                changeOrigin: true,
-            },
-            "/new_things": {
-                target: 'http://127.0.0.1:9090',
-                changeOrigin: true,
-                ws: true,
-            },
-            "/actions": {
+            '/actions': {
                 target: 'http://127.0.0.1:9090',
                 changeOrigin: true,
             }

@@ -75,7 +75,15 @@ export default class GatewayModel extends Model {
     }
 
     refreshThing(thingId) {
-
+        if (!this.things.has(thingId)) {
+            Api.getThing(thingId).then((description) => {
+                let id = decodeURIComponent(description.id);
+                this.setThing(id, description);
+            }).catch((e) => {
+                return Promise.reject(e)
+            })
+        }
+        return Promise.resolve(this.things.get(thingId))
     }
 
     refreshThings() {
@@ -83,7 +91,6 @@ export default class GatewayModel extends Model {
             return Api.getThings()
                 .then((things) => {
                     const fetchedIds = new Set();
-
                     things.forEach((description) => {
                         let thingId = decodeURIComponent(description.id);
                         fetchedIds.add(thingId);
@@ -95,7 +102,7 @@ export default class GatewayModel extends Model {
                     });
                     removedIds.forEach((thingId) => this.handleRemove(thingId, true));
                     //return API.getGroups();
-                   return  this.handleEvent(Constants.REFRESH_THINGS, this.things);
+                    return this.handleEvent(Constants.REFRESH_THINGS, this.things);
                 })
                 .catch((e) => {
                     console.error(`Get things or groups failed ${e}`);

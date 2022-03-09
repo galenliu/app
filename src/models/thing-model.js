@@ -1,6 +1,7 @@
 import Model from "./model";
 import Constants from "../constants";
 import {selectFormHref} from "../utils.ts";
+import Api from "../js/api";
 
 
 export default class ThingModel extends Model {
@@ -23,10 +24,8 @@ export default class ThingModel extends Model {
     }
 
     updateFromDescription(description) {
-
         if (description.forms) {
             for (let form of description.forms) {
-
                 let op = form.op
                 if ((typeof op == "string" && op === Constants.WoTOperation.READ_ALL_PROPERTIES) ||
                     (Array.isArray(op) && op.includes(Constants.WoTOperation.READ_ALL_PROPERTIES))) {
@@ -36,7 +35,6 @@ export default class ThingModel extends Model {
                     (Array.isArray(op) && op.includes(Constants.WoTOperation.SUBSCRIBE_ALL_EVENTS))) {
                     this.eventsHref = new URL(form.href, this.base)
                 }
-
             }
         }
 
@@ -79,7 +77,7 @@ export default class ThingModel extends Model {
     }
 
     removeThing() {
-        return API.removeThing(this.id).then(() => {
+        return Api.removeThing(this.id).then(() => {
             this.handleEvent(Constants.DELETE_THING, this.id).then()
             this.cleanup()
         })
@@ -106,7 +104,7 @@ export default class ThingModel extends Model {
         }
         const href = selectFormHref(property.forms, Constants.WoTOperation.READ_PROPERTY)
         console.log("href:", href)
-        return API.putJsonWithEmptyResponse(href, value)
+        return Api.putJsonWithEmptyResponse(href, value)
             .then(() => {
                 let result = {}
                 result[name] = value;
@@ -133,6 +131,4 @@ export default class ThingModel extends Model {
         }
         return this.handleEvent(Constants.PROPERTY_STATUS, updateProperties)
     }
-
-
 }
