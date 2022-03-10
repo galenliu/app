@@ -15,29 +15,35 @@ export default function ThingCard(props) {
     const navigate = useNavigate()
     const [on, setOn] = useOnOffSwitch(props.thing)
 
-    useEffect(()=>{
-        console.log("This is ThingCard",props.thing)
+    useEffect(() => {
+        console.log("This is ThingCard", props.thing)
     })
 
     return (
-        <Card onClick={()=>{navigate(`/things/${props.thing.id}`)}}
-            sx={{
-            boxShadow: 3,
-            display: 'flex',
-            flexDirection: "column",
-            margin: "10px 10px",
-            justifyContent: "space-between",
-            width: "120px",
-            height: "120px",
-            padding: "1ox",
-        }}>
+        <Card onClick={() => {
+            navigate(`/things/${props.thing.id}`)
+        }}
+              sx={{
+                  boxShadow: 3,
+                  display: 'flex',
+                  flexDirection: "column",
+                  margin: "10px 10px",
+                  justifyContent: "space-between",
+                  width: "120px",
+                  height: "120px",
+                  padding: "1ox",
+              }}>
             <Box sx={{display: 'flex', flex: "70%", justifyContent: "space-around"}}>
                 <Box sx={{display: "flex", flex: "70%", justifyContent: "center", alignItems: "center"}}>
-                   <ThingIcons selected={props.thing.selectedCapability} sx={{fontSize:50,color: [on? "primary.on":"primary.off"]}}/>
+                    <ThingIcons selected={props.thing.selectedCapability}
+                                sx={{fontSize: 50, color: [on ? "primary.on" : "primary.off"]}}/>
                 </Box>
                 <Box sx={{display: "flex", flexDirection: "column"}}>
-                    {props.thing.onProperty !== null && <IconButton onClick={() => (setOn())}>
-                        <PowerSettingsNewIcon sx={{color: on? "green": "gray"}}/>
+                    {props.thing.onProperty !== null && <IconButton onClick={(e) => {
+                        e.stopPropagation();
+                        setOn()
+                    }}>
+                        <PowerSettingsNewIcon sx={{color: on ? "green" : "gray"}}/>
                     </IconButton>
                     }
                 </Box>
