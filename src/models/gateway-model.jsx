@@ -15,7 +15,6 @@ export default class GatewayModel extends Model {
         this.onMessage = this.onMessage.bind(this)
         this.queue = Promise.resolve(true)
         this.connectWebSocket()
-        console.log("gateway model initialized")
     }
 
     addQueue(job) {
@@ -74,16 +73,21 @@ export default class GatewayModel extends Model {
         //this.groupsWs.addEventListener('message', this.onMessage);
     }
 
+
     refreshThing(thingId) {
-        if (!this.things.has(thingId)) {
-            Api.getThing(thingId).then((description) => {
-                let id = decodeURIComponent(description.id);
-                this.setThing(id, description);
-            }).catch((e) => {
-                return Promise.reject(e)
-            })
-        }
-        return Promise.resolve(this.things.get(thingId))
+        return this.addQueue(() => {
+            return Api.getThing(thingId)
+                .then((description) => {
+                    if (!description) {
+                        throw new Error(`Unavailable Thing Description: ${description}`);
+                    }
+                    this.setThing(thingId, description);
+                    return this.handleEvent(Constants.REFRESH_THINGS, this.things, this.groups);
+                })
+                .catch((e) => {
+                    console.error(`Get thing id:${thingId} failed ${e}`);
+                });
+        });
     }
 
     refreshThings() {
@@ -93,10 +97,11 @@ export default class GatewayModel extends Model {
                     const fetchedIds = new Set();
                     things.forEach((description) => {
                         let thingId = decodeURIComponent(description.id);
+
                         fetchedIds.add(thingId);
                         this.setThing(thingId, description);
-
                     });
+
                     const removedIds = Array.from(this.thingModels.keys()).filter((id) => {
                         return !fetchedIds.has(id);
                     });
@@ -117,6 +122,7 @@ export default class GatewayModel extends Model {
             thingModel.updateFromDescription(description)
         } else {
             let thingModel = new ThingModel(description, this.ws)
+
             thingModel.subscribe(Constants.DELETE_THINGS, this.handleRemove.bind(this))
             thingModel.connected = this.connectedThings.has(thingId)
             this.thingModels.set(thingId, thingModel)
@@ -143,8 +149,8 @@ export default class GatewayModel extends Model {
             return Promise.resolve(this.thingModels.get(thingId));
         }
         return this.refreshThing(thingId).then(() => {
-            return this.thingModels.get(thingId)
-        })
+            return this.thingModels.get(thingId);
+        });
     }
 
 }

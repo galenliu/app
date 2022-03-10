@@ -10,7 +10,7 @@ import {DefaultTheme} from "./js/defaultTheme";
 import {createTheme, ThemeProvider} from "@mui/material/styles";
 import {useTranslation} from "react-i18next";
 import "./i18n"
-import GatewayModel from "./models/gatewa-model";
+import GatewayModel from "./models/gateway-model";
 import Layout from "./views/Layout/Layout";
 import {Path} from "./js/menuList";
 import enTrans from "./i18n/en-us.json"
@@ -19,6 +19,7 @@ import InstalledAddonsView from "./views/Addons/InstelledAddons";
 import DiscoverAddonsView from "./views/Addons/DiscoverAddons";
 import Box from "@mui/material/Box";
 import NewThings from "./views/Things/NewThings";
+import Thing from "./views/Things/Thing";
 
 const theme = createTheme(DefaultTheme);
 export const AppContext = createContext({})
@@ -31,7 +32,7 @@ function App() {
     const [installedAddons, setInstalledAddons] = useState(new Map())
 
     const [title, setTitle] = useState(t(enTrans.Things))
-    const [things] = useThings(gateway)
+    const [things,getThing] = useThings(gateway)
 
     useEffect(() => {
         window.document.title = title
@@ -44,6 +45,7 @@ function App() {
             setAvailableAddons,
             installedAddons,
             setInstalledAddons,
+            getThing,
         }}>
             <ThemeProvider theme={theme}>
                 <Box className="App">
@@ -55,6 +57,7 @@ function App() {
                                 <Route path={Path.Rules} element={<Rules/>}/>
                                 <Route path={Path.Settings} element={<Settings/>}/>
                             </Route>
+                            <Route path={"/things/:thingId"} element={<Thing/>}/>
                             <Route path={Path.InstalledAddons} element={<InstalledAddonsView/>}/>
                             <Route path={Path.DiscoverAddons} element={<DiscoverAddonsView/>}/>
                             <Route exact path={Path.Register} element={<SignUp/>}/>

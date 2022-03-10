@@ -20,10 +20,9 @@ export default class ColorModeDetail extends EnumDetail {
   update(value) {
     if (this.readOnly) {
       if (!this.labelElement) {
-        return;
+
       }
 
-      this.labelElement.value = `${value}`.toUpperCase();
     } else {
       super.update(value);
     }

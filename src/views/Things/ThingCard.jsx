@@ -8,18 +8,20 @@ import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
 import IconButton from "@mui/material/IconButton";
 import useOnOffSwitch from "../../hooks/use-onOffSwitch";
 import ThingIcons from "../../images/thing-icons/thingIcons";
+import {useNavigate} from "react-router-dom";
 
 
 export default function ThingCard(props) {
-
+    const navigate = useNavigate()
     const [on, setOn] = useOnOffSwitch(props.thing)
 
     useEffect(()=>{
-        console.log("This is ThingCard")
+        console.log("This is ThingCard",props.thing)
     })
 
     return (
-        <Card sx={{
+        <Card onClick={()=>{navigate(`/things/${props.thing.id}`)}}
+            sx={{
             boxShadow: 3,
             display: 'flex',
             flexDirection: "column",
@@ -27,7 +29,7 @@ export default function ThingCard(props) {
             justifyContent: "space-between",
             width: "120px",
             height: "120px",
-            padding: "1ox"
+            padding: "1ox",
         }}>
             <Box sx={{display: 'flex', flex: "70%", justifyContent: "space-around"}}>
                 <Box sx={{display: "flex", flex: "70%", justifyContent: "center", alignItems: "center"}}>

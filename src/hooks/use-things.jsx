@@ -44,5 +44,5 @@ export default function useThings(gateway) {
         }
     }, [])
 
-    return [things]
+    return [things,getThing]
 }

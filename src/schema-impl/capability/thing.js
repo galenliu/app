@@ -61,6 +61,7 @@ class Thing {
         };
 
         this.title = description.title;
+        this.id = description.id
         this.model = model;
         this.listeners = [];
         this.connected = false;

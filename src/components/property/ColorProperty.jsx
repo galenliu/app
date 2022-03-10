@@ -1,8 +1,9 @@
 import React, {useEffect, useState} from "react"
 import {HexColorPicker} from "react-colorful";
-
+import {useTranslation} from "react-i18next";
 
 export default function ColorProperty(props) {
+    const {t} = useTranslation()
     const {property} = props
     const [color, setColor] = useState(property.value)
 
@@ -11,6 +12,6 @@ export default function ColorProperty(props) {
     },[color])
 
     return (
-        <HexColorPicker color={color? color:"#ffffff"} onChange={setColor}/>
+        <HexColorPicker color={property.value? property.value:"#ffffff"} onChange={property.setValue}/>
     )
 }

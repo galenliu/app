@@ -8,22 +8,63 @@ export default class ThingModel extends Model {
     constructor(description, ws) {
         super();
         this.connected = false;
-        this.properties = new Map()
+        this.properties = {}
         this.events = []
-        this.title = description.title
-        this.base = description.base ?? Constants.ORIGIN
-        this.group_id = 1;
-        this.id = description.includes
         this.updateFromDescription(description);
         this.initWebSocket(ws)
         return this
     }
 
     initWebSocket(ws) {
+        this.ws = ws
 
+        const onEvent = (event) => {
+            const message = JSON.parse(event.data);
+            if (message.hasOwnProperty('id') && message.id !== this.id) {
+                return;
+            }
+            switch (message.messageType) {
+                case 'propertyStatus':
+                    this.onPropertyStatus(message.data);
+                    break;
+                case 'event':
+                    this.onEvent(message.data);
+                    break;
+                case 'connected':
+                    this.onConnected(message.data);
+                    break;
+                case 'error':
+                    // status 404 means that the Thing already removed.
+                    if (message.data.status === '404 Not Found') {
+                        console.log('Successfully removed Thing.');
+                        this.handleEvent(Constants.DELETE_THING, this.id);
+                        this.cleanup();
+                    }
+                    break;
+                case 'thingRemoved':
+                    this.handleEvent(Constants.DELETE_THING, this.id);
+                    this.cleanup();
+                    break;
+                default:
+                    break;
+            }
+        };
+
+        this.ws.addEventListener('message', onEvent);
     }
 
     updateFromDescription(description) {
+
+        this.title = description.title;
+        this.base = description.base ?? Constants.ORIGIN;
+        // Parse base URL of Thing
+        if (description.href) {
+            this.href = new URL(description.href, Constants.ORIGIN);
+            this.id = decodeURIComponent(this.href.pathname.split('/').pop());
+        } else {
+            this.id = decodeURIComponent(description.id)
+        }
+
         if (description.forms) {
             for (let form of description.forms) {
                 let op = form.op
@@ -38,14 +79,17 @@ export default class ThingModel extends Model {
             }
         }
 
+
         // Parse properties
         this.propertyDescriptions = {};
         if (description.hasOwnProperty('properties')) {
             for (const propertyName in description.properties) {
                 const property = description.properties[propertyName];
+
                 this.propertyDescriptions[propertyName] = property;
             }
         }
+
 
         // Parse events
         this.eventDescriptions = {};
@@ -55,6 +99,7 @@ export default class ThingModel extends Model {
                 this.eventDescriptions[eventName] = event;
             }
         }
+
     }
 
     subscribe(event, handler) {
@@ -117,17 +162,18 @@ export default class ThingModel extends Model {
     }
 
     onPropertyStatus(data) {
+        console.log(data)
         let updateProperties = {}
-        for (let prop in data) {
-            if (!this.propertyDescriptions.hasOwnProperty(prop)) {
+        for (let propName in data) {
+            if (!this.propertyDescriptions.hasOwnProperty(propName)) {
                 continue
             }
-            let value = data[prop]
+            let value = data[propName]
             if (typeof value === "undefined" || value === null) {
                 continue
             }
-            this.properties.set(prop, value)
-            updateProperties[prop] = value
+            this.properties[propName]=value
+            updateProperties[propName] = value
         }
         return this.handleEvent(Constants.PROPERTY_STATUS, updateProperties)
     }

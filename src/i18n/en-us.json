@@ -51,6 +51,8 @@
   "LeakSensor": "LeakSensor",
   "Light": "Light",
   "Save":"Save",
+  "On": "On",
+  "Off": "Off",
   "Capability": "Capability",
   "Lock": "Lock",
   "MotionSensor": "MotionSensor",

@@ -13,7 +13,6 @@ export default function NewThingCard(props) {
     const {t} = useTranslation();
     const [thing, setThing] = useState(props.thing)
     return (
-
         <Card sx={{width: "430px", backgroundColor: "primary.light"}}>
             <Stack direction={"row"}>
                 <Stack width={"30%"} justifyContent={"center"} alignItems={"center"}>

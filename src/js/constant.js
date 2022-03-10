@@ -1,4 +1,4 @@
-export const ThingType = {
+export const Capability = {
     Alarm: "Alarm",
     AirQualitySensor: "AirQualitySensor",
     BarometricPressureSensor: "BarometricPressureSensor",
