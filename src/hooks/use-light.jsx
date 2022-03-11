@@ -1,17 +1,22 @@
 import useOnOffSwitch from "./use-onOffSwitch";
 import {useEffect, useState} from "react";
 import Constants from "../js/constant";
+import useProperty from "./useProperty";
 
 
-export default function useLight(props) {
-    const [on] = useOnOffSwitch(props.thing)
-    const [level, setLevel] = useState(null)
-    const [color, setColor] = useState(null)
-    const [colorTemperature, setColorTemperature] = useState(null)
-    const [colorMode, setColorMode] = useState(null)
+export default function useLight(thing) {
+
+    const {on, setOn} = useOnOffSwitch(thing)
+    const {level, setLevel} = useState(null)
+    const {color, setValue:setColor} = useProperty(thing,thing.colorProperty)
+    const {colorTemperature, setColorTemperature} = useState(null)
+    const {colorMode, setColorMode} = useState(null)
 
     useEffect(() => {
-        let {thing} = props
+        console.log("use light date:", thing)
+        if (thing === undefined) {
+            return
+        }
         const updateProperty = (name, value) => {
             if (name === thing.brightnessProperty) {
                 setLevel(value)
@@ -27,12 +32,13 @@ export default function useLight(props) {
             }
 
         }
+        console.log("use thing date:", thing)
 
         return () => {
             thing.unsubscribe(Constants.PROPERTY_STATUS, updateProperty)
         }
     }, [])
 
-    return [on, level, color, colorTemperature, colorMode]
+    return {on, setOn, level, setLevel, color, setColor, colorTemperature, setColorTemperature, colorMode, setColorMode}
 }
 

@@ -1,17 +1,22 @@
 import React, {useEffect, useState} from "react"
 import {HexColorPicker} from "react-colorful";
 import {useTranslation} from "react-i18next";
+import {ListItem, ListItemText, ListSubheader} from "@mui/material";
+import enTrans from "../../i18n/en-us.json";
+import Switch from "@mui/material/Switch";
 
 export default function ColorProperty(props) {
     const {t} = useTranslation()
-    const {property} = props
-    const [color, setColor] = useState(property.value)
 
-    useEffect(()=>{
+    useEffect(() => {
 
-    },[color])
+    }, [])
 
     return (
-        <HexColorPicker color={property.value? property.value:"#ffffff"} onChange={property.setValue}/>
+        <ListItem sx={{mt:1,borderStyle: "solid",justifyContent:"center"}} >
+            <HexColorPicker sx={{width:"100%"}} color={props.value ? props.value : "#ffffff"} onChange={(event)=>props.setColor(event)}/>
+        </ListItem>
     )
 }
+
+

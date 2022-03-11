@@ -13,7 +13,7 @@ import {useNavigate} from "react-router-dom";
 
 export default function ThingCard(props) {
     const navigate = useNavigate()
-    const [on, setOn] = useOnOffSwitch(props.thing)
+    const {on, setOn} = useOnOffSwitch(props.thing)
 
     useEffect(() => {
         console.log("This is ThingCard", props.thing)

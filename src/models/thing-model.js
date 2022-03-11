@@ -15,16 +15,18 @@ export default class ThingModel extends Model {
         return this
     }
 
-    initWebSocket(ws) {
-        this.ws = ws
+    initWebSocket(globalWs) {
+
+        this.ws = globalWs
 
         const onEvent = (event) => {
+            console.log("thing model ws data:", event)
             const message = JSON.parse(event.data);
             if (message.hasOwnProperty('id') && message.id !== this.id) {
                 return;
             }
             switch (message.messageType) {
-                case 'propertyStatus':
+                case "propertyStatus":
                     this.onPropertyStatus(message.data);
                     break;
                 case 'event':
@@ -45,12 +47,11 @@ export default class ThingModel extends Model {
                     this.handleEvent(Constants.DELETE_THING, this.id);
                     this.cleanup();
                     break;
-                default:
-                    break;
             }
         };
 
-        this.ws.addEventListener('message', onEvent);
+        console.log(" this.ws.addEventListener('message', onEvent);",globalWs)
+        globalWs.addEventListener('message', onEvent);
     }
 
     updateFromDescription(description) {
@@ -130,7 +131,6 @@ export default class ThingModel extends Model {
 
     setProperty(name, value) {
 
-        console.log("name:", name)
         if (!this.propertyDescriptions.hasOwnProperty(name)) {
             return Promise.reject(`unavailable property name ${name}`)
         }
@@ -162,7 +162,9 @@ export default class ThingModel extends Model {
     }
 
     onPropertyStatus(data) {
-        console.log(data)
+        if (Object.keys(data).length === 0) {
+            return
+        }
         let updateProperties = {}
         for (let propName in data) {
             if (!this.propertyDescriptions.hasOwnProperty(propName)) {
@@ -172,8 +174,11 @@ export default class ThingModel extends Model {
             if (typeof value === "undefined" || value === null) {
                 continue
             }
-            this.properties[propName]=value
+            console.log("propName:", propName)
+            console.log("value:", value)
+            this.properties[propName] = value
             updateProperties[propName] = value
+            console.log("this.properties:", this.properties)
         }
         return this.handleEvent(Constants.PROPERTY_STATUS, updateProperties)
     }

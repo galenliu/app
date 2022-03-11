@@ -3,17 +3,20 @@ import Constants from "../constants";
 
 
 export default function useProperty(thing, name) {
-    const [value, setValue] = useState(thing.model.property[name])
+    const [value, SetValue] = useState(thing.model.properties[name])
 
     useEffect(() => {
+        console.log("111111111111",thing.model.properties)
         function handler(data) {
-            for (let n of data) {
+            if (Object.keys(data).length === 0) {
+                return
+            }
+            for (let n in data) {
                 if (n === name) {
-                    setValue(data[n])
+                    SetValue(data[n])
                 }
             }
         }
-
         thing.model.subscribe(Constants.PROPERTY_STATUS, handler)
 
         return (() => {
@@ -21,9 +24,14 @@ export default function useProperty(thing, name) {
         })
     })
 
-    function set(value) {
+    useEffect(() => {
+        console.log("use property value:", value)
+    }, [value])
+
+    function setValue(value) {
+        console.log(value, name)
         thing.model.setProperty(name, value)
     }
 
-    return [value, set]
+    return {value, setValue}
 }

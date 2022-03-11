@@ -8,13 +8,14 @@ import Api from "../js/api";
 export default class GatewayModel extends Model {
     constructor() {
         super();
-        this.things = new Map();
         this.thingModels = new Map();
+        this.things = new Map();
         this.connectedThings = new Map();
         this.groups = new Map();
-        this.onMessage = this.onMessage.bind(this)
-        this.queue = Promise.resolve(true)
-        this.connectWebSocket()
+        this.onMessage = this.onMessage.bind(this);
+        this.queue = Promise.resolve(true);
+        this.connectWebSocket();
+        return this;
     }
 
     addQueue(job) {
@@ -42,7 +43,7 @@ export default class GatewayModel extends Model {
 
     onMessage(event) {
         const message = JSON.parse(event.data);
-        console.log("messageType:", message.messageType)
+        console.log("ws event.message:", message)
         switch (message.messageType) {
             case 'connected':
                 this.connectedThings.set(message.id, message.data);
@@ -65,6 +66,7 @@ export default class GatewayModel extends Model {
         const wsHref = thingsHref.replace(/^http/, 'ws');
         this.ws = new ReopeningWebSocket(wsHref);
         this.ws.addEventListener('open', this.refreshThings.bind(this));
+
         this.ws.addEventListener('message', this.onMessage);
         //const groupsHref = `${window.location.origin}/groups?jwt=${API.jwt}`;
         // const groupsWsHref = groupsHref.replace(/^http/, 'ws');
@@ -73,6 +75,46 @@ export default class GatewayModel extends Model {
         //this.groupsWs.addEventListener('message', this.onMessage);
     }
 
+    refreshThings() {
+        return this.addQueue(() => {
+            return Api.getThings()
+                .then((things) => {
+                    const fetchedIds = new Set();
+                    things.forEach((description) => {
+                        const thingId = decodeURIComponent(description.id);
+                        fetchedIds.add(thingId);
+                        this.setThing(thingId, description);
+                    });
+
+                    const removedIds = Array.from(this.thingModels.keys()).filter((id) => {
+                        return !fetchedIds.has(id);
+                    });
+                    removedIds.forEach((thingId) => this.handleRemove(thingId, true));
+                    return Api.getGroups();
+                })
+                .then((groups) => {
+                    const fetchedIds = new Set();
+                    if (Object.keys(groups).length === 0) {
+                        return
+                    }
+                    groups.forEach((description) => {
+                        const groupId = decodeURIComponent(description.href.split('/').pop());
+                        fetchedIds.add(groupId);
+                        this.setGroup(groupId, description);
+                    });
+
+                    const removedIds = Array.from(this.groups.keys()).filter((id) => {
+                        return !fetchedIds.has(id);
+                    });
+
+                   // removedIds.forEach((groupId) => this.handleRemoveGroup(groupId, true));
+                    return this.handleEvent(Constants.REFRESH_THINGS, this.things, this.groups);
+                })
+                .catch((e) => {
+                    console.error(`Get things or groups failed ${e}`);
+                });
+        });
+    }
 
     refreshThing(thingId) {
         return this.addQueue(() => {
@@ -90,33 +132,14 @@ export default class GatewayModel extends Model {
         });
     }
 
-    refreshThings() {
-        return this.addQueue(() => {
-            return Api.getThings()
-                .then((things) => {
-                    const fetchedIds = new Set();
-                    things.forEach((description) => {
-                        let thingId = decodeURIComponent(description.id);
-
-                        fetchedIds.add(thingId);
-                        this.setThing(thingId, description);
-                    });
-
-                    const removedIds = Array.from(this.thingModels.keys()).filter((id) => {
-                        return !fetchedIds.has(id);
-                    });
-                    removedIds.forEach((thingId) => this.handleRemove(thingId, true));
-                    //return API.getGroups();
-                    return this.handleEvent(Constants.REFRESH_THINGS, this.things);
-                })
-                .catch((e) => {
-                    console.error(`Get things or groups failed ${e}`);
-                });
-        });
+    setGroup(groupId, description) {
+        this.groups.set(groupId, description);
     }
+
 
     setThing(thingId, description) {
 
+        console.log("gateway set thing:",thingId,description)
         if (this.thingModels.has(thingId)) {
             let thingModel = this.thingModels.get(thingId)
             thingModel.updateFromDescription(description)
@@ -144,12 +167,37 @@ export default class GatewayModel extends Model {
         }
     }
 
+
+    getThing(thingId) {
+        if (this.thingModels.has(thingId) && this.things.has(thingId)) {
+            return Promise.resolve(this.things.get(thingId));
+        }
+        return this.refreshThing(thingId).then(() => {
+            return this.things.get(thingId);
+        });
+    }
+
     getThingModel(thingId) {
         if (this.thingModels.has(thingId)) {
             return Promise.resolve(this.thingModels.get(thingId));
         }
         return this.refreshThing(thingId).then(() => {
             return this.thingModels.get(thingId);
+        });
+    }
+
+    updateThing(thingId, updates) {
+        if (!this.thingModels.has(thingId)) {
+            return Promise.reject(`No Thing id:${thingId}`);
+        }
+        return this.addQueue(() => {
+            if (!this.thingModels.has(thingId)) {
+                throw new Error(`Thing id:${thingId} already removed`);
+            }
+            const thingModel = this.thingModels.get(thingId);
+            return thingModel.updateThing(updates).then(() => {
+                this.refreshThing(thingId);
+            });
         });
     }
 

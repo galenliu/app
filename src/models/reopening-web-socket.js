@@ -1,5 +1,14 @@
+/**
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ */
 
-class ReopeningWebSocket {
+/**
+ * Mirrors the WS API but automatically reopens on connection
+ * interruption/error
+ */
+export default class ReopeningWebSocket {
   constructor(href) {
     this.href = href;
     this.ws = null;
@@ -103,4 +112,3 @@ class ReopeningWebSocket {
   }
 }
 
-export default ReopeningWebSocket;

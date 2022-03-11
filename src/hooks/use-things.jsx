@@ -18,7 +18,7 @@ export default function useThings(gateway) {
         if (!ts.size > 0) {
             return
         }
-        console.log("useThings ts :", ts)
+        console.log("useThings refreshThings :", ts)
         try {
             let list = [];
             let t

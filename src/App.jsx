@@ -20,6 +20,7 @@ import DiscoverAddonsView from "./views/Addons/DiscoverAddons";
 import Box from "@mui/material/Box";
 import NewThings from "./views/Things/NewThings";
 import Thing from "./views/Things/Thing";
+import ThingPanelLayout from "./views/Layout/ThingPanelLayout";
 
 const theme = createTheme(DefaultTheme);
 export const AppContext = createContext({})
@@ -32,7 +33,7 @@ function App() {
     const [installedAddons, setInstalledAddons] = useState(new Map())
 
     const [title, setTitle] = useState(t(enTrans.Things))
-    const [things,getThing] = useThings(gateway)
+    const [things, getThing] = useThings(gateway)
 
     useEffect(() => {
         window.document.title = title
@@ -57,12 +58,14 @@ function App() {
                                 <Route path={Path.Rules} element={<Rules/>}/>
                                 <Route path={Path.Settings} element={<Settings/>}/>
                             </Route>
-                            <Route path={"/things/:thingId"} element={<Thing/>}/>
                             <Route path={Path.InstalledAddons} element={<InstalledAddonsView/>}/>
                             <Route path={Path.DiscoverAddons} element={<DiscoverAddonsView/>}/>
                             <Route exact path={Path.Register} element={<SignUp/>}/>
                             <Route exact path={Path.Login} element={<SignIn/>}/>
                             <Route exact path={Path.NewThings} element={<NewThings/>}/>
+                            <Route path="/things" element={<ThingPanelLayout/>}>
+                                <Route path={":thingId"} element={<Thing/>}/>
+                            </Route>
                         </Routes>
                     </Router>
                 </Box>
@@ -70,4 +73,5 @@ function App() {
         </AppContext.Provider>
     );
 }
+
 export default App

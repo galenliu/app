@@ -19,7 +19,7 @@ export default function Things(props) {
 
     useEffect(() => {
         setTitle(t(enTrans.Home))
-        console.log("Home view things:", props.things)
+        console.log("Home view things Data:", props.things)
         return () => {
             console.log("Exits Home view")
         }

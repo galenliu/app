@@ -1,29 +1,16 @@
 import {useEffect, useState} from "react";
 import Constants from "../../src/js/constant";
+import useProperty from "./useProperty";
 
 
 export default function useOnOffSwitch(thing) {
-    const [on, SetOn] = useState(false)
+    const {value: on, setValue} = useProperty(thing, thing.onProperty)
 
-    const setOn = () => {
-        if(thing.onProperty){
-            thing.setProperty(thing.onProperty, !on)
+    function setOn() {
+        if (thing) {
+            setValue(!on)
         }
     }
 
-    useEffect(() => {
-        const updateProperty = (data) => {
-            if (data.hasOwnProperty(thing.onProperty)) {
-                let value = data[thing.onProperty]
-                if (value !== undefined) {
-                    SetOn(value)
-                }
-            }
-        }
-        thing.model.subscribe(Constants.PROPERTY_STATUS, updateProperty)
-        return () => {
-            thing.model.unsubscribe(Constants.PROPERTY_STATUS, updateProperty)
-        }
-    })
-    return [on, setOn]
+    return {on, setOn}
 }
