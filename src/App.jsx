@@ -33,7 +33,6 @@ function App() {
     const [installedAddons, setInstalledAddons] = useState(new Map())
 
     const [title, setTitle] = useState(t(enTrans.Things))
-    const [things, getThing] = useThings(gateway)
 
     useEffect(() => {
         window.document.title = title
@@ -46,15 +45,14 @@ function App() {
             setAvailableAddons,
             installedAddons,
             setInstalledAddons,
-            getThing,
         }}>
             <ThemeProvider theme={theme}>
                 <Box className="App">
                     <Router>
                         <Routes>
                             <Route path="/" element={<Layout/>}>
-                                <Route index element={<Things things={things}/>}/>
-                                <Route path={Path.Home} element={<Things things={things}/>}/>
+                                <Route index element={<Things/>}/>
+                                <Route path={Path.Home} element={<Things/>}/>
                                 <Route path={Path.Rules} element={<Rules/>}/>
                                 <Route path={Path.Settings} element={<Settings/>}/>
                             </Route>

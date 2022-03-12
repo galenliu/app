@@ -4,7 +4,7 @@ import React, {useEffect, useState} from "react";
 import Box from "@mui/material/Box";
 import {useNavigate} from "react-router-dom"
 import NewThingCard from "./NewThingCard";
-import UsePairing from "./add-thing";
+import UseAddThings from "../../hooks/use-add-thing";
 import {CircularProgress, Fab, LinearProgress, Stack} from "@mui/material";
 import Api from "../../js/api";
 
@@ -13,7 +13,7 @@ export const Status = ["Paring", "Error", "Complete"]
 
 export default function NewThings(props) {
     let navigate = useNavigate()
-    let [newThing, state] = UsePairing(10000)
+    let [newThing, state] = UseAddThings(10000)
     let [things, setThings] = useState([])
 
     useEffect(() => {

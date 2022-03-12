@@ -20,7 +20,7 @@ export default class ThingModel extends Model {
         this.ws = globalWs
 
         const onEvent = (event) => {
-            console.log("thing model ws data:", event)
+           // console.log("thing model ws data:", event)
             const message = JSON.parse(event.data);
             if (message.hasOwnProperty('id') && message.id !== this.id) {
                 return;
@@ -172,11 +172,10 @@ export default class ThingModel extends Model {
             if (typeof value === "undefined" || value === null) {
                 continue
             }
-            console.log("propName:", propName)
-            console.log("value:", value)
+
             this.properties[propName] = value
             updateProperties[propName] = value
-            console.log("this.properties:", this.properties)
+            //console.log("this.properties:", this.properties)
         }
         return this.handleEvent(Constants.PROPERTY_STATUS, updateProperties)
     }

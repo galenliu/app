@@ -2,10 +2,10 @@
  * Create a new "pair" action on the gateway.
  */
 import {useEffect, useRef, useState} from "react";
-import API from "../../js/api"
-import {Status} from "./NewThings"
+import API from "../js/api"
+import {Status} from "../views/Things/NewThings"
 
-export default function UsePairing(timeout) {
+export default function UseAddThings(timeout) {
     const [newThing, setNewThing] = useState({})
     const [actionUrl, setActionUrl] = useState()
     const ws = useRef(null)

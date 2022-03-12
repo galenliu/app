@@ -14,22 +14,16 @@ export default function useThings(gateway) {
         }
     }
 
-    const refreshThings = (ts, ground) => {
-
-        // let thing;
-        // while (typeof (thing = things.pop()) !== 'undefined') {
-        //     thing.cleanup();
-        // }
-
+    const refreshThings = async (ts, ground) => {
+        console.log("ts:", ts)
         try {
-            let array = []
+            let list = []
             if (ts.size !== 0) {
-                ts.forEach((description, thingId) => {
-                    gateway.getThingModel(thingId).then((thingModel) => {
-                        array.push(createThingFromCapability(description.selectedCapability, thingModel, description))
-                    });
-                });
-                setThings([...array])
+                for (let [thingId, description] of ts) {
+                    let thingModel = await gateway.getThingModel(thingId)
+                    list.push(createThingFromCapability(description.selectedCapability, thingModel, description))
+                }
+                setThings(list)
             }
 
         } catch (e) {
