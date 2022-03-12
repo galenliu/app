@@ -4,7 +4,7 @@ import {createThingFromCapability} from "../schema-impl/capability/capabilities"
 
 
 export default function useThings(gateway) {
-    const [things, set] = useState([])
+    const [things, setThings] = useState([])
 
     function getThing(thingId) {
         for (const thing of things) {
@@ -15,27 +15,31 @@ export default function useThings(gateway) {
     }
 
     const refreshThings = (ts, ground) => {
-        if (!ts.size > 0) {
-            return
-        }
-        console.log("useThings refreshThings :", ts)
+
+        // let thing;
+        // while (typeof (thing = things.pop()) !== 'undefined') {
+        //     thing.cleanup();
+        // }
+
         try {
-            let list = [];
-            let t
-            for (let [id, description] of ts) {
-                gateway.getThingModel(id).then(model => {
-                    t = createThingFromCapability(description.selectedCapability, model, description)
-                    list.push(t)
-                })
+            let array = []
+            if (ts.size !== 0) {
+                ts.forEach((description, thingId) => {
+                    gateway.getThingModel(thingId).then((thingModel) => {
+                        array.push(createThingFromCapability(description.selectedCapability, thingModel, description))
+                    });
+                });
+                setThings([...array])
             }
-            if (list) {
-                console.log("useThings List :", list)
-                set(list)
-            }
+
         } catch (e) {
             console.warn(e)
         }
     }
+
+    useEffect(() => {
+        console.log("things:", things)
+    }, [things])
 
     useEffect(() => {
         gateway.subscribe(Constants.REFRESH_THINGS, refreshThings, true)
@@ -44,5 +48,5 @@ export default function useThings(gateway) {
         }
     }, [])
 
-    return [things,getThing]
+    return [things, getThing]
 }

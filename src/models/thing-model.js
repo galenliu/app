@@ -49,9 +49,7 @@ export default class ThingModel extends Model {
                     break;
             }
         };
-
-        console.log(" this.ws.addEventListener('message', onEvent);",globalWs)
-        globalWs.addEventListener('message', onEvent);
+        this.ws.addEventListener('message', onEvent);
     }
 
     updateFromDescription(description) {

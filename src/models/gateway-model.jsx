@@ -29,6 +29,7 @@ export default class GatewayModel extends Model {
         super.subscribe(event, handler);
         switch (event) {
             case Constants.REFRESH_THINGS:
+                console.log("subscribe event:", this.things)
                 if (immediate) {
                     handler(this.things, this.groups);
                 }
@@ -43,7 +44,7 @@ export default class GatewayModel extends Model {
 
     onMessage(event) {
         const message = JSON.parse(event.data);
-        console.log("ws event.message:", message)
+        //  console.log("ws event.message:", message)
         switch (message.messageType) {
             case 'connected':
                 this.connectedThings.set(message.id, message.data);
@@ -85,7 +86,6 @@ export default class GatewayModel extends Model {
                         fetchedIds.add(thingId);
                         this.setThing(thingId, description);
                     });
-
                     const removedIds = Array.from(this.thingModels.keys()).filter((id) => {
                         return !fetchedIds.has(id);
                     });
@@ -94,20 +94,18 @@ export default class GatewayModel extends Model {
                 })
                 .then((groups) => {
                     const fetchedIds = new Set();
-                    if (Object.keys(groups).length === 0) {
-                        return
+                    if (Object.keys(groups).length !== 0) {
+                        groups.forEach((description) => {
+                            const groupId = decodeURIComponent(description.id.split('/').pop());
+                            fetchedIds.add(groupId);
+                            this.setGroup(groupId, description);
+                        });
+
+                        const removedIds = Array.from(this.groups.keys()).filter((id) => {
+                            return !fetchedIds.has(id);
+                        });
+                        removedIds.forEach((groupId) => this.handleRemoveGroup(groupId, true));
                     }
-                    groups.forEach((description) => {
-                        const groupId = decodeURIComponent(description.href.split('/').pop());
-                        fetchedIds.add(groupId);
-                        this.setGroup(groupId, description);
-                    });
-
-                    const removedIds = Array.from(this.groups.keys()).filter((id) => {
-                        return !fetchedIds.has(id);
-                    });
-
-                   // removedIds.forEach((groupId) => this.handleRemoveGroup(groupId, true));
                     return this.handleEvent(Constants.REFRESH_THINGS, this.things, this.groups);
                 })
                 .catch((e) => {
@@ -136,10 +134,18 @@ export default class GatewayModel extends Model {
         this.groups.set(groupId, description);
     }
 
+    handleRemoveGroup(groupId, skipEvent = false) {
+        if (this.groups.has(groupId)) {
+            this.groups.delete(groupId);
+        }
+        if (!skipEvent) {
+            return this.handleEvent(Constants.DELETE_GROUPS, this.things, this.groups);
+        }
+    }
 
     setThing(thingId, description) {
 
-        console.log("gateway set thing:",thingId,description)
+        //console.log("gateway set thing:",thingId,description)
         if (this.thingModels.has(thingId)) {
             let thingModel = this.thingModels.get(thingId)
             thingModel.updateFromDescription(description)
