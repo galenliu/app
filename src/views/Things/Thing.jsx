@@ -6,12 +6,13 @@ import {Capability} from "../../js/constant";
 import Light from "../../components/capability/Light";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
+import useThing from "../../hooks/use-thing";
 
 
 export default function Thing() {
     const params = useParams()
     const {getThing} = useContext(AppContext)
-    const [thing, setThing] = useState(undefined)
+    const [thing] = useThing()
 
     useEffect(() => {
         setThing(getThing(params.thingId))

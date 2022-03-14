@@ -6,16 +6,7 @@ import {createThingFromCapability} from "../schema-impl/capability/capabilities"
 export default function useThings(gateway) {
     const [things, setThings] = useState([])
 
-    function getThing(thingId) {
-        for (const thing of things) {
-            if (thing.id === thingId) {
-                return thing
-            }
-        }
-    }
-
     const refreshThings = async (ts, ground) => {
-        console.log("ts:", ts)
         try {
             let list = []
             if (ts.size !== 0) {
@@ -32,7 +23,7 @@ export default function useThings(gateway) {
     }
 
     useEffect(() => {
-        console.log("things:", things)
+
     }, [things])
 
     useEffect(() => {
@@ -42,5 +33,5 @@ export default function useThings(gateway) {
         }
     }, [])
 
-    return [things, getThing]
+    return [things]
 }

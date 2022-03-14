@@ -14,6 +14,7 @@ export default class GatewayModel extends Model {
         this.groups = new Map();
         this.onMessage = this.onMessage.bind(this);
         this.queue = Promise.resolve(true);
+        this.refreshThings().then()
         this.connectWebSocket();
         return this;
     }
@@ -44,7 +45,6 @@ export default class GatewayModel extends Model {
 
     onMessage(event) {
         const message = JSON.parse(event.data);
-        //  console.log("ws event.message:", message)
         switch (message.messageType) {
             case 'connected':
                 this.connectedThings.set(message.id, message.data);

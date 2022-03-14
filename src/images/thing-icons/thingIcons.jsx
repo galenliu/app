@@ -17,3 +17,6 @@ export default function ThingIcons(props) {
         </Box>
     )
 }
+
+
+

@@ -7,10 +7,10 @@ import useProperty from "./useProperty";
 export default function useLight(thing) {
 
     const {on, setOn} = useOnOffSwitch(thing)
-    const {level, setLevel} = useState(null)
-    const {color, setValue:setColor} = useProperty(thing,thing.colorProperty)
-    const {colorTemperature, setColorTemperature} = useState(null)
-    const {colorMode, setColorMode} = useState(null)
+    const {level, set: setLevel} = useProperty(thing, thing.brightnessProperty)
+    const {color, set: setColor} = useProperty(thing, thing.colorProperty)
+    const {colorTemperature, set: setColorTemperature} = useProperty(thing, thing.colorTemperatureProperty)
+    const {colorMode, set: setColorMode} = useProperty(thing, thing.colorModeProperty)
 
     useEffect(() => {
         console.log("use light date:", thing)

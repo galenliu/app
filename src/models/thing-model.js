@@ -20,7 +20,7 @@ export default class ThingModel extends Model {
         this.ws = globalWs
 
         const onEvent = (event) => {
-           // console.log("thing model ws data:", event)
+
             const message = JSON.parse(event.data);
             if (message.hasOwnProperty('id') && message.id !== this.id) {
                 return;

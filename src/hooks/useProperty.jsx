@@ -6,7 +6,6 @@ export default function useProperty(thing, name) {
     const [value, SetValue] = useState(thing.model.properties[name])
 
     useEffect(() => {
-        console.log("111111111111",thing.model.properties)
         function handler(data) {
             if (Object.keys(data).length === 0) {
                 return
@@ -28,10 +27,11 @@ export default function useProperty(thing, name) {
         console.log("use property value:", value)
     }, [value])
 
-    function setValue(value) {
+    function set(value) {
         console.log(value, name)
         thing.model.setProperty(name, value)
     }
 
-    return {value, setValue}
+    return {value, set}
 }
+

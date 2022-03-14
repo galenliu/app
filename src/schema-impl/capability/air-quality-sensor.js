@@ -5,6 +5,7 @@ export default class AirQualitySensor extends Thing {
     /**
      * AirQualitySensor Constructor (extends Thing).
      *
+     * @param model
      * @param {Object} description Thing description object.
      * @param {Number} format See Constants.ThingFormat
      */

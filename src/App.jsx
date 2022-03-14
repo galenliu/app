@@ -14,7 +14,6 @@ import GatewayModel from "./models/gateway-model";
 import Layout from "./views/Layout/Layout";
 import {Path} from "./js/menuList";
 import enTrans from "./i18n/en-us.json"
-import useThings from "./hooks/use-things";
 import InstalledAddonsView from "./views/Addons/InstelledAddons";
 import DiscoverAddonsView from "./views/Addons/DiscoverAddons";
 import Box from "@mui/material/Box";

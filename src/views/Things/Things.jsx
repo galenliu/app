@@ -16,7 +16,7 @@ export default function Things(props) {
     const {t} = useTranslation();
     const navigate = useNavigate()
     const {setTitle} = useContext(AppContext)
-    const [things, getThing] = useThings(gateway)
+    const [things] = useThings(gateway)
 
     useEffect(() => {
         setTitle(t(enTrans.Home))
