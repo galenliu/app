@@ -42,3 +42,7 @@
 button {
   font-size: calc(10px + 2vmin);
 }
+
+.colorListItem .react-colorful {
+  width: 100%;
+}

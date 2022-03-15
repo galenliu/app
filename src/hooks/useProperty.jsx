@@ -16,6 +16,7 @@ export default function useProperty(thing, name) {
                 }
             }
         }
+
         thing.model.subscribe(Constants.PROPERTY_STATUS, handler)
 
         return (() => {
@@ -24,7 +25,7 @@ export default function useProperty(thing, name) {
     })
 
     useEffect(() => {
-        console.log("use property value:", value)
+
     }, [value])
 
     function set(value) {
@@ -32,6 +33,6 @@ export default function useProperty(thing, name) {
         thing.model.setProperty(name, value)
     }
 
-    return {value, set}
+    return {...thing.displayedProperties[name], value: value, setValue: set}
 }
 

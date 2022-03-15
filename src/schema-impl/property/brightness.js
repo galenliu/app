@@ -29,20 +29,6 @@ class BrightnessDetail {
     // this.id = `brightness-${Utils.escapeHtmlForIdClass(this.name)}`;
   }
 
-
-
-
-  update(brightness) {
-    if (!this.brightness) {
-      return;
-    }
-
-    this.brightness.value = brightness;
-  }
-
-  set() {
-    this.thing.setProperty(this.name, this.brightness.value);
-  }
 }
 
 export default BrightnessDetail;

@@ -11,16 +11,16 @@ export default function useThing(thingId) {
 
     useEffect(async () => {
         const description = await gateway.getThing(thingId)
-        const thingModel = await gateway.getThingModel(thing)
-        setThing(createThingFromCapability(description.selectedCapability, description, thingModel, null))
+        const thingModel = await gateway.getThingModel(thingId)
+        setThing(createThingFromCapability(description.selectedCapability, thingModel, description, null))
 
-        const onDelete=(message)=>{
-            if( message.id === thing.id){
+        const onDelete = (message) => {
+            if (message.id === thing.id) {
                 setThing(null)
             }
         }
 
-        gateway.subscribe(constant.DELETE_THING,onDelete)
+        gateway.subscribe(constant.DELETE_THING, onDelete)
 
     }, [])
 

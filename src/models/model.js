@@ -35,7 +35,7 @@ export default class Model {
             return;
         }
         const eventHandlers = this.handlers.get(event);
-        console.log(`handle event:${event},state:${state}`)
+        //console.log(`handle event:${event},state:${state}`)
         for (const handler of eventHandlers.keys()) {
             try {
                 await handler(...state)

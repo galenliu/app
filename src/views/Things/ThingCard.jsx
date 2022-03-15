@@ -24,35 +24,31 @@ export default function ThingCard(props) {
     const {t} = useTranslation();
     const navigate = useNavigate()
     // const [thing,setProperty] = useThing(props.thing.id)
-    const {value: on, set: setOn} = useProperty(thing, thing.onProperty)
-    const {value: level} = useProperty(thing, thing.brightnessProperty)
-    const {value: color} = useProperty(thing, thing.colorProperty)
+    const onProperty = useProperty(thing, thing.onProperty)
+    const brightnessProperty = useProperty(thing, thing.brightnessProperty)
+    const colorProperty = useProperty(thing, thing.colorProperty)
     const [state, setState] = useState()
 
     useEffect(() => {
-        console.log("thing", thing)
-        console.log("props", props)
-        if (level !== undefined && on) {
-            console.log("level", level)
-            setState(level + "%")
+
+        if (brightnessProperty.property !== undefined && onProperty.value) {
+            setState(brightnessProperty.value + "%")
             return
         }
-        if (!on) {
+        if (!onProperty.value) {
             setState(t(enTrans.Off))
         } else {
             setState(t(enTrans.On))
         }
-    }, [on, level])
+    }, [onProperty, brightnessProperty])
 
     useEffect(() => {
-        console.log("thing", thing)
-        console.log("props", props)
-
+        //console.log("thing card data:", thing)
     }, [])
 
     return (
         <Card onClick={() => {
-            navigate(`/things/${props.thing.id}`)
+            navigate(`/things/${thing.id}`)
         }}
               sx={{
                   boxShadow: 3,
@@ -63,25 +59,31 @@ export default function ThingCard(props) {
                   width: "120px",
                   height: "120px",
                   padding: "1ox",
-                  backgroundColor: [on ? "rgba(255,255,255,1)" : "rgba(219,196,196,0.1)"],
+                  backgroundColor: [onProperty.value ? "rgba(255,255,255,1)" : "rgba(219,196,196,0.1)"],
               }}>
             <Box sx={{display: 'flex', flex: "70%", justifyContent: "space-around"}}>
                 <Box sx={{display: "flex", flex: "70%", justifyContent: "center", alignItems: "center"}}>
                     {
-                        color !== undefined && <ThingIcons selected={props.thing.selectedCapability}
-                                                           sx={{fontSize: 50, color: [on ? color : "gray"]}}/>
+                        colorProperty.property !== null && <ThingIcons selected={props.thing.selectedCapability}
+                                                                       sx={{
+                                                                           fontSize: 50,
+                                                                           color: [onProperty.value ? colorProperty.value : "gray"]
+                                                                       }}/>
                     }
                     {
-                        color === undefined && <ThingIcons selected={props.thing.selectedCapability}
-                                                           sx={{fontSize: 50, color: [on ? "#FF9502" : "#bfbfbf"]}}/>
+                        colorProperty.property === null && <ThingIcons selected={props.thing.selectedCapability}
+                                                                       sx={{
+                                                                           fontSize: 50,
+                                                                           color: [onProperty.value ? "#FF9502" : "#bfbfbf"]
+                                                                       }}/>
                     }
                 </Box>
                 <Box sx={{display: "flex", flexDirection: "column"}}>
                     {props.thing.onProperty !== null && <IconButton onClick={(e) => {
                         e.stopPropagation();
-                        setOn(!on)
+                        onProperty.setValue(!onProperty.value)
                     }}>
-                        <PowerSettingsNewIcon sx={{color: on ? "green" : "gray"}}/>
+                        <PowerSettingsNewIcon sx={{color: onProperty.value ? "green" : "gray"}}/>
                     </IconButton>
                     }
                 </Box>

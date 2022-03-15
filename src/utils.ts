@@ -278,6 +278,7 @@ export function selectFormHref(
     operation: WoTOperation,
     base?: string
 ): string | undefined {
+
   return [...forms].reverse().find((selectedForm) => {
     try {
       const { protocol } = new URL(selectedForm.href, base);

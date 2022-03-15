@@ -7,13 +7,20 @@ import {useEffect} from "react";
 
 export default function OnOffProperty(props) {
     const {t} = useTranslation()
+    const {property} = props
+
+    useEffect(()=>{
+        console.log("onOffProperty data:",property)
+    })
 
     return (
         <ListItem sx={{borderStyle: "solid"}}>
-            <ListItemText  primary={props.value? t(enTrans.On): t(enTrans.Off)}/>
+            <ListItemText primary={props.value ? t(enTrans.On) : t(enTrans.Off)}/>
             <Switch
-                onChange={()=>{props.setOn()}}
-                checked={props.value? props.value:false}
+                onChange={() => {
+                    property.setValue(!property.value)
+                }}
+                checked={property.value ? property.value : false}
                 edge="end"
             />
         </ListItem>

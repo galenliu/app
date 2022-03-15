@@ -146,7 +146,6 @@ export default class ThingModel extends Model {
                 break
         }
         const href = selectFormHref(property.forms, Constants.WoTOperation.READ_PROPERTY)
-        console.log("href:", href)
         return Api.putJsonWithEmptyResponse(href, value)
             .then(() => {
                 let result = {}

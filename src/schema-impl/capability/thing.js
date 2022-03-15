@@ -128,6 +128,7 @@ class Thing {
 
 
         if (description.properties) {
+
             for (const name in description.properties) {
                 const property = description.properties[name];
 

@@ -30,7 +30,7 @@ export default class GatewayModel extends Model {
         super.subscribe(event, handler);
         switch (event) {
             case Constants.REFRESH_THINGS:
-                console.log("subscribe event:", this.things)
+                //console.log("subscribe event:", this.things)
                 if (immediate) {
                     handler(this.things, this.groups);
                 }
@@ -115,6 +115,7 @@ export default class GatewayModel extends Model {
     }
 
     refreshThing(thingId) {
+
         return this.addQueue(() => {
             return Api.getThing(thingId)
                 .then((description) => {

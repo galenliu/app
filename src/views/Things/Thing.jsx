@@ -11,24 +11,20 @@ import useThing from "../../hooks/use-thing";
 
 export default function Thing() {
     const params = useParams()
-    const {getThing} = useContext(AppContext)
-    const [thing] = useThing()
+    const [thing] = useThing(params.thingId)
 
     useEffect(() => {
-        setThing(getThing(params.thingId))
+        console.log("Thing Panel params:",params)
+        console.log("Thing Panel data:",thing)
     })
 
     useEffect(() => {
-        if(!thing){
-            return
-        }
-        console.log("this is thing panel data:", thing)
-        console.log("this is thing property:", thing.model.properties)
+
     }, [thing])
 
     return (
         <Stack sx={{width: "60%",backgroundColor:"primary.background"}} spacing={1}>
-            {thing !== undefined && thing.selectedCapability === Capability.Light && <Light thing={thing}/>}
+            {thing !== null && thing !== undefined && thing.selectedCapability === Capability.Light && <Light thing={thing}/>}
         </Stack>
     )
 
