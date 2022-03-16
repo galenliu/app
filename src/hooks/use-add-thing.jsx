@@ -91,6 +91,7 @@ export default function UseAddThings(timeout) {
     }
 
     function onMessage(event) {
+        console.log("111111111111111",event)
         if (event.data) {
             if (!event.data) {
                 return

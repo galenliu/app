@@ -17,6 +17,7 @@ export default function NewThings(props) {
     let [things, setThings] = useState([])
 
     useEffect(() => {
+
         let news = things
         if (newThing === undefined || newThing === null) {
             return

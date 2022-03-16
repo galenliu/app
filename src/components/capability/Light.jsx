@@ -2,9 +2,10 @@ import {Button} from "@mui/material";
 import OnOffProperty from "../property/OnOffProperty";
 import List from "@mui/material/List";
 import {useEffect, useState} from "react";
-import useLight from "../../hooks/use-light";
 import ColorProperty from "../property/ColorProperty";
 import BrightnessProperty from "../property/BrightnessProperty";
+import useOnOffSwitch from "../../hooks/use-onOffSwitch";
+import useProperty from "../../hooks/useProperty";
 
 
 export default function Light(props) {
@@ -34,4 +35,16 @@ export default function Light(props) {
         </List>
     )
 
+}
+
+export  function useLight(thing) {
+
+    const {onProperty} = useOnOffSwitch(thing)
+    const brightnessProperty = useProperty(thing, thing.brightnessProperty)
+    const colorProperty = useProperty(thing, thing.colorProperty)
+    const colorTemperatureProperty = useProperty(thing, thing.colorTemperatureProperty)
+    const colorModeProperty = useProperty(thing, thing.colorModeProperty)
+
+
+    return {onProperty, brightnessProperty, colorProperty, colorTemperatureProperty, colorModeProperty}
 }
