@@ -14,7 +14,7 @@ export default class GatewayModel extends Model {
         this.groups = new Map();
         this.onMessage = this.onMessage.bind(this);
         this.queue = Promise.resolve(true);
-        this.refreshThings().then()
+        this.refreshThings().then(() => {})
         this.connectWebSocket();
         return this;
     }
