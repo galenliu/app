@@ -111,7 +111,8 @@ export default function InstalledAddonsView() {
             backgroundColor: "primary.background",
         }}>
             <Fab
-                color="secondary"
+                color="primary"
+                size='medium'
                 onClick={() => {
                     navigate(Path.Settings)
                 }}
@@ -125,7 +126,8 @@ export default function InstalledAddonsView() {
             </Fab>
 
             <Fab
-                color="secondary"
+                color="primary"
+                size='medium'
                 onClick={() => {
                     navigate(Path.DiscoverAddons)
                 }}

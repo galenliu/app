@@ -5,6 +5,8 @@ import {ListItem, ListItemText, ListSubheader} from "@mui/material";
 import enTrans from "../../i18n/en-us.json";
 import Switch from "@mui/material/Switch";
 import useDebouncy from "use-debouncy/lib/effect";
+import Card from "@mui/material/Card";
+import Box from "@mui/material/Box";
 
 export default function ColorProperty(props) {
     const {t} = useTranslation()
@@ -22,9 +24,15 @@ export default function ColorProperty(props) {
     }, [])
 
     return (
-        <ListItem className="colorListItem" sx={{mt: 1, borderStyle: "solid", justifyContent: "center"}}>
+        <Card className="colorListItem" sx={{
+            width: "100%",
+            borderRadius: "30px",
+            backgroundColor: [property.value ? "background.on" : "background.off"]
+        }}>
+            <Box sx={{m:"20px"}}>
             <HexColorPicker color={property.value} onChange={(event) => setValue(event)}/>
-        </ListItem>
+            </Box>
+        </Card>
     )
 }
 

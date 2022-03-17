@@ -48,6 +48,7 @@ export default function NewThings(props) {
 
             <Fab
                 color="primary"
+                size='medium'
                 onClick={() => {
                     navigate(Path.Home)
                 }}
@@ -62,6 +63,7 @@ export default function NewThings(props) {
 
 
             {state === Status[0] && <Fab
+                size='medium'
                 sx={{
                     position: 'fixed',
                     top: (theme) => theme.spacing(1),

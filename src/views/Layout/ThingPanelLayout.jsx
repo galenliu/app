@@ -11,6 +11,7 @@ export default function ThingPanelLayout(props) {
         <Stack sx={{height: "100%", width: "100%", alignItems: "center"}}>
             <Fab
                 color="secondary"
+                size='medium'
                 onClick={() => {
                     navigator(Path.Home)
                 }}

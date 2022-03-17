@@ -73,6 +73,7 @@ export default function Layout(props) {
         <>
             <Fab
                 color="primary"
+                size='medium'
                 onClick={handleDrawerOpen}
                 sx={{
                     position: 'fixed',

@@ -29,6 +29,7 @@ export default function Things(props) {
     return (
         <Box>
             <Fab
+                size="medium"
                 color="primary"
                 onClick={() => {
                     navigate(Path.NewThings)
