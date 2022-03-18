@@ -9,7 +9,7 @@ export default class EnumDetail {
         this.type = property.type;
         this.unit = property.unit ? Units.nameToAbbreviation(property.unit) : null;
         this.choices = property.enum;
-        this.id = `enum-${Utils.escapeHtmlForIdClass(this.name)}`;
+       // this.id = `enum-${Utils.escapeHtmlForIdClass(this.name)}`;
     }
 
     attach() {

@@ -4,7 +4,7 @@ export default class ColorTemperatureDetail {
     this.thing = thing;
     this.name = name;
     this.readOnly = !!property.readOnly;
-    this.label = property.title || fluent.getMessage('color-temperature');
+    this.label = property.title || 'color-temperature';
     this.min = property.minimum;
     this.max = property.maximum;
 
@@ -15,8 +15,6 @@ export default class ColorTemperatureDetail {
     } else {
       this.step = 1;
     }
-
-    this.id = `color-temperature-${Utils.escapeHtmlForIdClass(this.name)}`;
   }
 
   attach() {
