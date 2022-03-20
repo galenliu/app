@@ -45,8 +45,10 @@ export default class GatewayModel extends Model {
 
     onMessage(event) {
         const message = JSON.parse(event.data);
+        console.log("ws",message);
         switch (message.messageType) {
             case 'connected':
+                console.log("gateway connected",message.data);
                 this.connectedThings.set(message.id, message.data);
                 break;
             case 'thingAdded':
@@ -152,10 +154,11 @@ export default class GatewayModel extends Model {
             thingModel.updateFromDescription(description)
         } else {
             let thingModel = new ThingModel(description, this.ws)
-
             thingModel.subscribe(Constants.DELETE_THINGS, this.handleRemove.bind(this))
-            thingModel.connected = this.connectedThings.has(thingId)
-            this.thingModels.set(thingId, thingModel)
+            if (this.connectedThings.has(thingId)) {
+                thingModel.onConnected(this.connectedThings.get(thingId));
+            }
+            this.thingModels.set(thingId, thingModel);
         }
         this.things.set(thingId, description)
     }

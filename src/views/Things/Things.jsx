@@ -4,7 +4,6 @@ import {useTranslation} from "react-i18next";
 import ThingCard from "./ThingCard";
 import {AppContext, gateway} from "../../App";
 import enTrans from "../../i18n/en-us.json"
-import IconButton from "@mui/material/IconButton";
 import {Path} from "../../js/menuList";
 import AddIcon from "@mui/icons-material/Add";
 import {useNavigate} from "react-router-dom";
@@ -46,9 +45,9 @@ export default function Things(props) {
 
             <Grid sx={{mt: 8, ml: 2}} container direction="row">
                 {
-                    things.map((thing, i) => {
+                    things.map((thingId, i) => {
                         return (
-                            <ThingCard key={i} thing={thing}/>
+                            <ThingCard key={i} thingId={thingId}/>
                         )
                     })
                 }

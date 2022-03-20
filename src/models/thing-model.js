@@ -52,8 +52,9 @@ export default class ThingModel extends Model {
         this.ws.addEventListener('message', onEvent);
     }
 
-    onConnected(event){
-        console.log("onConnected:",event)
+    onConnected(connected){
+        this.connected = connected;
+        return this.handleEvent(Constants.CONNECTED, connected);
     }
 
     updateFromDescription(description) {

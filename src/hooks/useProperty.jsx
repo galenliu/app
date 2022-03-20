@@ -3,7 +3,7 @@ import Constants from "../constants";
 
 
 export default function useProperty(thing, name) {
-    const [value, SetValue] = useState(thing.model.properties[name])
+    const [value, SetValue] = useState(thing?.model.properties[name] || null)
 
     useEffect(() => {
         function handler(data) {
@@ -17,10 +17,14 @@ export default function useProperty(thing, name) {
             }
         }
 
-        thing.model.subscribe(Constants.PROPERTY_STATUS, handler)
+        if (thing) {
+            thing?.model?.subscribe(Constants.PROPERTY_STATUS, handler)
+        }
 
         return (() => {
-            thing.model.unsubscribe(Constants.PROPERTY_STATUS, handler)
+            if (thing) {
+                thing.model?.unsubscribe(Constants.PROPERTY_STATUS, handler)
+            }
         })
     })
 
@@ -33,6 +37,6 @@ export default function useProperty(thing, name) {
         thing.model.setProperty(name, value)
     }
 
-    return {...thing.displayedProperties[name], value: value, setValue: set}
+    return {...thing?.displayedProperties[name] || null, value: value, setValue: set}
 }
 
