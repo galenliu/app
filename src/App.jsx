@@ -21,7 +21,7 @@ import NewThings from "./views/Things/NewThings";
 import Thing from "./views/Things/Thing";
 import ThingPanelLayout from "./views/Layout/ThingPanelLayout";
 
-const theme = createTheme({});
+const theme = createTheme();
 export const AppContext = createContext({})
 
 export const gateway = new GatewayModel()

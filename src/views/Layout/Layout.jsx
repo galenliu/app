@@ -83,7 +83,6 @@ export default function Layout(props) {
             >
                 <MenuIcon/>
             </Fab>
-
             <Box sx={{display: 'flex'}}>
                 <CssBaseline/>
                 <Drawer

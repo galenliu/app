@@ -11,10 +11,12 @@ import {fetchAvailableAddonList} from "./FatchAddons";
 import API from "../../js/api";
 import {useTranslation} from "react-i18next";
 import enTrans from "../../i18n/en-us.json"
-import {Fab} from "@mui/material";
+import {CircularProgress, Fab} from "@mui/material";
+import {Status} from "../Things/NewThings";
 
 export default function DiscoverAddonsView(props) {
     const {t} = useTranslation();
+    const [loading,setLoading] = useState(true)
     const navigate = useNavigate()
     const [addons, setAddons] = useState([])
     const {availableAddons, installedAddons, setAvailableAddons} = useContext(AppContext)
@@ -36,13 +38,13 @@ export default function DiscoverAddonsView(props) {
                 replaceList.get(id).error = t(enTrans.Fail)
                 setAvailableAddons([...replaceList])
             }
-        }).catch((e)=>{
+        }).catch((e) => {
             console.log(e)
         })
     }
 
     useEffect(() => {
-
+        setLoading(true)
         let availableMap = new Map(availableAddons)
         if (availableMap.size === 0) {
             fetchAvailableAddonList().then((data) => {
@@ -52,9 +54,9 @@ export default function DiscoverAddonsView(props) {
                 })
                 setAvailableAddons(map)
             })
-        }else {
-            for(let [id,addon]of availableMap){
-                if(addon.status === "error"){
+        } else {
+            for (let [id, addon] of availableMap) {
+                if (addon.status === "error") {
                     availableMap.get(id).status = undefined
                 }
             }
@@ -63,6 +65,7 @@ export default function DiscoverAddonsView(props) {
     }, [])
 
     useEffect(() => {
+        setLoading(true)
         let installedMap = new Map(installedAddons)
         let listAddon = []
         for (let [id, addon] of availableAddons) {
@@ -83,6 +86,7 @@ export default function DiscoverAddonsView(props) {
             return 0;
         })
         setAddons(listAddon)
+        setLoading(false)
     }, [availableAddons, installedAddons])
 
     return (
@@ -92,9 +96,10 @@ export default function DiscoverAddonsView(props) {
             p: 1,
         }}>
             <Fab
-                color="secondary"
+                color="primary"
+                size='medium'
                 onClick={() => {
-                    navigate(Path.InstalledAddons)
+                    navigate(Path.Settings)
                 }}
                 sx={{
                     position: 'fixed',
@@ -104,6 +109,16 @@ export default function DiscoverAddonsView(props) {
             >
                 <ArrowBackIosIcon/>
             </Fab>
+            {loading && <Fab
+                size='medium'
+                sx={{
+                    position: 'fixed',
+                    top: (theme) => theme.spacing(1),
+                    right: (theme) => theme.spacing(1),
+                }}
+            >
+                <CircularProgress/>
+            </Fab>}
 
             <Grid container className="discoverAddonsGrid"
                   sx={{

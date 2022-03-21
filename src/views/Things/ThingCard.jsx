@@ -47,9 +47,8 @@ export default function ThingCard(props) {
     }, [thing])
 
     return (
-        <Card onClick={() => {
-            navigate(`/things/${thing.id}`)
-        }}
+        <Card
+            onClick={() => {navigate(`/things/${thing.id}`)}}
               sx={{
                   boxShadow: 3,
                   display: 'flex',

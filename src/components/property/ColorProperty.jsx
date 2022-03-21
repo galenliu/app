@@ -26,11 +26,11 @@ export default function ColorProperty(props) {
     return (
         <Card className="colorListItem" sx={{
             width: "100%",
-            borderRadius: "30px",
+            borderRadius: 3,
             backgroundColor: [property.value ? "background.on" : "background.off"]
         }}>
             <Box sx={{m:"20px"}}>
-            <HexColorPicker color={property.value} onChange={(event) => setValue(event)}/>
+            <HexColorPicker color={property.value? property.value: ""} onChange={(event) => setValue(event)}/>
             </Box>
         </Card>
     )

@@ -18,7 +18,7 @@ export default function useProperty(thing, name) {
         }
 
         if (thing) {
-            thing?.model?.subscribe(Constants.PROPERTY_STATUS, handler)
+            thing.model?.subscribe(Constants.PROPERTY_STATUS, handler)
         }
 
         return (() => {

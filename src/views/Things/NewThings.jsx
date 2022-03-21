@@ -7,6 +7,7 @@ import NewThingCard from "./NewThingCard";
 import UseAddThings from "../../hooks/use-add-thing";
 import {CircularProgress, Fab, LinearProgress, Stack} from "@mui/material";
 import Api from "../../js/api";
+import LoadingButton from '@mui/lab/LoadingButton';
 
 
 export const Status = ["Paring", "Error", "Complete"]
@@ -32,20 +33,19 @@ export default function NewThings(props) {
     }, [newThing])
 
     function handlerSave(thing) {
-        if (!thing || !thing.id || !thing.selectedCapability || thing.title=== ""){
+        if (!thing || !thing.id || !thing.selectedCapability || thing.title === "") {
             return
         }
-        Api.addThing(thing).then(()=>{
-            console.log("create thing:",thing)
+        Api.addThing(thing).then(() => {
+            console.log("create thing:", thing)
 
-        }).catch((e)=>{
+        }).catch((e) => {
             console.log(e)
         })
     }
 
     return (
-        <Box sx={{height: "100%", mt: 10}}>
-
+        <Box sx={{height: "100%"}}>
             <Fab
                 color="primary"
                 size='medium'
@@ -68,9 +68,9 @@ export default function NewThings(props) {
                     position: 'fixed',
                     top: (theme) => theme.spacing(1),
                     right: (theme) => theme.spacing(1),
-                }}
-            >
-                <CircularProgress/>
+                }}>
+                <LoadingButton
+                    loadingIndicator={<CircularProgress/>} loading={state === Status[0]}/>
             </Fab>}
 
 
@@ -88,6 +88,5 @@ export default function NewThings(props) {
                 }
             </Stack>
         </Box>
-
     )
 }

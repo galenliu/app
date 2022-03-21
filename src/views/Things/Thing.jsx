@@ -1,8 +1,10 @@
 import {useParams} from "react-router-dom";
 import useThing from "../../hooks/use-thing";
-import {Stack} from "@mui/material";
-import {useEffect} from "react";
+import {Accordion, AccordionDetails, AccordionSummary, Menu, MenuItem, Stack} from "@mui/material";
+import React, {useEffect} from "react";
 import {Capability} from "../../js/constant";
+import MenuIcon from '@mui/icons-material/Menu';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Light from "../../components/capability/Light";
 import MultiLevelSwitch from "../../components/capability/MultiLevelSwitch";
 import Alarm from "../../components/capability/Alarm";
@@ -29,6 +31,11 @@ import VideoCamera from "../../components/capability/VideoCamera";
 import ThingIcons from "../../images/thing-icons/thingIcons";
 import Card from "@mui/material/Card";
 import Typography from "@mui/material/Typography";
+import {AccountCircle} from "@mui/icons-material";
+import IconButton from "@mui/material/IconButton";
+import Toolbar from "@mui/material/Toolbar";
+import AppBar from "@mui/material/AppBar";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 
 
 export default function Thing() {
@@ -44,22 +51,36 @@ export default function Thing() {
     }, [thing])
 
     return (
-        <Stack mt={"6%"} container sx={{width: "90%", backgroundColor: "primary.background"}} spacing={1}>
-            <Card my={"90px"} container sx={{borderRadius: "20px",backgroundColor: "#d4dee8"}}>
-              <Stack flexDirection={"row"}>
-                  <Stack width="20%" direction={"row"} sx={{ alignItems: "center",justifyContent:"center"}}>
-                      {thing !== null && <ThingIcons sx={{fontSize: 40}} selected={thing.selectedCapability}/>}
-                  </Stack>
-                  <Stack sx={{width: "80%",alignItems:"start"}}>
-                      <Typography variant={"subtitle1"}>
-                          {thing?.title || ""}
-                      </Typography>
-                      <Typography>
-                          {thing?.state}
-                      </Typography>
-                  </Stack>
-              </Stack>
+        <Stack mt={"6%"} sx={{width: "90%", backgroundColor: "primary.background"}} spacing={1}>
+            <Card my={10} container sx={{borderRadius: "20px", backgroundColor: "#d4dee8"}}>
+                {/*<Stack flexDirection={"row"}>*/}
+                {/*    <Stack sx={{width: "80%",alignItems:"start"}}>*/}
+                {/*        <Typography variant={"subtitle1"}>*/}
+                {/*            {thing?.title || ""}*/}
+                {/*        </Typography>*/}
+                {/*        <Typography>*/}
+                {/*            {thing?.state}*/}
+                {/*        </Typography>*/}
+                {/*    </Stack>*/}
+                {/*</Stack>*/}
+
+                <Accordion>
+                    <AccordionSummary
+                        expandIcon={<ExpandMoreIcon/>}
+                        aria-controls="panel2a-content"
+                        id="panel2a-header"
+                    >
+                        <Typography variant={"h5"}>{thing?.title}</Typography>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                        <Typography>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
+                            malesuada lacus ex, sit amet blandit leo lobortis eget.
+                        </Typography>
+                    </AccordionDetails>
+                </Accordion>
             </Card>
+
             {thing?.selectedCapability === Capability.Light && <Light thing={thing}/>}
             {thing?.selectedCapability === Capability.MultiLevelSwitch && <MultiLevelSwitch thing={thing}/>}
             {thing?.selectedCapability === Capability.OnOffSwitch && <OnOffSwitch thing={thing}/>}

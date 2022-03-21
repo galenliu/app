@@ -43,7 +43,7 @@ export default function Things(props) {
             </Fab>
 
 
-            <Grid sx={{mt: 8, ml: 2}} container direction="row">
+            <Grid sx={{mt: 8}} container direction="row">
                 {
                     things.map((thingId, i) => {
                         return (

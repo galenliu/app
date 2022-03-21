@@ -27,31 +27,32 @@ export default function BrightnessProperty(props) {
     return (
         <Card sx={{
             width: "100%",
-            borderRadius: "30px",
-            backgroundColor: [property.value ? "background.on" : "background.off"]
+            borderRadius: 3,
         }}>
-            <Stack sx={{flexDirection: "row", width: "100%", m:"10px"}}>
-                <Stack sx={{flexDirection: "column",width:"20%"}}>
-                    <Typography variant="subtitle1">
+            <Stack sx={{flexDirection: "column", width: "100%", m: "10px"}}>
+                <Stack sx={{flexDirection: "column", width: "20%"}}>
+                    <Typography variant="subtitle2">
                         {t(property.detail.label)}
                     </Typography>
-                    <Typography variant="h6">
+
+                </Stack>
+                <Stack direction={"row"}>
+                    <Typography variant="h6" sx={{ width: "20%",mb:1}} >
                         {property.value}%
                     </Typography>
-                </Stack>
+                    <Slider
+                        sx={{ml: 1, width: "80%", mr:1}}
+                        defaultValue={property?.value}
+                        aria-label="Default"
+                        step={property.detail.step}
+                        min={property.detail.min}
+                        max={property.detail.max}
 
-                <Slider
-                    sx={{mx:"20px", width:"80%", mr:"3%"}}
-                    defaultValue={70}
-                    aria-label="Default"
-                    step={property.detail.step}
-                    min={property.detail.min}
-                    max={property.detail.max}
-                    valueLabelDisplay="auto"
-                    onChange={(event, newValue) => {
-                        setValue(newValue)
-                    }}
-                />
+                        onChange={(event, newValue) => {
+                            setValue(newValue)
+                        }}
+                    />
+                </Stack>
 
             </Stack>
 
