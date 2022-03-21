@@ -5,7 +5,7 @@ import {gateway} from "../App";
 import constant from "../js/constant";
 
 
-export default function useThing(thingId) {
+export default function useThing(thing) {
 
     const [thing, setThing] = useState(null)
 

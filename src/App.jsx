@@ -20,7 +20,7 @@ import Box from "@mui/material/Box";
 import NewThings from "./views/Things/NewThings";
 import Thing from "./views/Things/Thing";
 import ThingPanelLayout from "./views/Layout/ThingPanelLayout";
-
+import ThingDialogLayout from "./views/Layout/ThingDialogLayout";
 const theme = createTheme();
 export const AppContext = createContext({})
 
@@ -61,7 +61,8 @@ function App() {
                             <Route exact path={Path.Login} element={<SignIn/>}/>
                             <Route exact path={Path.NewThings} element={<NewThings/>}/>
                             <Route path="/things" element={<ThingPanelLayout/>}>
-                                <Route path={":thingId"} element={<Thing/>}/>
+                                {/*<Route path={":thingId"} element={<Thing/>}/>*/}
+                                <Route path={":thingId"} element={<ThingDialogLayout/>}/>
                             </Route>
                         </Routes>
                     </Router>

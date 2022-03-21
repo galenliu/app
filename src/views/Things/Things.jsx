@@ -17,6 +17,8 @@ export default function Things(props) {
     const {setTitle} = useContext(AppContext)
     const [things] = useThings(gateway)
 
+
+
     useEffect(() => {
         setTitle(t(enTrans.Home))
         console.log("Home view things Data:", things)
