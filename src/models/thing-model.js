@@ -179,7 +179,7 @@ export default class ThingModel extends Model {
 
             this.properties[propName] = value
             updateProperties[propName] = value
-            //console.log("this.properties:", this.properties)
+
         }
         return this.handleEvent(Constants.PROPERTY_STATUS, updateProperties)
     }
