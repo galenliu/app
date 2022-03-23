@@ -12,17 +12,10 @@ export default function useThings(gateway) {
             let list = []
             if (things.size !== 0) {
                 for (let [thingId, description] of thingDescriptions) {
-                    let thingModel = gateway.getThingModel(thingId).then(((model) => {
-                        let t = createThingFromCapability(description.selectedCapability, thingModel, description)
-                        let thing = useThing(t)
-                        if(thing){
-                            list.push(list)
-                        }
-                    }))
-
-
+                    list.push(description)
                 }
             }
+            setThings(list)
         } catch (e) {
             console.warn(e)
         }

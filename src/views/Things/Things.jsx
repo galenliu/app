@@ -18,7 +18,6 @@ export default function Things(props) {
     const [things] = useThings(gateway)
 
 
-
     useEffect(() => {
         setTitle(t(enTrans.Home))
         console.log("Home view things Data:", things)
@@ -47,9 +46,9 @@ export default function Things(props) {
 
             <Grid sx={{mt: 8}} container direction="row">
                 {
-                    things.map((thingId, i) => {
+                    things.map((description, i) => {
                         return (
-                            <ThingCard key={i} thingId={thingId}/>
+                            <ThingCard key={i} description={description}/>
                         )
                     })
                 }

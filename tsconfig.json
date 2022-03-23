@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "target": "es2018",
+    "baseUrl": "./src",
     "lib": [
       "es2018",
       "dom"

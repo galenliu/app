@@ -20,7 +20,7 @@ import * as theme from "@material-ui/system";
 
 export default function ThingCard(props) {
 
-    const [thing] = useThing(props.thingId)
+    const [thing] = useThing(props.description)
     const {t} = useTranslation();
     const navigate = useNavigate()
     // const [thing,setProperty] = useThing(props.thing.id)

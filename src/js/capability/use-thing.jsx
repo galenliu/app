@@ -1,18 +1,25 @@
 import {useEffect, useState} from "react";
-import {Constants} from "../constant";
+import {Capability,Constants} from "../constant";
+import useLight from "./use-light";
+import {use} from "i18next";
 
 
-export default function useThing(thing) {
+export default function useThing(description) {
     const [connected, setConnected] = useState(false)
-    const title = thing.title
-    const id = thing.id
-    const groupId = thing.groupId
+    const [thing,setThing]= useState()
+    const title = description.title
+    const id = description.id
+    const groupId = description.groupId
 
     function onConnected(connected) {
         setConnected(connected)
     }
 
     useEffect(() => {
+        if(description.selectedCapability === Capability.Light){
+            const {thing}=useLight(description)
+            setThing(thing)
+        }
         thing.model.subscribe(Constants.CONNECTED, onConnected)
     }, [])
 
