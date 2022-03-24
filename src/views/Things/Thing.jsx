@@ -82,12 +82,12 @@ export default function Thing() {
             </Card>
 
             {thing?.selectedCapability === Capability.Light && <Light thing={thing}/>}
-            {thing?.selectedCapability === Capability.MultiLevelSwitch && <MultiLevelSwitch thing={thing}/>}
-            {thing?.selectedCapability === Capability.OnOffSwitch && <OnOffSwitch thing={thing}/>}
+            {thing?.selectedCapability === Capability.MultiLevelSwitch && <MultiLevelSwitch description={thing}/>}
+            {thing?.selectedCapability === Capability.OnOffSwitch && <OnOffSwitch description={thing}/>}
             {thing?.selectedCapability === Capability.Alarm && <Alarm thing={thing}/>}
             {thing?.selectedCapability === Capability.AirQualitySensor && <AirQualitySensor thing={thing}/>}
             {thing?.selectedCapability === Capability.BarometricPressureSensor &&
-                <BarometricPressureSensor thing={thing}/>}
+                <BarometricPressureSensor description={thing}/>}
             {thing?.selectedCapability === Capability.BinarySensor && <BinarySensor thing={thing}/>}
             {thing?.selectedCapability === Capability.Camera && <Camera thing={thing}/>}
             {thing?.selectedCapability === Capability.ColorControl && <ColorControl thing={thing}/>}

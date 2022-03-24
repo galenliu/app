@@ -18,7 +18,6 @@ import InstalledAddonsView from "./views/Addons/InstelledAddons";
 import DiscoverAddonsView from "./views/Addons/DiscoverAddons";
 import Box from "@mui/material/Box";
 import NewThings from "./views/Things/NewThings";
-import Thing from "./views/Things/Thing";
 import ThingPanelLayout from "./views/Layout/ThingPanelLayout";
 import ThingDialogLayout from "./views/Layout/ThingDialogLayout";
 const theme = createTheme();

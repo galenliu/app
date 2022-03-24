@@ -5,14 +5,14 @@ import {gateway} from "../App";
 import constant from "../js/constant";
 
 
-export default function useThing(thingDescription) {
+export default function useThing({description}) {
 
     const [thing, setThing] = useState(null)
 
     useEffect(async () => {
-        const description = await gateway.getThing(thingDescription.id)
-        const thingModel = await gateway.getThingModel(thingDescription.id)
-        let thing = createThingFromCapability(thingDescription.selectedCapability, thingModel, description, null)
+        const description = await gateway.getThing(description.id)
+        const thingModel = await gateway.getThingModel(description.id)
+        let thing = createThingFromCapability(description.selectedCapability, thingModel, description, null)
         setThing({...thing, connected: thing.model.connected})
 
         const onDelete = (message) => {

@@ -8,32 +8,32 @@ import List from "@mui/material/List";
 import LevelProperty from "../property/LevelProperty";
 import {useEffect} from "react";
 
-export default function MultiLevelSwitch(props) {
+export default function MultiLevelSwitch({description}) {
     const {t} = useTranslation();
 
     useEffect(()=>{
-        console.log("MultiLevelSwitch data:",props.thing)
+        console.log("MultiLevelSwitch data:",description)
     })
     const {
         onProperty,
         levelProperty,
-    } = useMultiLevelSwitch(props.thing)
+    } = useMultiLevelSwitch(description={description})
 
     return (
         <List spacing={2} sx={{borderRadius: "3px"}}>
             {onProperty.property &&
                 <OnOffProperty property={onProperty}/>}
-            {levelProperty.property &&
+            {levelProperty?.property &&
                 <LevelProperty property={levelProperty}/>}
         </List>
     );
 }
 
 
-export function useMultiLevelSwitch(thing) {
+export function useMultiLevelSwitch({description}) {
 
-    const {onProperty} = useOnOffSwitch(thing)
-    const levelProperty = useProperty(thing, thing.levelProperty)
+    const {thing,onProperty} = useOnOffSwitch(description={description})
+    const levelProperty = useProperty(thing, thing?.levelProperty)
 
     useEffect(() => {
         console.log("useMultiLevelSwitch:", thing)

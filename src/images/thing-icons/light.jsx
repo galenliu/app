@@ -2,7 +2,7 @@ import * as React from 'react';
 import {createSvgIcon} from '@mui/material/utils';
 import {SvgIcon} from "@mui/material";
 
-export default function Light(props) {
+export default function LightIcon(props) {
     return (
         <SvgIcon {...props}>
             <svg t="1647271406970" className="icon" viewBox="0 0 1024 1024" version="1.1"
