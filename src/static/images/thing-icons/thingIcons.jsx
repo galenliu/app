@@ -1,5 +1,5 @@
 import Light from "./light";
-import {Capability} from "../../js/constant";
+import {Capability} from "src/js/constants";
 import OnOffSwitch from "./on_off_switch";
 import BinarySensor from "./binary_sensor";
 import Box from "@mui/material/Box";

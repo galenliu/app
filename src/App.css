@@ -1,7 +1,5 @@
 .App {
   text-align: center;
-  height: 100%;
-  width: 100%;
 }
 
 .App-logo {
@@ -41,8 +39,4 @@
 
 button {
   font-size: calc(10px + 2vmin);
-}
-
-.colorListItem .react-colorful {
-  width: 100%;
 }

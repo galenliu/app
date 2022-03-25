@@ -1,8 +1,8 @@
 import Model from "./model";
-import ReopeningWebSocket from "../models/reopening-web-socket";
-import Constants from "../js/constant";
-import ThingModel from "./thing-model";
-import Api from "../js/api";
+import ReopeningWebSocket from "src/models/reopening-web-socket";
+import Constants from "src/js/constants";
+import ThingModel from "src/models/thing-model";
+import Api from "src/js/api";
 
 
 export default class GatewayModel extends Model {

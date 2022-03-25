@@ -1,4 +1,4 @@
-import Constants from '../../constants';
+import Constants from 'src/js/constants';
 import Thing from './thing';
 
 export default class OnOffSwitch extends Thing {

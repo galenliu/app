@@ -1,11 +1,8 @@
-/**
- * Create a new "pair" action on the gateway.
- */
 import {useEffect, useRef, useState} from "react";
-import API from "../js/api"
-import {Status} from "../views/Things/NewThings"
+import API from "src/js/api"
+import {Status} from "src/views/Things/NewThings"
 
-export default function UseAddThings(timeout) {
+export default function useAddThings(timeout) {
     const [newThing, setNewThing] = useState({})
     const [actionUrl, setActionUrl] = useState()
     const ws = useRef(null)
@@ -91,7 +88,6 @@ export default function UseAddThings(timeout) {
     }
 
     function onMessage(event) {
-        console.log("111111111111111",event)
         if (event.data) {
             if (!event.data) {
                 return

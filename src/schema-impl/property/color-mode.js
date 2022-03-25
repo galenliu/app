@@ -7,15 +7,5 @@ export default class ColorModeDetail extends EnumDetail {
     // this.id = `color-mode-${Utils.escapeHtmlForIdClass(this.name)}`;
   }
 
-  update(value) {
-    if (this.readOnly) {
-      if (!this.labelElement) {
-
-      }
-
-    } else {
-      super.update(value);
-    }
-  }
 }
 

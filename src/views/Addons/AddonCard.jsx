@@ -1,11 +1,11 @@
 import {useTranslation} from "react-i18next";
 import Card from "@mui/material/Card";
 import {Alert, CardMedia, Stack} from "@mui/material";
-import AdapterIcon from "../../images/adapter-icon";
+import AdapterIcon from "../../static/images/adapter-icon";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
-import enTrans from "../../i18n/en-us.json";
+import enTrans from "src/js/i18n/en-us.json";
 import Link from "@mui/material/Link";
 import Button from "@mui/material/Button";
 import SettingsIcon from "@mui/icons-material/Settings";

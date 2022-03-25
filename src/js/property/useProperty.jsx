@@ -1,18 +1,19 @@
 import React, {useEffect, useState} from "react";
-import Constants from "../../constants";
+import Constants from "src/js/constants";
 import useDebouncy from "use-debouncy/lib/effect";
 
 
 export default function useProperty(thing, name) {
-    if(!thing || !name){
+
+    console.log("@@@@thing,name", thing,name)
+
+    if (!thing || !name) {
         return null
     }
     //获取Property的Value，Value的存取位置： gateway.thingModel[:thingId].properties[name]
-    console.log("1111111111111111",thing)
-    const property = thing?.displayedProperties[name] || {}
+    const property = thing.displayedProperties[name]
     const [debounceValue, setValue] = useState()
     const [value, set] = useState(thing.model?.properties[name])
-
 
 
     //去抖动

@@ -3,16 +3,15 @@ import Grid from "@mui/material/Grid";
 import React, {useContext, useEffect, useState} from "react";
 import AddonCard from "./AddonCard"
 import IconButton from "@mui/material/IconButton";
-import {Path} from "../../js/menuList";
+import {Path} from "src/js/menuList";
 import {useNavigate} from "react-router-dom";
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import {AppContext} from "../../App";
 import {fetchAvailableAddonList} from "./FatchAddons";
-import API from "../../js/api";
+import API from "src/js/api";
 import {useTranslation} from "react-i18next";
-import enTrans from "../../i18n/en-us.json"
+import enTrans from "src/js/i18n/en-us.json"
 import {CircularProgress, Fab} from "@mui/material";
-import {Status} from "../Things/NewThings";
 
 export default function DiscoverAddonsView(props) {
     const {t} = useTranslation();

@@ -1,16 +1,16 @@
 import {defineConfig} from 'vite'
 import react from '@vitejs/plugin-react'
-import {resolve} from "path"
+import {resolve} from "path";
 
-// import {viteMockServe} from 'vite-plugin-mock'
 
 // https://vitejs.dev/config/
 export default defineConfig({
     plugins: [react(),],
-    base: "./",
     resolve: {
         alias: {
-            comp: resolve(__dirname, 'src/components'),
+            // "@components": resolve(__dirname, 'src/components'),
+            'src': resolve(__dirname, 'src'),
+            'js': resolve(__dirname, 'src/js')
         }
     },
 
@@ -64,5 +64,4 @@ export default defineConfig({
         }
     }
 })
-
 

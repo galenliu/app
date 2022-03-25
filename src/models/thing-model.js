@@ -1,7 +1,7 @@
-import Model from "./model";
-import Constants from "../constants";
-import {selectFormHref} from "../utils.ts";
-import Api from "../js/api";
+import Model from "src/models/model";
+import Constants from "src/js/constants";
+import {selectFormHref} from "src/js/util";
+import Api from "src/js/api";
 
 
 export default class ThingModel extends Model {

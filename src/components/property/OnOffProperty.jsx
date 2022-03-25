@@ -1,5 +1,5 @@
 import {Fab, ListItem, ListItemText, Stack, SvgIcon} from "@mui/material";
-import enTrans from "../../i18n/en-us.json"
+import enTrans from "src/js/i18n/en-us.json"
 import {useTranslation} from "react-i18next";
 import Switch from '@mui/material/Switch';
 import {useEffect} from "react";

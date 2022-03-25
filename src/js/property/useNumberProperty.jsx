@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import Constants from "../../constants";
+import Constants from "src/js/constants";
 import useDebouncy from "use-debouncy/lib/effect";
 import useProperty from "./useProperty";
 

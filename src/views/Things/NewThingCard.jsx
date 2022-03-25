@@ -2,11 +2,11 @@ import Card from "@mui/material/Card";
 import Typography from "@mui/material/Typography";
 import {InputLabel, MenuItem, NativeSelect, Select, Stack, TextField} from "@mui/material";
 import {useTranslation} from "react-i18next";
-import enTrans from "../../i18n/en-us.json"
+import enTrans from "src/js/i18n/en-us.json"
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import FormControl from "@mui/material/FormControl";
-import ThingIcons from "../../images/thing-icons/thingIcons";
+import ThingIcons from "src/static/images/thing-icons/thingIcons";
 import {useState} from "react";
 
 export default function NewThingCard(props) {

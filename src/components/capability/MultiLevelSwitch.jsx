@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {useTranslation} from "react-i18next";
-import enTrans from "../../i18n/en-us.json"
+import enTrans from "src/js/i18n/en-us.json"
 import OnOffProperty from "../property/OnOffProperty";
 import List from "@mui/material/List";
 import LevelProperty from "../property/LevelProperty";

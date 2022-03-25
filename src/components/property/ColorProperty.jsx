@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react"
 import {HexColorPicker} from "react-colorful";
 import {useTranslation} from "react-i18next";
 import {ListItem, ListItemText, ListSubheader} from "@mui/material";
-import enTrans from "../../i18n/en-us.json";
+import enTrans from "src/js/i18n/en-us.json";
 import Switch from "@mui/material/Switch";
 import useDebouncy from "use-debouncy/lib/effect";
 import Card from "@mui/material/Card";

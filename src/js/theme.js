@@ -1,7 +1,5 @@
-import {green, purple} from "@mui/material/colors";
 
-
-export const DefaultTheme = {
+export const Theme = {
 
     "palette": {
         "common": {

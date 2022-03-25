@@ -2,37 +2,37 @@ import React, {useContext, useEffect, useState} from "react";
 import Grid from "@mui/material/Grid";
 import {useTranslation} from "react-i18next";
 import {AppContext, gateway} from "../../App";
-import enTrans from "../../i18n/en-us.json"
+import enTrans from "src/js/i18n/en-us.json"
 import {Path} from "../../js/menuList";
 import AddIcon from "@mui/icons-material/Add";
 import {useNavigate} from "react-router-dom";
 import Box from "@mui/material/Box";
-import {Fab} from "@mui/material";
-import useThings from "../../js/use-things";
-import {Capability} from "../../js/constant";
-import Light from "../../components/capability/Light";
-import MultiLevelSwitch from "../../components/capability/MultiLevelSwitch";
-import OnOffSwitch from "../../components/capability/OnOffSwitch";
-import Alarm from "../../components/capability/Alarm";
-import AirQualitySensor from "../../components/capability/AirQualitySensor";
-import BarometricPressureSensor from "../../components/capability/BarometricPressureSensor";
-import BinarySensor from "../../components/capability/BinarySensor";
-import Camera from "../../components/capability/Camera";
-import ColorControl from "../../components/capability/ColorControl";
-import ColorSensor from "../../components/capability/ColorSensor";
-import DoorSensor from "../../components/capability/DoorSensor";
-import EnergyMonitor from "../../components/capability/EnergyMonitor";
-import HumiditySensor from "../../components/capability/HumiditySensor";
-import LeakSensor from "../../components/capability/LeakSensor";
-import Lock from "../../components/capability/Lock";
-import MotionSensor from "../../components/capability/MotionSensor";
-import MultiLevelSensor from "../../components/capability/MultiLevelSensor";
-import PushButton from "../../components/capability/PushButton";
-import SmartPlug from "../../components/capability/SmartPlug";
-import SmokeSensor from "../../components/capability/SmokeSensor";
-import TemperatureSensor from "../../components/capability/TemperatureSensor";
-import Thermostat from "../../components/capability/Thermostat";
-import VideoCamera from "../../components/capability/VideoCamera";
+import {Button, Fab} from "@mui/material";
+import useThings from "src/js/use-things";
+import {Capability} from "src/js/constants";
+import Light from "src/components/capability/Light";
+import MultiLevelSwitch from "src/components/capability/MultiLevelSwitch";
+import OnOffSwitch from "src/components/capability/OnOffSwitch";
+import Alarm from "src/components/capability/Alarm";
+import AirQualitySensor from "src/components/capability/AirQualitySensor";
+import BarometricPressureSensor from "src/components/capability/BarometricPressureSensor";
+import BinarySensor from "src/components/capability/BinarySensor";
+import Camera from "src/components/capability/Camera";
+import ColorControl from "src/components/capability/ColorControl";
+import ColorSensor from "src/components/capability/ColorSensor";
+import DoorSensor from "src/components/capability/DoorSensor";
+import EnergyMonitor from "src/components/capability/EnergyMonitor";
+import HumiditySensor from "src/components/capability/HumiditySensor";
+import LeakSensor from "src/components/capability/LeakSensor";
+import Lock from "src/components/capability/Lock";
+import MotionSensor from "src/components/capability/MotionSensor";
+import MultiLevelSensor from "src/components/capability/MultiLevelSensor";
+import PushButton from "src/components/capability/PushButton";
+import SmartPlug from "src/components/capability/SmartPlug";
+import SmokeSensor from "src/components/capability/SmokeSensor";
+import TemperatureSensor from "src/components/capability/TemperatureSensor";
+import Thermostat from "src/components/capability/Thermostat";
+import VideoCamera from "src/components/capability/VideoCamera";
 
 export default function Things(props) {
     const {t} = useTranslation();
@@ -44,18 +44,22 @@ export default function Things(props) {
 
     useEffect(() => {
         setTitle(t(enTrans.Home))
-
         return () => {
-            console.log("Exits Home view")
         }
     }, [])
 
-    function readerThings() {
+    useEffect(() => {
+        console.log("Things View:",things)
+        return () => {
+        }
+    }, [things])
 
+
+    function readerThings() {
         const list = []
-        if (things && things.length > 0) {
+        if (things.length > 0) {
             for (const description of things) {
-                if (description!== null && description !== undefined) {
+                if (description.id && description.title && description.selectedCapability) {
                     switch (description.selectedCapability) {
                         case Capability.Alarm:
                             list.push(<Alarm key={description.id} description={description} showThingId={showThingId}/>)
@@ -118,10 +122,10 @@ export default function Things(props) {
                         //     list.push(<MultiLevelSwitch key={description.id} description={description}
                         //                                 showThingId={showThingId}/>)
                         //     break
-                        case Capability.OnOffSwitch:
-                            list.push(<OnOffSwitch key={description.id} description={description}
-                                                   showThingId={showThingId}/>)
-                            break
+                        // case Capability.OnOffSwitch:
+                        //     list.push(<OnOffSwitch key={description.id} description={description}
+                        //                            showThingId={showThingId}/>)
+                        //     break
                         case Capability.PushButton:
                             list.push(<PushButton key={description.id} description={description}
                                                   showThingId={showThingId}/>)

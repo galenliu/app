@@ -1,4 +1,4 @@
-import * as Utils from "../../utils";
+import {escapeHtmlForIdClass} from "src/js/util";
 
 class ColorDetail {
   constructor(thing, name, property) {
@@ -6,7 +6,7 @@ class ColorDetail {
     this.name = name;
     this.readOnly = !!property.readOnly;
     this.label = property.title || 'color';
-    this.id = `color-${Utils.escapeHtmlForIdClass(this.name)}`;
+    this.id = `color-${escapeHtmlForIdClass(this.name)}`;
   }
 
 

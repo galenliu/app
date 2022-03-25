@@ -3,14 +3,14 @@ import React, {useContext, useEffect, useState} from "react";
 import Box from "@mui/material/Box";
 import AddIcon from "@mui/icons-material/Add";
 import IconButton from "@mui/material/IconButton";
-import {Path} from "../../js/menuList";
+import {Path} from "src/js/menuList";
 import {useNavigate} from "react-router-dom";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
-import API from "../../js/api";
+import API from "src/js/api";
 import {fetchAvailableAddonList} from "./FatchAddons";
 import {AppContext} from "../../App";
 import AddonCard, {versionStringCompare} from "./AddonCard"
-import enTrans from "../../i18n/en-us.json"
+import enTrans from "src/js/i18n/en-us.json"
 import {Fab} from "@mui/material";
 
 

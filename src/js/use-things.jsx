@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import Constants from "../constants";
+import Constants from "src/js/constants";
 
 
 export default function useThings(gateway) {
@@ -10,7 +10,7 @@ export default function useThings(gateway) {
             let list = []
             if (things.size !== 0) {
                 for (let [thingId, description] of thingDescriptions) {
-                    if(description){
+                    if (description) {
                         list.push(description)
                     }
                 }

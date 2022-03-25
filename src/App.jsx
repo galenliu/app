@@ -1,28 +1,28 @@
-import {useState, createContext, useEffect} from 'react'
+import React, {useState, createContext, useEffect} from 'react'
 import './App.css'
-import Things from "./views/Things/Things";
-import Rules from "./views/Rules/Rules";
+import Things from "src/views/Things/Things";
+import Rules from "src/views/Rules/Rules";
 import {HashRouter as Router, Route, Routes} from "react-router-dom"
-import Settings from "./views/Settings/Settings";
-import SignUp from "./views/Singn/SignUp";
-import SignIn from "./views/Singn/SignIn";
-import {DefaultTheme} from "./js/defaultTheme";
+import Settings from "src/views/Settings/Settings";
+import SignUp from "src/views/Singn/SignUp";
+import SignIn from "src/views/Singn/SignIn";
+import {Theme} from "src/js/theme";
 import {createTheme, ThemeProvider} from "@mui/material/styles";
 import {useTranslation} from "react-i18next";
-import "./i18n"
 import GatewayModel from "./models/gateway-model";
-import Layout from "./views/Layout/Layout";
-import {Path} from "./js/menuList";
-import enTrans from "./i18n/en-us.json"
+import Layout from "src/views/Layout/Layout";
+import {PATHS} from "src/js/constants";
+import enTrans from "src/js/i18n/en-us.json"
 import InstalledAddonsView from "./views/Addons/InstelledAddons";
-import DiscoverAddonsView from "./views/Addons/DiscoverAddons";
+import DiscoverAddonsView from "src/views/Addons/DiscoverAddons";
 import Box from "@mui/material/Box";
-import NewThings from "./views/Things/NewThings";
-import ThingPanelLayout from "./views/Layout/ThingPanelLayout";
-import ThingDialogLayout from "./views/Layout/ThingDialogLayout";
-const theme = createTheme();
-export const AppContext = createContext({})
+import NewThings from "src/views/Things/NewThings";
+import ThingPanelLayout from "src/views/Layout/ThingPanelLayout";
+import ThingDialogLayout from "src/views/Layout/ThingDialogLayout";
+import "src/js/i18n"
 
+const theme = createTheme(Theme);
+export const AppContext = createContext({})
 export const gateway = new GatewayModel()
 
 function App() {
@@ -33,7 +33,7 @@ function App() {
     const [title, setTitle] = useState(t(enTrans.Things))
 
     useEffect(() => {
-        window.document.title = title
+        window.document.title = title.toString()
     }, [title])
 
     return (
@@ -50,15 +50,15 @@ function App() {
                         <Routes>
                             <Route path="/" element={<Layout/>}>
                                 <Route index element={<Things/>}/>
-                                <Route path={Path.Home} element={<Things/>}/>
-                                <Route path={Path.Rules} element={<Rules/>}/>
-                                <Route path={Path.Settings} element={<Settings/>}/>
+                                <Route path={PATHS.Home} element={<Things/>}/>
+                                <Route path={PATHS.Rules} element={<Rules/>}/>
+                                <Route path={PATHS.Settings} element={<Settings/>}/>
                             </Route>
-                            <Route path={Path.InstalledAddons} element={<InstalledAddonsView/>}/>
-                            <Route path={Path.DiscoverAddons} element={<DiscoverAddonsView/>}/>
-                            <Route exact path={Path.Register} element={<SignUp/>}/>
-                            <Route exact path={Path.Login} element={<SignIn/>}/>
-                            <Route exact path={Path.NewThings} element={<NewThings/>}/>
+                            <Route path={PATHS.InstalledAddons} element={<InstalledAddonsView/>}/>
+                            <Route path={PATHS.DiscoverAddons} element={<DiscoverAddonsView/>}/>
+                            <Route exact path={PATHS.Register} element={<SignUp/>}/>
+                            <Route exact path={PATHS.Login} element={<SignIn/>}/>
+                            <Route exact path={PATHS.NewThings} element={<NewThings/>}/>
                             <Route path="/things" element={<ThingPanelLayout/>}>
                                 {/*<Route path={":thingId"} element={<Thing/>}/>*/}
                                 <Route path={":thingId"} element={<ThingDialogLayout/>}/>

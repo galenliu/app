@@ -1,13 +1,13 @@
 import ActionDetail from '../action/action';
 import AlarmDetail from '../property/alarm';
-import API from '../../js/api';
+import API from 'src/js/api';
 import App from '../../app';
 import BooleanDetail from '../property/boolean';
 import BrightnessDetail from '../property/brightness';
 import ColorDetail from '../property/color';
 import ColorModeDetail from '../property/color-mode';
 import ColorTemperatureDetail from '../property/color-temperature';
-import Constants from '../../constants';
+import Constants from 'src/js/constants';
 import CurrentDetail from '../property/current';
 import EnumDetail from '../property/enum';
 import FrequencyDetail from '../property/frequency';
@@ -31,11 +31,10 @@ import TemperatureDetail from '../property/temperature';
 import ThermostatModeDetail from '../property/thermostat-mode';
 import ThingDetailLayout from './thing-detail-layout';
 import UnlockActionDetail from '../action/unlock';
-import {selectFormHref, adjustInputValue} from '../../utils';
-
+import {selectFormHref, adjustInputValue} from 'src/js/util';
 import VideoDetail from '../property/video';
 import VoltageDetail from '../property/voltage';
-import Units from "../../units";
+import Units from "src/js/units";
 
 class Thing {
     /**

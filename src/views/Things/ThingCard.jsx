@@ -7,10 +7,11 @@ import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
 import IconButton from "@mui/material/IconButton";
 
 
-export default function ThingCard({thing, onProperty}) {
+export default function ThingCard({thing, onProperty, state}) {
+
 
     useEffect(() => {
-        console.log("thing card data:", thing)
+        console.log("thing card data111111111:", thing)
     }, [])
 
     return (
@@ -32,7 +33,7 @@ export default function ThingCard({thing, onProperty}) {
                     {thing?.icon}
                 </Box>
                 <Box sx={{display: "flex", flexDirection: "column"}}>
-                    {thing?.onProperty !== null && <IconButton onClick={(e) => {
+                    {onProperty !== null && <IconButton onClick={(e) => {
                         e.stopPropagation();
                         onProperty?.setValue(!onProperty.value)
                     }}>
@@ -50,11 +51,11 @@ export default function ThingCard({thing, onProperty}) {
                 alignItems: "start"
             }}>
                 <Typography sx={{fontSize: 14, flex: "60%",}} color="text.main" gutterBottom>
-                    {thing?.title ? thing.title : "Null"}
+                    {thing?.title ? thing?.title : "Null"}
                 </Typography>
                 <Typography sx={{fontSize: 10, flex: "40%"}}
                             color="text.secondary" gutterBottom>
-                    {thing?.state}
+                    {state}
                 </Typography>
                 <Typography sx={{fontSize: 10, flex: "40%"}}
                             color="text.secondary" gutterBottom>

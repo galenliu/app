@@ -4,7 +4,7 @@ import AlarmOnIcon from "@mui/icons-material/AlarmOn";
 import SettingsIcon from "@mui/icons-material/Settings";
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import PersonIcon from '@mui/icons-material/Person';
-import enTrans from "../i18n/en-us.json"
+import enTrans from "src/js/i18n/en-us.json"
 import {useTranslation} from "react-i18next";
 
 

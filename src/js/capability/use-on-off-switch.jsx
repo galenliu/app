@@ -4,15 +4,13 @@ import useBooleanProperty from "../property/useBooleanProperty";
 
 
 export default function useOnOffSwitch(description) {
-    if (!description) {
-        return null
-    }
+
     const thing = useThing(description)
-    const onProperty = useBooleanProperty(thing, thing?.onProperty)
+    const onProperty = useBooleanProperty(thing,thing?.onProperty)
 
     useEffect(() => {
-        console.log("useThing:", thing, "description:", description)
-    })
+
+    }, [thing])
 
     return {thing, onProperty}
 }

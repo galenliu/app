@@ -10,9 +10,9 @@ import {AppContext} from "../../App";
 import Grid from "@mui/material/Grid";
 import Divider from "@mui/material/Divider";
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
-import enTrans from "../../i18n/en-us.json"
+import enTrans from "src/js/i18n/en-us.json"
 import {useNavigate} from "react-router-dom";
-import {SettingsList} from "../../js/settingsList";
+import {settingItems} from "src/js/constants";
 import Box from "@mui/material/Box";
 
 
@@ -27,6 +27,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 export default function Settings(props) {
+
     const {setTitle} = useContext(AppContext)
     const classes = useStyles();
     const {t} = useTranslation();
@@ -43,15 +44,15 @@ export default function Settings(props) {
                     <List>
                         <Divider/>
                         {
-                            Object.keys(SettingsList).map((k, index) => (
+                            Object.keys(settingItems).map((k, index) => (
                                 <Stack key={index} spacing={0.5}>
                                     <ListItem disablePadding
-                                              onClick={() => (navigate(SettingsList[k].Path))}>
+                                              onClick={() => (navigate(settingItems[k].Path))}>
                                         <ListItemButton className={classes.listItem}>
                                             <ListItemIcon>
-                                                {SettingsList[k].ListItemIcon}
+                                                {settingItems[k].ListItemIcon}
                                             </ListItemIcon>
-                                            <ListItemText primary={t(SettingsList[k].Title)}/>
+                                            <ListItemText primary={t(settingItems[k].Title)}/>
                                             <NavigateNextIcon/>
                                         </ListItemButton>
                                     </ListItem>
