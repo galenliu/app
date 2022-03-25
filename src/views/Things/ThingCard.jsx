@@ -51,7 +51,7 @@ export default function ThingCard({thing, onProperty, state}) {
                 alignItems: "start"
             }}>
                 <Typography sx={{fontSize: 14, flex: "60%",}} color="text.main" gutterBottom>
-                    {thing?.title ? thing?.title : "Null"}
+                    {thing?.title? thing.title : "Null"}
                 </Typography>
                 <Typography sx={{fontSize: 10, flex: "40%"}}
                             color="text.secondary" gutterBottom>
