@@ -12,7 +12,7 @@ import {useLight} from "src/js/capability/use-light";
 export default function Light({description, showThingId}) {
 
     const {
-        thing:thing,
+        thing,
         state,
         onProperty,
         brightnessProperty,
@@ -31,12 +31,12 @@ export default function Light({description, showThingId}) {
         return (
             <>
                 {description.id === showThingId && <Stack spacing={1} sx={{borderRadius: "3px"}}>
-                    {onProperty &&
-                        <OnOffProperty property={onProperty}/>}
-                    {brightnessProperty &&
-                        <BrightnessProperty property={brightnessProperty}/>}
-                    {colorProperty &&
-                        <ColorProperty property={colorProperty}/>}
+                    {/*{onProperty &&*/}
+                    {/*    <OnOffProperty property={onProperty}/>}*/}
+                    {/*{brightnessProperty &&*/}
+                    {/*    <BrightnessProperty property={brightnessProperty}/>}*/}
+                    {/*{colorProperty &&*/}
+                    {/*    <ColorProperty property={colorProperty}/>}*/}
                 </Stack>}
                 {/*<ThingCard onProperty={onProperty} color= {[colorProperty.value ? [onProperty.value ? colorProperty.value : "#bfbfbf"] : [onProperty.value ? "#FF9502" : "#bfbfbf"]]}/>*/}
                 <ThingCard thing={thing} onProperty={onProperty} icon={<LightIcon/>} state={state}/>

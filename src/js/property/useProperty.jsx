@@ -5,15 +5,11 @@ import useDebouncy from "use-debouncy/lib/effect";
 
 export default function useProperty(thing, name) {
 
-    console.log("@@@@thing,name", thing,name)
 
-    if (!thing || !name) {
-        return null
-    }
     //获取Property的Value，Value的存取位置： gateway.thingModel[:thingId].properties[name]
-    const property = thing.displayedProperties[name]
+    //const property = thing.displayedProperties[name] || {}
     const [debounceValue, setValue] = useState()
-    const [value, set] = useState(thing.model?.properties[name])
+    const [value, update] = useState()
 
 
     //去抖动
@@ -30,7 +26,7 @@ export default function useProperty(thing, name) {
             }
             for (let n in data) {
                 if (n === name) {
-                    set(data[n])
+                    update(data[n])
                 }
             }
         }
@@ -50,6 +46,6 @@ export default function useProperty(thing, name) {
         thing?.model?.setProperty(name, value)
     }
 
-    return {...property, value: value, setValue: setValue}
+    return { value: value, setValue: setValue}
 }
 

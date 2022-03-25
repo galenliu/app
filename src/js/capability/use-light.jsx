@@ -11,7 +11,7 @@ import enTrans from "src/js/i18n/en-us.json"
 export function useLight(description) {
 
     const {t} = useTranslation();
-    const {thing, onProperty} = useOnOffSwitch(description)
+    const {thing, onProperty} = useOnOffSwitch(null)
     const [state, setState] = useState("")
     // const brightnessProperty = useBooleanProperty(thing, thing.thing?.brightnessProperty)
     // const colorProperty = useStringProperty(thing, thing?.colorProperty)
@@ -48,7 +48,7 @@ export function useLight(description) {
     }, [brightnessProperty?.value, thing?.connected])
 
     return {
-        thing:thing,
+        thing,
         state,
         onProperty,
         brightnessProperty,

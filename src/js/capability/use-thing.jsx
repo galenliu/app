@@ -6,7 +6,6 @@ import {createThingFromCapability} from "src/schema-impl/capability/capabilities
 
 export default function useThing(description) {
 
-
     const [thing, setThing] = useState({})
 
     useEffect(() => {
@@ -14,25 +13,22 @@ export default function useThing(description) {
     }, [thing])
 
     useEffect(async () => {
+        if (!description) {
+            return Promise.reject("description null")
+        }
         try {
-            const thingDescription = await gateway.getThing(description.id)
-            const thingModel = await gateway.getThingModel(thingDescription.id)
+            const thingDescription = await gateway.getThing(description?.id)
+            const thingModel = await gateway.getThingModel(thingDescription?.id)
             if (!thingDescription || !thingModel) {
                 return
             }
             const thing = createThingFromCapability(thingDescription.selectedCapability, thingModel, thingDescription, null)
-            thing.connected =gateway.connectedThings.has(description.id)
+            thing.connected = gateway.connectedThings.has(description.id)
             setThing({...thing})
-
         } catch (e) {
-            console.error(e)
+            return Promise.reject(e)
         }
 
-        const onDelete = (message) => {
-            if (message.id === thing.id) {
-                setThing(null)
-            }
-        }
         const onConnected = (connected) => {
             if (thing) {
                 setThing({...thing, connected: connected})
@@ -47,6 +43,6 @@ export default function useThing(description) {
                 thing.model?.unsubscribe(constant.CONNECTED, onConnected)
             }
         }
-    }, [])
+    }, [description])
     return thing
 }
