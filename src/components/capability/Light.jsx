@@ -2,17 +2,17 @@ import {Button, Stack} from "@mui/material";
 import OnOffProperty from "../property/OnOffProperty";
 import List from "@mui/material/List";
 import LightIcon from "../../images/thing-icons/light"
-import {useEffect, useState} from "react";
+import React, {useEffect} from "react";
 import ColorProperty from "../property/ColorProperty";
 import BrightnessProperty from "../property/BrightnessProperty";
-import useOnOffSwitch from "../../hooks/use-onOffSwitch";
-import useProperty from "../../hooks/useProperty";
 import ThingCard from "../../views/Things/ThingCard";
+import {useLight} from "../../js/capability/use-light";
 
 
 export default function Light({description, showThingId}) {
 
     const {
+        thing,
         onProperty,
         brightnessProperty,
         colorProperty,
@@ -22,24 +22,24 @@ export default function Light({description, showThingId}) {
 
 
     useEffect(() => {
-        console.log("light panel data:",description )
+
     }, [])
 
     function reader() {
 
         return (
             <>
-            {description.id === showThingId && <Stack spacing={1} sx={{borderRadius: "3px"}}>
-                {onProperty.property &&
-                    <OnOffProperty property={onProperty}/>}
-                {brightnessProperty.property &&
-                    <BrightnessProperty property={brightnessProperty}/>}
-                {colorProperty.property &&
-                    <ColorProperty property={colorProperty}/>}
-            </Stack>}
-            {/*<ThingCard onProperty={onProperty} color= {[colorProperty.value ? [onProperty.value ? colorProperty.value : "#bfbfbf"] : [onProperty.value ? "#FF9502" : "#bfbfbf"]]}/>*/}
-            <ThingCard onPorperty={onProperty} icon={<LightIcon/>}/>
-        </>
+                {description.id === showThingId && <Stack spacing={1} sx={{borderRadius: "3px"}}>
+                    {onProperty &&
+                        <OnOffProperty property={onProperty}/>}
+                    {brightnessProperty &&
+                        <BrightnessProperty property={brightnessProperty}/>}
+                    {colorProperty &&
+                        <ColorProperty property={colorProperty}/>}
+                </Stack>}
+                {/*<ThingCard onProperty={onProperty} color= {[colorProperty.value ? [onProperty.value ? colorProperty.value : "#bfbfbf"] : [onProperty.value ? "#FF9502" : "#bfbfbf"]]}/>*/}
+                <ThingCard thing={thing} onProperty={onProperty} icon={<LightIcon/>}/>
+            </>
         )
     }
 
@@ -50,13 +50,3 @@ export default function Light({description, showThingId}) {
     )
 }
 
-export function useLight({description}) {
-
-    const {thing,onProperty} = useOnOffSwitch(description={description})
-    const brightnessProperty = useProperty(thing, thing?.brightnessProperty)
-    const colorProperty = useProperty(thing, thing?.colorProperty)
-    const colorTemperatureProperty = useProperty(thing, thing?.colorTemperatureProperty)
-    const colorModeProperty = useProperty(thing, thing?.colorModeProperty)
-
-    return {thing,onProperty, brightnessProperty, colorProperty, colorTemperatureProperty, colorModeProperty}
-}

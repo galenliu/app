@@ -45,7 +45,6 @@ export default class GatewayModel extends Model {
 
     onMessage(event) {
         const message = JSON.parse(event.data);
-        console.log("ws",message);
         switch (message.messageType) {
             case 'connected':
                 console.log("gateway connected",message.data);

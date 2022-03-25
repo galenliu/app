@@ -5,23 +5,21 @@ import Box from "@mui/material/Box";
 import {useEffect} from "react";
 import List from "@mui/material/List";
 import OnOffProperty from "../property/OnOffProperty";
-import LevelProperty from "../property/LevelProperty";
-import useOnOffSwitch from "../../hooks/use-onOffSwitch";
-import useProperty from "../../hooks/useProperty";
+import useOnOffSwitch from "../../js/capability/use-on-off-switch";
 
 export default function OnOffSwitch({description}) {
     const {t} = useTranslation();
 
     useEffect(() => {
-        console.log("MultiLevelSwitch data:",description)
+        console.log("MultiLevelSwitch data:", description)
     })
     const {
-        thing,onProperty
-    } = useOnOffSwitch(description={description})
+        thing, onProperty
+    } = useOnOffSwitch(description)
 
     return (
         <List spacing={2} sx={{borderRadius: "3px"}}>
-            {onProperty.property &&
+            {onProperty &&
                 <OnOffProperty property={onProperty}/>}
         </List>
     );

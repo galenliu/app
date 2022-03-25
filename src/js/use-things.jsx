@@ -1,7 +1,5 @@
 import React, {useEffect, useState} from "react";
 import Constants from "../constants";
-import {createThingFromCapability} from "../schema-impl/capability/capabilities";
-import useThing from "./use-thing";
 
 
 export default function useThings(gateway) {
@@ -12,7 +10,9 @@ export default function useThings(gateway) {
             let list = []
             if (things.size !== 0) {
                 for (let [thingId, description] of thingDescriptions) {
-                    list.push(description)
+                    if(description){
+                        list.push(description)
+                    }
                 }
             }
             setThings(list)

@@ -1,45 +1,49 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
+import React from "react";
+import useBooleanProperty from "../property/useBooleanProperty";
+import useStringProperty from "../property/useStringProperty";
+import useIntegerProperty from "../property/useIntegerProperty";
+import useOnOffSwitch from "./use-on-off-switch";
+import {useTranslation} from "react-i18next";
+import enTrans from "../../i18n/en-us.json"
 
 
-export default function  useLight(prop){
-    const brightnessProperty = useState(null);
-    const colorProperty = useState(null);
-    const colorTemperatureProperty = useState(null);
-    const colorModeProperty = useState(null)
+export function useLight(description) {
+    if(!description){
+        return null
+    }
+    const {t} = useTranslation();
+    const {thing, onProperty} = useOnOffSwitch(description)
+    const [state, setState] = useState("")
+    const brightnessProperty = useBooleanProperty(thing, thing?.brightnessProperty)
+    const colorProperty = useStringProperty(thing, thing?.colorProperty)
+    const colorTemperatureProperty = useIntegerProperty(thing, thing?.colorTemperatureProperty)
+    const colorModeProperty = useStringProperty(thing, thing?.colorModeProperty)
 
-    function findProperties(){
-        for (const name in this.displayedProperties) {
-            const type = this.displayedProperties[name].property['@type'];
+    useEffect(() => {
+        if (!thing.connected) {
+            setState(t(enTrans.disable))
+        } else {
+            if (onProperty.value) {
+                if (brightnessProperty !== null && brightnessProperty.value !== 0) {
+                    setState(brightnessProperty.value + "%")
+                } else {
+                    setState(enTrans.On)
+                }
 
-            if (this.brightnessProperty === null && type === 'BrightnessProperty') {
-                this.brightnessProperty = name;
-            } else if (this.colorProperty === null && type === 'ColorProperty') {
-                this.colorProperty = name;
-            } else if (this.colorTemperatureProperty === null && type === 'ColorTemperatureProperty') {
-                this.colorTemperatureProperty = name;
-            } else if (this.colorModeProperty === null && type === 'ColorModeProperty') {
-                this.colorModeProperty = name;
+            } else {
+                setState(enTrans.Off)
             }
         }
 
-        // If necessary, match on name.
-        if (this.brightnessProperty === null && this.displayedProperties.hasOwnProperty('level')) {
-            this.brightnessProperty = 'level';
-        }
+    }, [brightnessProperty?.value, thing?.connected])
 
-        if (this.colorProperty === null && this.displayedProperties.hasOwnProperty('color')) {
-            this.colorProperty = 'color';
-        }
-
-        if (
-            this.colorTemperatureProperty === null &&
-            this.displayedProperties.hasOwnProperty('colorTemperature')
-        ) {
-            this.colorTemperatureProperty = 'colorTemperature';
-        }
-
-        if (this.colorModeProperty === null && this.displayedProperties.hasOwnProperty('colorMode')) {
-            this.colorModeProperty = 'colorMode';
-        }
+    return {
+        thing: {...thing, state: state},
+        onProperty,
+        brightnessProperty,
+        colorProperty,
+        colorTemperatureProperty,
+        colorModeProperty
     }
 }

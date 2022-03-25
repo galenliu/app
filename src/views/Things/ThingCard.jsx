@@ -1,29 +1,17 @@
 import Card from '@mui/material/Card';
-import {CardMedia, createMuiTheme, Stack} from "@mui/material";
+import {CardMedia, Stack} from "@mui/material";
 import Typography from "@mui/material/Typography";
 import React, {useEffect, useState} from 'react';
 import Box from "@mui/material/Box";
-import LightbulbIcon from '@mui/icons-material/Lightbulb';
 import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
 import IconButton from "@mui/material/IconButton";
 
-import ThingIcons from "../../images/thing-icons/thingIcons";
-import {useNavigate} from "react-router-dom";
-import useProperty from "../../hooks/useProperty";
-import {makeStyles} from "@mui/styles";
-import {useTranslation} from "react-i18next";
-import enTrans from "../../i18n/en-us.json"
-import useThings from "../../hooks/use-things";
-import useThing from "../../hooks/use-thing";
-import {spacing} from "@material-ui/system";
-import * as theme from "@material-ui/system";
 
-export default function ThingCard(thing) {
-
+export default function ThingCard({thing, onProperty}) {
 
     useEffect(() => {
         console.log("thing card data:", thing)
-    }, [thing])
+    }, [])
 
     return (
         <Card
@@ -37,18 +25,18 @@ export default function ThingCard(thing) {
                 width: "120px",
                 height: "120px",
                 padding: "1ox",
-                backgroundColor: [thing.onProperty?.value ? "rgba(255,255,255,1)" : "rgba(219,196,196,0.1)"],
+                backgroundColor: [onProperty?.value ? "rgba(255,255,255,1)" : "rgba(219,196,196,0.1)"],
             }}>
             <Box sx={{display: 'flex', flex: "70%", justifyContent: "space-around"}}>
                 <Box sx={{display: "flex", flex: "70%", justifyContent: "center", alignItems: "center"}}>
-                    {thing.icon}
+                    {thing?.icon}
                 </Box>
                 <Box sx={{display: "flex", flexDirection: "column"}}>
                     {thing?.onProperty !== null && <IconButton onClick={(e) => {
                         e.stopPropagation();
-                        thing.onProperty.setValue(!thing.onProperty.value)
+                        onProperty?.setValue(!onProperty.value)
                     }}>
-                        <PowerSettingsNewIcon sx={{color: thing?.onProperty?.value ? "green" : "gray"}}/>
+                        <PowerSettingsNewIcon sx={{color: onProperty?.value ? "green" : "gray"}}/>
                     </IconButton>
                     }
                 </Box>
@@ -66,7 +54,7 @@ export default function ThingCard(thing) {
                 </Typography>
                 <Typography sx={{fontSize: 10, flex: "40%"}}
                             color="text.secondary" gutterBottom>
-                    {thing.state}
+                    {thing?.state}
                 </Typography>
                 <Typography sx={{fontSize: 10, flex: "40%"}}
                             color="text.secondary" gutterBottom>
