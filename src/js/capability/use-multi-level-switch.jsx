@@ -1,6 +1,6 @@
 import useOnOffSwitch from "./use-on-off-switch";
 import {useEffect} from "react";
-import useNumberProperty from "../property/useNumberProperty";
+import useNumberProperty from "../property/use-number-property";
 
 export function useMultiLevelSwitch(description) {
 

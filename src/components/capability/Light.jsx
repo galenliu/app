@@ -7,6 +7,7 @@ import ColorProperty from "../property/ColorProperty";
 import BrightnessProperty from "../property/BrightnessProperty";
 import ThingCard from "src/views/Things/ThingCard";
 import {useLight} from "src/js/capability/use-light";
+import {fontSize} from "@material-ui/system";
 
 
 export default function Light({description, showThingId}) {
@@ -39,7 +40,7 @@ export default function Light({description, showThingId}) {
                     {/*    <ColorProperty property={colorProperty}/>}*/}
                 </Stack>}
                 {/*<ThingCard onProperty={onProperty} color= {[colorProperty.value ? [onProperty.value ? colorProperty.value : "#bfbfbf"] : [onProperty.value ? "#FF9502" : "#bfbfbf"]]}/>*/}
-                <ThingCard thing={thing} onProperty={onProperty} icon={<LightIcon/>} state={state}/>
+                <ThingCard thing={thing} onProperty={onProperty} icon={<LightIcon sx={{fontSize:45}}/>} state={state}/>
             </>
         )
     }

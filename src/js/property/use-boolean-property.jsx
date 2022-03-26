@@ -1,4 +1,4 @@
-import useProperty from "./useProperty";
+import useProperty from "./use-property";
 import {useEffect} from "react";
 
 

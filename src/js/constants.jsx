@@ -82,7 +82,7 @@ export const Events = {
     VALUE_CHANGED: "valueChanged"
 }
 
-export const  drawerWidth = 20;
+export const  drawerWidth = 200;
 
 export const settingItems = {
     Domain: {

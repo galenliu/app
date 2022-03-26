@@ -5,7 +5,7 @@ import OnOffProperty from "../property/OnOffProperty";
 import List from "@mui/material/List";
 import LevelProperty from "../property/LevelProperty";
 import {useEffect} from "react";
-import {useMultiLevelSwitch} from "../../js/capability/useMultiLevelSwitch";
+import {useMultiLevelSwitch} from "../../js/capability/use-multi-level-switch";
 
 export default function MultiLevelSwitch({description}) {
     const {t} = useTranslation();

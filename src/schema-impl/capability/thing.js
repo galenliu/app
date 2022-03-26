@@ -382,7 +382,6 @@ class Thing {
             if (typeof value === 'undefined' || value === null) {
                 continue;
             }
-
             this.updateProperty(prop, value);
         }
     }

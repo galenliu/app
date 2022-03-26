@@ -4,7 +4,7 @@ import {SvgIcon} from "@mui/material";
 
 export default function LightIcon(props) {
     return (
-        <SvgIcon {...props}>
+        <SvgIcon  {...props}>
             <svg t="1647271406970" className="icon" viewBox="0 0 1024 1024" version="1.1"
                  xmlns="http://www.w3.org/2000/svg" p-id="12477">
                 <path

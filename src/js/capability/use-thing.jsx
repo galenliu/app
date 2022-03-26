@@ -10,7 +10,6 @@ export default function useThing(description) {
 
     useEffect(() => {
         console.log("use Thing:", thing)
-        console.log("use Thing description:", description)
     }, [])
 
     useEffect(async () => {

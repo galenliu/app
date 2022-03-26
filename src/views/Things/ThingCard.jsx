@@ -5,13 +5,14 @@ import React, {useEffect, useState} from 'react';
 import Box from "@mui/material/Box";
 import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
 import IconButton from "@mui/material/IconButton";
+import DisconnectIcon from "src/static/images/disconnect";
 
 
-export default function ThingCard({thing, onProperty, state}) {
+export default function ThingCard({thing, onProperty, state,icon}) {
 
 
     useEffect(() => {
-        console.log("thing card data111111111:", thing)
+
     }, [])
 
     return (
@@ -30,14 +31,15 @@ export default function ThingCard({thing, onProperty, state}) {
             }}>
             <Box sx={{display: 'flex', flex: "70%", justifyContent: "space-around"}}>
                 <Box sx={{display: "flex", flex: "70%", justifyContent: "center", alignItems: "center"}}>
-                    {thing?.icon}
+                    {icon}
                 </Box>
                 <Box sx={{display: "flex", flexDirection: "column"}}>
                     {onProperty !== null && <IconButton onClick={(e) => {
                         e.stopPropagation();
                         onProperty?.setValue(!onProperty.value)
                     }}>
-                        <PowerSettingsNewIcon sx={{color: onProperty?.value ? "green" : "gray"}}/>
+                        {thing?.connected && onProperty!==undefined && <PowerSettingsNewIcon sx={{color: onProperty?.value ? "green" : "gray"}}/>}
+                        {!thing?.connected && <DisconnectIcon/>}
                     </IconButton>
                     }
                 </Box>
@@ -55,11 +57,11 @@ export default function ThingCard({thing, onProperty, state}) {
                 </Typography>
                 <Typography sx={{fontSize: 10, flex: "40%"}}
                             color="text.secondary" gutterBottom>
-                    {state}
+                    {thing.model?.group_id}
                 </Typography>
                 <Typography sx={{fontSize: 10, flex: "40%"}}
                             color="text.secondary" gutterBottom>
-                    {thing?.connected ? "connected" : "disconnected"}
+                    {state}
                 </Typography>
             </Stack>
         </Card>

@@ -52,7 +52,7 @@ export default class ThingModel extends Model {
         this.ws.addEventListener('message', onEvent);
     }
 
-    onConnected(connected){
+    onConnected(connected) {
         this.connected = connected;
         return this.handleEvent(Constants.CONNECTED, connected);
     }
@@ -68,6 +68,9 @@ export default class ThingModel extends Model {
         } else {
             this.id = decodeURIComponent(description.id)
         }
+
+        // Parse group id of Thing
+        this.group_id = description.group_id;
 
         if (description.forms) {
             for (let form of description.forms) {

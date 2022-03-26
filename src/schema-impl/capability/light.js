@@ -13,7 +13,6 @@ export default class Light extends OnOffSwitch {
      */
     constructor(model, description, format) {
         super(model, description, format)
-        this.icon =  <LightbulbIcon />
     }
 
     /**
@@ -60,32 +59,6 @@ export default class Light extends OnOffSwitch {
 
         if (this.colorModeProperty === null && this.displayedProperties.hasOwnProperty('colorMode')) {
             this.colorModeProperty = 'colorMode';
-        }
-    }
-
-
-    /**
-     * Update the display for the provided property.
-     * @param {string} name - name of the property
-     * @param {*} value - value of the property
-     */
-    updateProperty(name, value) {
-        value = super.updateProperty(name, value);
-
-        if (!this.displayedProperties.hasOwnProperty(name)) {
-            return;
-        }
-
-        if (name === this.brightnessProperty) {
-            value = parseInt(value, 10);
-            this.icon.brightness = value;
-        } else if (name === this.colorProperty) {
-            this.icon.color = value;
-        } else if (name === this.colorTemperatureProperty) {
-            value = parseInt(value, 10);
-            this.icon.colorTemperature = value;
-        } else if (name === this.colorModeProperty) {
-            this.icon.colorMode = value;
         }
     }
 
