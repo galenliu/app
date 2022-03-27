@@ -82,7 +82,7 @@ export default function OnOffSwitch({description}) {
                         {description.title}
                     </BootstrapDialogTitle>
 
-                    <Stack spacing={1} sx={{borderRadius: "3px"}}>
+                    <Stack spacing={1} sx={{borderRadius: "3px",boxShadow: 3}}>
 
                         {/*{onProperty &&*/}
                         {/*    <OnOffProperty property={onProperty}/>}*/}

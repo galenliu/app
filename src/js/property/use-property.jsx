@@ -4,7 +4,7 @@ import useDebouncy from "use-debouncy/lib/effect";
 import {gateway} from "../../App";
 
 
-export default function useProperty(thing, name) {
+export default function useProperty(thing, name, debounce) {
 
 
     //获取Property的Value，Value的存取位置： gateway.thingModel[:thingId].properties[name]
@@ -15,7 +15,7 @@ export default function useProperty(thing, name) {
     //去抖动
     useDebouncy(
         () => setProperty(debounceValue), // function debounce
-        400, // number of milliseconds to delay
+        debounce ? debounce : 400, // number of milliseconds to delay
         [debounceValue], // array values that the debounce depends (like as useEffect)
     );
 

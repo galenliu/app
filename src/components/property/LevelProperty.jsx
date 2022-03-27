@@ -8,20 +8,15 @@ import useDebouncy from "use-debouncy/lib/effect";
 import Card from "@mui/material/Card";
 import Typography from "@mui/material/Typography";
 
-export default function LevelProperty(props) {
+export default function LevelProperty({property}) {
 
     const {t} = useTranslation()
-    const [value, setValue] = useState("");
-    const {property} = props
 
-    useDebouncy(
-        () => property.setValue(value),
-        800, // number of milliseconds to delay
-        [value], // array values that the debounce depends (like as useEffect)
-    );
+    const detail = property.property.detail
+
 
     useEffect(() => {
-        console.log("LevelProperty:",property)
+        console.log("LevelProperty:", property)
     }, [])
 
     return (
@@ -30,10 +25,10 @@ export default function LevelProperty(props) {
             borderRadius: "20px",
             backgroundColor: [property.value ? "background.on" : "background.off"]
         }}>
-            <Stack sx={{flexDirection: "row", width: "100%", m:"10px"}}>
-                <Stack sx={{flexDirection: "column",width:"20%"}}>
+            <Stack sx={{flexDirection: "row", width: "100%", m: "10px"}}>
+                <Stack sx={{flexDirection: "column", width: "20%"}}>
                     <Typography variant="subtitle1">
-                        {t(property.detail.label)}
+                        {t(detail?.label)}
                     </Typography>
                     <Typography variant="h5">
                         {property.value}%
@@ -41,12 +36,12 @@ export default function LevelProperty(props) {
                 </Stack>
 
                 <Slider
-                    sx={{mx:"20px", width:"80%",mr:"3%"}}
-                    defaultValue={70}
+                    sx={{mx: "20px", width: "80%", mr: "3%"}}
+                    defaultValue={100}
                     aria-label="Default"
-                    step={property.detail.step}
-                    min={property.detail.min}
-                    max={property.detail.max}
+                    step={detail?.step}
+                    min={detail?.min}
+                    max={detail?.max}
                     valueLabelDisplay="auto"
                     onChange={(event, newValue) => {
                         setValue(newValue)

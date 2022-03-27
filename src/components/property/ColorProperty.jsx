@@ -1,37 +1,48 @@
 import React, {useEffect, useState} from "react"
-import {HexColorPicker} from "react-colorful";
+import {Circle, Wheel} from '@uiw/react-color';
 import {useTranslation} from "react-i18next";
-import {ListItem, ListItemText, ListSubheader} from "@mui/material";
-import enTrans from "src/js/i18n/en-us.json";
-import Switch from "@mui/material/Switch";
-import useDebouncy from "use-debouncy/lib/effect";
+import {Stack} from "@mui/material";
 import Card from "@mui/material/Card";
-import Box from "@mui/material/Box";
 
 export default function ColorProperty(props) {
     const {t} = useTranslation()
-    const [value, setValue] = useState("");
     const {property} = props
+    const detail = property.property.detail
+    const [colors, setColors] = useState(['#ff0000', '#00ff00', '#0000ff', '#DBDF00', '#F44E3B', '#FE9200', '#FCDC00'])
 
-    useDebouncy(
-        () => property.setValue(value),
-        800, // number of milliseconds to delay
-        [value], // array values that the debounce depends (like as useEffect)
-    );
 
     useEffect(() => {
-
-    }, [])
+        if (!colors.includes(property.value)) {
+            let copy = colors
+            copy.shift()
+            copy.push(property.value)
+            setColors([...copy])
+        }
+    }, [property.value])
 
     return (
-        <Card className="colorListItem" sx={{
-            width: "100%",
-            borderRadius: 3,
-            backgroundColor: [property.value ? "background.on" : "background.off"]
-        }}>
-            <Box sx={{m:"20px"}}>
-            <HexColorPicker color={property.value? property.value: ""} onChange={(event) => setValue(event)}/>
-            </Box>
+        <Card
+            sx={{
+                boxShadow: 3,
+                borderRadius: 3,
+            }}>
+            <Stack sx={{
+                m: "20px", flexDirection: "center",
+                alignItems: "center",
+            }}>
+                <Wheel
+                    width={200}
+                    height={200}
+                    color={property.value ? property.value : ""}
+                    onChange={(color) => property.setValue(color.hex)}
+                />
+                <Circle
+                    style={{marginTop: 20}}
+                    colors={colors}
+                    color={property.value ? property.value : ""}
+                    onChange={(color) => property.setValue(color.hex)}
+                />
+            </Stack>
         </Card>
     )
 }

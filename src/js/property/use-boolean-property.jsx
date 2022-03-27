@@ -4,7 +4,7 @@ import {useEffect} from "react";
 
 export default function useBooleanProperty(thing, name) {
 
-    const {property, value, setValue} = useProperty(thing,name)
+    const {property, value, setValue} = useProperty(thing,name,1)
 
     useEffect(() => {
 

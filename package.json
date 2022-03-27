@@ -16,6 +16,7 @@
     "@mui/material": "^5.5.2",
     "@mui/styled-engine-sc": "^5.5.2",
     "@mui/styles": "^5.5.1",
+    "@uiw/react-color": "^1.0.10",
     "babel": "^6.23.0",
     "clsx": "^1.1.1",
     "i18next": "^21.6.14",

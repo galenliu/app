@@ -24,7 +24,11 @@ export default function OnOffProperty(props) {
     })
 
     return (
-        <Card sx={{borderRadius: 3, backgroundColor: [property.value ? "background.on" : "background.off"]}}>
+        <Card sx={{
+            borderRadius: 3,
+            boxShadow: 3,
+            backgroundColor: [property.value ? "grey.50" : "grey.200"]
+        }}>
             <Stack direction={"row"} sx={{mt: 2, mb: 2}}>
                 <Stack direction={"row"} sx={{width: "20%", alignItems: "center", justifyContent: "center"}}>
                     <Typography sx={{width: "20%"}}
@@ -32,9 +36,9 @@ export default function OnOffProperty(props) {
                 </Stack>
                 <Stack width="80%" mr={"20px"} direction={"row"} justifyContent={"flex-end"}>
                     <Fab
-                       size="small"
+                        size="small"
                         onClick={() => property.setValue(!property.value)}
-                        color={property.value ? "success" : "gray"}
+                        color={property.value ? "success" : "default"}
                     >
                         <PowerIcon/>
                     </Fab>
