@@ -51,14 +51,14 @@ export default function NewThingCard(props) {
                                 }
                             </NativeSelect>
                         </FormControl>
-                        <Button variant="contained" onClick={()=>{props.save(thing)}}>
+                        <Button onClick={() => {
+                            props.save(thing)
+                        }}>
                             {t(enTrans.Save)}
                         </Button>
                     </Stack>
-
                 </Stack>
             </Stack>
-
         </Card>
     )
 }

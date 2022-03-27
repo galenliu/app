@@ -8,8 +8,6 @@ export function useMultiLevelSwitch(description) {
     const levelProperty = useNumberProperty(thing, thing?.levelProperty)
 
     useEffect(() => {
-        console.log("useMultiLevelSwitch:", thing)
-        console.log("useMultiLevelSwitch description:", description)
     }, [])
     return {onProperty, levelProperty}
 }

@@ -37,6 +37,9 @@ export default function useAddThings(timeout) {
         ws.current.onmessage = onMessage
 
         return () => {
+            ws.current.onmessage=null
+            ws.current.onopen= null
+            ws.current.onclose =null
             close()
         };
     }, []);

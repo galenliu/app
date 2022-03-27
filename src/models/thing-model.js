@@ -179,10 +179,8 @@ export default class ThingModel extends Model {
             if (typeof value === "undefined" || value === null) {
                 continue
             }
-
             this.properties[propName] = value
             updateProperties[propName] = value
-
         }
         return this.handleEvent(Constants.PROPERTY_STATUS, updateProperties)
     }

@@ -118,14 +118,14 @@ export default function Things(props) {
                             list.push(<MultiLevelSensor key={description.id} description={description}
                                                         showThingId={showThingId}/>)
                             break
-                        // case Capability.MultiLevelSwitch:
-                        //     list.push(<MultiLevelSwitch key={description.id} description={description}
-                        //                                 showThingId={showThingId}/>)
-                        //     break
-                        // case Capability.OnOffSwitch:
-                        //     list.push(<OnOffSwitch key={description.id} description={description}
-                        //                            showThingId={showThingId}/>)
-                        //     break
+                        case Capability.MultiLevelSwitch:
+                            list.push(<MultiLevelSwitch key={description.id} description={description}
+                                                        showThingId={showThingId}/>)
+                            break
+                        case Capability.OnOffSwitch:
+                            list.push(<OnOffSwitch key={description.id} description={description}
+                                                   showThingId={showThingId}/>)
+                            break
                         case Capability.PushButton:
                             list.push(<PushButton key={description.id} description={description}
                                                   showThingId={showThingId}/>)

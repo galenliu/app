@@ -11,7 +11,7 @@ export default function MultiLevelSwitch({description}) {
     const {t} = useTranslation();
 
     useEffect(()=>{
-        console.log("MultiLevelSwitch data:",description)
+        //console.log("MultiLevelSwitch data:",description)
     })
     const {
         onProperty,

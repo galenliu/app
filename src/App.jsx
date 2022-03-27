@@ -29,8 +29,13 @@ function App() {
     const {t} = useTranslation();
     const [availableAddons, setAvailableAddons] = useState(new Map())
     const [installedAddons, setInstalledAddons] = useState(new Map())
-
     const [title, setTitle] = useState(t(enTrans.Things))
+
+    const [showThingId, setShowThingId] = useState()
+
+    const showThing = (thingId) => {
+        setShowThingId(thingId)
+    }
 
     useEffect(() => {
         window.document.title = title.toString()
@@ -39,6 +44,8 @@ function App() {
     return (
         <AppContext.Provider value={{
             setTitle,
+            showThingId,
+            showThing,
             availableAddons,
             setAvailableAddons,
             installedAddons,

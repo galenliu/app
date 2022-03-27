@@ -12,9 +12,9 @@ export default class GatewayModel extends Model {
         this.things = new Map();
         this.connectedThings = new Map();
         this.groups = new Map();
+        this.properties = new Map()
         this.onMessage = this.onMessage.bind(this);
         this.queue = Promise.resolve(true);
-        this.refreshThings().then(() => {})
         this.connectWebSocket();
         return this;
     }
@@ -45,16 +45,19 @@ export default class GatewayModel extends Model {
 
     onMessage(event) {
         const message = JSON.parse(event.data);
+
         switch (message.messageType) {
             case 'connected':
-                console.log("gateway connected",message.data);
                 this.connectedThings.set(message.id, message.data);
-                break;
+                break
             case 'thingAdded':
                 this.refreshThings().then();
                 break;
-            case 'thingModified':
+            case "thingModified":
                 this.refreshThing(message.id);
+                break;
+            case "propertyStatus":
+                this.onPropertyStatus(message);
                 break;
             default:
                 break
@@ -62,13 +65,27 @@ export default class GatewayModel extends Model {
 
     }
 
+    onPropertyStatus(message) {
+
+        if (!this.properties.has(message.id)) {
+            this.properties.set(message.id, {})
+        }
+        for (const prop in message.data) {
+            const value = message.data[prop];
+            if (typeof value === 'undefined' || value === null) {
+                continue;
+            }
+            this.properties.get(message.id)[prop] = value
+        }
+    }
+
+
     connectWebSocket() {
         // const thingsHref = `${window.location.origin}/things?jwt=${API.jwt}`;
         const thingsHref = `${window.location.origin}/things`;
         const wsHref = thingsHref.replace(/^http/, 'ws');
         this.ws = new ReopeningWebSocket(wsHref);
         this.ws.addEventListener('open', this.refreshThings.bind(this));
-
         this.ws.addEventListener('message', this.onMessage);
         //const groupsHref = `${window.location.origin}/groups?jwt=${API.jwt}`;
         // const groupsWsHref = groupsHref.replace(/^http/, 'ws');
@@ -147,7 +164,6 @@ export default class GatewayModel extends Model {
 
     setThing(thingId, description) {
 
-        //console.log("gateway set thing:",thingId,description)
         if (this.thingModels.has(thingId)) {
             let thingModel = this.thingModels.get(thingId)
             thingModel.updateFromDescription(description)

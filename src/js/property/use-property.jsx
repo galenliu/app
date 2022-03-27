@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
 import Constants from "src/js/constants";
 import useDebouncy from "use-debouncy/lib/effect";
+import {gateway} from "../../App";
 
 
 export default function useProperty(thing, name) {
@@ -19,7 +20,18 @@ export default function useProperty(thing, name) {
     );
 
     useEffect(() => {
+        if (gateway.properties.has(thing.id)) {
+            const props = gateway.properties.get(thing.id)
+            if (props) {
+                const value = props[name]
+                if (value !== undefined) {
+                    update(value)
+                }
+            }
+        }
+    }, [name])
 
+    useEffect(() => {
         function handler(data) {
             if (Object.keys(data).length === 0) {
                 return
@@ -46,6 +58,6 @@ export default function useProperty(thing, name) {
         thing?.model?.setProperty(name, value)
     }
 
-    return {property:property[name], value: value, setValue: setValue}
+    return {property: property[name], value: value, setValue: setValue}
 }
 

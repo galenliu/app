@@ -13,7 +13,7 @@ export function useLight(description) {
     const {t} = useTranslation();
     const {thing, onProperty} = useOnOffSwitch(description)
     const [state, setState] = useState("")
-    const brightnessProperty = useBooleanProperty(thing, thing?.brightnessProperty)
+    const brightnessProperty = useIntegerProperty(thing, thing?.brightnessProperty)
     const colorProperty = useStringProperty(thing, thing?.colorProperty)
     const colorTemperatureProperty = useIntegerProperty(thing, thing?.colorTemperatureProperty)
     const colorModeProperty = useStringProperty(thing, thing?.colorModeProperty)
@@ -28,7 +28,7 @@ export function useLight(description) {
             setState(t(enTrans.Disconnected))
         } else {
             if (onProperty.value) {
-                if (brightnessProperty !== null && brightnessProperty.value !== 0) {
+                if (brightnessProperty && brightnessProperty.value !== undefined && brightnessProperty.value !== 0) {
                     setState(brightnessProperty.value + "%")
                 } else {
                     setState(t(enTrans.On))
@@ -37,7 +37,7 @@ export function useLight(description) {
                 setState(t(enTrans.Off))
             }
         }
-    }, [onProperty.value, brightnessProperty?.value, thing?.connected])
+    }, [onProperty, brightnessProperty, thing.connected])
 
     return {
         thing,

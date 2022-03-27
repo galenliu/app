@@ -1,15 +1,16 @@
 import Card from '@mui/material/Card';
 import {CardMedia, Stack} from "@mui/material";
 import Typography from "@mui/material/Typography";
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import Box from "@mui/material/Box";
 import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
 import IconButton from "@mui/material/IconButton";
 import DisconnectIcon from "src/static/images/disconnect";
+import {AppContext} from "../../App";
 
 
 export default function ThingCard({thing, onProperty, state,icon}) {
-
+    const {showThing} = useContext(AppContext)
 
     useEffect(() => {
 
@@ -17,7 +18,7 @@ export default function ThingCard({thing, onProperty, state,icon}) {
 
     return (
         <Card
-            // onClick={() => {navigate(`/things/${thing.id}`)}}
+            onClick={()=>showThing(thing.id)}
             sx={{
                 boxShadow: 3,
                 display: 'flex',
