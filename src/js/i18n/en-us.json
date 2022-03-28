@@ -1,6 +1,8 @@
 {
   "Home": "Home",
+  "Control" : "控制",
   "Things": "Things",
+  "Displayed": "Displayed",
   "Rules": "Rules",
   "Settings": "Settings",
   "Domain": "Domain",
@@ -23,6 +25,7 @@
   "configure": "configure",
   "update": "update",
   "remove": "remove",
+  "Remove": "Remove",
   "removing": "removing",
   "disable": "disable",
   "Disconnected": "Disconnected",

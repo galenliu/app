@@ -7,11 +7,13 @@ import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
 import IconButton from "@mui/material/IconButton";
 import DisconnectIcon from "src/static/images/disconnect";
 import {AppContext} from "../../App";
+import {useTranslation} from "react-i18next";
+import enTrans from "src/js/i18n/en-us.json"
 
 
 export default function ThingCard({thing, onProperty, state,icon}) {
     const {showThing} = useContext(AppContext)
-
+    const {t} = useTranslation()
     useEffect(() => {
 
     }, [])

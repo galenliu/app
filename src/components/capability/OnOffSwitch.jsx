@@ -18,8 +18,9 @@ import CloseIcon from '@mui/icons-material/Close';
 import Typography from '@mui/material/Typography';
 import PropTypes from 'prop-types';
 import Button from '@mui/material/Button';
-import { styled } from '@mui/material/styles';
+import {styled} from '@mui/material/styles';
 import {AppContext} from "../../App";
+import {ThingDialog} from "../../views/Dialog/ThingDialog";
 
 const BootstrapDialog = styled(Dialog)(({theme}) => ({
     '& .MuiDialogContent-root': {
@@ -73,28 +74,14 @@ export default function OnOffSwitch({description}) {
     return (
         <>
             {description.id === showThingId &&
-                <BootstrapDialog
-                    onClose={()=>showThing("")}
-                    aria-labelledby="customized-dialog-title"
-                    open={description.id === showThingId}
-                >
-                    <BootstrapDialogTitle id="customized-dialog-title" onClose={() => showThing("")}>
-                        {description.title}
-                    </BootstrapDialogTitle>
+                <ThingDialog thing={thing} open={description.id === showThingId} onClose={() => showThing("")}>
+                    {onProperty &&
+                        <OnOffProperty property={onProperty}/>}
+                </ThingDialog>}
 
-                    <Stack spacing={1} sx={{borderRadius: "3px",boxShadow: 3}}>
-
-                        {/*{onProperty &&*/}
-                        {/*    <OnOffProperty property={onProperty}/>}*/}
-                        {/*{brightnessProperty &&*/}
-                        {/*    <BrightnessProperty property={brightnessProperty}/>}*/}
-                        {/*{colorProperty &&*/}
-                        {/*    <ColorProperty property={colorProperty}/>}*/}
-                    </Stack>
-                </BootstrapDialog>}
-
-            <ThingCard thing={thing} onProperty={onProperty}
-                       icon={<OnOffSwitchIcon sx={{fontSize: 45}} state={state}/>}/>
+            <ThingCard thing={thing}
+                       onProperty={onProperty}
+                       icon={<OnOffSwitchIcon sx={{fontSize: 45}}/>} state={state}/>
         </>
     );
 }

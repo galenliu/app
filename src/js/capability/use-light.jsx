@@ -6,6 +6,7 @@ import useIntegerProperty from "../property/use-integer-property";
 import useOnOffSwitch from "./use-on-off-switch";
 import {useTranslation} from "react-i18next";
 import enTrans from "src/js/i18n/en-us.json"
+import {gateway} from "../../App";
 
 
 export function useLight(description) {
@@ -24,7 +25,7 @@ export function useLight(description) {
 
 
     useEffect(() => {
-        if (!thing.connected) {
+        if (!gateway.connectedThings.has(thing.id)) {
             setState(t(enTrans.Disconnected))
         } else {
             if (onProperty.value) {

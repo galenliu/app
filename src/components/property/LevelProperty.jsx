@@ -7,49 +7,49 @@ import {useEffect, useState} from "react";
 import useDebouncy from "use-debouncy/lib/effect";
 import Card from "@mui/material/Card";
 import Typography from "@mui/material/Typography";
+import PropertyCard from "./PropertyCard";
 
 export default function LevelProperty({property}) {
 
     const {t} = useTranslation()
-
-    const detail = property.property.detail
+    const [value, setValue] = useState(property.value)
+    const detail = property.detail
 
 
     useEffect(() => {
-        console.log("LevelProperty:", property)
-    }, [])
+        property.setValue(value)
+    }, [value])
 
     return (
-        <Card sx={{
-            width: "100%",
-            borderRadius: "20px",
-            backgroundColor: [property.value ? "background.on" : "background.off"]
-        }}>
-            <Stack sx={{flexDirection: "row", width: "100%", m: "10px"}}>
-                <Stack sx={{flexDirection: "column", width: "20%"}}>
+        <PropertyCard>
+
+            <Stack sx={{width: "100%", m: 2}}>
+                <Stack sx={{flexDirection: "column"}}>
                     <Typography variant="subtitle1">
                         {t(detail?.label)}
                     </Typography>
-                    <Typography variant="h5">
-                        {property.value}%
-                    </Typography>
+
                 </Stack>
-
-                <Slider
-                    sx={{mx: "20px", width: "80%", mr: "3%"}}
-                    defaultValue={100}
-                    aria-label="Default"
-                    step={detail?.step}
-                    min={detail?.min}
-                    max={detail?.max}
-                    valueLabelDisplay="auto"
-                    onChange={(event, newValue) => {
-                        setValue(newValue)
-                    }}
-                />
-
+                <Stack sx={{flexDirection: "row", alignItems:"center"}}>
+                    <Typography variant="h5">
+                    {property.value}%
+                </Typography>
+                    <Slider
+                        sx={{mx: 5, width: "80%", mr: 4}}
+                        defaultValue={100}
+                        value={value}
+                        aria-label="Default"
+                        step={detail?.step}
+                        min={detail?.min}
+                        max={detail?.max}
+                        valueLabelDisplay="auto"
+                        onChange={(event, newValue) => {
+                           setValue(newValue)
+                        }}
+                    />
+                </Stack>
             </Stack>
 
-        </Card>
+        </PropertyCard>
     );
 };

@@ -3,12 +3,13 @@ import {Circle, Wheel} from '@uiw/react-color';
 import {useTranslation} from "react-i18next";
 import {Stack} from "@mui/material";
 import Card from "@mui/material/Card";
+import PropertyCard from "./PropertyCard";
 
 export default function ColorProperty(props) {
     const {t} = useTranslation()
     const {property} = props
     const detail = property.property.detail
-    const [colors, setColors] = useState(['#ff0000', '#00ff00', '#0000ff', '#DBDF00', '#F44E3B', '#FE9200', '#FCDC00'])
+    const [colors, setColors] = useState(['#ff0000', '#00ff00', '#0000ff', '#f47920', '#2a5caa', '#45b97c', '#45b97c'])
 
 
     useEffect(() => {
@@ -21,11 +22,7 @@ export default function ColorProperty(props) {
     }, [property.value])
 
     return (
-        <Card
-            sx={{
-                boxShadow: 3,
-                borderRadius: 3,
-            }}>
+        <PropertyCard>
             <Stack sx={{
                 m: "20px", flexDirection: "center",
                 alignItems: "center",
@@ -43,7 +40,7 @@ export default function ColorProperty(props) {
                     onChange={(color) => property.setValue(color.hex)}
                 />
             </Stack>
-        </Card>
+        </PropertyCard>
     )
 }
 

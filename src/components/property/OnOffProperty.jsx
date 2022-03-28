@@ -13,6 +13,7 @@ import {borderRadius, spacing} from "@material-ui/system";
 import {Path} from "../../js/menuList";
 import AddIcon from "@mui/icons-material/Add";
 import IconButton from "@mui/material/IconButton";
+import PropertyCard from "./PropertyCard";
 
 
 export default function OnOffProperty(props) {
@@ -24,11 +25,8 @@ export default function OnOffProperty(props) {
     })
 
     return (
-        <Card sx={{
-            borderRadius: 3,
-            boxShadow: 3,
-            backgroundColor: [property.value ? "grey.50" : "grey.200"]
-        }}>
+
+        <PropertyCard backgroundColor={[property.value ? "grey.50" : "grey.200"]}>
             <Stack direction={"row"} sx={{mt: 2, mb: 2}}>
                 <Stack direction={"row"} sx={{width: "20%", alignItems: "center", justifyContent: "center"}}>
                     <Typography sx={{width: "20%"}}
@@ -44,7 +42,7 @@ export default function OnOffProperty(props) {
                     </Fab>
                 </Stack>
             </Stack>
-        </Card>
+        </PropertyCard>
     )
 }
 

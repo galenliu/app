@@ -16,8 +16,9 @@ import DialogTitle from "@mui/material/DialogTitle";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import PropTypes from "prop-types";
-import {BootstrapDialog, BootstrapDialogTitle} from "../../views/Dialog/ThingDialog";
-
+import {BootstrapDialog, BootstrapDialogTitle, ThingDialog} from "../../views/Dialog/ThingDialog";
+import BrightnessProperty from "../property/BrightnessProperty";
+import ColorProperty from "../property/ColorProperty";
 
 
 export default function MultiLevelSwitch({description}) {
@@ -38,22 +39,12 @@ export default function MultiLevelSwitch({description}) {
     return (
         <>
             {description.id === showThingId &&
-                <BootstrapDialog
-                    onClose={() => showThing("")}
-                    aria-labelledby="customized-dialog-title"
-                    open={description.id === showThingId}
-                    sx={{}}
-                >
-                    <BootstrapDialogTitle id="customized-dialog-title" onClose={() => showThing("")}>
-                        {description.title}
-                    </BootstrapDialogTitle>
-                    <Stack spacing={1} sx={{borderRadius: "3px", width: 500, height: "auto"}}>
-                        {onProperty &&
-                            <OnOffProperty property={onProperty}/>}
-                        {levelProperty &&
-                            <LevelProperty property={levelProperty}/>}
-                    </Stack>
-                </BootstrapDialog>}
+                <ThingDialog thing={thing} open={description.id === showThingId} onClose={() => showThing("")}>
+                    {onProperty &&
+                        <OnOffProperty property={onProperty}/>}
+                    {levelProperty &&
+                        <LevelProperty property={levelProperty}/>}
+                </ThingDialog>}
             <ThingCard thing={thing} onProperty={onProperty} icon={<MultiLevelSwitchIcon sx={{fontSize: 45}}/>}
                        state={state}/>
         </>

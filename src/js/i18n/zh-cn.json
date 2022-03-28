@@ -1,7 +1,10 @@
 {
   "Home": "家庭",
   "Things": "设备",
+  "Control" : "控制",
   "Rules": "规则",
+  "Remove": "移除",
+  "Displayed": "显示为",
   "Settings": "设置",
   "Domain": "域名",
   "Network": "网络",
