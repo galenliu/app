@@ -45,10 +45,8 @@ export default class GatewayModel extends Model {
 
     onMessage(event) {
         const message = JSON.parse(event.data);
-
         switch (message.messageType) {
             case 'connected':
-                console.log("connected Message:", message)
                 this.connectedThings.set(message.id, message.data);
                 break
             case 'thingAdded':
@@ -135,9 +133,6 @@ export default class GatewayModel extends Model {
         });
     }
 
-
-
-
     refreshThing(thingId) {
 
         return this.addQueue(() => {
@@ -185,6 +180,9 @@ export default class GatewayModel extends Model {
     }
 
     handleRemove(thingId, skipEvent = false) {
+
+        console.log("remove thing:", thingId)
+
         if (this.thingModels.has(thingId)) {
             this.thingModels.get(thingId).cleanup();
             this.thingModels.delete(thingId);
@@ -194,6 +192,7 @@ export default class GatewayModel extends Model {
         }
 
         if (!skipEvent) {
+            console.log("remove thing handleEvent:", thingId)
             return this.handleEvent(Constants.DELETE_THINGS, this.things, this.groups);
         }
     }
@@ -210,7 +209,6 @@ export default class GatewayModel extends Model {
             return thingModel.removeThing();
         });
     }
-
 
 
     getThing(thingId) {

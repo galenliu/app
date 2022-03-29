@@ -8,9 +8,6 @@ export default function useThing(description) {
 
     const [thing, setThing] = useState({})
 
-    useEffect(() => {
-        console.log("use Thing:", thing)
-    }, [])
 
     useEffect(async () => {
         if (!description) {
@@ -22,27 +19,35 @@ export default function useThing(description) {
             if (!thingDescription || !thingModel) {
                 return
             }
-            const thing = createThingFromCapability(thingDescription.selectedCapability, thingModel, thingDescription, null)
-            thing.connected = gateway.connectedThings.has(description.id)
-            setThing({...thing})
+            const t = createThingFromCapability(thingDescription.selectedCapability, thingModel, thingDescription, null)
+            t.connected = false
+            if (gateway.connectedThings.has(description.id)) {
+                t.connected = gateway.connectedThings.get(description.id)
+            }
+            setThing({...t})
         } catch (e) {
+            console.error(e)
             return Promise.reject(e)
         }
 
+    }, [])
+
+    useEffect(() => {
         const onConnected = (connected) => {
-            if (thing) {
+            if (thing.connected !== connected) {
                 setThing({...thing, connected: connected})
             }
         }
-        if (thing?.model) {
-            thing.model.subscribe(constant.CONNECTED, onConnected)
+        if (thing) {
+            thing.model?.subscribe(constant.CONNECTED, onConnected)
         }
 
         return () => {
-            if (thing?.model) {
+            if (thing) {
                 thing.model?.unsubscribe(constant.CONNECTED, onConnected)
             }
         }
-    }, [description])
+    }, [thing])
+
     return thing
 }

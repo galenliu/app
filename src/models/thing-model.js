@@ -7,7 +7,6 @@ import Api from "src/js/api";
 export default class ThingModel extends Model {
     constructor(description, ws) {
         super();
-        this.connected = false;
         this.properties = {}
         this.events = []
         this.updateFromDescription(description);
@@ -53,7 +52,6 @@ export default class ThingModel extends Model {
     }
 
     onConnected(connected) {
-        this.connected = connected;
         return this.handleEvent(Constants.CONNECTED, connected);
     }
 
@@ -120,7 +118,7 @@ export default class ThingModel extends Model {
             case Constants.DELETE_THINGS:
                 break
             case Constants.CONNECTED:
-                handler(this.connected)
+                // handler(this.connected)
                 break
             default:
                 console.warn(`ThingModel does not support event ${event}`)
@@ -164,6 +162,10 @@ export default class ThingModel extends Model {
                 throw new Error(`error trying to set ${name}`)
             })
 
+    }
+
+    updateThing(updates) {
+        return Api.updateThing(this.id, updates);
     }
 
     onPropertyStatus(data) {

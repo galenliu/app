@@ -28,8 +28,10 @@ export default function useThings(gateway) {
 
     useEffect(() => {
         gateway.subscribe(Constants.REFRESH_THINGS, refreshThings, true)
+        gateway.subscribe(Constants.DELETE_THINGS, refreshThings)
         return () => {
             gateway.unsubscribe(Constants.REFRESH_THINGS, refreshThings)
+            gateway.subscribe(Constants.DELETE_THINGS, refreshThings)
         }
     }, [])
 

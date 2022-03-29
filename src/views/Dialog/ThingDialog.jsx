@@ -104,19 +104,6 @@ export const ThingDialog = (props) => {
         }
     };
 
-    const updateTitle = async () => {
-
-        try {
-            const description = await gateway.getThing(thing.id)
-            description.title = title
-            let newThing = await Api.updateThing(description.id, {...description})
-            console.log("newThing", newThing)
-
-        } catch (e) {
-            console.error("Api.updateThing")
-            console.error(e)
-        }
-    };
 
     const readerThingTypes = () => {
         const list = []
@@ -134,7 +121,9 @@ export const ThingDialog = (props) => {
                     aria-labelledby="demo-radio-buttons-group-label"
                     name="radio-buttons-group"
                     value={thing.selectedCapability}
-                    onChange={selectedCapability}
+                    onChange={(event) => {
+                        gateway.updateThing(thing.id, {title: thing.title, selectedCapability: event.target.value})
+                    }}
                 >
                     {list}
                 </RadioGroup>
@@ -180,7 +169,7 @@ export const ThingDialog = (props) => {
                                 <TextField edge={"end"} defaultValue={thing.title} id="standard-basic"
                                            label={t(enTrans.Title)}
                                            variant="standard" onChange={(event) => {
-                                    setTitle(event.target.value)
+                                    gateway.updateThing(thing.id, {title: event.target.value})
                                 }}/>
                                 {thing.title !== title && <CheckIcon onClick={updateTitle}/>}
                             </Stack>

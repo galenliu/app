@@ -25,7 +25,7 @@ export function useLight(description) {
 
 
     useEffect(() => {
-        if (!gateway.connectedThings.has(thing.id)) {
+        if (!thing.connected) {
             setState(t(enTrans.Disconnected))
         } else {
             if (onProperty.value) {

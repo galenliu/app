@@ -9,6 +9,7 @@ import {CircularProgress, Fab, LinearProgress, Stack} from "@mui/material";
 import Api from "src/js/api";
 import LoadingButton from '@mui/lab/LoadingButton';
 import {arrayIncludes} from "@mui/lab/internal/pickers/utils";
+import {gateway} from "../../App";
 
 
 export const Status = ["Paring", "Error", "Complete"]
@@ -21,14 +22,13 @@ export default function NewThings() {
     useEffect(() => {
 
         let copy = new Map(things)
-        console.log("copy:",copy)
         if (newThing === undefined || newThing === null || newThing.id === undefined) {
             return
         }
         if (copy.has(newThing.id)) {
             return;
         }
-        copy.set(newThing.id,newThing)
+        copy.set(newThing.id, newThing)
         setThings(copy)
     }, [newThing])
 
@@ -38,7 +38,7 @@ export default function NewThings() {
         }
         Api.addThing(thing).then(() => {
             const copy = new Map(things)
-            if(copy.has(thing.id)){
+            if (copy.has(thing.id)) {
                 copy.delete(thing.id)
                 setThings(copy)
             }
@@ -47,9 +47,9 @@ export default function NewThings() {
         })
     }
 
-    function reader(){
+    function reader() {
         const list = []
-        for(const [id,thing] of things){
+        for (const [id, thing] of things) {
             list.push(<NewThingCard thing={thing} save={handlerSave} key={id}/>)
         }
         return list
@@ -80,8 +80,7 @@ export default function NewThings() {
                     top: (theme) => theme.spacing(1),
                     right: (theme) => theme.spacing(1),
                 }}>
-                <LoadingButton
-                    loadingIndicator={<CircularProgress/>} loading={state === Status[0]}/>
+                <CircularProgress/>
             </Fab>}
 
 

@@ -7,7 +7,7 @@ export default function useAddThings(timeout) {
     const [actionUrl, setActionUrl] = useState()
     const ws = useRef(null)
     const timeOut = useRef(null)
-    const [state, setState] = useState("")
+    const [state, setState] = useState(Status[0])
 
     useEffect(() => {
         //第一次加载，发送配对请求
@@ -23,23 +23,23 @@ export default function useAddThings(timeout) {
         if (window.location.protocol === 'https:') {
             proto = 'wss';
         }
+
+        const onErr = (e) => {
+            setState(Status[1])
+            console.log(e)
+        }
         const wsHref = window.location.origin.replace(/^http/, proto);
         const path = `${wsHref}/new_things?jwt=${API.jwt}`;
         //const path = `${wsHref}/new_things`;
         console.log("new things websocket url", path)
         ws.current = new WebSocket(path);
-        ws.current.onopen = () => console.log("ws opened");
-        ws.current.onclose = () => console.log("ws closed");
-        ws.current.onError = (e) => {
-            console.log(e)
-            setState(Status[1])
-        }
-        ws.current.onmessage = onMessage
+        ws.current.addEventListener("message", onMessage)
+        ws.current.addEventListener("error", onErr)
+
 
         return () => {
-            ws.current.onmessage=null
-            ws.current.onopen= null
-            ws.current.onclose =null
+            ws.current.removeEventListener("error", onErr)
+            ws.current.removeEventListener("message", onMessage)
             close()
         };
     }, []);
