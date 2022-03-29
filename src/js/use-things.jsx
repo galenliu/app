@@ -6,6 +6,7 @@ export default function useThings(gateway) {
     const [things, setThings] = useState([])
 
     const refreshThings = async (thingDescriptions, ground) => {
+        console.log("!!!!!!!!refreshThings",thingDescriptions)
         try {
             let list = []
             if (things.size !== 0) {
@@ -15,7 +16,7 @@ export default function useThings(gateway) {
                     }
                 }
             }
-            setThings(list)
+            setThings([...list])
         } catch (e) {
             console.warn(e)
         }

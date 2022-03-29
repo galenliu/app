@@ -57,7 +57,7 @@ export default function Things(props) {
 
     function readerThings() {
         const list = []
-        if (things.length > 0) {
+        if (things && things.length > 0) {
             for (const description of things) {
                 if (description.id && description.title && description.selectedCapability) {
                     switch (description.selectedCapability) {

@@ -48,6 +48,7 @@ export default class GatewayModel extends Model {
 
         switch (message.messageType) {
             case 'connected':
+                console.log("connected Message:", message)
                 this.connectedThings.set(message.id, message.data);
                 break
             case 'thingAdded':
@@ -59,6 +60,8 @@ export default class GatewayModel extends Model {
             case "propertyStatus":
                 this.onPropertyStatus(message);
                 break;
+            case "thingRemoved":
+                this.handleRemove(message.id)
             default:
                 break
         }
@@ -132,6 +135,9 @@ export default class GatewayModel extends Model {
         });
     }
 
+
+
+
     refreshThing(thingId) {
 
         return this.addQueue(() => {
@@ -191,6 +197,20 @@ export default class GatewayModel extends Model {
             return this.handleEvent(Constants.DELETE_THINGS, this.things, this.groups);
         }
     }
+
+    removeThing(thingId) {
+        if (!this.thingModels.has(thingId)) {
+            return Promise.reject(`No Thing id:${thingId}`);
+        }
+        return this.addQueue(() => {
+            if (!this.thingModels.has(thingId)) {
+                throw new Error(`Thing id:${thingId} already removed`);
+            }
+            const thingModel = this.thingModels.get(thingId);
+            return thingModel.removeThing();
+        });
+    }
+
 
 
     getThing(thingId) {

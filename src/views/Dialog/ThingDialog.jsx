@@ -206,7 +206,7 @@ export const ThingDialog = (props) => {
                         </Accordion>
                         <Button sx={{mt: 2, backgroundColor: "warning.main"}} disableElevation
                                 onClick={() => {
-                                    Api.removeThing(thing.id).catch((e) => {
+                                    gateway.removeThing(thing.id).catch((e) => {
                                         console.error(e)
                                     })
                                 }}>
