@@ -48,6 +48,8 @@ export default class GatewayModel extends Model {
         switch (message.messageType) {
             case 'connected':
                 this.connectedThings.set(message.id, message.data);
+                console.log("connect:", message)
+                console.log(" this.connectedThings:", this.connectedThings)
                 break
             case 'thingAdded':
                 this.refreshThings().then();

@@ -64,9 +64,7 @@ BootstrapDialogTitle.propTypes = {
 export default function OnOffSwitch({description}) {
     const {t} = useTranslation();
     const {showThingId, showThing} = useContext(AppContext)
-    useEffect(() => {
-        // console.log("OnOffSwitch data:", description)
-    })
+
     const {
         thing, state, onProperty,
     } = useOnOffSwitch(description)

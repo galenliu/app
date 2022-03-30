@@ -9,26 +9,26 @@ export default function useThing(description) {
     const [thing, setThing] = useState({})
 
 
-    useEffect(async () => {
-        if (!description) {
-            return Promise.reject("description null")
-        }
-        try {
-            const thingDescription = await gateway.getThing(description?.id)
-            const thingModel = await gateway.getThingModel(thingDescription?.id)
-            if (!thingDescription || !thingModel) {
-                return
+    useEffect(() => {
+        async function fetchData() {
+            try {
+                const thingDescription = await gateway.getThing(description?.id)
+                const thingModel = await gateway.getThingModel(thingDescription?.id)
+                if (!thingDescription || !thingModel) {
+                    return
+                }
+                const t = createThingFromCapability(thingDescription.selectedCapability, thingModel, thingDescription, null)
+                t.connected = false
+                if (gateway.connectedThings.has(description.id)) {
+                    t.connected = gateway.connectedThings.get(description.id)
+                }
+                setThing({...t})
+            } catch (e) {
+                console.error(e)
             }
-            const t = createThingFromCapability(thingDescription.selectedCapability, thingModel, thingDescription, null)
-            t.connected = false
-            if (gateway.connectedThings.has(description.id)) {
-                t.connected = gateway.connectedThings.get(description.id)
-            }
-            setThing({...t})
-        } catch (e) {
-            console.error(e)
-            return Promise.reject(e)
         }
+
+        fetchData().then()
 
     }, [])
 
