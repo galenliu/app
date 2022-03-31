@@ -81,27 +81,12 @@ export const ThingDialog = (props) => {
     const {children, onClose, open, thing, ...other} = props;
     const [value, setValue] = React.useState('control');
     const [expanded, setExpanded] = React.useState("")
-    const [title, setTitle] = useState(thing.title)
+    const [titleUpdate, setTitleUpdate] = useState(thing.title)
     const {t} = useTranslation()
 
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
-    };
-
-    const selectedCapability = async (event) => {
-        console.log("thing", thing)
-        try {
-            const description = await gateway.getThing(thing.id)
-            console.log("description!!!!!!!!!!!!!!", description)
-            description.selectedCapability = event.target.value
-            let newThing = await Api.updateThing(description.id, description)
-            console.log("newThing", newThing)
-
-        } catch (e) {
-            console.error("Api.updateThing")
-            console.error(e)
-        }
     };
 
 
@@ -122,7 +107,7 @@ export const ThingDialog = (props) => {
                     name="radio-buttons-group"
                     value={thing.selectedCapability}
                     onChange={(event) => {
-                        gateway.updateThing(thing.id, {title: thing.title, selectedCapability: event.target.value})
+                        gateway.updateThing(thing.id, {title: titleUpdate, selectedCapability: event.target.value})
                     }}
                 >
                     {list}
@@ -157,7 +142,6 @@ export const ThingDialog = (props) => {
                 <TabPanel value="setting">
                     <Stack>
                         <Divider/>
-
                         <Stack sx={{
                             m: 2,
                             flexDirection: "row",
@@ -169,13 +153,16 @@ export const ThingDialog = (props) => {
                                 <TextField edge={"end"} defaultValue={thing.title} id="standard-basic"
                                            label={t(enTrans.Title)}
                                            variant="standard" onChange={(event) => {
-                                    gateway.updateThing(thing.id, {title: event.target.value})
+                                    setTitleUpdate(event.target.value)
                                 }}/>
-                                {thing.title !== title && <CheckIcon onClick={updateTitle}/>}
+                                {thing.title !== titleUpdate && <CheckIcon onClick={() => {
+                                    gateway.updateThing(thing.id, {
+                                        title: titleUpdate,
+                                        selectedCapability: thing.selectedCapability
+                                    })
+                                }}/>}
                             </Stack>
                         </Stack>
-
-
                         <Accordion expanded={expanded === 'displayed'}
                                    onChange={() => setExpanded(expanded === "displayed" ? '' : "displayed")}>
                             <AccordionSummary

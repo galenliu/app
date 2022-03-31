@@ -434,6 +434,7 @@ class API {
   }
 
   updateThing(thingId: string, updates: Record<string, unknown>): Promise<Record<string, unknown>> {
+    console.log("Thing id:",`/things/${encodeURIComponent(thingId)}`,"updates:",updates);
     return this.putJson(`/things/${encodeURIComponent(thingId)}`, updates);
   }
 

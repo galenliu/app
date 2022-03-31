@@ -38,7 +38,7 @@ export default function Light({description}) {
         return (
             <>
                 {description.id === showThingId &&
-                    <ThingDialog thing={thing} open={description.id === showThingId} onClose={() => showThing("")}>
+                    <ThingDialog  thing={thing} open={description.id === showThingId} onClose={() => showThing("")}>
                         {onProperty?.property &&
                             <OnOffProperty property={onProperty}/>}
                         {brightnessProperty?.property &&

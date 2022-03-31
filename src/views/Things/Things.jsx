@@ -50,7 +50,7 @@ export default function Things(props) {
     }, [])
 
     useEffect(() => {
-        console.log("Things View:",things)
+        console.log("Things View Reader:",things)
         return () => {
         }
     }, [things])
@@ -58,9 +58,10 @@ export default function Things(props) {
 
     function readerThings() {
         const list = []
-        if (things && things.length > 0) {
+
             for (const description of things) {
                 if (description.id && description.title && description.selectedCapability) {
+
                     switch (description.selectedCapability) {
                         case Capability.Alarm:
                             list.push(<Alarm key={description.id} description={description} showThingId={showThingId}/>)
@@ -106,7 +107,7 @@ export default function Things(props) {
                                                   showThingId={showThingId}/>)
                             break
                         case Capability.Light:
-                            list.push(<Light key={description.id} description={description} showThingId={showThingId}/>)
+                            list.push(<Light   key={description.id} description={description} showThingId={showThingId}/>)
                             break
                         case Capability.Lock:
                             list.push(<Lock key={description.id} description={description} showThingId={showThingId}/>)
@@ -153,7 +154,7 @@ export default function Things(props) {
                             break
                     }
                 }
-            }
+
         }
         return list
     }

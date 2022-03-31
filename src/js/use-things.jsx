@@ -6,24 +6,24 @@ export default function useThings(gateway) {
     const [things, setThings] = useState([])
 
     const refreshThings = async (thingDescriptions, ground) => {
-        console.log("!!!!!!!!refreshThings",thingDescriptions)
+        console.log("!!!!!!!!things descriptions",thingDescriptions)
         try {
             let list = []
             if (things.size !== 0) {
                 for (let [thingId, description] of thingDescriptions) {
                     if (description) {
-                        list.push(description)
+                        list.push({...description})
                     }
                 }
             }
-            setThings([...list])
+            setThings(list.slice())
         } catch (e) {
             console.warn(e)
         }
     }
 
     useEffect(() => {
-
+        console.log("!!!!!!!!things:",things)
     }, [things])
 
     useEffect(() => {
@@ -32,6 +32,7 @@ export default function useThings(gateway) {
         return () => {
             gateway.unsubscribe(Constants.REFRESH_THINGS, refreshThings)
             gateway.subscribe(Constants.DELETE_THINGS, refreshThings)
+
         }
     }, [])
 

@@ -144,6 +144,7 @@ export default class GatewayModel extends Model {
                         throw new Error(`Unavailable Thing Description: ${description}`);
                     }
                     this.setThing(thingId, description);
+                    console.log("this.handleEvent(Constants.REFRESH_THINGS, this.things, this.groups);")
                     return this.handleEvent(Constants.REFRESH_THINGS, this.things, this.groups);
                 })
                 .catch((e) => {
@@ -182,8 +183,6 @@ export default class GatewayModel extends Model {
     }
 
     handleRemove(thingId, skipEvent = false) {
-
-        console.log("remove thing:", thingId)
 
         if (this.thingModels.has(thingId)) {
             this.thingModels.get(thingId).cleanup();
