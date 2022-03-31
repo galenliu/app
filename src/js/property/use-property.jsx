@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import Constants from "src/js/constants";
 import useDebouncy from "use-debouncy/lib/effect";
-import {gateway} from "../../App";
+import {gateway} from "../../main";
 
 
 export default function useProperty(thing, name, debounce) {

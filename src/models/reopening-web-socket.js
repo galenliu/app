@@ -32,7 +32,7 @@ export default class ReopeningWebSocket {
         if (this.closing) {
             return;
         }
-
+        console.log("open()---------")
         this.opening = true;
         this.ws = new WebSocket(this.href);
         window.addEventListener('beforeunload', this.closePermanently);
@@ -74,6 +74,7 @@ export default class ReopeningWebSocket {
     }
 
     reopen() {
+
         this.ws.removeEventListener('open', this.onOpen);
         this.ws.removeEventListener('message', this.onMessage);
         this.ws.removeEventListener('close', this.reopen);

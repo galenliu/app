@@ -1,13 +1,12 @@
 import React, {useEffect, useState} from "react";
 import constant, {Capability} from "src/js/constants";
-import {gateway} from "../../App";
+import {gateway} from "../../main";
 import {createThingFromCapability} from "src/schema-impl/capability/capabilities";
 
 
 export default function useThing(description) {
 
     const [thing, setThing] = useState({})
-
 
     useEffect(() => {
         async function fetchData() {

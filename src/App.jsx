@@ -23,7 +23,6 @@ import "src/js/i18n"
 
 const theme = createTheme(Theme);
 export const AppContext = createContext({})
-export const gateway = new GatewayModel()
 
 function App() {
     const {t} = useTranslation();

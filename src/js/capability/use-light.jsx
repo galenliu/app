@@ -6,7 +6,7 @@ import useIntegerProperty from "../property/use-integer-property";
 import useOnOffSwitch from "./use-on-off-switch";
 import {useTranslation} from "react-i18next";
 import enTrans from "src/js/i18n/en-us.json"
-import {gateway} from "../../App";
+import {gateway} from "../../main";
 
 
 export function useLight(description) {

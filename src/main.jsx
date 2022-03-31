@@ -2,6 +2,7 @@ import React from 'react'
 import * as ReactDOMClient from 'react-dom/client';
 import './index.css'
 import App from './App'
+import GatewayModel from "./models/gateway-model";
 
 
 // ReactDOM.render(
@@ -13,7 +14,7 @@ import App from './App'
 //
 //
 // import * as ReactDOMClient from 'react-dom/client';
-
+export const gateway = new GatewayModel()
 
 const container = document.getElementById('root');
 

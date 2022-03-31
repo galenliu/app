@@ -1,7 +1,8 @@
 import React, {useContext, useEffect, useState} from "react";
 import Grid from "@mui/material/Grid";
 import {useTranslation} from "react-i18next";
-import {AppContext, gateway} from "../../App";
+import {AppContext} from "../../App";
+import { gateway} from "../../main";
 import enTrans from "src/js/i18n/en-us.json"
 import {Path} from "../../js/menuList";
 import AddIcon from "@mui/icons-material/Add";

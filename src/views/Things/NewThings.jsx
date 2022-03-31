@@ -9,7 +9,7 @@ import {CircularProgress, Fab, LinearProgress, Stack} from "@mui/material";
 import Api from "src/js/api";
 import LoadingButton from '@mui/lab/LoadingButton';
 import {arrayIncludes} from "@mui/lab/internal/pickers/utils";
-import {gateway} from "../../App";
+import {gateway} from "../../main";
 
 
 export const Status = ["Paring", "Error", "Complete"]

@@ -33,7 +33,7 @@ import ThingIcons from "../../static/images/thing-icons/thingIcons";
 import Divider from "@mui/material/Divider";
 import FormControl from "@mui/material/FormControl";
 import Api from "../../js/api";
-import {gateway} from "../../App";
+import {gateway} from "../../main";
 import {use} from "i18next";
 import {useState} from "react";
 import Button from "@mui/material/Button";
