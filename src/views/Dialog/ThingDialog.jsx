@@ -5,11 +5,8 @@ import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import PropTypes from "prop-types";
 import * as React from "react";
-import ThingTitle from "../../static/images/thing-title";
+import ThingTitle from "src/static/images/thing-title";
 import Typography from "@mui/material/Typography";
-import RestoreIcon from '@mui/icons-material/Restore';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import SettingsIcon from '@mui/icons-material/Settings';
 import TuneIcon from '@mui/icons-material/Tune';
 import CheckIcon from '@mui/icons-material/Check';
@@ -17,24 +14,18 @@ import {
     Accordion,
     AccordionDetails,
     AccordionSummary, BottomNavigation, BottomNavigationAction, FormControlLabel,
-    ListItem,
-    ListItemIcon,
     ListItemText, Radio, RadioGroup,
     Stack,
     TextField
 } from "@mui/material";
-import Box from '@mui/material/Box';
 import TabContext from '@mui/lab/TabContext';
 import TabPanel from '@mui/lab/TabPanel';
 import enTrans from "src/js/i18n/en-us.json"
 import {useTranslation} from "react-i18next";
-import List from "@mui/material/List";
 import ThingIcons from "../../static/images/thing-icons/thingIcons";
 import Divider from "@mui/material/Divider";
 import FormControl from "@mui/material/FormControl";
-import Api from "../../js/api";
 import {gateway} from "../../main";
-import {use} from "i18next";
 import {useState} from "react";
 import Button from "@mui/material/Button";
 
@@ -94,7 +85,7 @@ export const ThingDialog = (props) => {
         const list = []
         for (const th of thing["@type"] || []) {
             list.push(
-                <AccordionDetails key={th}>
+                <AccordionDetails key={th} sx={{edge: "end"}}>
                     <FormControlLabel value={th} control={<Radio/>} label={t(th)}/>
                 </AccordionDetails>)
 
@@ -107,7 +98,7 @@ export const ThingDialog = (props) => {
                     name="radio-buttons-group"
                     value={thing.selectedCapability}
                     onChange={(event) => {
-                        gateway.updateThing(thing.id, {title: titleUpdate, selectedCapability: event.target.value})
+                        gateway.updateThing(thing.id, {title: thing.title, selectedCapability: event.target.value})
                     }}
                 >
                     {list}
@@ -132,7 +123,6 @@ export const ThingDialog = (props) => {
             </BootstrapDialogTitle>
 
             <TabContext value={value}>
-
                 <TabPanel value="control"> <Stack spacing={1} sx={{
                     borderRadius: "3px",
                     p: 1,

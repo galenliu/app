@@ -12,40 +12,32 @@ import OnOffProperty from "../../components/property/OnOffProperty";
 import BrightnessProperty from "../../components/property/BrightnessProperty";
 import ColorProperty from "../../components/property/ColorProperty";
 import ThingEdit from "../../static/images/thing-edit";
+import {BootstrapDialog, BootstrapDialogTitle} from "./ThingDialog";
 
 
-export const BootstrapDialog = styled(Dialog)(({theme}) => ({
-    '& .MuiDialogContent-root': {
-        padding: theme.spacing(2),
-    },
-    '& .MuiDialogActions-root': {
-        padding: theme.spacing(1),
-    },
-}));
-
-export const BootstrapDialogTitle = (props) => {
-    const {children, onClose, ...other} = props;
-
-    return (
-        <DialogTitle sx={{m: 0, p: 2}} {...other}>
-            {children}
-            {onClose ? (
-                <IconButton
-                    aria-label="close"
-                    onClick={onClose}
-                    sx={{
-                        position: 'absolute',
-                        right: 8,
-                        top: 8,
-                        color: (theme) => theme.palette.grey[500],
-                    }}
-                >
-                    <CloseIcon/>
-                </IconButton>
-            ) : null}
-        </DialogTitle>
-    );
-};
+// export const BootstrapDialogTitle = (props) => {
+//     const {children, onClose, ...other} = props;
+//
+//     return (
+//         <DialogTitle sx={{m: 0, p: 2}} {...other}>
+//             {children}
+//             {onClose ? (
+//                 <IconButton
+//                     aria-label="close"
+//                     onClick={onClose}
+//                     sx={{
+//                         position: 'absolute',
+//                         right: 8,
+//                         top: 8,
+//                         color: (theme) => theme.palette.grey[500],
+//                     }}
+//                 >
+//                     <CloseIcon/>
+//                 </IconButton>
+//             ) : null}
+//         </DialogTitle>
+//     );
+// };
 
 BootstrapDialogTitle.propTypes = {
     children: PropTypes.node,

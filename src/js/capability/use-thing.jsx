@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from "react";
-import constant, {Capability} from "src/js/constants";
+import constant from "src/js/constants";
 import {gateway} from "../../main";
 import {createThingFromCapability} from "src/schema-impl/capability/capabilities";
+
 
 
 export default function useThing(description) {
@@ -26,10 +27,8 @@ export default function useThing(description) {
                 console.error(e)
             }
         }
-
         fetchData().then()
-
-    }, [])
+    }, [description])
 
     useEffect(() => {
         const onConnected = (connected) => {

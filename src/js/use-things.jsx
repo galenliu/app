@@ -6,7 +6,6 @@ export default function useThings(gateway) {
     const [things, setThings] = useState([])
 
     const refreshThings = async (thingDescriptions, ground) => {
-        console.log("!!!!!!!!things descriptions",thingDescriptions)
         try {
             let list = []
             if (things.size !== 0) {
@@ -23,7 +22,7 @@ export default function useThings(gateway) {
     }
 
     useEffect(() => {
-        console.log("!!!!!!!!things:",things)
+
     }, [things])
 
     useEffect(() => {

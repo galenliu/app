@@ -138,7 +138,6 @@ export default class ThingModel extends Model {
         if (!this.propertyDescriptions.hasOwnProperty(name)) {
             return Promise.reject(`unavailable property name ${name}`)
         }
-
         let property = this.propertyDescriptions[name]
         switch (property.type) {
             case "number":

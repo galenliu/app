@@ -9,7 +9,6 @@ import SignIn from "src/views/Singn/SignIn";
 import {Theme} from "src/js/theme";
 import {createTheme, ThemeProvider} from "@mui/material/styles";
 import {useTranslation} from "react-i18next";
-import GatewayModel from "./models/gateway-model";
 import Layout from "src/views/Layout/Layout";
 import {PATHS} from "src/js/constants";
 import enTrans from "src/js/i18n/en-us.json"
