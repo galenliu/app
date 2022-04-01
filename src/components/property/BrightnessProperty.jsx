@@ -15,11 +15,18 @@ export default function BrightnessProperty({property}) {
     const detail = property.property.detail
     const {t} = useTranslation()
     const [value, setValue] = useState(property.value)
-    const brightLevels = ["#212121", '#616161', '#9e9e9e', '#e0e0e0', '#f5f5f5']
 
     useEffect(() => {
         property.setValue(value)
     }, [value])
+
+    useEffect(() => {
+        setValue(value)
+    }, [property.value])
+
+
+    const brightLevels = ["#212121", '#616161', '#9e9e9e', '#e0e0e0', '#f5f5f5']
+
 
     return (
         <PropertyCard>
@@ -29,12 +36,12 @@ export default function BrightnessProperty({property}) {
                         {t(property.property.detail.label)}
                     </Typography>
                 </Stack>
-                <Stack sx={{flexDirection: "row", alignItems:"center"}}>
+                <Stack sx={{flexDirection: "row", alignItems: "center"}}>
                     <Typography variant="h5">
                         {property.value}%
                     </Typography>
                     <Slider
-                        sx={{mx: 5,width: "80%",mr:4}}
+                        sx={{mx: 5, width: "80%", mr: 4}}
                         aria-label="Default"
                         step={detail.step}
                         value={value}
@@ -48,7 +55,7 @@ export default function BrightnessProperty({property}) {
                 </Stack>
                 <Stack sx={{alignItems: "center"}}>
                     <Circle
-                        style={{marginTop: 5,marginLeft: 20}}
+                        style={{marginTop: 5, marginLeft: 20}}
                         colors={brightLevels}
                         // color={property.value ? property.value : ""}
                         onChange={(color) => {

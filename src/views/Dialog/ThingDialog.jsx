@@ -1,4 +1,5 @@
 import {styled} from "@mui/material/styles";
+import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined';
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import IconButton from "@mui/material/IconButton";
@@ -22,12 +23,13 @@ import TabContext from '@mui/lab/TabContext';
 import TabPanel from '@mui/lab/TabPanel';
 import enTrans from "src/js/i18n/en-us.json"
 import {useTranslation} from "react-i18next";
-import ThingIcons from "../../static/images/thing-icons/thingIcons";
+import ThingIcons from "src/static/images/thing-icons/thingIcons";
 import Divider from "@mui/material/Divider";
 import FormControl from "@mui/material/FormControl";
 import {gateway} from "../../main";
 import {useEffect, useState} from "react";
 import Button from "@mui/material/Button";
+import {fontSize} from "@material-ui/system";
 
 export const BootstrapDialog = styled(Dialog)(({theme}) => ({
     '& .MuiDialogContent-root': {
@@ -80,9 +82,9 @@ export const ThingDialog = (props) => {
         setValue(newValue);
     };
 
-    useEffect(()=>{
+    useEffect(() => {
         updateTitle(thing.title);
-    },[props])
+    }, [props])
 
 
     const readerThingTypes = () => {
@@ -149,12 +151,13 @@ export const ThingDialog = (props) => {
                                            variant="standard" onChange={(event) => {
                                     updateTitle(event.target.value)
                                 }}/>
-                                {thing.title !== titleUpdate && <CheckIcon onClick={() => {
-                                    gateway.updateThing(thing.id, {
-                                        title: titleUpdate,
-                                        selectedCapability: thing.selectedCapability
-                                    })
-                                }}/>}
+                                {thing.title !== titleUpdate &&
+                                    <CheckCircleOutlinedIcon sx={{fontSize: 30}} onClick={() => {
+                                        gateway.updateThing(thing.id, {
+                                            title: titleUpdate,
+                                            selectedCapability: thing.selectedCapability
+                                        })
+                                    }}/>}
                             </Stack>
                         </Stack>
                         <Accordion expanded={expanded === 'displayed'}

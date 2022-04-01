@@ -2,7 +2,7 @@ import * as React from 'react';
 import {createSvgIcon} from '@mui/material/utils';
 import {SvgIcon} from "@mui/material";
 
-export default function BinarySensor(props) {
+export default function LockIcon(props) {
     return (
         <SvgIcon {...props}>
             <svg t="1646724815131" className="icon" viewBox="0 0 1024 1024" version="1.1"
