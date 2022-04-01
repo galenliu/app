@@ -1,26 +1,18 @@
 import * as React from 'react';
 import {useTranslation} from "react-i18next";
-import enTrans from "src/js/i18n/en-us.json"
-import Box from "@mui/material/Box";
-import {useEffect, useContext} from "react";
-import List from "@mui/material/List";
-import OnOffProperty from "../property/OnOffProperty";
-import useOnOffSwitch from "../../js/capability/use-on-off-switch";
-import {Stack} from "@mui/material";
-import ThingCard from "../../views/Things/ThingCard";
-import OnOffSwitchIcon from "../../static/images/thing-icons/on_off_switch";
+import {useContext} from "react";
+import OnOffProperty from "src/components/property/OnOffProperty";
+import useOnOffSwitch from "src/js/capability/use-on-off-switch";
+import ThingCard from "src/views/Things/ThingCard";
+import OnOffSwitchIcon from "src/static/images/thing-icons/on_off_switch";
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
-import DialogContent from '@mui/material/DialogContent';
-import DialogActions from '@mui/material/DialogActions';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
-import Typography from '@mui/material/Typography';
-import PropTypes from 'prop-types';
-import Button from '@mui/material/Button';
+import PropTypes from 'prop-types';;
 import {styled} from '@mui/material/styles';
 import {AppContext} from "../../App";
-import {ThingDialog} from "../../views/Dialog/ThingDialog";
+import {ThingDialog} from "src/views/Dialog/ThingDialog";
 
 const BootstrapDialog = styled(Dialog)(({theme}) => ({
     '& .MuiDialogContent-root': {
@@ -79,7 +71,8 @@ export default function OnOffSwitch({description}) {
 
             <ThingCard thing={thing}
                        onProperty={onProperty}
-                       icon={<OnOffSwitchIcon sx={{fontSize: 45}}/>} state={state}/>
+                       icon={<OnOffSwitchIcon
+                           sx={{color: onProperty.value ? "warning.main" : "grey.500", fontSize: 45}}/>} state={state}/>
         </>
     );
 }

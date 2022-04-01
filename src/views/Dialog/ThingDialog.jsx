@@ -26,7 +26,7 @@ import ThingIcons from "../../static/images/thing-icons/thingIcons";
 import Divider from "@mui/material/Divider";
 import FormControl from "@mui/material/FormControl";
 import {gateway} from "../../main";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import Button from "@mui/material/Button";
 
 export const BootstrapDialog = styled(Dialog)(({theme}) => ({
@@ -72,13 +72,17 @@ export const ThingDialog = (props) => {
     const {children, onClose, open, thing, ...other} = props;
     const [value, setValue] = React.useState('control');
     const [expanded, setExpanded] = React.useState("")
-    const [titleUpdate, setTitleUpdate] = useState(thing.title)
+    const [titleUpdate, updateTitle] = useState(thing.title)
     const {t} = useTranslation()
 
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
+
+    useEffect(()=>{
+        updateTitle(thing.title);
+    },[props])
 
 
     const readerThingTypes = () => {
@@ -143,7 +147,7 @@ export const ThingDialog = (props) => {
                                 <TextField edge={"end"} defaultValue={thing.title} id="standard-basic"
                                            label={t(enTrans.Title)}
                                            variant="standard" onChange={(event) => {
-                                    setTitleUpdate(event.target.value)
+                                    updateTitle(event.target.value)
                                 }}/>
                                 {thing.title !== titleUpdate && <CheckIcon onClick={() => {
                                     gateway.updateThing(thing.id, {

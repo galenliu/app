@@ -10,7 +10,11 @@ export default defineConfig({
         alias: {
             // "@components": resolve(__dirname, 'src/components'),
             'src': resolve(__dirname, 'src'),
-            'js': resolve(__dirname, 'src/js')
+            '@': resolve(__dirname, './'),
+            "@views": resolve(__dirname, "src/views"),
+            "@thing": resolve(__dirname, "src/js/capability"),
+            "@property": resolve(__dirname, "src/js/property"),
+            "@images": resolve(__dirname, "src/static/images")
         }
     },
 

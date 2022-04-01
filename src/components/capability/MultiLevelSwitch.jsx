@@ -2,10 +2,9 @@ import * as React from 'react';
 import {useTranslation} from "react-i18next";
 import enTrans from "src/js/i18n/en-us.json"
 import OnOffProperty from "../property/OnOffProperty";
-import List from "@mui/material/List";
 import LevelProperty from "../property/LevelProperty";
 import {useContext, useEffect} from "react";
-import {useMultiLevelSwitch} from "../../js/capability/use-multi-level-switch";
+import {useMultiLevelSwitch} from "src/js/capability/use-multi-level-switch";
 import {Stack} from "@mui/material";
 import ThingCard from "src/views/Things/ThingCard";
 import MultiLevelSwitchIcon from "src/static/images/thing-icons/multi_level_switch";
@@ -16,9 +15,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import PropTypes from "prop-types";
-import {BootstrapDialog, BootstrapDialogTitle, ThingDialog} from "../../views/Dialog/ThingDialog";
-import BrightnessProperty from "../property/BrightnessProperty";
-import ColorProperty from "../property/ColorProperty";
+import {ThingDialog} from "src/views/Dialog/ThingDialog";
 
 
 export default function MultiLevelSwitch({description}) {
@@ -45,7 +42,8 @@ export default function MultiLevelSwitch({description}) {
                     {levelProperty &&
                         <LevelProperty property={levelProperty}/>}
                 </ThingDialog>}
-            <ThingCard thing={thing} onProperty={onProperty} icon={<MultiLevelSwitchIcon sx={{fontSize: 45}}/>}
+            <ThingCard thing={thing} onProperty={onProperty} icon={<MultiLevelSwitchIcon
+                sx={{color: onProperty.value ? "warning.main" : "grey.500", fontSize: 45}}/>}
                        state={state}/>
         </>
     );

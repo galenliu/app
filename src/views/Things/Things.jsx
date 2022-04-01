@@ -4,7 +4,7 @@ import {useTranslation} from "react-i18next";
 import {AppContext} from "../../App";
 import { gateway} from "../../main";
 import enTrans from "src/js/i18n/en-us.json"
-import {Path} from "../../js/menuList";
+import {Path} from "src/js/menuList";
 import AddIcon from "@mui/icons-material/Add";
 import {useNavigate} from "react-router-dom";
 import Box from "@mui/material/Box";
