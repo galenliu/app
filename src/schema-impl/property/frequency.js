@@ -6,11 +6,10 @@ export default class FrequencyDetail extends NumericLabelDetail {
       thing,
       name,
       !!property.readOnly,
-      property.title || fluent.getMessage('frequency'),
+      property.title ||  'frequency',
       'Hz',
       0
     );
-    this.id = `frequency-${Utils.escapeHtmlForIdClass(this.name)}`;
 
     if (property.hasOwnProperty('multipleOf') && `${property.multipleOf}`.includes('.')) {
       this.precision = `${property.multipleOf}`.split('.')[1].length;

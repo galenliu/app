@@ -75,7 +75,7 @@
   "MultiLevelSwitch": "调节开关",
   "OnOffSwitch": "开关",
   "PushButton": "PushButton",
-  "SmartPlug": "SmartPlug",
+  "SmartPlug": "智能插座",
   "SmokeSensor": "SmokeSensor",
   "TemperatureSensor": "TemperatureSensor",
   "Thermostat": "Thermostat",
@@ -105,5 +105,6 @@
   "Already have an account? Sign in": "已有帐号？登陆",
   "Installed Addons": "已安装的附加组件",
   "Exit": "退出"
+
 }
 

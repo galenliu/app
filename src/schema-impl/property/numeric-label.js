@@ -1,3 +1,5 @@
+import Units from "../../js/units";
+import * as Utils from "../../js/util";
 
 export default class NumericLabelDetail {
   constructor(thing, name, readOnly, label, unit, precision) {
@@ -7,7 +9,6 @@ export default class NumericLabelDetail {
     this.label = label;
     this.unit = Units.nameToAbbreviation(unit);
     this.precision = precision;
-    this.id = `label-${Utils.escapeHtmlForIdClass(this.name)}`;
   }
 
   attach() {

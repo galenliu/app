@@ -3,11 +3,18 @@ import API from "src/js/api"
 import {Status} from "src/views/Things/NewThings"
 
 export default function useAddThings(timeout) {
-    const [newThing, setNewThing] = useState({})
+
     const [actionUrl, setActionUrl] = useState()
     const ws = useRef(null)
     const timeOut = useRef(null)
     const [state, setState] = useState(Status[0])
+
+    const [thingMaps, setThingMaps] = useState(new Map())
+
+    const updateMap = (k, v) => {
+        setThingMaps(thingMaps.set(k, v));
+    }
+
 
     useEffect(() => {
         //第一次加载，发送配对请求
@@ -22,6 +29,13 @@ export default function useAddThings(timeout) {
         let proto = 'ws';
         if (window.location.protocol === 'https:') {
             proto = 'wss';
+        }
+
+        function onMessage(event) {
+            if (event.data) {
+                const thing = JSON.parse(event.data)
+                updateMap(thing.id, thing)
+            }
         }
 
         const onErr = (e) => {
@@ -73,7 +87,6 @@ export default function useAddThings(timeout) {
     }
 
     function requestCancelPairing() {
-
         setState(Status[2])
         if (timeOut.current != null) {
             clearTimeout(timeOut.current)
@@ -90,19 +103,18 @@ export default function useAddThings(timeout) {
         }
     }
 
-    function onMessage(event) {
-        if (event.data) {
-            if (!event.data) {
-                return
-            }
-            setNewThing(JSON.parse(event.data))
-        }
-    }
 
     const addThing = (thing) => {
-        return API.addThing(thing)
+        console.log("add thing:", thing)
+        return API.addThing(thing).then(() => {
+            let copy = new Map(thingMaps)
+            console.log("add thing copy:", copy)
+            copy.delete(thing.id)
+            console.log("add thing copy1:", copy)
+            setThingMaps(copy)
+        })
     }
 
-    return [newThing, state, addThing]
+    return [thingMaps, state, addThing]
 }
 

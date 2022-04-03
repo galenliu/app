@@ -49,7 +49,7 @@ export default function ThingIcons(props) {
             {selected === Capability.MultiLevelSensor && <MultiLevelSensorIcon {...other}/>}
             {selected === Capability.LeakSensor && <LeakSensorIcon {...other}/>}
             {selected === Capability.VideoCamera && <VideoCameraIcon {...other}/>}
-            {selected === Capability.BarometricPressureSensor && <BarometricPressureSensorIcon {...other}/>};
+            {selected === Capability.BarometricPressureSensor && <BarometricPressureSensorIcon {...other}/>}
         </Box>
     )
 }

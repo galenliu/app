@@ -8,8 +8,10 @@ import Button from "@mui/material/Button";
 import FormControl from "@mui/material/FormControl";
 import ThingIcons from "src/static/images/thing-icons/thingIcons";
 import {useState} from "react";
+import {use} from "i18next";
 
 export default function NewThingCard(props) {
+
     const {t} = useTranslation();
     const [thing, setThing] = useState(props.thing)
     return (

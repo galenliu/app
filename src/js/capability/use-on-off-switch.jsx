@@ -26,7 +26,6 @@ export default function useOnOffSwitch(description) {
     }, [thing.connected, onProperty.value])
 
     useEffect(() => {
-
     }, [thing])
 
     return {thing, state, onProperty}

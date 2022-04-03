@@ -15,45 +15,10 @@ import {gateway} from "../../main";
 export const Status = ["Paring", "Error", "Complete"]
 
 export default function NewThings() {
-    let navigate = useNavigate()
-    let [newThing, state] = useAddThings(10000)
-    let [things, setThings] = useState(new Map)
+    const navigate = useNavigate()
+    const [thingMaps, state,addThing] = useAddThings(10000)
 
-    useEffect(() => {
 
-        let copy = new Map(things)
-        if (newThing === undefined || newThing === null || newThing.id === undefined) {
-            return
-        }
-        if (copy.has(newThing.id)) {
-            return;
-        }
-        copy.set(newThing.id, newThing)
-        setThings(copy)
-    }, [newThing])
-
-    function handlerSave(thing) {
-        if (!thing || !thing.id || !thing.selectedCapability || thing.title === "") {
-            return
-        }
-        Api.addThing(thing).then(() => {
-            const copy = new Map(things)
-            if (copy.has(thing.id)) {
-                copy.delete(thing.id)
-                setThings(copy)
-            }
-        }).catch((e) => {
-            console.log(e)
-        })
-    }
-
-    function reader() {
-        const list = []
-        for (const [id, thing] of things) {
-            list.push(<NewThingCard thing={thing} save={handlerSave} key={id}/>)
-        }
-        return list
-    }
 
     return (
         <Box sx={{height: "100%"}}>
@@ -86,17 +51,11 @@ export default function NewThings() {
 
             <Stack direction="column" spacing={2} justifyContent="center" alignItems="center">
                 <LinearProgress variant="determinate" value={92}/>
-                {/*{*/}
-                {/*    things.map((id,thing, index) => {*/}
-                {/*        if (JSON.stringify(thing) === "{}") {*/}
-                {/*            return*/}
-                {/*        }*/}
-                {/*        console.log("index:", index, "thing:", thing)*/}
-                {/*        return <NewThingCard thing={thing} save={handlerSave} key={index}/>*/}
-                {/*    })*/}
-
-                {/*}*/}
-                {reader()}
+                {
+                    [...thingMaps.keys()].map(k => (
+                        <NewThingCard thing={thingMaps.get(k)} save={addThing} key={k}/>
+                    ))
+                }
             </Stack>
         </Box>
     )
