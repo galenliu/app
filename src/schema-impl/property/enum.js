@@ -1,3 +1,5 @@
+import Units from "../../js/units";
+
 export default class EnumDetail {
     constructor(thing, name, property) {
         this.thing = thing;

@@ -389,6 +389,11 @@
   resolved "https://registry.npmjs.org/@emotion/weak-memoize/-/weak-memoize-0.2.5.tgz"
   integrity sha512-6U71C2Wp7r5XtFtQzYrW5iKFT67OixrSxjI4MptCHzdSVlgabczzqLe0ZSgnub/5Kp4hSbpDB1tMytZY9pwxxA==
 
+"@fseehawer/react-circular-slider@^2.5.0":
+  version "2.5.0"
+  resolved "https://registry.yarnpkg.com/@fseehawer/react-circular-slider/-/react-circular-slider-2.5.0.tgz#2136bfe09714a95ee3acece03191c4507c90e440"
+  integrity sha512-D8ewfZS0gXVdOZtFsNh0XZwPfCJDKFcFkSooDUHpwRwPjDzuisk8sL55ShgF2xDP/GhRbAJ/NnTMunVFUUHisw==
+
 "@jridgewell/resolve-uri@^3.0.3":
   version "3.0.5"
   resolved "https://registry.npmjs.org/@jridgewell/resolve-uri/-/resolve-uri-3.0.5.tgz"

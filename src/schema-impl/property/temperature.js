@@ -8,11 +8,11 @@ export default class TemperatureDetail extends NumericLabelDetail {
       thing,
       name,
       !!property.readOnly,
-      property.title || fluent.getMessage('temperature'),
+      property.title,
       property.unit || 'degree celsius',
       0
     );
-    this.id = `temperature-${Utils.escapeHtmlForIdClass(this.name)}`;
+    // this.id = `temperature-${Utils.escapeHtmlForIdClass(this.name)}`;
 
     if (property.hasOwnProperty('multipleOf') && `${property.multipleOf}`.includes('.')) {
       this.precision = `${property.multipleOf}`.split('.')[1].length;

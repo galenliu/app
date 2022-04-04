@@ -6,7 +6,7 @@ export default class StringLabelDetail {
     this.name = name;
     this.readOnly = readOnly;
     this.label = label;
-    this.id = `label-${Utils.escapeHtmlForIdClass(this.name)}`;
+    // this.id = `label-${Utils.escapeHtmlForIdClass(this.name)}`;
   }
 
   attach() {

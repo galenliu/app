@@ -60,7 +60,7 @@ export default function ThingCard({thing, onProperty, state,icon}) {
                 </Typography>
                 <Typography sx={{fontSize: 10, flex: "40%"}}
                             color="text.secondary" gutterBottom>
-                    {thing.model?.group_id}
+                    {thing?.model?.group_id}
                 </Typography>
                 <Typography sx={{fontSize: 10, flex: "40%"}}
                             color="text.secondary" gutterBottom>
