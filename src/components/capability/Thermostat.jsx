@@ -15,6 +15,7 @@ import useThing from "../../js/capability/use-thing";
 import ThingIcons from "../../static/images/thing-icons/thingIcons";
 import {useThermostat} from "../../js/capability/use-thermostat";
 import TargetTemperatureProperty from "../property/TargetTemperatureProperty";
+import TemperatureProperty from "../property/TemperatureProperty";
 
 export default function Thermostat({description}) {
     const {t} = useTranslation();
@@ -34,6 +35,7 @@ export default function Thermostat({description}) {
             <>
                 {description.id === showThingId &&
                     <ThingDialog thing={thing} open={description.id === showThingId} onClose={() => showThing("")}>
+                        <TemperatureProperty property={temperatureProperty}/>
                         <TargetTemperatureProperty property={temperatureProperty}/>
                     </ThingDialog>}
                 {/*<ThingCard onProperty={onProperty} color= {[colorProperty.value ? [onProperty.value ? colorProperty.value : "#bfbfbf"] : [onProperty.value ? "#FF9502" : "#bfbfbf"]]}/>*/}
