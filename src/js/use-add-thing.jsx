@@ -32,6 +32,7 @@ export default function useAddThings(timeout) {
         }
 
         function onMessage(event) {
+            console.log("onMessage!!!:", event.data)
             if (event.data) {
                 const thing = JSON.parse(event.data)
                 updateMap(thing.id, thing)

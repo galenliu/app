@@ -9,7 +9,8 @@ export default class NumberDetail {
         this.readOnly = !!property.readOnly;
         this.label = property.title || name;
         this.type = property.type;
-        this.unit = property.unit ? Units.nameToAbbreviation(property.unit) : null;
+        // this.unit = property.unit ? Units.nameToAbbreviation(property.unit) : null;
+        this.unit = property.unit;
 
         if (property.type === 'integer') {
             this.precision = 0;

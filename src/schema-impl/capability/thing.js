@@ -109,7 +109,7 @@ class Thing {
         //     }
         // }
 
-        this.base = description.base ?? App.ORIGIN;
+        this.base = description.base ?? Constants.ORIGIN;
         // Parse base URL of Thing
         // if (description.href) {
         //     this.href = new URL(description.href, App.ORIGIN);

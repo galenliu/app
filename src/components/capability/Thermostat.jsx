@@ -24,6 +24,10 @@ export default function Thermostat({description}) {
         thing,
         state,
         temperatureProperty,
+        thermostatModeProperty,
+        heatingCoolingProperty,
+        heatingTargetTemperatureProperty,
+        coolingTargetTemperatureProperty,
     } = useThermostat(description)
 
 
@@ -35,8 +39,8 @@ export default function Thermostat({description}) {
             <>
                 {description.id === showThingId &&
                     <ThingDialog thing={thing} open={description.id === showThingId} onClose={() => showThing("")}>
-                        <TemperatureProperty property={temperatureProperty}/>
-                        <TargetTemperatureProperty property={temperatureProperty}/>
+                        <TemperatureProperty property={heatingTargetTemperatureProperty}/>
+                        <TargetTemperatureProperty property={coolingTargetTemperatureProperty}/>
                     </ThingDialog>}
                 {/*<ThingCard onProperty={onProperty} color= {[colorProperty.value ? [onProperty.value ? colorProperty.value : "#bfbfbf"] : [onProperty.value ? "#FF9502" : "#bfbfbf"]]}/>*/}
                 <ThingCard thing={thing} icon={<ThingIcons temperature={temperatureProperty.value} selected={description.selectedCapability}

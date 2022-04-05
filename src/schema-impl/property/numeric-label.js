@@ -7,7 +7,6 @@ export default class NumericLabelDetail {
     this.name = name;
     this.readOnly = readOnly;
     this.label = label;
-    this.unit = Units.nameToAbbreviation(unit);
     this.precision = precision;
   }
 

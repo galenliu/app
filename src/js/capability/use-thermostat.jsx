@@ -16,11 +16,15 @@ export function useThermostat(description) {
     const {thing} = useOnOffSwitch(description)
     const [state, setState] = useState("")
     const temperatureProperty = useNumberProperty(thing, thing?.temperatureProperty)
+    const heatingCoolingProperty = useNumberProperty(thing, thing?.heatingCoolingProperty)
+
+    const thermostatModeProperty = useNumberProperty(thing, thing?.thermostatModeProperty)
+    const heatingTargetTemperatureProperty = useNumberProperty(thing, thing?.heatingTargetTemperatureProperty)
+    const coolingTargetTemperatureProperty =useNumberProperty(thing, thing?.coolingTargetTemperatureProperty)
 
     useEffect(() => {
 
     }, [])
-
 
     useEffect(() => {
         if (!thing.connected) {
@@ -42,5 +46,9 @@ export function useThermostat(description) {
         thing,
         state,
         temperatureProperty,
+        thermostatModeProperty,
+        heatingTargetTemperatureProperty,
+        heatingCoolingProperty,
+        coolingTargetTemperatureProperty,
     }
 }

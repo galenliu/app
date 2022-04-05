@@ -18,8 +18,6 @@ export default function NewThings() {
     const navigate = useNavigate()
     const [thingMaps, state,addThing] = useAddThings(10000)
 
-
-
     return (
         <Box sx={{height: "100%"}}>
             <Fab

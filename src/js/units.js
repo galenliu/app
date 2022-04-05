@@ -115,16 +115,15 @@ const Units = {
             case 'degree celsius':
             case 'degrees celsius':
             case 'celsius':
-                if ((toUnit || App.UNITS.temperature) === 'degree fahrenheit') {
-                    toUnit = App.UNITS.temperature;
+                if (toUnit   === 'degree fahrenheit') {
+
                     value = value * 1.8 + 32;
                 }
                 break;
             case 'degree fahrenheit':
             case 'degrees fahrenheit':
             case 'fahrenheit':
-                if ((toUnit || App.UNITS.temperature) === 'degree celsius') {
-                    toUnit = App.UNITS.temperature;
+                if (toUnit   === 'degree celsius') {
                     value = (value - 32) / 1.8;
                 }
                 break;
