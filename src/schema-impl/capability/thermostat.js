@@ -9,7 +9,7 @@ class Thermostat extends Thing {
      */
     constructor(model, description, format) {
         super(model, description, format, {
-            baseIcon: '/images/thing-icons/thermostat.svg',
+
         });
     }
 

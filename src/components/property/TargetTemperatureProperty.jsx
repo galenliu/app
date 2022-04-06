@@ -35,7 +35,7 @@ export default function TargetTemperatureProperty({property}) {
                 </Stack>
                 <Stack sx={{flexDirection: "row", alignItems:"center"}}>
                     <Typography variant="h5">
-                        {property.value}%
+                        {property.value}℃
                     </Typography>
                     <Slider
                         sx={{mx: 5, width: "80%", mr: 4}}
