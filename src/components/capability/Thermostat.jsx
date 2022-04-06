@@ -47,7 +47,7 @@ export default function Thermostat({description}) {
                         {thermostatModeProperty.value==="auto" &&<TargetTemperatureAutoProperty cooling={coolingTargetTemperatureProperty} heating={heatingTargetTemperatureProperty}/>}
                     </ThingDialog>}
                 {/*<ThingCard onProperty={onProperty} color= {[colorProperty.value ? [onProperty.value ? colorProperty.value : "#bfbfbf"] : [onProperty.value ? "#FF9502" : "#bfbfbf"]]}/>*/}
-                <ThingCard thing={thing} icon={<ThingIcons temperature={temperatureProperty.value}
+                <ThingCard thing={thing} icon={<ThingIcons temperature={temperatureProperty.value} color={thermostatModeProperty.value!=="off"? "warning.main" : "grey.500"}
                                                            selected={description.selectedCapability}
                                                            sx={{fontSize: 45}}/>} state={state}/>
             </>

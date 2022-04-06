@@ -2,12 +2,15 @@ import * as React from 'react';
 import {SvgIcon} from "@mui/material";
 import {deepOrange} from "@mui/material/colors";
 import Avatar from "@mui/material/Avatar";
+import {AppContext} from "../../../App";
 
 export default function ThermostatIcon(props) {
     const {temperature} = props
+    const {color}=props
+
     return (
         <Avatar
-            sx={{ color: "info.light",width: 56, height: 56 }}
+            sx={{width: 56, height: 56 ,backgroundColor: color}}
             alt="Remy Sharp"
         >
             {temperature}℃

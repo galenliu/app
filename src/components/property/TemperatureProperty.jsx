@@ -9,6 +9,7 @@ import Card from "@mui/material/Card";
 import Typography from "@mui/material/Typography";
 import {Circle} from "@uiw/react-color";
 import PropertyCard from "./PropertyCard";
+import {PropertyCardState, PropertyCardTitle} from "../typography";
 
 export default function TemperatureProperty({property}) {
 
@@ -24,17 +25,16 @@ export default function TemperatureProperty({property}) {
         <PropertyCard>
             <Stack sx={{width: "100%", m: 2}}>
                 <Stack sx={{flexDirection: "column"}}>
-                    <Typography variant="subtitle2" sx={{color:"info.main"}}>
+                    <PropertyCardTitle>
                         {t(detail?.label)}
-                    </Typography>
+                    </PropertyCardTitle>
                 </Stack>
                 <Stack sx={{flexDirection: "row", alignItems: "center"}}>
-                    <Typography variant="h5">
+                    <PropertyCardState>
                         {property.value}℃
-                    </Typography>
+                    </PropertyCardState>
                 </Stack>
             </Stack>
-
         </PropertyCard>
     );
 };

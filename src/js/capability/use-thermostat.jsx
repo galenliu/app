@@ -8,12 +8,13 @@ import {useTranslation} from "react-i18next";
 import enTrans from "src/js/i18n/en-us.json"
 import {gateway} from "../../main";
 import useNumberProperty from "../property/use-number-property";
+import useThing from "./use-thing";
 
 
 export function useThermostat(description) {
 
     const {t} = useTranslation();
-    const {thing} = useOnOffSwitch(description)
+    const thing = useThing(description)
     const [state, setState] = useState("")
 
     const temperatureProperty = useNumberProperty(thing, thing?.temperatureProperty)
@@ -33,14 +34,16 @@ export function useThermostat(description) {
         if (!thing.connected) {
             setState(t(enTrans.Disconnected))
         } else {
-            if (heatingCoolingProperty.value === "cooling") {
-                setState(t(`正在调高至 ${heatingTargetTemperatureProperty.value}` + "℃"))
-
-            } else if (heatingCoolingProperty.value === "heating") {
+            if (thermostatModeProperty.value === "cool") {
                 setState(t(`正在调低至 ${coolingTargetTemperatureProperty.value}` + "℃"))
+
+            } else if (thermostatModeProperty.value === "heat") {
+                setState(t(`正在调高至 ${heatingTargetTemperatureProperty.value}` + "℃"))
+            }else if (thermostatModeProperty.value === "off") {
+                setState(t("off"))
             }
         }
-    }, [temperatureProperty.value, thing.connected])
+    }, [thermostatModeProperty.value, thing.connected,heatingTargetTemperatureProperty.value,coolingTargetTemperatureProperty.value])
 
     return {
         thing,

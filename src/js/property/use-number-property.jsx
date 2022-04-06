@@ -4,16 +4,16 @@ import useDebouncy from "use-debouncy/lib/effect";
 import useProperty from "./use-property";
 
 
-export default function useNumberProperty(thing,name){
+export default function useNumberProperty(thing, name) {
 
-    const {property,value,setValue} = useProperty(thing,name)
+    const {property, value, setValue} = useProperty(thing, name)
 
-    function setProperty(value){
+    function setProperty(value) {
 
-        if(typeof value === "number"){
+        if (typeof value === "number") {
             setValue(value)
         }
     }
 
-    return {...property,value,setValue:setProperty}
+    return {...property, value, setValue: setProperty}
 }

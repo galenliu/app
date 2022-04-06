@@ -10,6 +10,7 @@ import Typography from "@mui/material/Typography";
 import {Circle} from "@uiw/react-color";
 import PropertyCard from "./PropertyCard";
 import CircularSlider from '@fseehawer/react-circular-slider';
+import {PropertyCardState, PropertyCardTitle} from "../typography";
 
 function valuetext(value) {
     return `${value}°C`;
@@ -29,23 +30,22 @@ export default function TargetTemperatureProperty({property}) {
 
     return (
         <PropertyCard>
-
-            <Stack sx={{width: "100%", m: 2}}>
+            <Stack sx={{width: "100%", m: 1.5}}>
                 <Stack sx={{flexDirection: "column"}}>
-                    <Typography variant="subtitle2" sx={{color:"info.main"}}>
+                    <PropertyCardTitle  >
                         {t(detail?.label)}
-                    </Typography>
+                    </PropertyCardTitle>
                 </Stack>
                 <Stack sx={{flexDirection: "row", alignItems: "center"}}>
-                    <Typography variant="h5">
+                    <PropertyCardState>
                         {property.value}℃
-                    </Typography>
+                    </PropertyCardState>
                     <Slider
                         sx={{mx: 5, width: "80%", mr: 4}}
                         defaultValue={100}
                         value={value}
                         aria-label="Default"
-                        step={detail.step || 1}
+                        step={detail.step || 0.5}
                         min={detail.min || 0}
                         max={detail.max || 38}
                         valueLabelDisplay="auto"
@@ -78,23 +78,20 @@ export function TargetTemperatureAutoProperty({heating, cooling}) {
 
     return (
         <PropertyCard>
-
-            <Stack sx={{width: "100%", m: 2}}>
+            <Stack sx={{width: "100%", m: 1.5}}>
                 <Stack sx={{flexDirection: "column"}}>
-                    <Typography variant="subtitle2" sx={{color:"info.main"}}>
+                    <PropertyCardTitle>
                         {t("Temperature range")}
-                    </Typography>
+                    </PropertyCardTitle>
                 </Stack>
                 <Stack sx={{flexDirection: "row", alignItems: "center"}}>
-                    <Typography variant="h5">
+                    <PropertyCardState sx={{width:0.30}}>
                         {value[0]}-{value[1]}℃
-                    </Typography>
+                    </PropertyCardState>
                     <Slider
-                        sx={{mx: 5, width: "80%", mr: 4}}
-                        getAriaLabel={() => 'Temperature range'}
+                        sx={{mx: 5, width: 0.70, mr:4}}
                         value={value}
-                        aria-label="Default"
-                        // step={detail?.step}
+                        step={0.5}
                         min={detail?.min || 0}
                         max={detail?.max || 38}
                         valueLabelDisplay="auto"

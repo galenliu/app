@@ -9,6 +9,7 @@ import Card from "@mui/material/Card";
 import Typography from "@mui/material/Typography";
 import {Circle} from "@uiw/react-color";
 import PropertyCard from "./PropertyCard";
+import {PropertyCardState, PropertyCardTitle} from "../typography";
 
 export default function BrightnessProperty({property}) {
 
@@ -32,14 +33,14 @@ export default function BrightnessProperty({property}) {
         <PropertyCard>
             <Stack sx={{flexDirection: "column", m: 2}}>
                 <Stack sx={{flexDirection: "column"}}>
-                    <Typography variant="subtitle2">
-                        {t(property.property.detail.label)}
-                    </Typography>
+                    <PropertyCardTitle  >
+                        {t(detail.label)}
+                    </PropertyCardTitle>
                 </Stack>
                 <Stack sx={{flexDirection: "row", alignItems: "center"}}>
-                    <Typography variant="h5">
-                        {property.value}%
-                    </Typography>
+                    <PropertyCardState>
+                        {property?.value}%
+                    </PropertyCardState>
                     <Slider
                         sx={{mx: 5, width: "80%", mr: 4}}
                         aria-label="Default"

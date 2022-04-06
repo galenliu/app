@@ -29,11 +29,10 @@ export default function useProperty(thing, name, debounce) {
                 }
             }
         }
-    }, [name])
+    }, [name,thing])
 
-    useEffect(() => {
-        function handler(data) {
-            console.log(name,":",data)
+    function handler(data) {
+        if (name !== null && data !== {}) {
             if (Object.keys(data).length === 0) {
                 return
             }
@@ -43,6 +42,9 @@ export default function useProperty(thing, name, debounce) {
                 }
             }
         }
+    }
+
+    useEffect(() => {
 
         if (thing) {
             thing.model?.subscribe(Constants.PROPERTY_STATUS, handler)

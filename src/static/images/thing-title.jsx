@@ -3,6 +3,7 @@ import {useTranslation} from "react-i18next";
 import enTrans from "src/js/i18n/en-us.json"
 import Box from "@mui/material/Box";
 import {Stack, SvgIcon} from "@mui/material";
+import {AppContext} from "../../App";
 import Typography from "@mui/material/Typography";
 
 export function ThingTitleIcon(props) {
@@ -24,7 +25,7 @@ export default function ThingTitle(props) {
     return (
         <Stack direction={"row"} alignItems={"center"} spacing={1}>
             <ThingTitleIcon {...props}/>
-            <Typography variant={"inherit"}>
+            <Typography variant={"inherit"} sx={{color: "info.main"}}>
                 {props.title}
             </Typography>
         </Stack>)

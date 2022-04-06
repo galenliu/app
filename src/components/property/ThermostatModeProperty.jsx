@@ -10,6 +10,7 @@ import Typography from "@mui/material/Typography";
 import {Circle} from "@uiw/react-color";
 import PropertyCard from "./PropertyCard";
 import FormControl from "@mui/material/FormControl";
+import {PropertyCardTitle} from "../typography";
 
 export default function ThermostatModelProperty({property}) {
 
@@ -34,9 +35,9 @@ export default function ThermostatModelProperty({property}) {
         <PropertyCard>
             <Stack sx={{width: "100%", m: 2}}>
                 <Stack sx={{flexDirection: "column"}}>
-                    <Typography variant="subtitle2" sx={{color:"info.main"}}>
+                    <PropertyCardTitle>
                         {t(detail?.label)}
-                    </Typography>
+                    </PropertyCardTitle>
                 </Stack>
                 <FormControl sx={{mr: 4}}>
                     <Select
@@ -48,7 +49,7 @@ export default function ThermostatModelProperty({property}) {
                     >
                         {
                             detail?.choices.map(i =>
-                                <MenuItem key={i} value={i}>{t(i)}</MenuItem>
+                                <MenuItem sx={{color: "info.main"}} key={i} value={i}>{t(i)}</MenuItem>
                             )
                         }
                     </Select>
