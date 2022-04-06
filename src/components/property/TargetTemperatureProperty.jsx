@@ -11,6 +11,10 @@ import {Circle} from "@uiw/react-color";
 import PropertyCard from "./PropertyCard";
 import CircularSlider from '@fseehawer/react-circular-slider';
 
+function valuetext(value) {
+    return `${value}°C`;
+}
+
 export default function TargetTemperatureProperty({property}) {
 
 
@@ -31,9 +35,8 @@ export default function TargetTemperatureProperty({property}) {
                     <Typography variant="subtitle1">
                         {t(detail?.label)}
                     </Typography>
-
                 </Stack>
-                <Stack sx={{flexDirection: "row", alignItems:"center"}}>
+                <Stack sx={{flexDirection: "row", alignItems: "center"}}>
                     <Typography variant="h5">
                         {property.value}℃
                     </Typography>
@@ -42,13 +45,61 @@ export default function TargetTemperatureProperty({property}) {
                         defaultValue={100}
                         value={value}
                         aria-label="Default"
-                        step={detail?.step}
-                        min={detail?.min}
-                        max={detail?.max}
+                        step={detail.step || 1}
+                        min={detail.min || 0}
+                        max={detail.max || 38}
                         valueLabelDisplay="auto"
                         onChange={(event, newValue) => {
                             setValue(newValue)
                         }}
+                    />
+                </Stack>
+            </Stack>
+
+        </PropertyCard>
+    );
+};
+
+
+export function TargetTemperatureAutoProperty({heating, cooling}) {
+
+    const detail = cooling.detail
+    const {t} = useTranslation()
+    const [value, setValue] = useState([cooling.value, heating.value])
+
+    const handleChange = (event, newValue) => {
+        setValue(newValue);
+    };
+
+    useEffect(() => {
+        console.log("heating:", heating)
+    })
+
+
+    return (
+        <PropertyCard>
+
+            <Stack sx={{width: "100%", m: 2}}>
+                <Stack sx={{flexDirection: "column"}}>
+                    <Typography variant="subtitle1">
+                        {t("Temperature range")}
+                    </Typography>
+                </Stack>
+                <Stack sx={{flexDirection: "row", alignItems: "center"}}>
+                    <Typography variant="h5">
+                        {value[0]}-{value[1]}℃
+                    </Typography>
+                    <Slider
+                        sx={{mx: 5, width: "80%", mr: 4}}
+                        getAriaLabel={() => 'Temperature range'}
+                        value={value}
+                        aria-label="Default"
+                        // step={detail?.step}
+                        min={detail?.min || 0}
+                        max={detail?.max || 38}
+                        valueLabelDisplay="auto"
+                        getAriaValueText={valuetext}
+                        onChange={handleChange}
                     />
                 </Stack>
             </Stack>

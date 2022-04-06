@@ -14,11 +14,11 @@ export default function HeatingCoolingProperty({property}) {
 
     const {t} = useTranslation()
     const [value, setValue] = useState(property.value)
-    const detail = property.detail
+    const detail = property.property.detail || {}
 
     useEffect(() => {
-        property.setValue(value)
-    }, [value])
+        setValue(value)
+    }, [property.value])
 
     return (
         <PropertyCard>
@@ -30,7 +30,7 @@ export default function HeatingCoolingProperty({property}) {
                 </Stack>
                 <Stack sx={{flexDirection: "row", alignItems:"center"}}>
                     <Typography variant="h5">
-                        {t(property.value)}
+                        {t(value)}
                     </Typography>
                 </Stack>
             </Stack>

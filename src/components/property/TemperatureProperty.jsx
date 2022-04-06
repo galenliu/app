@@ -13,12 +13,12 @@ import PropertyCard from "./PropertyCard";
 export default function TemperatureProperty({property}) {
 
     const {t} = useTranslation()
-    const [value, setValue] = useState(property.value)
-    const detail = property.detail
+
+    const detail = property.property.detail
 
     useEffect(() => {
-        property.setValue(value)
-    }, [value])
+
+    }, [])
 
     return (
         <PropertyCard>
@@ -28,7 +28,7 @@ export default function TemperatureProperty({property}) {
                         {t(detail?.label)}
                     </Typography>
                 </Stack>
-                <Stack sx={{flexDirection: "row", alignItems:"center"}}>
+                <Stack sx={{flexDirection: "row", alignItems: "center"}}>
                     <Typography variant="h5">
                         {property.value}℃
                     </Typography>

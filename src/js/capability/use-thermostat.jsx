@@ -15,12 +15,15 @@ export function useThermostat(description) {
     const {t} = useTranslation();
     const {thing} = useOnOffSwitch(description)
     const [state, setState] = useState("")
-    const temperatureProperty = useNumberProperty(thing, thing?.temperatureProperty)
-    const heatingCoolingProperty = useNumberProperty(thing, thing?.heatingCoolingProperty)
 
-    const thermostatModeProperty = useNumberProperty(thing, thing?.thermostatModeProperty)
+    const temperatureProperty = useNumberProperty(thing, thing?.temperatureProperty)
+
+    const heatingCoolingProperty = useStringProperty(thing, thing?.heatingCoolingProperty)
+    const thermostatModeProperty = useStringProperty(thing, thing?.thermostatModeProperty)
+
     const heatingTargetTemperatureProperty = useNumberProperty(thing, thing?.heatingTargetTemperatureProperty)
-    const coolingTargetTemperatureProperty =useNumberProperty(thing, thing?.coolingTargetTemperatureProperty)
+    const coolingTargetTemperatureProperty = useNumberProperty(thing, thing?.coolingTargetTemperatureProperty)
+
 
     useEffect(() => {
 
@@ -30,14 +33,11 @@ export function useThermostat(description) {
         if (!thing.connected) {
             setState(t(enTrans.Disconnected))
         } else {
-            if (temperatureProperty.value) {
-                if (temperatureProperty && temperatureProperty.value) {
-                    setState(temperatureProperty.value + "%")
-                } else {
-                    setState(t(enTrans.On))
-                }
-            } else {
-                setState(t(enTrans.Off))
+            if (heatingCoolingProperty.value === "cooling") {
+                setState(t(`正在调高至 ${heatingTargetTemperatureProperty.value}` + "℃"))
+
+            } else if (heatingCoolingProperty.value === "heating") {
+                setState(t(`正在调低至 ${coolingTargetTemperatureProperty.value}` + "℃"))
             }
         }
     }, [temperatureProperty.value, thing.connected])

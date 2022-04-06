@@ -14,7 +14,7 @@ import LightIcon from "../../static/images/thing-icons/light";
 import useThing from "../../js/capability/use-thing";
 import ThingIcons from "../../static/images/thing-icons/thingIcons";
 import {useThermostat} from "../../js/capability/use-thermostat";
-import TargetTemperatureProperty from "../property/TargetTemperatureProperty";
+import TargetTemperatureProperty, {TargetTemperatureAutoProperty} from "../property/TargetTemperatureProperty";
 import TemperatureProperty from "../property/TemperatureProperty";
 import ThermostatModelProperty from "../property/ThermostatModeProperty";
 import HeatingCoolingProperty from "../property/HeatingCoolingProperty";
@@ -42,8 +42,9 @@ export default function Thermostat({description}) {
                         <TemperatureProperty property={temperatureProperty}/>
                         <HeatingCoolingProperty property={heatingCoolingProperty}/>
                         <ThermostatModelProperty property={thermostatModeProperty}/>
-                        <TargetTemperatureProperty property={coolingTargetTemperatureProperty}/>
-                        <TargetTemperatureProperty property={heatingTargetTemperatureProperty}/>
+                        {thermostatModeProperty.value==="cool" && <TargetTemperatureProperty property={coolingTargetTemperatureProperty}/>}
+                        {thermostatModeProperty.value==="heat" &&<TargetTemperatureProperty property={heatingTargetTemperatureProperty}/>}
+                        {thermostatModeProperty.value==="auto" &&<TargetTemperatureAutoProperty cooling={coolingTargetTemperatureProperty} heating={heatingTargetTemperatureProperty}/>}
                     </ThingDialog>}
                 {/*<ThingCard onProperty={onProperty} color= {[colorProperty.value ? [onProperty.value ? colorProperty.value : "#bfbfbf"] : [onProperty.value ? "#FF9502" : "#bfbfbf"]]}/>*/}
                 <ThingCard thing={thing} icon={<ThingIcons temperature={temperatureProperty.value}

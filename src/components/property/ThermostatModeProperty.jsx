@@ -14,15 +14,21 @@ import FormControl from "@mui/material/FormControl";
 export default function ThermostatModelProperty({property}) {
 
     const {t} = useTranslation()
-    const [value, setValue] = useState(property.value)
-    const detail = property.detail
+    const detail = property.property.detail || {}
 
-    const [model, setModel] = useState(property.value)
+    const [mode, setMode] = useState(property.value)
 
     useEffect(() => {
-        console.log("1111", property)
-        property.setValue(value)
-    }, [value])
+        setMode(property.value)
+    }, [property.value])
+
+    useEffect(() => {
+    }, [property])
+
+
+    const handleChange = (event) => {
+        property.setValue(event.target.value);
+    };
 
     return (
         <PropertyCard>
@@ -32,17 +38,17 @@ export default function ThermostatModelProperty({property}) {
                         {t(detail?.label)}
                     </Typography>
                 </Stack>
-                <FormControl sx={{mr:4}}>
+                <FormControl sx={{mr: 4}}>
                     <Select
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
-                        value={model}
+                        value={mode}
                         label="Age"
-                        // onChange={}
+                        onChange={handleChange}
                     >
                         {
-                            property.detail.choices.map(i =>
-                                <MenuItem key={i} value={i}>{i}</MenuItem>
+                            detail?.choices.map(i =>
+                                <MenuItem key={i} value={i}>{t(i)}</MenuItem>
                             )
                         }
                     </Select>
