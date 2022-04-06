@@ -13,18 +13,20 @@ import PropertyCard from "./PropertyCard";
 export default function HeatingCoolingProperty({property}) {
 
     const {t} = useTranslation()
-    const [value, setValue] = useState(property.value)
+    const [value,setValue]=useState(property.value)
+
     const detail = property.property.detail || {}
 
-    useEffect(() => {
+    useEffect(()=>{
         setValue(value)
-    }, [property.value])
+    },[property])
+
 
     return (
         <PropertyCard>
             <Stack sx={{width: "100%", m: 2}}>
                 <Stack sx={{flexDirection: "column"}}>
-                    <Typography variant="subtitle1">
+                    <Typography variant="subtitle2" sx={{color:"info.main"}}>
                         {t(detail?.label)}
                     </Typography>
                 </Stack>

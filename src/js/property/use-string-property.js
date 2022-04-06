@@ -11,6 +11,6 @@ export default function useStringProperty(thing, name) {
     }
     useEffect(()=>{
         console.log("string value:",thing.title,"name:",name,value)
-    })
+    },[value])
     return {property, value, setValue: setProperty}
 }

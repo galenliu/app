@@ -33,6 +33,7 @@ export default function useProperty(thing, name, debounce) {
 
     useEffect(() => {
         function handler(data) {
+            console.log(name,":",data)
             if (Object.keys(data).length === 0) {
                 return
             }

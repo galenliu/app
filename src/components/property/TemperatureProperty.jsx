@@ -14,7 +14,7 @@ export default function TemperatureProperty({property}) {
 
     const {t} = useTranslation()
 
-    const detail = property.property.detail
+    const detail = property.detail
 
     useEffect(() => {
 
@@ -24,7 +24,7 @@ export default function TemperatureProperty({property}) {
         <PropertyCard>
             <Stack sx={{width: "100%", m: 2}}>
                 <Stack sx={{flexDirection: "column"}}>
-                    <Typography variant="subtitle1">
+                    <Typography variant="subtitle2" sx={{color:"info.main"}}>
                         {t(detail?.label)}
                     </Typography>
                 </Stack>

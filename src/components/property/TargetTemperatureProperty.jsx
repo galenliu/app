@@ -32,7 +32,7 @@ export default function TargetTemperatureProperty({property}) {
 
             <Stack sx={{width: "100%", m: 2}}>
                 <Stack sx={{flexDirection: "column"}}>
-                    <Typography variant="subtitle1">
+                    <Typography variant="subtitle2" sx={{color:"info.main"}}>
                         {t(detail?.label)}
                     </Typography>
                 </Stack>
@@ -81,7 +81,7 @@ export function TargetTemperatureAutoProperty({heating, cooling}) {
 
             <Stack sx={{width: "100%", m: 2}}>
                 <Stack sx={{flexDirection: "column"}}>
-                    <Typography variant="subtitle1">
+                    <Typography variant="subtitle2" sx={{color:"info.main"}}>
                         {t("Temperature range")}
                     </Typography>
                 </Stack>

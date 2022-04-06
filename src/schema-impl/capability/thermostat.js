@@ -18,7 +18,6 @@ class Thermostat extends Thing {
      */
     findProperties() {
         this.temperatureProperty = null;
-
         this.heatingCoolingProperty = null;
         this.thermostatModeProperty = null;
 
@@ -32,8 +31,6 @@ class Thermostat extends Thing {
 
             if (type === 'TemperatureProperty') {
                 this.temperatureProperty = name;
-            } else if (type === 'HeatingCoolingProperty') {
-                this.heatingCoolingProperty = name;
             } else if (type === 'ThermostatModeProperty') {
                 this.thermostatModeProperty = name;
             } else if (type === 'HeatingCoolingProperty') {
