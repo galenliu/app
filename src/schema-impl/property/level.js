@@ -31,20 +31,6 @@ export default class LevelDetail {
             this.step = 1;
         }
 
-        // this.id = `level-${Utils.escapeHtmlForIdClass(this.name)}`;
-    }
-
-
-    update(level) {
-        if (!this.level) {
-            return;
-        }
-
-        this.level.value = level;
-    }
-
-    set() {
-        this.thing.setProperty(this.name, this.level.value);
     }
 }
 

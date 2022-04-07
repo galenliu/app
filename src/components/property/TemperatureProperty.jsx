@@ -15,7 +15,7 @@ export default function TemperatureProperty({property}) {
 
     const {t} = useTranslation()
 
-    const detail = property.detail
+    const detail = property.detail || {}
 
     useEffect(() => {
 

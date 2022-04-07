@@ -16,7 +16,7 @@ export default function HeatingCoolingProperty({property}) {
     const {t} = useTranslation()
     const [value,setValue]=useState(property.value)
 
-    const detail = property.property.detail || {}
+    const detail = property.detail || {}
 
     useEffect(()=>{
         setValue(value)

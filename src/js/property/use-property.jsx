@@ -29,13 +29,10 @@ export default function useProperty(thing, name, debounce) {
                 }
             }
         }
-    }, [name,thing])
+    }, )
 
     function handler(data) {
         if (name !== null && data !== {}) {
-            if (Object.keys(data).length === 0) {
-                return
-            }
             for (let n in data) {
                 if (n === name) {
                     update(data[n])
