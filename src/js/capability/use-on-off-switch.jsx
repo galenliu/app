@@ -7,26 +7,26 @@ import {AppContext} from "../../App";
 
 export default function useOnOffSwitch(description) {
     const {t} = useTranslation();
-    const thing = useThing(description)
-    const onProperty = useBooleanProperty(thing, thing?.onProperty)
+    const {thingModel,connected} = useThing(description)
+    // const onProperty = useBooleanProperty(thing, thing?.onProperty)
     const [state, setState] = useState()
 
 
-    useEffect(() => {
-        if (thing.connected) {
-            if (onProperty.value) {
-                setState(t(enTrans.On))
-            } else {
-                setState(t(enTrans.Off))
-            }
-        } else {
-            setState(t(enTrans.Disconnected))
-        }
+    // useEffect(() => {
+    //     if (thing.connected) {
+    //         if (onProperty.value) {
+    //             setState(t(enTrans.On))
+    //         } else {
+    //             setState(t(enTrans.Off))
+    //         }
+    //     } else {
+    //         setState(t(enTrans.Disconnected))
+    //     }
+    //
+    // }, [thing.connected, onProperty.value])
+    //
+    // useEffect(() => {
+    // }, [thing])
 
-    }, [thing.connected, onProperty.value])
-
-    useEffect(() => {
-    }, [thing])
-
-    return {thing, state, onProperty}
+    return {thingModel,connected}
 }

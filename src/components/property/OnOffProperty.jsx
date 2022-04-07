@@ -16,9 +16,9 @@ import IconButton from "@mui/material/IconButton";
 import PropertyCard from "./PropertyCard";
 
 
-export default function OnOffProperty(props) {
+export default function OnOffProperty({property}) {
     const {t} = useTranslation()
-    const {property} = props
+
 
     useEffect(() => {
         console.log("onOffProperty data:", property)

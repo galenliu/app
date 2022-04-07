@@ -11,7 +11,11 @@ export default function useProperty(thing, name, debounce) {
     //const property = thing.displayedProperties[name] || {}
     const [debounceValue, setValue] = useState()
     const [value, update] = useState()
-    const property = thing?.displayedProperties || {}
+    const property = thing?.displayedProperties[name] || {}
+
+    useEffect(()=>{
+        console.log("###thing",thing)
+    })
     //去抖动
     useDebouncy(
         () => setProperty(debounceValue), // function debounce
@@ -29,7 +33,7 @@ export default function useProperty(thing, name, debounce) {
                 }
             }
         }
-    }, )
+    },)
 
     function handler(data) {
         if (name !== null && data !== {}) {
@@ -58,6 +62,16 @@ export default function useProperty(thing, name, debounce) {
         thing?.model?.setProperty(name, value)
     }
 
-    return {property: property[name], value: value, setValue: setValue}
+    return {
+        property: {
+            min: property.detail.min || null,
+            max: property.detail.max || null,
+            title: property.detail.label,
+            label: property.detail.label,
+            multipleOf: property.detail.step || null
+        },
+        value: value,
+        setValue: setValue
+    }
 }
 

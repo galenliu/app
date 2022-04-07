@@ -8,9 +8,9 @@ import {ListItem} from "@mui/material";
 import {HexColorPicker} from "react-colorful";
 import {Label} from "@mui/icons-material";
 
-export default function ColorModeProperty(props) {
+export default function ColorModeProperty(property) {
     const {t} = useTranslation()
-    const {property} = props
+
 
 
     useEffect(() => {

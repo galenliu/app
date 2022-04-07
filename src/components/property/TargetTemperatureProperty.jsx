@@ -21,7 +21,6 @@ export default function TargetTemperatureProperty({property}) {
 
     const {t} = useTranslation()
     const [value, setValue] = useState(property.value)
-    const detail = property.detail
 
 
     useEffect(() => {
@@ -32,7 +31,7 @@ export default function TargetTemperatureProperty({property}) {
         <PropertyCard>
             <Stack sx={{width: "100%", m: 1.5}}>
                 <Stack sx={{flexDirection: "column"}}>
-                    <PropertyCardTitle  >
+                    <PropertyCardTitle>
                         {t(detail?.label)}
                     </PropertyCardTitle>
                 </Stack>
@@ -45,9 +44,9 @@ export default function TargetTemperatureProperty({property}) {
                         defaultValue={100}
                         value={value}
                         aria-label="Default"
-                        step={detail.step || 0.5}
-                        min={detail.min || 0}
-                        max={detail.max || 38}
+                        step={property.step || 0.5}
+                        min={property.min || 0}
+                        max={property.max || 38}
                         valueLabelDisplay="auto"
                         onChange={(event, newValue) => {
                             setValue(newValue)
@@ -63,7 +62,7 @@ export default function TargetTemperatureProperty({property}) {
 
 export function TargetTemperatureAutoProperty({heating, cooling}) {
 
-    const detail = cooling.detail
+
     const {t} = useTranslation()
     const [value, setValue] = useState([cooling.value, heating.value])
 
@@ -75,7 +74,6 @@ export function TargetTemperatureAutoProperty({heating, cooling}) {
         console.log("heating:", heating)
     })
 
-
     return (
         <PropertyCard>
             <Stack sx={{width: "100%", m: 1.5}}>
@@ -85,15 +83,15 @@ export function TargetTemperatureAutoProperty({heating, cooling}) {
                     </PropertyCardTitle>
                 </Stack>
                 <Stack sx={{flexDirection: "row", alignItems: "center"}}>
-                    <PropertyCardState sx={{width:0.30}}>
+                    <PropertyCardState sx={{width: 0.30}}>
                         {value[0]}-{value[1]}℃
                     </PropertyCardState>
                     <Slider
-                        sx={{mx: 5, width: 0.70, mr:4}}
+                        sx={{mx: 5, width: 0.70, mr: 4}}
                         value={value}
                         step={0.5}
-                        min={detail?.min || 0}
-                        max={detail?.max || 38}
+                        min={0}
+                        max={38}
                         valueLabelDisplay="auto"
                         getAriaValueText={valuetext}
                         onChange={handleChange}

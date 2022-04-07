@@ -15,5 +15,5 @@ export default function useNumberProperty(thing, name) {
         }
     }
 
-    return {...property, value, setValue: setProperty}
+    return {property, value, setValue: setProperty}
 }

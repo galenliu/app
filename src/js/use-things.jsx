@@ -3,37 +3,31 @@ import Constants from "src/js/constants";
 
 
 export default function useThings(gateway) {
-    const [things, setThings] = useState([])
+    const [thingMaps, setThings] = useState(new Map())
 
-    const refreshThings = async (thingDescriptions, ground) => {
-        try {
-            let list = []
-            if (things.size !== 0) {
-                for (let [thingId, description] of thingDescriptions) {
-                    if (description) {
-                        list.push({...description})
-                    }
-                }
+    const update = (thingDescriptions, group) => {
+        let m = new Map()
+        for (const [id, thing] of thingDescriptions) {
+            if (thing.id !== undefined) {
+                m.set(id, thing)
             }
-            setThings(list.slice())
-        } catch (e) {
-            console.warn(e)
         }
+        setThings(m)
     }
 
     useEffect(() => {
-
-    }, [things])
+        console.log("thingMaps:",thingMaps)
+    }, [thingMaps])
 
     useEffect(() => {
-        gateway.subscribe(Constants.REFRESH_THINGS, refreshThings, true)
-        gateway.subscribe(Constants.DELETE_THINGS, refreshThings)
+        gateway.subscribe(Constants.REFRESH_THINGS, update, true)
+        gateway.subscribe(Constants.DELETE_THINGS, update)
         return () => {
-            gateway.unsubscribe(Constants.REFRESH_THINGS, refreshThings)
-            gateway.subscribe(Constants.DELETE_THINGS, refreshThings)
-
+            gateway.unsubscribe(Constants.REFRESH_THINGS, update)
+            gateway.subscribe(Constants.DELETE_THINGS, update)
         }
     }, [])
 
-    return [things]
+
+    return [thingMaps]
 }

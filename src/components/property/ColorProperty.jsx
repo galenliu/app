@@ -5,10 +5,9 @@ import {Stack} from "@mui/material";
 import Card from "@mui/material/Card";
 import PropertyCard from "./PropertyCard";
 
-export default function ColorProperty(props) {
+export default function ColorProperty({property}) {
     const {t} = useTranslation()
-    const {property} = props
-    const detail = property.property.detail
+
     const [colors, setColors] = useState(['#ff0000', '#00ff00', '#0000ff', '#f47920', '#2a5caa', '#45b97c', '#45b97c'])
 
 

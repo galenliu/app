@@ -13,7 +13,6 @@ export default function LevelProperty({property}) {
 
     const {t} = useTranslation()
     const [value, setValue] = useState(property.value)
-    const detail = property.detail
 
 
     useEffect(() => {
@@ -26,25 +25,25 @@ export default function LevelProperty({property}) {
             <Stack sx={{width: "100%", m: 2}}>
                 <Stack sx={{flexDirection: "column"}}>
                     <Typography variant="subtitle1">
-                        {t(detail?.label)}
+                        {t(property?.label)}
                     </Typography>
 
                 </Stack>
-                <Stack sx={{flexDirection: "row", alignItems:"center"}}>
+                <Stack sx={{flexDirection: "row", alignItems: "center"}}>
                     <Typography variant="h5">
-                    {property.value}%
-                </Typography>
+                        {property.value}%
+                    </Typography>
                     <Slider
                         sx={{mx: 5, width: "80%", mr: 4}}
                         defaultValue={100}
                         value={value}
                         aria-label="Default"
-                        step={detail?.step}
-                        min={detail?.min}
-                        max={detail?.max}
+                        step={property.step || 1}
+                        min={property?.min || 1}
+                        max={property?.max || 100}
                         valueLabelDisplay="auto"
                         onChange={(event, newValue) => {
-                           setValue(newValue)
+                            setValue(newValue)
                         }}
                     />
                 </Stack>

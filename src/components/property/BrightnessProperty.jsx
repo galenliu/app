@@ -13,7 +13,7 @@ import {PropertyCardState, PropertyCardTitle} from "../typography";
 
 export default function BrightnessProperty({property}) {
 
-    const detail = property.property.detail
+
     const {t} = useTranslation()
     const [value, setValue] = useState(property.value)
 
@@ -34,7 +34,7 @@ export default function BrightnessProperty({property}) {
             <Stack sx={{flexDirection: "column", m: 2}}>
                 <Stack sx={{flexDirection: "column"}}>
                     <PropertyCardTitle  >
-                        {t(detail.label)}
+                        {t(property.label)}
                     </PropertyCardTitle>
                 </Stack>
                 <Stack sx={{flexDirection: "row", alignItems: "center"}}>
@@ -44,10 +44,10 @@ export default function BrightnessProperty({property}) {
                     <Slider
                         sx={{mx: 5, width: "80%", mr: 4}}
                         aria-label="Default"
-                        step={detail.step}
+                        step={property.step}
                         value={value}
-                        min={detail.min}
-                        max={detail.max}
+                        min={property.min}
+                        max={property.max}
                         valueLabelDisplay="auto"
                         onChange={(event, newValue) => {
                             setValue(newValue)
