@@ -16,7 +16,6 @@ export default function useThings(gateway) {
     }
 
     useEffect(() => {
-        console.log("thingMaps:",thingMaps)
     }, [thingMaps])
 
     useEffect(() => {

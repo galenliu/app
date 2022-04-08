@@ -14,13 +14,11 @@ import {PropertyCardState, PropertyCardTitle} from "../typography";
 export default function HeatingCoolingProperty({property}) {
 
     const {t} = useTranslation()
-    const [value,setValue]=useState(property.value)
+    const [value, setValue] = useState(property.value)
 
-    const detail = property.detail || {}
-
-    useEffect(()=>{
+    useEffect(() => {
         setValue(value)
-    },[property])
+    }, [property])
 
 
     return (
@@ -28,10 +26,10 @@ export default function HeatingCoolingProperty({property}) {
             <Stack sx={{width: "100%", m: 2}}>
                 <Stack sx={{flexDirection: "column"}}>
                     <PropertyCardTitle>
-                        {t(detail?.label)}
+                        {t(property?.label)}
                     </PropertyCardTitle>
                 </Stack>
-                <Stack sx={{flexDirection: "row", alignItems:"center"}}>
+                <Stack sx={{flexDirection: "row", alignItems: "center"}}>
                     <PropertyCardState>
                         {t(value)}
                     </PropertyCardState>

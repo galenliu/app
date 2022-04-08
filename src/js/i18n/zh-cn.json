@@ -1,7 +1,7 @@
 {
   "Home": "家庭",
   "Things": "设备",
-  "Control" : "控制",
+  "Control": "控制",
   "Rules": "规则",
   "Remove": "移除",
   "Displayed": "显示为",
@@ -82,7 +82,7 @@
   "MotionSensor": "MotionSensor",
   "MultiLevelSensor": "MultiLevelSensor",
   "MultiLevelSwitch": "调节开关",
-  "Temperature range" : "温度保持在",
+  "Temperature range": "温度保持在",
   "OnOffSwitch": "开关",
   "PushButton": "PushButton",
   "SmartPlug": "智能插座",
@@ -91,6 +91,8 @@
   "Thermostat": "Thermostat",
   "VideoCamera": "VideoCamera",
   "Custom": "自定义",
+  "wind": "送风",
+  "dry": "除湿",
   "add things": "添加配件",
   "disconnect": "失去连接",
   "remove the accessories": "移除配件",
@@ -115,6 +117,5 @@
   "Already have an account? Sign in": "已有帐号？登陆",
   "Installed Addons": "已安装的附加组件",
   "Exit": "退出"
-
 }
 

@@ -2,7 +2,7 @@ import React, {useContext, useEffect, useState} from "react";
 import Grid from "@mui/material/Grid";
 import {useTranslation} from "react-i18next";
 import {AppContext} from "../../App";
-import { gateway} from "../../main";
+import {gateway} from "../../main";
 import enTrans from "src/js/i18n/en-us.json"
 import {Path} from "src/js/menuList";
 import AddIcon from "@mui/icons-material/Add";
@@ -51,7 +51,7 @@ export default function Things(props) {
     }, [])
 
     useEffect(() => {
-        console.log("Things View Reader:",thingMaps)
+        console.log("Things View Reader:", thingMaps)
         return () => {
         }
     }, [thingMaps])
@@ -76,101 +76,100 @@ export default function Things(props) {
 
             <Grid sx={{mt: 8}} container direction="row">
                 {
-                   [...thingMaps.keys()].map((id)=>{
-                       let description = thingMaps.get(id)
-                       switch (description.selectedCapability) {
-                       //     case Capability.Alarm:
-                       //         list.push(<Alarm key={description.id} description={description} showThingId={showThingId}/>)
-                       //         break
-                       //     case Capability.AirQualitySensor:
-                       //         list.push(<AirQualitySensor key={description.id} description={description}
-                       //                                     showThingId={showThingId}/>)
-                       //         break
-                       //     case Capability.BarometricPressureSensor:
-                       //         list.push(<BarometricPressureSensor key={description.id} description={description}
-                       //                                             showThingId={showThingId}/>)
-                       //         break
-                       //     case Capability.BinarySensor:
-                       //         list.push(<BinarySensor key={description.id} description={description}
-                       //                                 showThingId={showThingId}/>)
-                       //         break
-                       //     case Capability.Camera:
-                       //         list.push(<Camera key={description.id} description={description}
-                       //                           showThingId={showThingId}/>)
-                       //         break
-                       //     case Capability.ColorControl:
-                       //         list.push(<ColorControl key={description.id} description={description}
-                       //                                 showThingId={showThingId}/>)
-                       //         break
-                       //     case Capability.ColorSensor:
-                       //         list.push(<ColorSensor key={description.id} description={description}
-                       //                                showThingId={showThingId}/>)
-                       //         break
-                       //     case Capability.DoorSensor:
-                       //         list.push(<DoorSensor key={description.id} description={description}
-                       //                               showThingId={showThingId}/>)
-                       //         break
-                       //     case Capability.EnergyMonitor:
-                       //         list.push(<EnergyMonitor key={description.id} description={description}
-                       //                                  showThingId={showThingId}/>)
-                       //         break
-                       //     case Capability.HumiditySensor:
-                       //         list.push(<HumiditySensor key={description.id} description={description}
-                       //                                   showThingId={showThingId}/>)
-                       //         break
-                       //     case Capability.LeakSensor:
-                       //         list.push(<LeakSensor key={description.id} description={description}
-                       //                               showThingId={showThingId}/>)
-                       //         break
-                       //     case Capability.Light:
-                       //         list.push(<Light   key={description.id} description={description} showThingId={showThingId}/>)
-                       //         break
-                       //     case Capability.Lock:
-                       //         list.push(<Lock key={description.id} description={description} showThingId={showThingId}/>)
-                       //         break
-                       //     case Capability.MotionSensor:
-                       //         list.push(<MotionSensor key={description.id} description={description}
-                       //                                 showThingId={showThingId}/>)
-                       //         break
-                       //     case Capability.MultiLevelSensor:
-                       //         list.push(<MultiLevelSensor key={description.id} description={description}
-                       //                                     showThingId={showThingId}/>)
-                       //         break
-                       //     case Capability.MultiLevelSwitch:
-                       //         list.push(<MultiLevelSwitch key={description.id} description={description}
-                       //                                     showThingId={showThingId}/>)
-                       //         break
-                           case Capability.OnOffSwitch:
-                               return <OnOffSwitch key={description.id} description={description}
-                                                      showThingId={showThingId}/>
-                       //         break
-                       //     case Capability.PushButton:
-                       //         list.push(<PushButton key={description.id} description={description}
-                       //                               showThingId={showThingId}/>)
-                       //         break
-                       //     case Capability.SmartPlug:
-                       //         list.push(<SmartPlug key={description.id} description={description}
-                       //                              showThingId={showThingId}/>)
-                       //         break
-                       //     case Capability.SmokeSensor:
-                       //         list.push(<SmokeSensor key={description.id} description={description}
-                       //                                showThingId={showThingId}/>)
-                       //         break
-                       //     case Capability.TemperatureSensor:
-                       //         list.push(<TemperatureSensor key={description.id} description={description}
-                       //                                      showThingId={showThingId}/>)
-                       //         break
-                       //     case Capability.Thermostat:
-                       //         list.push(<Thermostat key={description.id} description={description}
-                       //                               showThingId={showThingId}/>)
-                       //         break
-                       //     case Capability.VideoCamera:
-                       //         list.push(<VideoCamera key={description.id} description={description}
-                       //                                showThingId={showThingId}/>)
-                       //         break
+                    [...thingMaps.keys()].map((id) => {
+                        let description = thingMaps.get(id)
+                        switch (description.selectedCapability) {
+                            //     case Capability.Alarm:
+                            //         list.push(<Alarm key={description.id} description={description} showThingId={showThingId}/>)
+                            //         break
+                            //     case Capability.AirQualitySensor:
+                            //         list.push(<AirQualitySensor key={description.id} description={description}
+                            //                                     showThingId={showThingId}/>)
+                            //         break
+                            //     case Capability.BarometricPressureSensor:
+                            //         list.push(<BarometricPressureSensor key={description.id} description={description}
+                            //                                             showThingId={showThingId}/>)
+                            //         break
+                            //     case Capability.BinarySensor:
+                            //         list.push(<BinarySensor key={description.id} description={description}
+                            //                                 showThingId={showThingId}/>)
+                            //         break
+                            //     case Capability.Camera:
+                            //         list.push(<Camera key={description.id} description={description}
+                            //                           showThingId={showThingId}/>)
+                            //         break
+                            //     case Capability.ColorControl:
+                            //         list.push(<ColorControl key={description.id} description={description}
+                            //                                 showThingId={showThingId}/>)
+                            //         break
+                            //     case Capability.ColorSensor:
+                            //         list.push(<ColorSensor key={description.id} description={description}
+                            //                                showThingId={showThingId}/>)
+                            //         break
+                            //     case Capability.DoorSensor:
+                            //         list.push(<DoorSensor key={description.id} description={description}
+                            //                               showThingId={showThingId}/>)
+                            //         break
+                            //     case Capability.EnergyMonitor:
+                            //         list.push(<EnergyMonitor key={description.id} description={description}
+                            //                                  showThingId={showThingId}/>)
+                            //         break
+                            //     case Capability.HumiditySensor:
+                            //         list.push(<HumiditySensor key={description.id} description={description}
+                            //                                   showThingId={showThingId}/>)
+                            //         break
+                            //     case Capability.LeakSensor:
+                            //         list.push(<LeakSensor key={description.id} description={description}
+                            //                               showThingId={showThingId}/>)
+                            //         break
+                            case Capability.Light:
+                                return <Light key={description.id} description={description} showThingId={showThingId}/>
+
+                            //     case Capability.Lock:
+                            //         list.push(<Lock key={description.id} description={description} showThingId={showThingId}/>)
+                            //         break
+                            //     case Capability.MotionSensor:
+                            //         list.push(<MotionSensor key={description.id} description={description}
+                            //                                 showThingId={showThingId}/>)
+                            //         break
+                            //     case Capability.MultiLevelSensor:
+                            //         list.push(<MultiLevelSensor key={description.id} description={description}
+                            //                                     showThingId={showThingId}/>)
+                            //         break
+                            case Capability.MultiLevelSwitch:
+                                return <MultiLevelSwitch key={description.id} description={description}
+                                                         showThingId={showThingId}/>
+                            case Capability.OnOffSwitch:
+                                return <OnOffSwitch key={description.id} description={description}
+                                                    showThingId={showThingId}/>
+                            //         break
+                            //     case Capability.PushButton:
+                            //         list.push(<PushButton key={description.id} description={description}
+                            //                               showThingId={showThingId}/>)
+                            //         break
+                            //     case Capability.SmartPlug:
+                            //         list.push(<SmartPlug key={description.id} description={description}
+                            //                              showThingId={showThingId}/>)
+                            //         break
+                            //     case Capability.SmokeSensor:
+                            //         list.push(<SmokeSensor key={description.id} description={description}
+                            //                                showThingId={showThingId}/>)
+                            //         break
+                            //     case Capability.TemperatureSensor:
+                            //         list.push(<TemperatureSensor key={description.id} description={description}
+                            //                                      showThingId={showThingId}/>)
+                            //         break
+                            case Capability.Thermostat:
+                                return <Thermostat key={description.id} description={description}
+                                                   showThingId={showThingId}/>
+                            //         break
+                            //     case Capability.VideoCamera:
+                            //         list.push(<VideoCamera key={description.id} description={description}
+                            //                                showThingId={showThingId}/>)
+                            //         break
                         }
-                       //return list
-                   })
+
+                    })
                 }
             </Grid>
         </Box>

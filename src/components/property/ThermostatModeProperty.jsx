@@ -48,7 +48,7 @@ export default function ThermostatModelProperty({property}) {
                         onChange={handleChange}
                     >
                         {
-                            detail?.choices.map(i =>
+                            property?.choices.map(i =>
                                 <MenuItem sx={{color: "info.main"}} key={i} value={i}>{t(i)}</MenuItem>
                             )
                         }

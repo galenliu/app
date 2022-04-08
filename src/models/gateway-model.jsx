@@ -9,14 +9,26 @@ export default class GatewayModel extends Model {
     constructor() {
         super();
         this.thingModels = new Map();
+        this.units = new Map()
         this.things = new Map();
         this.connectedThings = new Map();
         this.groups = new Map();
         this.properties = new Map()
         this.onMessage = this.onMessage.bind(this);
         this.queue = Promise.resolve(true);
+        this.getUnits()
         this.connectWebSocket();
         return this;
+    }
+
+    getUnits() {
+        Api.getUnits().then((units) => {
+            for (const n in units) {
+                this.units.set(n, units[n])
+            }
+        }).catch((e) => {
+            console.error(e)
+        })
     }
 
     addQueue(job) {

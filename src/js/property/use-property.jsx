@@ -8,14 +8,14 @@ export default function useProperty(thing, name, debounce) {
 
 
     //获取Property的Value，Value的存取位置： gateway.thingModel[:thingId].properties[name]
-    //const property = thing.displayedProperties[name] || {}
     const [debounceValue, setValue] = useState()
     const [value, update] = useState()
-    const property = thing?.displayedProperties[name] || {}
+    const property = thing?.displayedProperties[name] || null
 
-    useEffect(()=>{
-        console.log("###thing",thing)
-    })
+    if (!property) {
+        return null
+    }
+
     //去抖动
     useDebouncy(
         () => setProperty(debounceValue), // function debounce
@@ -33,7 +33,7 @@ export default function useProperty(thing, name, debounce) {
                 }
             }
         }
-    },)
+    })
 
     function handler(data) {
         if (name !== null && data !== {}) {
@@ -46,7 +46,6 @@ export default function useProperty(thing, name, debounce) {
     }
 
     useEffect(() => {
-
         if (thing) {
             thing.model?.subscribe(Constants.PROPERTY_STATUS, handler)
         }
@@ -56,19 +55,20 @@ export default function useProperty(thing, name, debounce) {
                 thing.model?.unsubscribe(Constants.PROPERTY_STATUS, handler)
             }
         })
-    })
+    }, [thing])
 
     function setProperty(value) {
         thing?.model?.setProperty(name, value)
     }
 
     return {
-        property: {
-            min: property.detail.min || null,
-            max: property.detail.max || null,
-            title: property.detail.label,
-            label: property.detail.label,
-            multipleOf: property.detail.step || null
+        ...{
+            min: property.detail?.min || null,
+            max: property.detail?.max || null,
+            title: property.detail?.label || "",
+            label: property.detail?.label || "",
+            step: property.detail?.step || null,
+            choices: property.detail?.choices || [],
         },
         value: value,
         setValue: setValue

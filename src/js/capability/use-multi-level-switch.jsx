@@ -3,16 +3,26 @@ import {useEffect, useState} from "react";
 import useNumberProperty from "../property/use-number-property";
 import enTrans from "../i18n/en-us.json";
 import {useTranslation} from "react-i18next";
+import useThing from "./use-thing";
+import MultiLevelSwitch from "../../schema-impl/capability/multi-level-switch";
+import useProperty from "../property/use-property";
 
 export function useMultiLevelSwitch(description) {
 
+
     const {t} = useTranslation();
-    const {thing, onProperty} = useOnOffSwitch(description)
-    const levelProperty = useNumberProperty(thing, thing?.levelProperty)
+    const {thingModel, connected} = useThing(description)
+
     const [state, setState] = useState("")
+    //description新建一个OnOffSwitch类
+    const thing = new MultiLevelSwitch(thingModel, description, null)
+
+
+    const onProperty = useProperty(thing, thing?.onProperty, 50)
+    const levelProperty = useProperty(thing, thing?.levelProperty)
 
     useEffect(() => {
-        if (!thing.connected) {
+        if (!connected) {
             setState(t(enTrans.Disconnected))
         } else {
             if (onProperty.value) {
@@ -25,10 +35,19 @@ export function useMultiLevelSwitch(description) {
                 setState(t(enTrans.Off))
             }
         }
-    }, [onProperty, levelProperty, thing.connected])
+    }, [onProperty.value, levelProperty.value, connected])
 
 
     useEffect(() => {
     }, [])
-    return {thing,onProperty, state, levelProperty}
+    return {
+        thing: {
+            connected: connected,
+            title: thing.title,
+            id: thing.id,
+            state: state,
+            "@type": thing["@type"],
+            selectedCapability: thing.selectedCapability
+        }, onProperty, state, levelProperty
+    }
 }

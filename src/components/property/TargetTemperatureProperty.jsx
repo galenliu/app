@@ -32,7 +32,7 @@ export default function TargetTemperatureProperty({property}) {
             <Stack sx={{width: "100%", m: 1.5}}>
                 <Stack sx={{flexDirection: "column"}}>
                     <PropertyCardTitle>
-                        {t(detail?.label)}
+                        {t(property?.label)}
                     </PropertyCardTitle>
                 </Stack>
                 <Stack sx={{flexDirection: "row", alignItems: "center"}}>

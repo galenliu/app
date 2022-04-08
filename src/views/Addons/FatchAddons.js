@@ -9,11 +9,13 @@ export function fetchAvailableAddonList() {
             }
             const params = new URLSearchParams();
             //params.set('arch', data.architecture);
-            params.set('arch', "linux-arm");
+            params.set('arch', "linux-arm64");
             params.set('version', data.version);
-            if (data.pythonVersions && data.pythonVersions.length > 0) {
-                params.set('python', data.pythonVersions.join(','));
+            if (data.nodeVersion && data.pythonVersions.length > 0) {
+                params.set('python', data.pythonVersions);
+                params.set('node', data.nodeVersion);
             }
+
             if (data.testAddons) {
                 params.set('test', '1');
             }

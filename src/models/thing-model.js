@@ -5,9 +5,9 @@ import Api from "src/js/api";
 
 
 export default class ThingModel extends Model {
-    constructor(description, ws) {
+    constructor(description, ws, properties) {
         super();
-        this.properties = {}
+        this.properties = properties || {}
         this.events = []
         this.updateFromDescription(description);
         this.initWebSocket(ws)
@@ -19,7 +19,6 @@ export default class ThingModel extends Model {
         this.ws = globalWs
 
         const onEvent = (event) => {
-
             const message = JSON.parse(event.data);
             if (message.hasOwnProperty('id') && message.id !== this.id) {
                 return;

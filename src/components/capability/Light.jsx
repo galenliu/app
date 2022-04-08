@@ -13,6 +13,9 @@ import {BootstrapDialog, BootstrapDialogTitle, ThingDialog} from "../../views/Di
 import {AppContext} from "../../App";
 import Typography from "@mui/material/Typography";
 import ThingTitle from "../../static/images/thing-title";
+import Box from "@mui/material/Box";
+import Divider from "@mui/material/Divider";
+import ColorTemperatureProperty from "../property/ColorTemperatureProperty";
 
 
 export default function Light({description}) {
@@ -20,7 +23,6 @@ export default function Light({description}) {
     const {showThingId, showThing} = useContext(AppContext)
     const {
         thing,
-        state,
         onProperty,
         brightnessProperty,
         colorProperty,
@@ -38,17 +40,29 @@ export default function Light({description}) {
         return (
             <>
                 {description.id === showThingId &&
-                    <ThingDialog  thing={thing} open={description.id === showThingId} onClose={() => showThing("")}>
-                        {onProperty?.property &&
+                    <ThingDialog thing={thing} open={description.id === showThingId} onClose={() => showThing("")}>
+                        {onProperty &&
                             <OnOffProperty property={onProperty}/>}
-                        {brightnessProperty?.property &&
+                        {brightnessProperty &&
                             <BrightnessProperty property={brightnessProperty}/>}
-                        {colorProperty.property &&
+                        {colorProperty &&
                             <ColorProperty property={colorProperty}/>}
+                        {colorTemperatureProperty &&
+                            <ColorTemperatureProperty property={colorTemperatureProperty}/>}
                     </ThingDialog>}
-                {/*<ThingCard onProperty={onProperty} color= {[colorProperty.value ? [onProperty.value ? colorProperty.value : "#bfbfbf"] : [onProperty.value ? "#FF9502" : "#bfbfbf"]]}/>*/}
                 <ThingCard thing={thing} onProperty={onProperty} icon={<LightIcon
-                    sx={{fontSize: 45, color: onProperty.value ? "warning.main" : "grey.500"}}/>} state={state}/>
+                    sx={{fontSize: 45, color: onProperty.value ? "warning.main" : "grey.500"}}/>}/>
+                {/*<Box>*/}
+                {/*    <Typography>{thing.id}</Typography>*/}
+                {/*    <Divider/>*/}
+                {/*    <Typography>{onProperty.title}</Typography>*/}
+                {/*    <Divider/>*/}
+                {/*    <Typography>{thing.onProperty}</Typography>*/}
+                {/*    <Divider/>*/}
+                {/*    <Typography>{thing.connected.toString()}</Typography>*/}
+                {/*    <Divider/>*/}
+                {/*    <Typography>{thing.state}</Typography>*/}
+                {/*</Box>*/}
             </>
         )
     }

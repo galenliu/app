@@ -7,25 +7,30 @@ import useOnOffSwitch from "./use-on-off-switch";
 import {useTranslation} from "react-i18next";
 import enTrans from "src/js/i18n/en-us.json"
 import {gateway} from "../../main";
+import useThing from "./use-thing";
+import Light from "../../schema-impl/capability/light";
+import useProperty from "../property/use-property";
 
 
 export function useLight(description) {
 
     const {t} = useTranslation();
-    const {thing, onProperty} = useOnOffSwitch(description)
+    const {thingModel, connected} = useThing(description)
+
     const [state, setState] = useState("")
-    const brightnessProperty = useIntegerProperty(thing, thing?.brightnessProperty)
-    const colorProperty = useStringProperty(thing, thing?.colorProperty)
-    const colorTemperatureProperty = useIntegerProperty(thing, thing?.colorTemperatureProperty)
-    const colorModeProperty = useStringProperty(thing, thing?.colorModeProperty)
+    //description新建一个OnOffSwitch类
+    const thing = new Light(thingModel, description, null)
+
+
+    const onProperty = useProperty(thing, thing?.onProperty, 50)
+    const brightnessProperty = useProperty(thing, thing?.brightnessProperty)
+    const colorProperty = useProperty(thing, thing?.colorProperty)
+    const colorTemperatureProperty = useProperty(thing, thing?.colorTemperatureProperty)
+    const colorModeProperty = useProperty(thing, thing?.colorModeProperty, 50)
+
 
     useEffect(() => {
-
-    }, [])
-
-
-    useEffect(() => {
-        if (!thing.connected) {
+        if (!connected) {
             setState(t(enTrans.Disconnected))
         } else {
             if (onProperty.value) {
@@ -38,11 +43,17 @@ export function useLight(description) {
                 setState(t(enTrans.Off))
             }
         }
-    }, [onProperty, brightnessProperty, thing.connected])
+    }, [onProperty, brightnessProperty, connected])
 
     return {
-        thing,
-        state,
+        thing: {
+            connected: connected,
+            title: thing.title,
+            id: thing.id,
+            state: state,
+            "@type": thing["@type"],
+            selectedCapability: thing.selectedCapability
+        },
         onProperty,
         brightnessProperty,
         colorProperty,

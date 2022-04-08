@@ -21,7 +21,7 @@ export default function OnOffProperty({property}) {
 
 
     useEffect(() => {
-        console.log("onOffProperty data:", property)
+
     })
 
     return (

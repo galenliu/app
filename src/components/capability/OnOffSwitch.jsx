@@ -10,6 +10,7 @@ import {AppContext} from "../../App";
 import {ThingDialog} from "src/views/Dialog/ThingDialog";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
+import Divider from "@mui/material/Divider";
 
 
 export default function OnOffSwitch({description}) {
@@ -17,30 +18,25 @@ export default function OnOffSwitch({description}) {
     const {showThingId, showThing} = useContext(AppContext)
 
     const {
-        thingModel,
-        connected
+        thing,
+        onProperty,
+        state,
     } = useOnOffSwitch(description)
 
-    const thing = new Thing(thingModel,description,null)
 
     return (
         <>
-            {/*{description.id === showThingId &&*/}
-            {/*    <ThingDialog thing={thing} open={description.id === showThingId} onClose={() => showThing("")}>*/}
-            {/*        {onProperty &&*/}
-            {/*            <OnOffProperty property={onProperty}/>}*/}
-            {/*    </ThingDialog>}*/}
+            {description.id === showThingId &&
+                <ThingDialog thing={thing} open={description.id === showThingId} onClose={() => showThing("")}>
+                    {onProperty &&
+                        <OnOffProperty property={onProperty}/>}
+                </ThingDialog>}
 
-            {/*<ThingCard thing={thing}*/}
-            {/*           onProperty={onProperty}*/}
-            {/*           icon={<OnOffSwitchIcon*/}
-            {/*               sx={{color: onProperty.value ? "warning.main" : "grey.500", fontSize: 45}}/>} state={state}/>*/}
-            <Box>
-                <Typography>{thingModel.id}</Typography>
+            <ThingCard thing={thing}
+                       onProperty={onProperty}
+                       icon={<OnOffSwitchIcon
+                           sx={{color: onProperty.value ? "warning.main" : "grey.500", fontSize: 45}}/>} state={state}/>
 
-                <Typography>{thing.onProperty}</Typography>
-                <Typography>{connected.toString()}</Typography>
-            </Box>
         </>
     );
 }

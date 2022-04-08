@@ -11,7 +11,7 @@ import {useTranslation} from "react-i18next";
 import enTrans from "src/js/i18n/en-us.json"
 
 
-export default function ThingCard({thing, onProperty, state,icon}) {
+export default function ThingCard({thing, onProperty, icon}) {
     const {showThing} = useContext(AppContext)
     const {t} = useTranslation()
     useEffect(() => {
@@ -20,7 +20,7 @@ export default function ThingCard({thing, onProperty, state,icon}) {
 
     return (
         <Card
-            onClick={()=>showThing(thing.id)}
+            onClick={() => showThing(thing.id)}
             sx={{
                 boxShadow: 3,
                 display: 'flex',
@@ -41,8 +41,9 @@ export default function ThingCard({thing, onProperty, state,icon}) {
                         e.stopPropagation();
                         onProperty?.setValue(!onProperty.value)
                     }}>
-                        {thing?.connected && onProperty!==undefined && <PowerSettingsNewIcon sx={{color: onProperty?.value ? "green" : "gray"}}/>}
-                        {!thing?.connected && <DisconnectIcon/>}
+                        {thing.connected && onProperty !== undefined &&
+                            <PowerSettingsNewIcon sx={{color: onProperty?.value ? "green" : "gray"}}/>}
+                        {!thing.connected && <DisconnectIcon/>}
                     </IconButton>
                     }
                 </Box>
@@ -56,15 +57,15 @@ export default function ThingCard({thing, onProperty, state,icon}) {
                 alignItems: "start"
             }}>
                 <Typography sx={{fontSize: 14, flex: "60%",}} color="text.main" gutterBottom>
-                    {thing?.title? thing.title : "Null"}
+                    {thing?.title ? thing.title : "Null"}
                 </Typography>
                 <Typography sx={{fontSize: 10, flex: "40%"}}
                             color="text.secondary" gutterBottom>
-                    {thing?.model?.group_id}
+                    {thing?.group_id}
                 </Typography>
                 <Typography sx={{fontSize: 10, flex: "40%"}}
                             color="text.secondary" gutterBottom>
-                    {state}
+                    {thing.state}
                 </Typography>
             </Stack>
         </Card>

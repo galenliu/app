@@ -28,7 +28,6 @@ export default function MultiLevelSwitch({description}) {
     const {
         onProperty,
         thing,
-        state,
         levelProperty,
     } = useMultiLevelSwitch(description)
 
@@ -43,8 +42,7 @@ export default function MultiLevelSwitch({description}) {
                         <LevelProperty property={levelProperty}/>}
                 </ThingDialog>}
             <ThingCard thing={thing} onProperty={onProperty} icon={<MultiLevelSwitchIcon
-                sx={{color: onProperty.value? "warning.main" : "grey.500", fontSize: 45}}/>}
-                       state={state}/>
+                sx={{color: onProperty.value? "warning.main" : "grey.500", fontSize: 45}}/>}/>
         </>
     );
 }
