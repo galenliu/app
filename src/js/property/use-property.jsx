@@ -49,7 +49,6 @@ export default function useProperty(thing, name, debounce) {
         if (thing) {
             thing.model?.subscribe(Constants.PROPERTY_STATUS, handler)
         }
-
         return (() => {
             if (thing) {
                 thing.model?.unsubscribe(Constants.PROPERTY_STATUS, handler)
@@ -65,7 +64,7 @@ export default function useProperty(thing, name, debounce) {
         ...{
             min: property.detail?.min || null,
             max: property.detail?.max || null,
-            title: property.detail?.label || "",
+            title: property.detail?.title || "",
             label: property.detail?.label || "",
             step: property.detail?.step || null,
             choices: property.detail?.choices || [],

@@ -10,8 +10,8 @@ import OnOffProperty from "../property/OnOffProperty";
 import ThingCard from "../../views/Things/ThingCard";
 import OnOffSwitchIcon from "../../static/images/thing-icons/on_off_switch";
 import useThing from "../../js/capability/use-thing";
-import useStringProperty from "../../js/property/use-string-property";
 import ThingIcons from "../../static/images/thing-icons/thingIcons";
+import useProperty from "../../js/property/use-property";
 
 export default function ColorControl({description}) {
     const {t} = useTranslation();
@@ -21,7 +21,7 @@ export default function ColorControl({description}) {
         thing
     } = useThing(description)
 
-    const colorProperty = useStringProperty(thing, thing?.colorProperty)
+    const colorProperty = useProperty(thing, thing?.colorProperty)
 
     return (
         <>

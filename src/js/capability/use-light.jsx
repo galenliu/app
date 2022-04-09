@@ -1,8 +1,5 @@
 import {useEffect, useState} from "react";
 import React from "react";
-import useBooleanProperty from "../property/use-boolean-property";
-import useStringProperty from "../property/use-string-property";
-import useIntegerProperty from "../property/use-integer-property";
 import useOnOffSwitch from "./use-on-off-switch";
 import {useTranslation} from "react-i18next";
 import enTrans from "src/js/i18n/en-us.json"
@@ -20,7 +17,6 @@ export function useLight(description) {
     const [state, setState] = useState("")
     //description新建一个OnOffSwitch类
     const thing = new Light(thingModel, description, null)
-
 
     const onProperty = useProperty(thing, thing?.onProperty, 50)
     const brightnessProperty = useProperty(thing, thing?.brightnessProperty)

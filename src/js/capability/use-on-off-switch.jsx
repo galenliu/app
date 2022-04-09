@@ -1,6 +1,5 @@
 import React, {useContext, useEffect, useState} from "react";
 import useThing from "./use-thing";
-import useBooleanProperty from "../property/use-boolean-property";
 import {useTranslation} from "react-i18next";
 import enTrans from "src/js/i18n/en-us.json"
 import {AppContext} from "../../App";

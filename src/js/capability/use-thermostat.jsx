@@ -1,13 +1,9 @@
 import {useEffect, useState} from "react";
 import React from "react";
-import useBooleanProperty from "../property/use-boolean-property";
-import useStringProperty from "../property/use-string-property";
-import useIntegerProperty from "../property/use-integer-property";
 import useOnOffSwitch from "./use-on-off-switch";
 import {useTranslation} from "react-i18next";
 import enTrans from "src/js/i18n/en-us.json"
 import {gateway} from "../../main";
-import useNumberProperty from "../property/use-number-property";
 import useThing from "./use-thing";
 import Thermostat from "../../schema-impl/capability/thermostat";
 import useProperty from "../property/use-property";

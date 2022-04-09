@@ -1,6 +1,5 @@
 import useOnOffSwitch from "./use-on-off-switch";
 import {useEffect, useState} from "react";
-import useNumberProperty from "../property/use-number-property";
 import enTrans from "../i18n/en-us.json";
 import {useTranslation} from "react-i18next";
 import useThing from "./use-thing";
