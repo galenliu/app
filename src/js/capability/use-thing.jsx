@@ -3,7 +3,7 @@ import constant from "src/js/constants";
 import {gateway} from "../../main";
 import {createThingFromCapability} from "src/schema-impl/capability/capabilities";
 import ThingModel from "../../models/thing-model";
-import Constants from "../../js/constants";
+import Constants from "src/js/constants";
 
 
 export default function useThing(description) {

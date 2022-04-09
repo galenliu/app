@@ -68,7 +68,38 @@ export const Capability = {
     TemperatureSensor: "TemperatureSensor",
     Thermostat: "Thermostat",
     VideoCamera: "VideoCamera",
+}
 
+export const PropertyType = {
+    AlarmProperty: "AlarmProperty",
+    BarometricPressureProperty: "BarometricPressureProperty",
+    BooleanProperty: "BooleanProperty",
+    BrightnessProperty: "BrightnessProperty",
+    ColorModeProperty: "ColorModeProperty",
+    ColorProperty: "ColorProperty",
+    ColorTemperatureProperty: "ColorTemperatureProperty",
+    ConcentrationProperty: "ConcentrationProperty",
+    CurrentProperty: "CurrentProperty",
+    DensityProperty: "DensityProperty",
+    FrequencyProperty: "FrequencyProperty",
+    HeatingCoolingProperty: "HeatingCoolingProperty",
+    HumidityProperty: "HumidityProperty",
+    ImageProperty: "ImageProperty",
+    InstantaneousPowerFactorProperty: "InstantaneousPowerFactorProperty",
+    InstantaneousPowerProperty: "InstantaneousPowerProperty",
+    LeakProperty: "LeakProperty",
+    LevelProperty: "LevelProperty",
+    LockedProperty: "LockedProperty",
+    MotionProperty: "MotionProperty",
+    OnOffProperty: "OnOffProperty",
+    OpenProperty: "OpenProperty",
+    PushedProperty: "PushedProperty",
+    SmokeProperty: "SmokeProperty",
+    TargetTemperatureProperty: "TargetTemperatureProperty",
+    TemperatureProperty: "TemperatureProperty",
+    ThermostatModeProperty: "ThermostatModeProperty",
+    VideoProperty: "VideoProperty",
+    VoltageProperty: "VoltageProperty",
 }
 
 export const Events = {
@@ -82,7 +113,7 @@ export const Events = {
     VALUE_CHANGED: "valueChanged"
 }
 
-export const  drawerWidth = 200;
+export const drawerWidth = 200;
 
 export const settingItems = {
     Domain: {

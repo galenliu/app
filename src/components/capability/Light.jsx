@@ -16,6 +16,7 @@ import ThingTitle from "../../static/images/thing-title";
 import Box from "@mui/material/Box";
 import Divider from "@mui/material/Divider";
 import ColorTemperatureProperty from "../property/ColorTemperatureProperty";
+import Property from "../property/Property";
 
 
 export default function Light({description}) {
@@ -23,6 +24,7 @@ export default function Light({description}) {
     const {showThingId, showThing} = useContext(AppContext)
     const {
         thing,
+        otherProperties,
         onProperty,
         brightnessProperty,
         colorProperty,
@@ -35,42 +37,43 @@ export default function Light({description}) {
 
     }, [])
 
-    function reader() {
-
-        return (
-            <>
-                {description.id === showThingId &&
-                    <ThingDialog thing={thing} open={description.id === showThingId} onClose={() => showThing("")}>
-                        {onProperty &&
-                            <OnOffProperty property={onProperty}/>}
-                        {brightnessProperty &&
-                            <BrightnessProperty property={brightnessProperty}/>}
-                        {colorProperty &&
-                            <ColorProperty property={colorProperty}/>}
-                        {colorTemperatureProperty &&
-                            <ColorTemperatureProperty property={colorTemperatureProperty}/>}
-                    </ThingDialog>}
-                <ThingCard thing={thing} onProperty={onProperty} icon={<LightIcon
-                    sx={{fontSize: 45, color: onProperty.value ? "warning.main" : "grey.500"}}/>}/>
-                {/*<Box>*/}
-                {/*    <Typography>{thing.id}</Typography>*/}
-                {/*    <Divider/>*/}
-                {/*    <Typography>{onProperty.title}</Typography>*/}
-                {/*    <Divider/>*/}
-                {/*    <Typography>{thing.onProperty}</Typography>*/}
-                {/*    <Divider/>*/}
-                {/*    <Typography>{thing.connected.toString()}</Typography>*/}
-                {/*    <Divider/>*/}
-                {/*    <Typography>{thing.state}</Typography>*/}
-                {/*</Box>*/}
-            </>
-        )
-    }
 
     return (
         <>
-            {reader()}
+            {description.id === showThingId &&
+                <ThingDialog thing={thing} open={description.id === showThingId} onClose={() => showThing("")}>
+                    {onProperty &&
+                        <OnOffProperty property={onProperty}/>}
+                    {brightnessProperty &&
+                        <BrightnessProperty property={brightnessProperty}/>}
+                    {colorProperty &&
+                        <ColorProperty property={colorProperty}/>}
+                    {colorTemperatureProperty &&
+                        <ColorTemperatureProperty property={colorTemperatureProperty}/>}
+                    {
+
+                        otherProperties.map((name, property, m) => {
+                            return <Box>{name}</Box>
+                            // return <Property key={name} property={property}/>
+                        })
+                    }
+                </ThingDialog>}
+            <ThingCard thing={thing} onProperty={onProperty} icon={<LightIcon
+                sx={{fontSize: 45, color: onProperty.value ? "warning.main" : "grey.500"}}/>}/>
+            {/*<Box>*/}
+            {/*    <Typography>{thing.id}</Typography>*/}
+            {/*    <Divider/>*/}
+            {/*    <Typography>{onProperty.title}</Typography>*/}
+            {/*    <Divider/>*/}
+            {/*    <Typography>{thing.onProperty}</Typography>*/}
+            {/*    <Divider/>*/}
+            {/*    <Typography>{thing.connected.toString()}</Typography>*/}
+            {/*    <Divider/>*/}
+            {/*    <Typography>{thing.state}</Typography>*/}
+            {/*</Box>*/}
         </>
     )
+
+
 }
 
