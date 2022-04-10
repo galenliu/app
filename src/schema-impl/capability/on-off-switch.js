@@ -63,8 +63,6 @@ export default class OnOffSwitch extends Thing {
             console.error(`Error trying to toggle switch: ${error}`);
         });
     }
-
-
 }
 
 

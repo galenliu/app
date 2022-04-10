@@ -19,16 +19,13 @@ export function useLight(description) {
     const thing = new Light(thingModel, description, null)
 
     //找到所有State更新所依赖的属性
-    const onProperty = useProperty(thing, thing?.onProperty, 50)
-    const brightnessProperty = useProperty(thing, thing?.brightnessProperty)
-    const colorProperty = useProperty(thing, thing?.colorProperty)
-    const colorTemperatureProperty = useProperty(thing, thing?.colorTemperatureProperty)
-    const colorModeProperty = useProperty(thing, thing?.colorModeProperty, 50)
+    const onProperty = useProperty(thingModel, thing.displayedProperties[thing.onProperty], 50)
+    const brightnessProperty = useProperty(thingModel, thing.displayedProperties[thing.brightnessProperty])
+    const colorProperty = useProperty(thingModel, thing.displayedProperties[thing.colorProperty])
+    const colorTemperatureProperty = useProperty(thingModel, thing.displayedProperties[thing.colorTemperatureProperty])
+    const colorModeProperty = useProperty(thingModel, thing.displayedProperties[thing.colorModeProperty], 50)
 
     const [otherProperties, setOthers] = useState(new Map())
-
-
-
 
     //更新State
     useEffect(() => {

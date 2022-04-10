@@ -1,9 +1,13 @@
 import {PropertyType} from "../../js/constants";
 import BrightnessProperty from "./BrightnessProperty";
 import React from "react";
+import useProperty from "../../js/property/use-property";
 
 
-export default function Property(property) {
+export default function Property({model,description}) {
+
+    const property =useProperty(model,description)
+
     switch (property["@type"]) {
         case PropertyType.AlarmProperty:
         case PropertyType.BarometricPressureProperty:

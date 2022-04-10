@@ -298,6 +298,10 @@ class Thing {
         // pass
     }
 
+    getProperty(name){
+        return this.displayedProperties[name]
+    }
+
 
     /**
      * Update the display for the provided property.
@@ -318,7 +322,6 @@ class Thing {
                 this.displayedProperties[name].detail.update(value);
             }
         }
-
         return value;
     }
 

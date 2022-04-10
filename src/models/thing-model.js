@@ -7,6 +7,7 @@ import Api from "src/js/api";
 export default class ThingModel extends Model {
     constructor(description, ws, properties) {
         super();
+        this.id = description.id
         this.properties = properties || {}
         this.events = []
         this.updateFromDescription(description);
@@ -133,7 +134,6 @@ export default class ThingModel extends Model {
     }
 
     setProperty(name, value) {
-
         if (!this.propertyDescriptions.hasOwnProperty(name)) {
             return Promise.reject(`unavailable property name ${name}`)
         }
@@ -160,6 +160,10 @@ export default class ThingModel extends Model {
                 throw new Error(`error trying to set ${name}`)
             })
 
+    }
+
+    getProperty(name) {
+        return this.displayedProperties[name]
     }
 
     updateThing(updates) {

@@ -17,8 +17,8 @@ export function useMultiLevelSwitch(description) {
     const thing = new MultiLevelSwitch(thingModel, description, null)
 
 
-    const onProperty = useProperty(thing, thing?.onProperty, 50)
-    const levelProperty = useProperty(thing, thing?.levelProperty)
+    const onProperty = useProperty(thing.model, thing.getProperty(thing.onProperty), 50)
+    const levelProperty = useProperty(thing.model,  thing.getProperty(thing.levelProperty))
 
     useEffect(() => {
         if (!connected) {

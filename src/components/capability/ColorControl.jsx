@@ -21,7 +21,7 @@ export default function ColorControl({description}) {
         thing
     } = useThing(description)
 
-    const colorProperty = useProperty(thing, thing?.colorProperty)
+    const colorProperty = useProperty(thing.model, thing.displayedProperties[thing?.colorProperty])
 
     return (
         <>

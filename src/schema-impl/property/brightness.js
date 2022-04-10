@@ -25,10 +25,8 @@ class BrightnessDetail {
     } else {
       this.step = 1;
     }
-
     // this.id = `brightness-${Utils.escapeHtmlForIdClass(this.name)}`;
   }
-
 }
 
 export default BrightnessDetail;

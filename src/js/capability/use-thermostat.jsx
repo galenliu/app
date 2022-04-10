@@ -19,13 +19,13 @@ export function useThermostat(description) {
     const thing = new Thermostat(thingModel, description, null)
 
 
-    const temperatureProperty = useProperty(thing, thing?.temperatureProperty)
+    const temperatureProperty = useProperty(thingModel, thing.getProperty(thing.temperatureProperty))
 
-    const heatingCoolingProperty = useProperty(thing, thing?.heatingCoolingProperty)
-    const thermostatModeProperty = useProperty(thing, thing?.thermostatModeProperty)
+    const heatingCoolingProperty = useProperty(thingModel, thing.getProperty(thing?.heatingCoolingProperty))
+    const thermostatModeProperty = useProperty(thingModel, thing.getProperty(thing.thermostatModeProperty))
 
-    const heatingTargetTemperatureProperty = useProperty(thing, thing?.heatingTargetTemperatureProperty)
-    const coolingTargetTemperatureProperty = useProperty(thing, thing?.coolingTargetTemperatureProperty)
+    const heatingTargetTemperatureProperty = useProperty(thingModel, thing.getProperty(thing.heatingTargetTemperatureProperty))
+    const coolingTargetTemperatureProperty = useProperty(thingModel, thing.getProperty(thing?.coolingTargetTemperatureProperty))
 
 
     useEffect(() => {
@@ -43,9 +43,9 @@ export function useThermostat(description) {
                 setState(t(`正在调高至 ${heatingTargetTemperatureProperty.value}` + "℃"))
             } else if (thermostatModeProperty.value === "off") {
                 setState(t("off"))
-            }else if(thermostatModeProperty.value === "auto"){
+            } else if (thermostatModeProperty.value === "auto") {
                 setState(t(`温度保持在 ${coolingTargetTemperatureProperty.value}-${heatingTargetTemperatureProperty.value}` + "℃"))
-            }else {
+            } else {
                 setState(t(thermostatModeProperty.value))
             }
         }

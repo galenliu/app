@@ -4,17 +4,18 @@ import useDebouncy from "use-debouncy/lib/effect";
 import {gateway} from "../../main";
 
 
-export default function useProperty(thing, name, debounce) {
+export default function useProperty(model, property, debounce) {
 
 
     //获取Property的Value，Value的存取位置： gateway.thingModel[:thingId].properties[name]
     const [debounceValue, setValue] = useState()
     const [value, update] = useState()
-    const property = thing?.displayedProperties[name] || null
 
-    if (!property) {
+    if (!property || !model) {
         return null
     }
+
+    const name = property.detail.name
 
     //去抖动
     useDebouncy(
@@ -24,8 +25,8 @@ export default function useProperty(thing, name, debounce) {
     );
 
     useEffect(() => {
-        if (gateway.properties.has(thing.id)) {
-            const props = gateway.properties.get(thing.id)
+        if (gateway.properties.has(model.id)) {
+            const props = gateway.properties.get(model.id)
             if (props) {
                 const value = props[name]
                 if (value !== undefined) {
@@ -35,7 +36,7 @@ export default function useProperty(thing, name, debounce) {
         }
     })
 
-    function handler(data) {
+    function updateProperty(data) {
         if (name !== null && data !== {}) {
             for (let n in data) {
                 if (n === name) {
@@ -46,29 +47,28 @@ export default function useProperty(thing, name, debounce) {
     }
 
     useEffect(() => {
-        if (thing) {
-            thing.model?.subscribe(Constants.PROPERTY_STATUS, handler)
+        if (model) {
+            model?.subscribe(Constants.PROPERTY_STATUS, updateProperty)
         }
         return (() => {
-            if (thing) {
-                thing.model?.unsubscribe(Constants.PROPERTY_STATUS, handler)
+            if (model) {
+                model?.unsubscribe(Constants.PROPERTY_STATUS, updateProperty)
             }
         })
-    }, [thing])
+    }, [model])
 
     function setProperty(value) {
-        thing?.model?.setProperty(name, value)
+        model?.setProperty(name, value)
     }
 
     return {
-        ...{
-            min: property.detail?.min || null,
-            max: property.detail?.max || null,
-            title: property.detail?.title || "",
-            label: property.detail?.label || "",
-            step: property.detail?.step || null,
-            choices: property.detail?.choices || [],
-        },
+        name: property.name,
+        min: property.detail?.min || null,
+        max: property.detail?.max || null,
+        title: property.detail?.title || "",
+        label: property.detail?.label || "",
+        step: property.detail?.step || null,
+        choices: property.detail?.choices || [],
         value: value,
         setValue: setValue
     }
