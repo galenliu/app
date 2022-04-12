@@ -15,6 +15,10 @@ export default function useOnOffSwitch(description) {
     const thing = new OnOffSwitch(thingModel, description, null)
 
     const onProperty = useProperty(thing.model, thing.displayedProperties[thing?.onProperty], 50)
+
+    if (onProperty === null) {
+        return
+    }
     const [state, setState] = useState()
 
     useEffect(() => {

@@ -23,7 +23,6 @@ export default function OnOffSwitch({description}) {
         state,
     } = useOnOffSwitch(description)
 
-
     return (
         <>
             {description.id === showThingId &&
@@ -31,12 +30,10 @@ export default function OnOffSwitch({description}) {
                     {onProperty &&
                         <OnOffProperty property={onProperty}/>}
                 </ThingDialog>}
-
             <ThingCard thing={thing}
                        onProperty={onProperty}
                        icon={<OnOffSwitchIcon
                            sx={{color: onProperty.value ? "warning.main" : "grey.500", fontSize: 45}}/>} state={state}/>
-
         </>
     );
 }
