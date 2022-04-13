@@ -366,8 +366,8 @@ class Thing {
         }
 
         this.model.unsubscribe(Constants.PROPERTY_STATUS, this.onPropertyStatus);
-        this.model.unsubscribe(Constants.EVENT_OCCURRED, this.onEvent);
-        this.model.unsubscribe(Constants.CONNECTED, this.onConnected);
+        //this.model.unsubscribe(Constants.EVENT_OCCURRED, this.onEvent);
+       // this.model.unsubscribe(Constants.CONNECTED, this.onConnected);
     }
 
 

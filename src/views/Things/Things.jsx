@@ -73,11 +73,13 @@ export default function Things(props) {
                 <AddIcon/>
             </Fab>
 
-
             <Grid sx={{mt: 8}} container direction="row">
                 {
                     [...thingMaps.keys()].map((id) => {
                         let description = thingMaps.get(id)
+                        if (!description) {
+                            return
+                        }
                         switch (description.selectedCapability) {
                             //     case Capability.Alarm:
                             //         list.push(<Alarm key={description.id} description={description} showThingId={showThingId}/>)

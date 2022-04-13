@@ -51,7 +51,6 @@ export default function Light({description}) {
                     {colorTemperatureProperty &&
                         <ColorTemperatureProperty property={colorTemperatureProperty}/>}
                     {
-
                         otherProperties.map((name, property, m) => {
                             return <Box>{name}</Box>
                             // return <Property key={name} property={property}/>
