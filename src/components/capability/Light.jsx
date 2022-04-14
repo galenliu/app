@@ -50,12 +50,12 @@ export default function Light({description}) {
                         <ColorProperty property={colorProperty}/>}
                     {colorTemperatureProperty &&
                         <ColorTemperatureProperty property={colorTemperatureProperty}/>}
-                    {
-                        otherProperties.map((name, property, m) => {
-                            return <Box>{name}</Box>
-                            // return <Property key={name} property={property}/>
-                        })
-                    }
+                    {/*{*/}
+                    {/*    otherProperties.map((name, property, m) => {*/}
+                    {/*        return <Box>{name}</Box>*/}
+                    {/*        // return <Property key={name} property={property}/>*/}
+                    {/*    })*/}
+                    {/*}*/}
                 </ThingDialog>}
             <ThingCard thing={thing} onProperty={onProperty} icon={<LightIcon
                 sx={{fontSize: 45, color: onProperty.value ? "warning.main" : "grey.500"}}/>}/>
