@@ -14,7 +14,7 @@ export default function useOnOffSwitch(description) {
     //description新建一个OnOffSwitch类
     const thing = new OnOffSwitch(thingModel, description, null)
 
-    const onProperty = useProperty(thing.model, thing.displayedProperties[thing?.onProperty], 50)
+    const onProperty = useProperty(thingModel, thing.displayedProperties[thing?.onProperty], 50)
 
     if (onProperty === null) {
         return
